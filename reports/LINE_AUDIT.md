@@ -4,6 +4,8 @@
 **Original:** `Original/Source/Modern Movement`  
 **Date:** 2026-11-18
 
+Status: the blockers below were fixed in 3.62.1 (HUD, per-player slide distance, per-player double jump). 3.62.2 additionally coasts joiner slides after forward is released. This table is the original finding list, not the current defect list.
+
 Severity: `BLOCKER` / `FIX_NOW` / `POLISH` / `WONTFIX`
 
 ## Findings

@@ -435,7 +435,7 @@ def _handle_hello(sender: Any, message: Envelope) -> None:
             "protocol": 1,
             "rules": _rules.payload(),
             "rules_hash": _rules.hash,
-            "package": "3.62.0",
+            "package": "3.62.2",
         },
         request_sequence=message.sequence,
     )
@@ -629,7 +629,7 @@ def _hello(now: float) -> None:
         {
             "protocol_min": 1,
             "protocol_max": 1,
-            "package": "3.62.0",
+            "package": "3.62.2",
             "game": "TPS",
             "rules_hash": _rules.hash,
             "boot": secrets.token_hex(4),

@@ -39,12 +39,12 @@ Checked against:
   for ~0.15s; soft stop ~200 u/s + Z=-10.
 - We send world dash velocity in the RPC (Eternal reads host-side Acceleration instead).
 
-### Slide (juso)
+### Slide (juso length, local coast)
 
-- Joiner + host: **CrouchedPct only** (enter ≈2.2, exit 0.5). **No mid-slide Velocity.**
-- Host: `_HOST_SLIDES` + decay ~0.7/s (+ slope terms); serviced once per local frame.
-- Joiner predicts the same CrouchedPct decay locally; `@host` enter/exit mirrors host pawn.
-- PlayerMove re-asserts CrouchedPct while a slide is active (juso).
+- juso itself is CrouchedPct only and `can_slide` fails when Acceleration is zero, so releasing forward ends the slide.
+- This package keeps juso's CrouchedPct decay (enter ≈2.25, exit 0.5, host `_HOST_SLIDES` once per local frame, per-player distance scale) and adds the local slide's coast.
+- `server_slide_enter` carries `dir_x` / `dir_y`. Joiner and host re-apply that Velocity and Acceleration every tick and again after PlayerMove, so a released forward key does not brake the slide.
+- A CrouchedPct-only path is not allowed. Unpaired client Velocity writes still rubber-band; the host must coast the same vector.
 
 ### Double jump / surge
 
@@ -54,6 +54,6 @@ Checked against:
 ## Automated verification
 
 `tests/test_coop_host_authority.py` covers host dash hold, frozen-location dash survival,
-juso CrouchedPct-only slide, DJ hold, surge GroundSpeed, and joiner timed slide (no Velocity).
+joiner slide coast after forward is released, host replay restore, DJ hold, and surge GroundSpeed.
 
 Live join checklist: `reports/LIVE_COOP_CHECKLIST.md`. Diff notes: `reports/COOP_MOD_DIFF.md`.

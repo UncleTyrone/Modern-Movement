@@ -11,4 +11,4 @@ hudfx.py     → PostRender indicators
 runtime.py   → PlayerContext roles
 ```
 
-Co-op model: requester predicts locally where needed, host mutates the sender pawn, presentation peers draw HUD/VFX only. Copy-first peers: Original MM HUD/options, juso slide, Eternal dash hold.
+Co-op model: requester predicts locally where needed, host mutates the sender pawn, presentation peers draw HUD/VFX only. Copy-first peers: Original MM HUD/options, juso slide length (CrouchedPct decay) plus an entry-direction coast, Eternal dash hold.

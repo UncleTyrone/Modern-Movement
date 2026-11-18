@@ -1,7 +1,8 @@
-"""Proven Willow co-op RPCs (Eternal dash / juso sliding pattern).
+"""Host RPCs for Willow co-op (Eternal dash hold, slide coast, double jump, surge, mantle).
 
-Joining clients must NOT own Velocity/GroundSpeed. They call @host messages; the listen host
-mutates sender.Owner.Pawn. Client-local Velocity writes are what cause rubber-banding.
+Joiners predict locally and call @host. The listen host writes the same values on
+sender.Owner.Pawn. A client-only Velocity write rubber-bands; a host-only write often
+lands after the move is already over, so dash, double jump, and slide coast on both sides.
 """
 
 from __future__ import annotations
@@ -102,8 +103,17 @@ def server_double_jump(vz: float, vx: float, vy: float, max_jumps: int = 1) -> N
 
 
 @host.json_message
-def server_slide_enter(crouched_pct: float, distance_percent: float = 80.0) -> None:
-    """juso-exact: host only raises CrouchedPct on sender.Owner.Pawn (no Velocity)."""
+def server_slide_enter(
+    crouched_pct: float,
+    distance_percent: float = 80.0,
+    dir_x: float = 0.0,
+    dir_y: float = 0.0,
+) -> None:
+    """Host raises CrouchedPct and coasts the joiner along their entry direction.
+
+    CrouchedPct alone stops the slide when the joiner releases forward. The host
+    re-applies the same vector the joiner coasts locally, so the correction matches.
+    """
     pc = _sender_pc(server_slide_enter)
     ctx = _host_context(pc)
     if ctx is None or ctx.pawn is None:
@@ -112,7 +122,13 @@ def server_slide_enter(crouched_pct: float, distance_percent: float = 80.0) -> N
     from .features import slide
 
     try:
-        slide.host_enter_juso(ctx, float(crouched_pct), float(distance_percent))
+        slide.host_enter_juso(
+            ctx,
+            float(crouched_pct),
+            float(distance_percent),
+            float(dir_x),
+            float(dir_y),
+        )
         diagnostics.event("mm.rpc.slide_enter", result="ok", player=ctx.key.player_id)
     except Exception as exc:  # noqa: BLE001
         diagnostics.event("mm.rpc.slide_enter", result=repr(exc))

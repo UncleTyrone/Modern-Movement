@@ -17,7 +17,7 @@ See [docs/INSTALL.md](docs/INSTALL.md). Short version:
 | Double Jump | Mid-air boost with optional jump-counter HUD |
 | Dash | Ground/air dash with ready pip and perfect-dodge feedback |
 | Mantle / Vault | Jump-to-ledge climbs and low obstacle vaults |
-| Slide | Sprint-crouch slides (juso CrouchedPct on co-op) |
+| Slide | Sprint-crouch slides. On co-op, releasing forward keeps the coast |
 | Holster | Manual + sprint holster |
 | Sprint Surge | Second sprint press for a ramping speed boost |
 

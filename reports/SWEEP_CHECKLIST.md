@@ -12,6 +12,7 @@ Implement all items in Phase S in one pass. No mid-sweep scope adds.
 - [x] Every shipped indicator has On/Off
 - [x] Strip `Temporary:`; expose DJ/slide/mantle/dash/surge camera sliders in Settings
 - [x] Joiner slide distance on timed/juso path (RPC + host dict)
+- [x] Joiner slide coasts after forward is released (3.62.2; joiner + host Velocity)
 - [x] Host REMOTE_AUTHORITY DJ uses impulse payload; track jumps per player_id without host strength
 - [x] Regression tests: dual strength / dual slide distance
 - [x] Phase R REJECT stays out

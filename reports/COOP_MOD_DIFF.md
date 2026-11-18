@@ -14,7 +14,8 @@ Sources:
 | `@host` RPC path works in this mod | Live: DJ / surge / holster already succeed on joiner |
 | Host Velocity writes stick when re-asserted | Live: DJ host hold; unit: `test_host_dash_*` |
 | Eternal host dash = timed full-Vector hold ~0.15s + soft stop 200 | Source + our `_HOST_DASHES` |
-| juso slide = CrouchedPct 2.2→0.5, decay 0.7/s, no mid-slide Velocity | Source + our timed/`_HOST_SLIDES` |
+| juso slide = CrouchedPct 2.2→0.5 and exits when Acceleration is 0 | juso `can_slide` |
+| Our slide = that decay, plus entry-direction Velocity coast on joiner and host | `_coast_slide`, `_HOST_SLIDES["dir"]` |
 | Networking queues **1 msg/tick** | message_queue.py `MAX_MESSAGES_PER_TICK = 1` |
 
 ## Critical correction (why “100% Eternal dash” was wrong for us)
@@ -33,9 +34,10 @@ Locked dash contract for Modern Movement:
 
 ## Slide contract
 
-1. Joiner + host: CrouchedPct only (juso)  
-2. Latch `bDuck=1` while sliding (juso `can_slide` requires it)  
-3. Host `_HOST_SLIDES` decay once per local tick (not doubled with PlayerMove)  
+1. CrouchedPct decay times the slide (juso). Distance percent is the requester's.  
+2. Entry direction is sent in `server_slide_enter`. Joiner and host re-apply Velocity along it after keys are released, including after PlayerMove brakes.  
+3. Latch `bDuck=1` while sliding (juso `can_slide` requires it).  
+4. Host `_HOST_SLIDES` decay once per local tick (not doubled with PlayerMove).  
 
 ## What still requires a live join
 

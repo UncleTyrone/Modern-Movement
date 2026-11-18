@@ -1,6 +1,6 @@
 [project]
 name = "Modern_Movement"
-version = "3.62.0"
+version = "3.62.2"
 description = "Modern Movement for Borderlands: The Pre-Sequel with host-authoritative co-op support (optional for peers without the mod)."
 readme = false
 requires-python = ">=3.10"

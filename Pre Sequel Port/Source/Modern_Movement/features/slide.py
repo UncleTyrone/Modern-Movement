@@ -298,8 +298,10 @@ def _set_crouch_limit(pawn, speed) -> None:
     state.cp_written = target
 
 
-# juso sliding: CrouchedPct alone (restore 0.5). No Velocity during the slide.
-# Tuned for a real coast (~2s flat), not a lunge and not an endless crouch-run.
+# juso sliding: CrouchedPct decays from ~2.25 back to 0.5 and times the slide.
+# CrouchedPct only raises the engine crouch-speed cap. With no movement input the
+# pawn brakes to a stop, so a network slide also re-applies the entry direction
+# every tick (same coast as the local slide). Tuned for a real coast (~2s flat).
 _JUSO_SLIDE_PCT = 2.25
 _JUSO_CROUCH_PCT = 0.5
 _JUSO_DECAY = 1.25  # CrouchedPct / s on flat (a bit shorter)
@@ -339,17 +341,57 @@ def _distance_scale(distance_percent: float) -> float:
     return max(0.5, min(1.4, float(distance_percent) / 100.0))
 
 
-def host_enter_juso(ctx, crouched_pct: float, distance_percent: float = 80.0) -> None:
-    """Listen-host: juso server_enter_slide — CrouchedPct only on sender.Owner.Pawn."""
+def _unit_dir(dx: float, dy: float) -> tuple[float, float]:
+    mag = math.hypot(dx, dy)
+    if mag < 1e-3:
+        return 0.0, 0.0
+    return dx / mag, dy / mag
+
+
+def _coast_slide(pawn, dx: float, dy: float, speed: float) -> None:
+    """Keep sliding after movement keys are released.
+
+    Walking physics brakes when Acceleration is zero. Re-applying the slide
+    vector is what lets the local player let go of crouch and keep moving.
+    """
+    if pawn is None or speed <= 1.0:
+        return
+    dx, dy = _unit_dir(dx, dy)
+    if dx == 0.0 and dy == 0.0:
+        return
+    core.set_velocity(pawn, dx * speed, dy * speed)
+    try:
+        rate = float(pawn.AccelRate)
+        pawn.Acceleration.X = dx * rate
+        pawn.Acceleration.Y = dy * rate
+    except Exception:  # noqa: BLE001
+        pass
+
+
+def host_enter_juso(
+    ctx,
+    crouched_pct: float,
+    distance_percent: float = 80.0,
+    dir_x: float = 0.0,
+    dir_y: float = 0.0,
+) -> None:
+    """Listen-host: raise CrouchedPct and remember the joiner's entry direction."""
     if ctx.pawn is None:
         return
     pct = max(_JUSO_CROUCH_PCT, float(crouched_pct))
+    dx, dy = _unit_dir(dir_x, dir_y)
+    if dx == 0.0 and dy == 0.0:
+        try:
+            dx, dy = _unit_dir(float(ctx.pawn.Velocity.X), float(ctx.pawn.Velocity.Y))
+        except Exception:  # noqa: BLE001
+            dx, dy = 0.0, 0.0
     _HOST_SLIDES[ctx.key.player_id] = {
         "pawn": ctx.pawn,
         "cp": pct,
         "old_z": None,
         "elapsed": 0.0,
         "distance": float(distance_percent),
+        "dir": (dx, dy),
     }
 
     def apply() -> None:
@@ -410,6 +452,10 @@ def _service_host_slides(dt: float) -> None:
             if cp < _JUSO_CROUCH_PCT or d["elapsed"] > cap:
                 pawn.CrouchedPct = _JUSO_CROUCH_PCT
                 done.append(pid)
+            else:
+                # Same coast as the local slide: no movement keys must not brake them.
+                dx, dy = d.get("dir", (0.0, 0.0))
+                _coast_slide(pawn, dx, dy, cp * _walk_speed(pawn))
         except Exception:  # noqa: BLE001
             done.append(pid)
     for pid in done:
@@ -537,15 +583,18 @@ def _start(pc, pawn, reason: str) -> None:
             pass
     _begin_slide_pose(pc, pawn)
     _log(f"start ({reason}): {speed:.0f} -> {start_speed:.0f} u/s, walk {walk:.0f}")
-    # juso: client sets CrouchedPct locally; host mirrors via @host (CrouchedPct only).
+    # Joiner sets CrouchedPct locally and sends entry direction. Host coasts the same vector.
     try:
         from .. import coop_rpc
 
         if coop_rpc.is_requester(ctx):
+            dx, dy = state.slide["dir"]
             coop_rpc.call_host(
                 coop_rpc.server_slide_enter,
                 float(juso_pct),
                 float(distance_slider.value),
+                float(dx),
+                float(dy),
             )
     except Exception:  # noqa: BLE001
         pass
@@ -1214,7 +1263,8 @@ def _run(pc, pawn, dt) -> None:
     x, y = float(pawn.Location.X), float(pawn.Location.Y)
     dx, dy = s["dir"]
     s["elapsed"] += dt
-    # juso network path: CrouchedPct only (no Velocity). Proven in juso sliding for BL2/TPS.
+    # Network slide: CrouchedPct times the coast, and velocity keeps it moving
+    # after the player releases forward (CrouchedPct alone does not).
     if timed:
         cp = float(s.get("cp", _JUSO_SLIDE_PCT))
         try:
@@ -1239,6 +1289,9 @@ def _run(pc, pawn, dt) -> None:
         if cp < _JUSO_CROUCH_PCT or s["elapsed"] > cap:
             _end(pawn, "slowed" if cp < _JUSO_CROUCH_PCT else "timed out", pc)
             return
+        # Engine crouch-move stops cold when W is released. Coast on the entry
+        # direction the same way the local slide does, so letting go still slides.
+        _coast_slide(pawn, dx, dy, s["speed"])
         if ctx is None or ctx.presentation:
             if indicator_option.value:
                 hudfx.slide_momentum(max(0.0, min(1.0, (cp - _JUSO_CROUCH_PCT) / max(0.01, _JUSO_SLIDE_PCT - _JUSO_CROUCH_PCT))))
@@ -1447,7 +1500,7 @@ def _authority_start(ctx, payload):
     pawn = ctx.pawn
     if pawn is None or core.unusable(pawn):
         return Reason.NO_PAWN, {}
-    # Remotes use juso CrouchedPct-only (coop_rpc.server_slide_enter). Never seed Velocity.
+    # Remotes: host dict coasts CrouchedPct + entry direction (server_slide_enter).
     if ctx.role == ExecutionRole.REMOTE_AUTHORITY:
         try:
             pct = float(payload.get("crouched_pct", _JUSO_SLIDE_PCT) or _JUSO_SLIDE_PCT)
@@ -1588,22 +1641,36 @@ def _pre_begin_sprint(obj, _args, _ret, _func):
 
 @hook("WillowGame.WillowPlayerController:PlayerWalking.PlayerMove", Type.POST)
 def _post_player_move(obj, args, _ret, _func):
-    """juso: re-assert CrouchedPct every PlayerMove while a (local/net) slide is active."""
+    """Re-assert a slide after PlayerMove. A released movement key brakes first."""
     ctx = REGISTRY.resolve_controller(obj)
-    if ctx is None or not ctx.authority:
+    if ctx is None or not ctx.authority or ctx.pawn is None:
         return
     state = _state(ctx)
-    if state.slide is None or ctx.pawn is None:
+    hosted = _HOST_SLIDES.get(ctx.key.player_id)
+    if state.slide is None and hosted is None:
         return
 
     def assert_crouch() -> None:
         slide = state.slide
-        if slide is None:
+        if slide is not None:
+            if slide.get("timed") and "cp" in slide:
+                ctx.pawn.CrouchedPct = float(slide["cp"])
+                # Joiner: PlayerMove already braked the released key. Put the coast back.
+                dx, dy = slide.get("dir", (0.0, 0.0))
+                _coast_slide(ctx.pawn, dx, dy, float(slide.get("speed", 0.0)))
+            else:
+                _set_crouch_limit(ctx.pawn, slide["speed"])
             return
-        if slide.get("timed") and "cp" in slide:
-            ctx.pawn.CrouchedPct = float(slide["cp"])
-        else:
-            _set_crouch_limit(ctx.pawn, slide["speed"])
+        # Host replay of that same move brakes the server pawn and would correct
+        # the joiner to a stop. The slide lives in _HOST_SLIDES, not slide state.
+        if hosted is None:
+            return
+        try:
+            ctx.pawn.CrouchedPct = float(hosted["cp"])
+        except Exception:  # noqa: BLE001
+            pass
+        dx, dy = hosted.get("dir", (0.0, 0.0))
+        _coast_slide(ctx.pawn, dx, dy, float(hosted["cp"]) * _walk_speed(ctx.pawn))
 
     core.execute(ctx, assert_crouch)
 

@@ -18,6 +18,10 @@ Layout
                group, and any of them can be removed by deleting its file and its
                line in _FEATURE_SPECS below
 
+3.62.2 (joiner slide coast)
+  * Slide: releasing forward no longer stops a joiner slide. CrouchedPct still times it;
+    joiner and host both keep the entry-direction speed the way a local slide does
+
 3.62.1 (TPS HUD + per-player polish)
   * Double Jump: Jump Counter restored (Off by default) — chevrons below-left of the crosshair show extra jumps left
   * Dash: Dash Ready Indicator defaults On; Perfect Dodge Effect toggle for the ECHO chevron burst
@@ -705,7 +709,7 @@ from . import game as _game
 from . import hudfx as _hudfx
 from . import rules as _rules
 
-__version__ = "3.62.1"
+__version__ = "3.62.2"
 __author__ = "Jinxxtt"
 __credits__ = "Original Modern Movement by Jinxxtt; TPS co-op authority port maintained in-tree."
 

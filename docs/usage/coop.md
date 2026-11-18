@@ -4,4 +4,4 @@
 - Peers without the mod join normally and stay vanilla.
 - Listen host owns movement authority; joiners send intents through Networking when present.
 - Each player keeps their own option values (strength, slide distance, indicators). The host menu does not force joiners.
-- Mid-slide network path uses CrouchedPct only — no joiner Velocity writes during a slide.
+- A joiner slide keeps its entry direction after you release forward. CrouchedPct times the length; joiner and host both re-apply that coast so the host correction does not stop you.

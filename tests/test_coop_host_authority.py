@@ -13,7 +13,7 @@ from types import SimpleNamespace
 import pytest
 
 from Modern_Movement.features import dash, double_jump, holster, mantle, slide, surge
-from Modern_Movement.runtime import ExecutionRole, PlayerContext, PlayerKey, TickFrame
+from Modern_Movement.runtime import REGISTRY, ExecutionRole, PlayerContext, PlayerKey, TickFrame
 from Modern_Movement import core, authority
 from Modern_Movement.protocol import Reason
 
@@ -229,22 +229,28 @@ def test_host_mantle_replays_plan_without_location_stall(monkeypatch):
         assert abs(pawn.Velocity.Z) + abs(pawn.Velocity.X) > 1.0
 
 
-def test_host_slide_juso_sets_crouched_pct_only():
-    """Match juso: network slide is CrouchedPct only — no Velocity writes."""
+def test_host_slide_coasts_without_move_input():
+    """Joiner released W: host still coasts the server pawn along the entry direction."""
     pawn = _Pawn(physics=core.PHYS_WALKING, crouch=0.5)
     pawn.Velocity = _Vec(0.0, 0.0, 0.0)
+    pawn.Acceleration = _Vec(0.0, 0.0, 0.0)
     ctx = _remote(pawn)
 
-    slide.host_enter_juso(ctx, 2.2, 80.0)
+    slide.host_enter_juso(ctx, 2.2, 80.0, 1.0, 0.0)
     assert pawn.CrouchedPct == pytest.approx(2.2)
     assert ctx.key.player_id in slide._HOST_SLIDES
+    assert slide._HOST_SLIDES[ctx.key.player_id]["dir"] == (1.0, 0.0)
+    # Enter records the slide; the per-tick coast is what survives a released key.
     assert pawn.Velocity.X == 0.0 and pawn.Velocity.Y == 0.0
 
     slide._service_host_slides(0.5)
     scale = slide._distance_scale(80.0)
-    assert pawn.CrouchedPct == pytest.approx(
-        2.2 - (0.5 / scale) * slide._JUSO_DECAY, abs=0.02
-    )
+    cp = 2.2 - (0.5 / scale) * slide._JUSO_DECAY
+    assert pawn.CrouchedPct == pytest.approx(cp, abs=0.02)
+    assert pawn.Velocity.X == pytest.approx(cp * pawn.GroundSpeed, abs=8.0)
+    assert pawn.Velocity.Y == pytest.approx(0.0, abs=0.01)
+    assert pawn.Acceleration.X == pytest.approx(pawn.AccelRate)
+    assert pawn.Acceleration.Y == pytest.approx(0.0)
 
 
 def test_dual_player_slide_distance_independent(monkeypatch):
@@ -362,8 +368,8 @@ def test_host_surge_end_restores_groundspeed():
     assert pawn.GroundSpeed == pytest.approx(440.0, abs=0.6)
 
 
-def test_requester_slide_is_crouched_pct_only(monkeypatch):
-    """juso joiner path: timed slide must not write Velocity (engine uses CrouchedPct)."""
+def test_requester_slide_coasts_when_forward_released(monkeypatch):
+    """Releasing W zeroes Acceleration. The joiner slide must keep its entry speed."""
     pawn = _Pawn(physics=core.PHYS_WALKING)
     pawn.Velocity = _Vec(500.0, 0.0, 0.0)
     pawn.bWantsToCrouch = True
@@ -375,14 +381,6 @@ def test_requester_slide_is_crouched_pct_only(monkeypatch):
         clock=10.0,
         pawn_generation=1,
     )
-    writes = []
-
-    def track_vel(p, x, y, z=None):
-        writes.append((x, y, z))
-        p.Velocity.X = x
-        p.Velocity.Y = y
-
-    monkeypatch.setattr(core, "set_velocity", track_vel)
     monkeypatch.setattr(slide.core, "current_context", lambda: ctx)
     monkeypatch.setattr(slide.core, "phys", core.PHYS_WALKING)
     monkeypatch.setattr(slide.core, "busy", "slide")
@@ -396,12 +394,39 @@ def test_requester_slide_is_crouched_pct_only(monkeypatch):
     assert slide._state(ctx).slide["timed"] is True
     assert pawn.CrouchedPct >= slide._JUSO_SLIDE_PCT
 
+    # Engine walking brake after the movement key comes up.
+    pawn.Velocity = _Vec(0.0, 0.0, 0.0)
+    pawn.Acceleration = _Vec(0.0, 0.0, 0.0)
+
     def run():
         slide._run(ctx.controller, pawn, 1.0 / 60.0)
 
     core.execute(ctx, run)
-    assert writes == [], f"juso path must not set_velocity (got {writes})"
+    assert slide._state(ctx).slide is not None
     assert pawn.CrouchedPct > 0.5
+    assert pawn.Velocity.X > 400.0
+    assert pawn.Velocity.Y == pytest.approx(0.0, abs=0.01)
+    assert pawn.Acceleration.X == pytest.approx(pawn.AccelRate)
+    assert pawn.Acceleration.Y == pytest.approx(0.0)
+
+
+def test_host_replayed_move_restores_slide_after_brake():
+    """Server PlayerMove of a released key must not be the correction that stops the joiner."""
+    pawn = _Pawn(physics=core.PHYS_WALKING, crouch=0.5)
+    pc = _PC()
+    ctx = REGISTRY.observe(pc, ExecutionRole.REMOTE_AUTHORITY, 10.0, pawn)
+    try:
+        slide.host_enter_juso(ctx, 2.2, 90.0, 0.0, 1.0)
+        pawn.Velocity = _Vec(0.0, 0.0, 0.0)
+        pawn.Acceleration = _Vec(0.0, 0.0, 0.0)
+        pawn.CrouchedPct = 0.5
+        slide._post_player_move(pc, None, None, None)
+        assert pawn.CrouchedPct == pytest.approx(2.2)
+        assert pawn.Velocity.Y == pytest.approx(2.2 * pawn.GroundSpeed, abs=1.0)
+        assert pawn.Velocity.X == pytest.approx(0.0, abs=0.01)
+        assert pawn.Acceleration.Y == pytest.approx(pawn.AccelRate)
+    finally:
+        REGISTRY.retire(ctx, "test")
 
 
 def test_host_slide_survives_without_bduck():

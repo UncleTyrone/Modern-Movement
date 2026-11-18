@@ -59,6 +59,7 @@ Status values:
 - Slide first-refusal jump/sprint + crouch suppress after off-cliff/jump: `SIMULATED` (live TPS still required)
 - Double jump owns airborne DoJump (Oz glide deferred/blocked while extra jumps remain): `SIMULATED`
 - Custom Slam removed from release allowlist; slam textures not installed: `PROVEN_SOURCE`
+- Joiner slide coast after forward is released (same vector on joiner and host): `SIMULATED`, `LIVE_REQUIRED`
 - Package TPS-only fail-closed game detection + Networking attach: `PROVEN_SOURCE`
 
 ## Release rule

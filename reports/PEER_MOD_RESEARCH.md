@@ -110,7 +110,7 @@ Local sdk_mods: no other movement peers installed.
 | Peer | Pattern | Ours |
 |------|---------|------|
 | Eternal | `@host` + host Velocity loop | `server_dash` + `_HOST_DASHES` |
-| juso | CrouchedPct enter/exit + host decay | `server_slide_enter/exit` + `_HOST_SLIDES` |
+| juso | CrouchedPct enter/exit + host decay | `server_slide_enter(pct, distance, dir)` + `_HOST_SLIDES` coast. juso stops at zero Acceleration; we keep the entry-direction speed |
 | Movement Tech | `@host` slam; local options | DJ/slide must use **requester payload**, not host menu |
 | Networking | 1 msg/tick ServerSpeech | Keep; no per-frame speed spam |
 
