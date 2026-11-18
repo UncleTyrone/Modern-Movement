@@ -229,6 +229,12 @@ def _on_air_press(pc, pawn) -> bool:
         vx, vy = float(pawn.Velocity.X), float(pawn.Velocity.Y)
 
     _apply_impulse(pawn, vx, vy, target)
+    try:
+        from . import surfacefx
+
+        surfacefx.air(pc, pawn, vx, vy, 0.5)
+    except Exception:  # noqa: BLE001
+        pass
     if coop_rpc.is_requester(ctx):
         coop_rpc.call_host(
             coop_rpc.server_double_jump,

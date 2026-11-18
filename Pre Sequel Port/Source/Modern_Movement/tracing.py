@@ -398,5 +398,69 @@ def _trace(sess: TraceSession, pawn, start, end, extent=None):
             _log("looked past a living actor")
             continue
         _log(f"hit {hit_loc} normal {hit_norm}")
-        return hit_loc, hit_norm
+        return hit_loc, hit_norm, _impact_material(impact)
     return None
+
+
+def _impact_material(impact) -> str:
+    """Physical material name from a weapon trace, or "" if this hit has none."""
+    parts: list[str] = []
+
+    def take(obj) -> None:
+        if obj is None:
+            return
+        try:
+            parts.append(str(obj.Name))
+        except Exception:  # noqa: BLE001
+            pass
+        try:
+            parts.append(str(obj._path_name()))
+        except Exception:  # noqa: BLE001
+            pass
+
+    try:
+        info = impact.HitInfo
+    except Exception:  # noqa: BLE001
+        info = None
+    if info is not None:
+        for attr in ("PhysMaterial", "Material"):
+            try:
+                take(getattr(info, attr, None))
+            except Exception:  # noqa: BLE001
+                pass
+        try:
+            take(getattr(info.Component, "PhysMaterialOverride", None))
+        except Exception:  # noqa: BLE001
+            pass
+    try:
+        take(getattr(impact, "PhysMaterial", None))
+    except Exception:  # noqa: BLE001
+        pass
+    try:
+        actor = impact.HitActor
+        mesh = getattr(actor, "StaticMeshComponent", None)
+        if mesh is None:
+            mesh = getattr(actor, "Mesh", None)
+        take(getattr(mesh, "PhysMaterialOverride", None))
+    except Exception:  # noqa: BLE001
+        pass
+    return " ".join(parts)
+
+
+def material_below(pc, pawn) -> str:
+    """Name of the ground just under the pawn. Empty if the trace cannot tell."""
+    try:
+        x, y, z = vec(pawn.Location)
+    except Exception:  # noqa: BLE001
+        return ""
+    _radius, half = body(pawn)
+    start = (x, y, z + 24.0)
+    end = (x, y, z - half - 80.0)
+    try:
+        with session(pc, pawn, limit=2):
+            hit = trace(pawn, start, end)
+    except Exception:  # noqa: BLE001
+        return ""
+    if not hit or len(hit) < 3:
+        return ""
+    return str(hit[2] or "")

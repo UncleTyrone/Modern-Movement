@@ -7,7 +7,7 @@ under `Original/Source/Modern Movement`. The **live working tree** is
 ## Co-op status (working tree — supersedes baseline notes below)
 
 - Borderlands 2 and The Pre-Sequel (`game.supported()`). Custom Slam loads on Borderlands 2 and stays out of the Pre-Sequel feature list.
-- Network slides (3.62.0): CrouchedPct decay plus entry-direction Velocity coast on the joiner and the host. Releasing forward keeps the coast. Releasing crouch cancels the joiner slide.
+- Network slides (3.62.0): CrouchedPct decay plus entry-direction Velocity coast on the joiner and the host. Releasing forward keeps the coast. Releasing crouch cancels the joiner slide. A slide jump arms `state.chain`; landing calls `offer_landing` only after `_CHAIN_MIN_AIR` (0.40s). That held crouch does not start a slam. A new in-air crouch press still slams, and a held crouch through the impact slides out via `slam_bank`.
 - Modules: `runtime`, `protocol`, `network`, `rules`, `authority`, `input_state`, `gravity`, `diagnostics`.
 - Each machine writes its local pawn (Willow client simulation). Remote host contexts are observe-only.
 - Jump order: Slide first → Mantle → Double Jump (airborne DoJump blocked so Oz glide does not eat the press).

@@ -336,9 +336,10 @@ def _update_indicator(pc, pawn) -> None:
 
 
 def _start(pc, pawn) -> None:
-    global _slam, _push_out
+    global _slam, _push_out, _SLAM_CARRY
     core.begin("slam")
     try:
+        _SLAM_CARRY = (float(pawn.Velocity.X), float(pawn.Velocity.Y))
         _set_vel(
             pawn,
             float(pawn.Velocity.X) * _HORIZONTAL_KEEP,
@@ -385,6 +386,7 @@ def _dive_push() -> float:
     return -_PUSH * push_slider.value / 100.0 * e
 
 
+_SLAM_CARRY: tuple[float, float] | None = None
 _STAND_TICKS = 4   # ticks the crouch is switched off after impact (in case the game re-applies it)
 _stand = 0
 
@@ -423,9 +425,9 @@ def _power(pawn) -> float:
 
 
 def _impact(pc, pawn) -> None:
-    global _hit, _stand
-    _stand = _STAND_TICKS
-    _stand_up(pc, pawn)
+    global _hit, _stand, _SLAM_CARRY
+    carry = _SLAM_CARRY
+    _SLAM_CARRY = None
     power = _power(pawn)
     try:
         z0 = _slam["z0"] if _slam is not None else None
@@ -440,6 +442,21 @@ def _impact(pc, pawn) -> None:
     _stop(push, mirror=False)
     _hit = {"t0": core.clock, "t": 0.0, "p": power}
     core.emit("slam_impact")        # the slide module keeps the crouch icon hidden for a moment
+    held = _crouch_key_down(pc) is not False
+    chained = False
+    if held and carry is not None and math.hypot(carry[0], carry[1]) > 1.0:
+        try:
+            from . import slide
+
+            chained = slide.offer_landing(
+                pc, pawn, carry[0], carry[1], math.hypot(*carry), "slam landing"
+            )
+        except Exception:  # noqa: BLE001
+            chained = False
+    if chained:
+        return
+    _stand = _STAND_TICKS
+    _stand_up(pc, pawn)
     try:
         _set_vel(pawn, 0.0, 0.0, float(pawn.Velocity.Z))
     except Exception:  # noqa: BLE001
@@ -855,6 +872,16 @@ def _tick(pc, pawn, dt) -> None:
     if not enabled_option.value:
         hudfx.slam_hide()
         return
+    # A crouch still held from the slide jump belongs to the landing slide.
+    try:
+        from . import slide
+
+        if slide.chain_blocks_slam():
+            hudfx.slam_hide()
+            _buffer_until = -100.0
+            return
+    except Exception:  # noqa: BLE001
+        pass
     _update_indicator(pc, pawn)
     if pressed and core.phys == core.PHYS_FALLING:
         _buffer_until = core.clock + window_slider.value / 1000.0  # keeps trying for a moment: no need to time it exactly

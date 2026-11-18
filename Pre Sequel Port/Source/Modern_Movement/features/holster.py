@@ -12,8 +12,8 @@ Sprint Surge (options in surge.py)
   second, which covers hold-to-sprint) and the weapon is stowed on the spot. Stowed that way
   you also get a speed boost, scaled from the pawn's own GroundSpeed, for as long as the weapon
   stays stowed: until the sprint ends and the weapon is redrawn, or until you draw it yourself
-  (H, fire or aim). A weapon put away by Holster While Sprinting is upgraded to a Sprint Surge (boost on)
-  if you tap sprint. Weapons stowed with H never get the boost.
+  (H, fire or aim). A weapon that is already away — Holster While Sprinting or the holster key —
+  still takes the boost when you press sprint again while sprinting.
   Set "Sprint Surge" to the same key as the game's own sprint binding.
 
 What's different from earlier versions
@@ -419,14 +419,15 @@ def _sprint_surge_logic() -> None:
     if not again:
         return
 
-    if state.holstered:
-        if state.sprint_holstered and state.stow_kind == "sprinting":
-            state.stow_kind = "surge"
-            _mark_surge_start(ctx)
-            _log("Sprint pressed again while holstered by sprinting: Sprint Surge on (boost).")
-        return
-
-    if pawn.Weapon is None:
+    # Gun out: stow it, then boost. Already holstered (H, or holstered by sprinting):
+    # there is nothing left to stow, so the same press just turns the boost on.
+    if state.holstered or pawn.Weapon is None:
+        state.holstered = True
+        state.seen_empty = pawn.Weapon is None
+        state.sprint_holstered = True
+        state.stow_kind = "surge"
+        _mark_surge_start(ctx)
+        _log("Sprint pressed again while holstered: Sprint Surge on (boost).")
         return
     _log("Sprint pressed again: stowing weapon.")
     _holster(ctx, pawn)

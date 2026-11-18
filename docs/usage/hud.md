@@ -10,5 +10,6 @@ ECHO-coloured feedback around the crosshair. With a TPS-capable texloader fork, 
 | Jump counter | Jump Counter | Off |
 | Slide momentum bar | Slide Indicator | On |
 | Sprint Surge arcs | Sprint Surge Indicator | On |
+| Slam brackets | Slam Indicator | On, Borderlands 2 only |
 
 Every shipped indicator has its own On/Off toggle under that feature's Settings.

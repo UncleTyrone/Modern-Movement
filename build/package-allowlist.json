@@ -21,6 +21,7 @@
     "Modern_Movement/features/slide.py",
     "Modern_Movement/features/slam.py",
     "Modern_Movement/features/surge.py",
+    "Modern_Movement/features/surfacefx.py",
     "Modern_Movement/fx.py",
     "Modern_Movement/game.py",
     "Modern_Movement/gravity.py",

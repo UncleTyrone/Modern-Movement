@@ -147,9 +147,11 @@ _FALLBACK_GRAVITY = 1000.0   # units/s^2 along a slope at 100% if the world's gr
 _FORWARD_DOT = 0.5           # landing slide: moving at least this much along where you look
 _STALL_TICKS = 3
 _STALL_RATIO = 0.10
-# Safety caps — a bit shorter coast; friction unchanged.
-_MAX_FLAT_S = 1.75
-_MAX_DOWNHILL_S = 3.15
+# About three quarters of the previous coast. Speed falls on that shorter clock,
+# so the slide slows earlier instead of holding full speed until a late stop.
+_LENGTH = 0.75
+_MAX_FLAT_S = 1.75 * _LENGTH
+_MAX_DOWNHILL_S = 3.15 * _LENGTH
 _FLAT_SLOPE_EPS = 0.08       # |floor·dir| below this counts as flat for the time cap
 _MIN_FLAT_DRAG = 320.0       # floor on flat bleed (saved ultra-low friction can't make endless slides)
 
@@ -213,6 +215,10 @@ class SlideState:
     hit_at: float = -100.0
     crouch_owned: bool = False
     suppress_crouch_until_release: bool = False
+    # Slide jump while crouch is held: land in another slide instead of a slam.
+    chain: dict | None = None
+    # Horizontal speed saved when a real in-air crouch starts a slam.
+    slam_bank: tuple[float, float] | None = None
     crouch_lease: SlideCrouchLease = field(default_factory=SlideCrouchLease)
     action_id: int = 0
     # First-person arms pose only (juso-style). Never offset Mesh.Translation — that fights the
@@ -248,6 +254,21 @@ def _flag(obj, name) -> bool:
         return bool(getattr(obj, name))
     except Exception:  # noqa: BLE001
         return False
+
+
+def _crouch_held(pc):
+    """True while the crouch key is down, False if it is up, None if it cannot be read.
+
+    The Pre-Sequel turns a crouch press in the air into an Oz slam. Borderlands 2's
+    custom slam does the same after a slide jump. A key that never came up is the
+    slide key still held, not a new slam press.
+    """
+    try:
+        from . import slam
+
+        return slam._crouch_key_down(pc)
+    except Exception:  # noqa: BLE001
+        return None
 
 
 def _crouching(pc, pawn) -> bool:
@@ -296,7 +317,9 @@ def _set_crouch_limit(pawn, speed) -> None:
         return
     if state.cp_written is None or abs(current - state.cp_written) > 1e-4:
         state.cp_base = current
-    target = max(float(state.cp_base), speed / _walk_speed(pawn) * 1.05)
+    # The cap is the coast. A few percent of headroom is room the engine
+    # accelerates into, and the next tick snaps it back (the slide stutter).
+    target = max(float(state.cp_base), speed / _walk_speed(pawn))
     if abs(current - target) > 1e-4:
         pawn.CrouchedPct = target
     state.cp_written = target
@@ -305,10 +328,11 @@ def _set_crouch_limit(pawn, speed) -> None:
 # juso sliding: CrouchedPct decays from ~2.25 back to 0.5 and times the slide.
 # CrouchedPct only raises the engine crouch-speed cap. With no movement input the
 # pawn brakes to a stop, so a network slide also re-applies the entry direction
-# every tick (same coast as the local slide). Tuned for a real coast (~2s flat).
+# every tick (same coast as the local slide). Decay is scaled so the coast
+# lasts about three quarters as long and speed drops on that same clock.
 _JUSO_SLIDE_PCT = 2.25
 _JUSO_CROUCH_PCT = 0.5
-_JUSO_DECAY = 1.25  # CrouchedPct / s on flat (a bit shorter)
+_JUSO_DECAY = 1.25 / _LENGTH  # CrouchedPct / s on flat
 _ENTRY_KEEP = 1.0  # keep full sprint speed into the slide
 
 _JUSO_DOWNHILL = 0.0012  # CrouchedPct gain per unit dropped
@@ -317,10 +341,16 @@ _HOST_SLIDES: dict[int, dict] = {}
 
 
 def _decay_juso_pct(cp: float, z_diff: float, dt: float) -> float:
-    """Shorter on flat, longer downhill, shorter uphill."""
-    if z_diff < 0.0:
-        return cp - z_diff * _JUSO_DOWNHILL
-    return cp - dt * _JUSO_DECAY - z_diff * _JUSO_UPHILL
+    """Drain on a clock. A real climb shortens it. Height noise must not refill it.
+
+    Co-op Z replication jitters by a few units. Treating every drop as downhill
+    skipped the timer and added CrouchedPct back, so the meter froze, climbed,
+    or jittered and the slide ran long.
+    """
+    loss = dt * _JUSO_DECAY
+    if z_diff > 12.0:
+        loss += z_diff * _JUSO_UPHILL
+    return cp - loss
 
 
 def _slope_along(pc, pawn, dx: float, dy: float) -> float:
@@ -369,11 +399,17 @@ def _unit_dir(dx: float, dy: float) -> tuple[float, float]:
     return dx / mag, dy / mag
 
 
+# Non-zero so walking physics does not treat the coast as "no input" and brake.
+# AccelRate itself (often 2048) makes that same step lunge, then the next coast
+# snaps the speed back. That snap is the slide stutter.
+_COAST_PUSH = 96.0
+
+
 def _coast_slide(pawn, dx: float, dy: float, speed: float) -> None:
     """Keep sliding after movement keys are released.
 
-    Walking physics brakes when Acceleration is zero. Re-applying the slide
-    vector is what keeps the coast going after forward is released.
+    Walking physics brakes when Acceleration is zero. A small push keeps the
+    coast without lunging past the speed we just wrote.
     """
     if pawn is None or speed <= 1.0:
         return
@@ -382,9 +418,8 @@ def _coast_slide(pawn, dx: float, dy: float, speed: float) -> None:
         return
     core.set_velocity(pawn, dx * speed, dy * speed)
     try:
-        rate = float(pawn.AccelRate)
-        pawn.Acceleration.X = dx * rate
-        pawn.Acceleration.Y = dy * rate
+        pawn.Acceleration.X = dx * _COAST_PUSH
+        pawn.Acceleration.Y = dy * _COAST_PUSH
     except Exception:  # noqa: BLE001
         pass
 
@@ -480,8 +515,8 @@ def _service_host_slides(dt: float) -> None:
                 pawn.ShouldCrouch(True)
             except Exception:  # noqa: BLE001
                 pass
-            base_cap = _MAX_DOWNHILL_S if z_diff < -1.0 else _MAX_FLAT_S
-            cap = base_cap * scale
+            # One noisy drop must not switch the joiner onto the long downhill cap.
+            cap = _MAX_FLAT_S * scale
             if cp < _JUSO_CROUCH_PCT or d["elapsed"] > cap:
                 pawn.CrouchedPct = _JUSO_CROUCH_PCT
                 done.append(pid)
@@ -602,9 +637,11 @@ def _start(pc, pawn, reason: str) -> None:
     if ctx is None or ctx.presentation:
         _hide_crouch_icon(pc)                        # straight away, so it never flashes up
     state.scrape_next = 0.0  # the scrape starts with the slide
-    # juso: store CrouchedPct directly for network slides (engine crouch-move speed).
-    juso_pct = max(_JUSO_SLIDE_PCT, start_speed / max(1.0, walk))
+    # Network slides time from a fixed CrouchedPct. Scaling that by entry speed
+    # made a fast joiner slide both longer and stuck at a full meter.
+    juso_pct = _JUSO_SLIDE_PCT
     state.slide["cp"] = juso_pct
+    state.slide["meter_from"] = juso_pct
     state.slide["distance"] = float(distance_slider.value)
     try:
         state.slide["old_z"] = float(pawn.Location.Z)
@@ -706,7 +743,15 @@ def _end(pawn, reason: str, pc=None) -> None:
         _hold_crouch_icon()
     state.need_sprint, state.sprint_run = True, 0.0
     core.end("slide")
-    if pawn is not None:
+    if pawn is not None and slide.get("timed"):
+        # The timed write is cp * Slide Speed. The lease compared the unscaled
+        # cp and left the fast crouch cap on for a moment after the bar died.
+        try:
+            pawn.CrouchedPct = _JUSO_CROUCH_PCT
+        except Exception:  # noqa: BLE001
+            pass
+        state.cp_base = state.cp_written = None
+    elif pawn is not None:
         _set_crouch_limit(pawn, None)
     if pc is None:
         pc = ctx.controller if ctx is not None else None
@@ -794,6 +839,9 @@ def _update_carry(pawn) -> None:
 
 
 _LAUNCH_HOLD = 0.15           # seconds the launch is re-applied if the game pulls you back down
+# A slide cancel has to actually leave the ground. Anything shorter is a tap
+# that refreshes the slide the moment you jump, which can be repeated forever.
+_CHAIN_MIN_AIR = 0.40
 
 
 def _launch_now(pc, pawn, vx, vy, vz) -> bool:
@@ -860,6 +908,9 @@ def _ground_jump(pc, pawn) -> None:
         return
     if ok:
         state.launch = {"v": v, "until": core.clock + _LAUNCH_HOLD}
+        # Holding crouch through this jump is a slide cancel, not a slam.
+        state.chain = {"dir": (dx, dy), "speed": max(float(speed), 1.0), "at": core.clock}
+        state.slam_bank = None
         core.emit("slide_jump")
         if indicator_option.value and ctx.presentation:
             hudfx.slide_launch()
@@ -1238,6 +1289,14 @@ def _scrape(pc, pawn, strength) -> None:
     """One step of the scrape when it is due; steps come faster the faster you slide."""
     global _scrape_told
     state = _state()
+    strength = max(0.0, min(1.0, strength))
+    kind = "dirt"
+    try:
+        from . import surfacefx
+
+        kind = surfacefx.slide(pc, pawn, strength)
+    except Exception:  # noqa: BLE001
+        pass
     if not audio_option.value or core.clock < state.scrape_next:
         return
     names = _scrape_names()
@@ -1248,7 +1307,12 @@ def _scrape(pc, pawn, strength) -> None:
         _scrape_told = k + 1
         listing = ", ".join(f"{i + 1}={n}" for i, n in enumerate(names[:12]))
         logging.warning(f"[Slide] scrape sound: variant {k + 1} = {names[k]}  (all: {listing})")
-    fx.set_switch(pawn, _SCRAPE_SURFACE)  # always the sand / dirt version, whatever you slide on
+    try:
+        from . import surfacefx
+
+        fx.set_switch(pawn, surfacefx.switch_path(kind))
+    except Exception:  # noqa: BLE001
+        fx.set_switch(pawn, _SCRAPE_SURFACE)
     fx.play_named(pc, pawn, (names[k],))
     strength = max(0.0, min(1.0, strength))
     gap = _SCRAPE_SLOW + (_SCRAPE_FAST - _SCRAPE_SLOW) * strength
@@ -1321,13 +1385,16 @@ def _run(pc, pawn, dt) -> None:
         speed_percent = float(s.get("speed_percent", speed_slider.value))
         s["speed"] = _coast_velocity(cp, _walk_speed(pawn), speed_percent)
         try:
-            pawn.CrouchedPct = cp * _speed_scale(speed_percent)
-            state.cp_written = cp
+            written = cp * _speed_scale(speed_percent)
+            pawn.CrouchedPct = written
+            state.cp_written = written
+            if state.cp_base is None:
+                state.cp_base = _JUSO_CROUCH_PCT
         except Exception:  # noqa: BLE001
             pass
         # Holding crouch must not keep a flat slide alive past the hard cap.
-        base_cap = _MAX_DOWNHILL_S if z_diff < -1.0 else _MAX_FLAT_S
-        cap = base_cap * scale
+        # A single downhill sample must not stretch a joiner slide either.
+        cap = _MAX_FLAT_S * scale
         if cp < _JUSO_CROUCH_PCT or s["elapsed"] > cap:
             _end(pawn, "slowed" if cp < _JUSO_CROUCH_PCT else "timed out", pc)
             return
@@ -1336,7 +1403,9 @@ def _run(pc, pawn, dt) -> None:
         _coast_slide(pawn, dx, dy, s["speed"])
         if ctx is None or ctx.presentation:
             if indicator_option.value:
-                hudfx.slide_momentum(max(0.0, min(1.0, (cp - _JUSO_CROUCH_PCT) / max(0.01, _JUSO_SLIDE_PCT - _JUSO_CROUCH_PCT))))
+                origin = float(s.get("meter_from", _JUSO_SLIDE_PCT))
+                span = max(0.01, origin - _JUSO_CROUCH_PCT)
+                hudfx.slide_momentum(max(0.0, min(1.0, (cp - _JUSO_CROUCH_PCT) / span)))
             _apply_shake(pc, pawn, dt, max(0.0, min(1.0, cp / _JUSO_SLIDE_PCT)))
             _scrape(pc, pawn, max(0.0, min(1.0, cp / _JUSO_SLIDE_PCT)))
         return
@@ -1360,7 +1429,7 @@ def _run(pc, pawn, dt) -> None:
 
     # Flat coasts; downhill stretches; still always ends.
     dist = max(50.0, min(140.0, float(distance_slider.value)))
-    flat_drag = max(_MIN_FLAT_DRAG, float(friction_slider.value) * 100.0 / dist)
+    flat_drag = max(_MIN_FLAT_DRAG, float(friction_slider.value) * 100.0 / dist) / _LENGTH
     slope = _slope_along(pc, pawn, dx, dy)
     if slope > 0.0:
         accel = -flat_drag + min(slope, flat_drag * 0.88)
@@ -1384,13 +1453,7 @@ def _run(pc, pawn, dt) -> None:
         else:
             hudfx.slide_end()
     s["commanded"] = s["speed"] * dt
-    core.set_velocity(pawn, dx * s["speed"], dy * s["speed"])
-    try:  # "accelerating" along the slide, so no braking
-        rate = float(pawn.AccelRate)
-        pawn.Acceleration.X = dx * rate
-        pawn.Acceleration.Y = dy * rate
-    except Exception:  # noqa: BLE001
-        pass
+    _coast_slide(pawn, dx, dy, s["speed"])
     if ctx is None or ctx.presentation:
         _apply_shake(pc, pawn, dt, s["speed"] / max(1.0, s["start"]))
         _scrape(pc, pawn, s["speed"] / max(1.0, s["start"]))
@@ -1424,8 +1487,15 @@ def _tick(pc, pawn, dt) -> None:
         return
 
     crouch = _crouching(pc, pawn)
-    if not crouch:
+    held = _crouch_held(pc)
+    if state.chain is not None and held is False:
+        state.chain = None
+    # Crouch state drops the moment a slide jump stands you up. The key can still
+    # be held. Clearing the block there let that hold become a slam press.
+    if state.chain is None and not crouch:
         state.suppress_crouch_until_release = False
+        state.crouch_pressed_while_airborne = False
+    elif not crouch:
         state.crouch_pressed_while_airborne = False
     effective_crouch = crouch and not state.suppress_crouch_until_release
     phys = core.phys
@@ -1463,6 +1533,24 @@ def _tick(pc, pawn, dt) -> None:
         speed = core.hspeed(pawn)
     except Exception:  # noqa: BLE001
         speed = 0.0
+
+    # Held crouch through a slide jump lands in another slide. This does not wait
+    # out "Sprint Before Next Slide", and it does not require Slide From Landing.
+    if (
+        state.chain is not None
+        and state.slide is None
+        and enabled_option.value
+        and ctx.authority
+        and phys == core.PHYS_WALKING
+        and state.prev_phys == core.PHYS_FALLING
+        and held is not False
+    ):
+        link = state.chain
+        state.chain = None
+        if _chain_air_ok(link):
+            state.need_sprint = False
+            state.suppress_crouch_until_release = False
+            offer_landing(pc, pawn, link["dir"][0], link["dir"][1], link["speed"], "slide cancel")
 
     if (
         state.slide is None
@@ -1510,6 +1598,37 @@ def _tick(pc, pawn, dt) -> None:
             _hide_crouch_icon(pc)
         else:
             _show_crouch_icon(pc)
+
+
+def _chain_air_ok(link) -> bool:
+    """True once the slide jump has been airborne long enough to be a real cancel."""
+    try:
+        return core.clock - float(link.get("at", -100.0)) >= _CHAIN_MIN_AIR
+    except Exception:  # noqa: BLE001
+        return False
+
+
+def chain_blocks_slam() -> bool:
+    """True while a held slide-jump crouch is reserved for the landing slide."""
+    return _state().chain is not None
+
+
+def offer_landing(pc, pawn, dx: float, dy: float, speed: float, reason: str) -> bool:
+    """Start a slide along a saved direction. Used for a slide-cancel landing and a slam exit."""
+    state = _state()
+    if not enabled_option.value or pawn is None or state.slide is not None:
+        return False
+    dx, dy = _unit_dir(float(dx), float(dy))
+    if dx == 0.0 and dy == 0.0:
+        return False
+    speed = max(float(speed), 1.0)
+    state.need_sprint = False
+    state.suppress_crouch_until_release = False
+    state.chain = None
+    state.slam_bank = None
+    core.set_velocity(pawn, dx * speed, dy * speed)
+    _start(pc, pawn, reason)
+    return state.slide is not None
 
 
 def try_consume_jump(pc, pawn) -> bool:
@@ -1623,6 +1742,14 @@ def _presentation(event: str, payload: dict) -> None:
     state_payload = payload.get("state", payload)
     if not isinstance(state_payload, dict):
         return
+    local = core.local_context()
+    # The owning client already draws from its own decay. A host echo of that
+    # same slide arrives late and with a different speed, which jitters the bar.
+    if local is not None and _state(local).slide is not None:
+        return
+    if local is not None and core.clock - _state(local).last_end < 0.35:
+        hudfx.slide_end()
+        return
     if state_payload.get("active") and indicator_option.value:
         speed = float(state_payload.get("speed", 0.0))
         start = max(1.0, float(state_payload.get("start", speed)))
@@ -1657,9 +1784,45 @@ def _pre_duck_pressed(obj, _args, _ret, _func):
     if ctx is None:
         return None
     state = _state(ctx)
-    if state.suppress_crouch_until_release:
+    if state.suppress_crouch_until_release or state.chain is not None:
         return Block
+    # A new crouch press in the air is a slam. Keep the speed so the landing can
+    # become a slide if the key is still held when they hit the ground.
+    try:
+        pawn = ctx.pawn
+        if pawn is not None and int(pawn.Physics) == core.PHYS_FALLING:
+            state.slam_bank = (float(pawn.Velocity.X), float(pawn.Velocity.Y))
+    except Exception:  # noqa: BLE001
+        pass
     return None
+
+
+@hook("WillowGame.WillowPlayerPawn:Landed", Type.POST)
+def _post_landed(obj, _args, _ret, _func):
+    """After a real slam, a held crouch slides away with the speed from before the dive."""
+    ctx = REGISTRY.resolve_pawn(obj)
+    if ctx is None or not ctx.authority or not ctx.local:
+        return
+    state = _state(ctx)
+    bank = state.slam_bank
+    state.slam_bank = None
+    if bank is None or state.slide is not None or state.chain is not None:
+        return
+    try:
+        from . import slam
+
+        if slam._slam is not None:
+            return
+    except Exception:  # noqa: BLE001
+        pass
+    if _crouch_held(ctx.controller) is False:
+        return
+    vx, vy = bank
+
+    def go() -> None:
+        offer_landing(ctx.controller, ctx.pawn, vx, vy, math.hypot(vx, vy), "slam landing")
+
+    core.execute(ctx, go)
 
 
 @hook("WillowGame.WillowPlayerController:BeginSprint", Type.PRE)
@@ -1787,4 +1950,4 @@ OPTIONS = [
     ),
 ]
 KEYBINDS = []
-HOOKS = [_pre_do_jump, _pre_duck_pressed, _pre_begin_sprint, _post_player_move]
+HOOKS = [_pre_do_jump, _pre_duck_pressed, _pre_begin_sprint, _post_player_move, _post_landed]

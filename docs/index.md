@@ -1,6 +1,6 @@
 # Modern Movement docs
 
-Version **3.62.0**, the next minor after the shipped Pre-Sequel package 3.61.2. The same package runs in Borderlands 2 and The Pre-Sequel: Double Jump, Dash, Mantle, Slide, Holster, and Sprint Surge, plus Slam on Borderlands 2.
+Version **3.62.0**, the next minor after the shipped Pre-Sequel package 3.61.2. The same package runs in Borderlands 2 and The Pre-Sequel: Double Jump, Dash, Mantle, Slide, Surface effects, Holster, and Sprint Surge, plus Slam on Borderlands 2.
 
 ## Start here
 

@@ -1,6 +1,6 @@
 {
   "archive": "dist/Modern_Movement.sdkmod",
-  "member_count": 47,
+  "member_count": 48,
   "members": [
     "Modern_Movement/",
     "Modern_Movement/__init__.py",
@@ -17,6 +17,7 @@
     "Modern_Movement/features/mantle.py",
     "Modern_Movement/features/slam.py",
     "Modern_Movement/features/slide.py",
+    "Modern_Movement/features/surfacefx.py",
     "Modern_Movement/features/surge.py",
     "Modern_Movement/fx.py",
     "Modern_Movement/game.py",
@@ -51,5 +52,5 @@
     "Modern_Movement/tracing.py"
   ],
   "schema": 1,
-  "sha256": "786eec2bbde78a7747cf7c559a45c054972ed7fc0318dd8c360ea5cdf8819e9a"
+  "sha256": "ec3927d7f0a25eb3c51b1537276a3d49c6658a1c3c2f257fdd2041bb3ffa62fc"
 }

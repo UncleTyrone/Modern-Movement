@@ -250,7 +250,7 @@ def test_host_slide_coasts_without_move_input():
     assert pawn.CrouchedPct == pytest.approx(cp, abs=0.02)
     assert pawn.Velocity.X == pytest.approx(cp * pawn.GroundSpeed, abs=8.0)
     assert pawn.Velocity.Y == pytest.approx(0.0, abs=0.01)
-    assert pawn.Acceleration.X == pytest.approx(pawn.AccelRate)
+    assert pawn.Acceleration.X == pytest.approx(slide._COAST_PUSH)
     assert pawn.Acceleration.Y == pytest.approx(0.0)
 
 
@@ -341,6 +341,54 @@ def test_dual_player_double_jump_strength_independent(monkeypatch):
     assert double_jump._state_for(ctx_b).jumps_used == 1
 
 
+def test_holstered_shift_starts_surge_like_gun_out():
+    """A second sprint press must boost while the gun is already away."""
+    pawn = _Pawn(physics=core.PHYS_WALKING, ground=440.0)
+    pawn.Weapon = None
+    ctx = PlayerContext(
+        key=PlayerKey(1, 31),
+        role=ExecutionRole.LOCAL_HOST,
+        controller=_PC(),
+        pawn=pawn,
+        clock=10.0,
+        pawn_generation=1,
+    )
+    state = holster._state(ctx)
+    state.holstered = True
+    state.sprint_holstered = False
+    state.stow_kind = None
+    state.sprinting_now = True
+
+    core.execute(ctx, holster._sprint_surge_logic)
+    assert state.stow_kind == "surge"
+    assert holster._boost_active(ctx) is True
+    core.execute(ctx, holster._apply_speed_boost, ctx, pawn, True)
+    core._apply_speed(ctx, pawn)
+    assert pawn.GroundSpeed > 440.0
+
+
+def test_holstered_shift_does_nothing_when_not_sprinting():
+    pawn = _Pawn(physics=core.PHYS_WALKING, ground=440.0)
+    pawn.Weapon = None
+    ctx = PlayerContext(
+        key=PlayerKey(1, 32),
+        role=ExecutionRole.LOCAL_HOST,
+        controller=_PC(),
+        pawn=pawn,
+        clock=10.0,
+        pawn_generation=1,
+    )
+    state = holster._state(ctx)
+    state.holstered = True
+    state.sprinting_now = False
+    state.last_sprint_active = -100.0
+    state.last_tap = -100.0
+
+    core.execute(ctx, holster._sprint_surge_logic)
+    assert state.stow_kind is None
+    assert holster._boost_active(ctx) is False
+
+
 def test_host_surge_force_start_raises_groundspeed():
     pawn = _Pawn(physics=core.PHYS_WALKING, ground=440.0)
     ctx = _remote(pawn)
@@ -407,7 +455,7 @@ def test_requester_slide_coasts_when_forward_released(monkeypatch):
     assert pawn.CrouchedPct > 0.5
     assert pawn.Velocity.X > 400.0
     assert pawn.Velocity.Y == pytest.approx(0.0, abs=0.01)
-    assert pawn.Acceleration.X == pytest.approx(pawn.AccelRate)
+    assert pawn.Acceleration.X == pytest.approx(slide._COAST_PUSH)
     assert pawn.Acceleration.Y == pytest.approx(0.0)
 
 
@@ -436,7 +484,7 @@ def test_host_replayed_move_restores_slide_after_brake():
         assert pawn.CrouchedPct == pytest.approx(2.2)
         assert pawn.Velocity.Y == pytest.approx(2.2 * pawn.GroundSpeed, abs=1.0)
         assert pawn.Velocity.X == pytest.approx(0.0, abs=0.01)
-        assert pawn.Acceleration.Y == pytest.approx(pawn.AccelRate)
+        assert pawn.Acceleration.Y == pytest.approx(slide._COAST_PUSH)
     finally:
         REGISTRY.retire(ctx, "test")
 
@@ -593,3 +641,133 @@ def test_slide_end_always_uncrouches():
     core.execute(ctx, end)
     assert pawn.bWantsToCrouch is False
     assert pawn.bIsCrouched is False
+    assert pawn.CrouchedPct == pytest.approx(slide._JUSO_CROUCH_PCT)
+
+
+def test_joiner_slide_meter_ignores_height_noise():
+    """A dropping Z used to refill CrouchedPct. The meter only drains."""
+    cp = 2.25
+    for _ in range(30):
+        nxt = slide._decay_juso_pct(cp, -4.0, 1.0 / 60.0)
+        assert nxt < cp
+        cp = nxt
+    climbed = slide._decay_juso_pct(2.25, 40.0, 1.0 / 60.0)
+    flat = slide._decay_juso_pct(2.25, 0.0, 1.0 / 60.0)
+    assert climbed < flat < 2.25
+
+
+def test_slide_meter_never_refills_and_clears():
+    from Modern_Movement import hudfx
+
+    hudfx.slide_end()
+    hudfx.slide_momentum(1.0)
+    hudfx.slide_momentum(0.4)
+    hudfx.slide_momentum(0.9)
+    assert hudfx._slide_hud["v"] == pytest.approx(0.4)
+    hudfx.slide_end()
+    assert hudfx._slide_hud["on"] is False
+    assert hudfx._slide_hud["v"] == pytest.approx(0.0)
+
+
+def test_joiner_ground_dash_leaves_walking(monkeypatch):
+    """A standing joiner dash must leave the ground. Walking was eating the burst."""
+    dash._CLIENT_DASH = None
+    pawn = _Pawn(physics=core.PHYS_WALKING)
+    pawn.Acceleration = _Vec(0.0, 0.0, 0.0)
+    pc = _PC()
+    ctx = PlayerContext(
+        key=PlayerKey(1, 21),
+        role=ExecutionRole.LOCAL_REQUESTER,
+        controller=pc,
+        pawn=pawn,
+        clock=10.0,
+        pawn_generation=1,
+    )
+    sent = []
+    def _write(p, x, y, z=None):
+        p.Velocity.X = float(x)
+        p.Velocity.Y = float(y)
+        p.Velocity.Z = float(p.Velocity.Z if z is None else z)
+
+    monkeypatch.setattr(dash.core, "local_context", lambda: ctx)
+    monkeypatch.setattr(dash.core, "set_velocity", _write)
+    monkeypatch.setattr(dash.hudfx, "dash_arrows", lambda *_a, **_k: None)
+    monkeypatch.setattr(dash.fx, "play_sound", lambda *_a, **_k: None)
+    monkeypatch.setattr("Modern_Movement.coop_rpc.is_requester", lambda _ctx: True)
+    monkeypatch.setattr(
+        "Modern_Movement.coop_rpc.call_host",
+        lambda fn, *args: sent.append((getattr(fn, "__name__", ""), args)),
+    )
+    dash._dash_request()
+    assert pawn.Physics == core.PHYS_FALLING
+    assert pawn.Velocity.X > 1000.0
+    assert pawn.Velocity.Z > 0.0
+    assert dash._CLIENT_DASH is not None
+    assert dash._CLIENT_DASH["vz"] > 0.0
+    assert sent and sent[0][0] == "server_dash"
+    assert sent[0][1][2] > 0.0
+    dash.host_apply_dash(ctx, *sent[0][1])
+    assert pawn.Physics == core.PHYS_FALLING
+    dash._service_host_dashes(1.0 / 60.0)
+    assert pawn.Velocity.Z > 0.0
+
+
+def test_joiner_dash_cooldown_fills_ready_hex(monkeypatch):
+    """A joiner dash waits out the cooldown and the ready hex fills during that wait."""
+    from Modern_Movement import hudfx
+
+    dash._CLIENT_DASH = None
+    dash.cooldown_slider.value = 2
+    hudfx.pip_clear()
+    pawn = _Pawn(physics=core.PHYS_FALLING)
+    pc = _PC()
+    ctx = PlayerContext(
+        key=PlayerKey(1, 23),
+        role=ExecutionRole.LOCAL_REQUESTER,
+        controller=pc,
+        pawn=pawn,
+        clock=20.0,
+        pawn_generation=1,
+    )
+    sent = []
+    previous_clock = core.clock
+    core.clock = 20.0
+    monkeypatch.setattr(dash.core, "local_context", lambda: ctx)
+    monkeypatch.setattr(dash.hudfx, "dash_arrows", lambda *_a, **_k: None)
+    monkeypatch.setattr(dash.fx, "play_sound", lambda *_a, **_k: None)
+    monkeypatch.setattr("Modern_Movement.coop_rpc.is_requester", lambda _ctx: True)
+    monkeypatch.setattr(
+        "Modern_Movement.coop_rpc.call_host",
+        lambda fn, *args: sent.append(getattr(fn, "__name__", "")),
+    )
+    try:
+        dash._dash_request()
+        assert sent == ["server_dash"]
+        dash._dash_request()
+        assert sent == ["server_dash"]
+
+        ctx.clock = 20.2
+        core.execute(ctx, dash._service_client_dash, 1.0)
+        assert dash._CLIENT_DASH is None
+        assert dash._state(ctx).last_end == pytest.approx(20.2)
+
+        core.clock = 21.0
+        dash._dash_request()
+        assert sent == ["server_dash"]
+
+        ctx.clock = 21.0
+        core.execute(ctx, dash._update_pip)
+        assert hudfx._pip is not None
+        assert hudfx._pip["p"] == pytest.approx((21.0 - 20.2) / 2.0, abs=0.02)
+
+        dash._presentation("state", {"active": False, "cooldown_left": 0.0})
+        assert hudfx._pip is not None
+        assert "p" in hudfx._pip
+
+        core.clock = 22.3
+        dash._dash_request()
+        assert sent == ["server_dash", "server_dash"]
+    finally:
+        core.clock = previous_clock
+        dash._CLIENT_DASH = None
+        hudfx.pip_clear()

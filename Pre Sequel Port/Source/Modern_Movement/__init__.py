@@ -718,6 +718,7 @@ _FEATURE_SPECS = [
     ("Sprint Surge", "surge", "Press sprint again while sprinting to holster your weapon and receive a speed boost."),
     ("Mantle/Vault", "mantle", "Allows for mantling ledges and various obstacles by pressing or holding jump while airborne."),
     ("Slide", "slide", "Crouch while sprinting to slide. The more momentum you bring, the further you go."),
+    ("Surface", "surfacefx", "Dust, sparks, splash, and a cool air burst that follow the ground and your dashes."),
 ]
 if _game.is_bl2():
     _FEATURE_SPECS.append(

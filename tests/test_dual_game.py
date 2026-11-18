@@ -27,7 +27,12 @@ def _ctx(role=ExecutionRole.LOCAL_STANDALONE):
         JumpZ=630.0,
         Class=SimpleNamespace(Name="WillowPlayerPawn"),
     )
-    pc = SimpleNamespace(bDuck=0, Pawn=pawn, PlayerInput=SimpleNamespace(PressedKeys=[], Bindings=[]))
+    pc = SimpleNamespace(
+        bDuck=0,
+        Pawn=pawn,
+        PlayerInput=SimpleNamespace(PressedKeys=[], Bindings=[]),
+        PlayerReplicationInfo=SimpleNamespace(PlayerID=4),
+    )
     return PlayerContext(
         key=PlayerKey(1, 4),
         role=role,
@@ -96,6 +101,58 @@ def test_bl2_slam_dives(monkeypatch):
     assert slam._slam is not None
     assert ctx.pawn.Velocity.Z == pytest.approx(-float(slam.speed_slider.value))
     assert ctx.pawn.Velocity.X == pytest.approx(200.0 * slam._HORIZONTAL_KEEP)
+
+
+def test_held_crouch_slides_out_of_slam(monkeypatch):
+    """A slam from a new crouch press still dives. Holding crouch through it slides away."""
+    from Modern_Movement.features import slide
+    from Modern_Movement.runtime import REGISTRY
+
+    monkeypatch.setattr(game, "_cached", "BL2")
+    monkeypatch.setattr(slam, "_crouch_key_down", lambda _pc: True)
+    ctx = _ctx()
+    observed = REGISTRY.observe(ctx.controller, ctx.role, 10.0, ctx.pawn)
+    try:
+        def run():
+            slam._start(observed.controller, observed.pawn)
+            slam._impact(observed.controller, observed.pawn)
+
+        core.execute(observed, run)
+        assert slide._state(observed).slide is not None
+        assert observed.pawn.Velocity.X > 50.0
+    finally:
+        REGISTRY.retire(observed, "test")
+        slam._SLAM_CARRY = None
+
+
+def test_chain_landing_rejects_a_tap_and_accepts_a_real_jump():
+    from Modern_Movement.features import slide
+
+    previous = slide.core.clock
+    try:
+        slide.core.clock = 20.0
+        assert slide._chain_air_ok({"at": 20.0}) is False
+        assert slide._chain_air_ok({"at": 20.0 - slide._CHAIN_MIN_AIR + 0.05}) is False
+        assert slide._chain_air_ok({"at": 20.0 - slide._CHAIN_MIN_AIR - 0.01}) is True
+    finally:
+        slide.core.clock = previous
+
+
+def test_slide_jump_hold_blocks_slam_press():
+    """The crouch held through a slide jump is not a new slam press."""
+    from Modern_Movement.features import slide
+    from Modern_Movement.runtime import REGISTRY
+    from unrealsdk.hooks import Block
+
+    ctx = _ctx()
+    ctx.pawn.Physics = core.PHYS_FALLING
+    observed = REGISTRY.observe(ctx.controller, ctx.role, 10.0, ctx.pawn)
+    try:
+        slide._state(observed).chain = {"dir": (1.0, 0.0), "speed": 800.0}
+        assert slide._pre_duck_pressed(ctx.controller, None, None, None) is Block
+        assert slide._state(observed).slam_bank is None
+    finally:
+        REGISTRY.retire(observed, "test")
 
 
 def test_host_slam_hold_matches_dive():

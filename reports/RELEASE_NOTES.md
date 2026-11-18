@@ -3,7 +3,7 @@
 Next minor after the shipped Pre-Sequel package 3.61.2. The same file runs in Borderlands 2 and Borderlands: The Pre-Sequel. Double Jump, Dash, Mantle, Slide, Holster, and Sprint Surge ship in both games. Borderlands 2 also gets Slam. The Pre-Sequel keeps native Oz slam. Pre-release work stays on 3.62.0.
 
 **Package:** `dist/Modern_Movement.sdkmod`  
-**SHA-256:** `786eec2bbde78a7747cf7c559a45c054972ed7fc0318dd8c360ea5cdf8819e9a`
+**SHA-256:** `ec3927d7f0a25eb3c51b1537276a3d49c6658a1c3c2f257fdd2041bb3ffa62fc`
 
 Install this exact file on every peer who wants the abilities, in that game's `sdk_mods` folder. Confirm the hash against `dist/Modern_Movement.sdkmod.sha256` before enabling it. Use the same file on Borderlands 2 and on The Pre-Sequel.
 
@@ -26,6 +26,7 @@ Install this exact file on every peer who wants the abilities, in that game's `s
 | Dash | Ground or air dash, ready pip, optional damage reduction and perfect-dodge burst |
 | Mantle / Vault | Ledge climbs and low-obstacle vaults |
 | Slide | Sprint-crouch slide. Speed and distance are separate. Releasing forward keeps the coast |
+| Surface | Dust, sparks, splash, and snow from the ground you slide on, plus a cool wind burst in the air |
 | Holster | Manual holster and sprint holster |
 | Sprint Surge | Second sprint press for a speed boost that ramps up |
 | Slam | Borderlands 2. Crouch in the air to dive, with a landing blast and indicator |
@@ -54,6 +55,16 @@ These notes are the whole 3.62.0 delta from the shipped 3.61.2 package.
 - Joiner slides keep the entry-direction coast after forward is released. `server_slide_enter` sends that direction with the crouched percent, Slide Distance, and Slide Speed. The joiner and the host re-apply the speed, including after PlayerMove.
 - Releasing crouch cancels a joiner slide and tells the host to stand that body back up. The host copy waits for the exit.
 - Fast travel and level changes send a fresh HELLO. An empty loading roster does not drop peers. Slide, dash, mantle, and slam holds from the old pawn are dropped.
+- Joiner slide meters drain steadily and clear when the slide ends. A noisy height no longer freezes, refills, or jitters the bar, and it no longer leaves them sliding afterward.
+- Joiner dashes work from a standstill on the ground. The dash leaves walking instead of requiring them to already be in the air.
+- Sprint Surge starts when you press sprint again while already holstered, the same as with the gun out.
+- Joiner dashes wait out the dash cooldown. The ready hex fills during that wait, and mashing dash does not fire another one early.
+- Slides are about three quarters as long, and they start losing speed earlier instead of holding full speed until the end.
+- Slides kick up the surface you are on, and an air dash leaves a cool wind burst. Other players running the mod see those effects on your body.
+- Slides no longer stutter. The coast uses a small push, and the crouch cap is the slide speed, so walking physics cannot lunge ahead and get snapped back.
+- Joiner dashes keep the fall they already have. The host hold no longer rewrites Z every tick.
+- Surface dust uses particles the game already has loaded. The slide coast does not stop to search the particle list or fire a trace.
+- Holding crouch through a slide jump slides again on landing, once the jump has actually been in the air. A hop that touches down immediately does not start another slide. A new crouch press in the air still slams, and holding crouch through that slam slides away when you land.
 
 ## Install
 

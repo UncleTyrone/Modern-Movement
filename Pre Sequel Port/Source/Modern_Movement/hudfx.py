@@ -573,17 +573,25 @@ _slide_hud = {"on": False, "v": 0.0, "shown": 0.0, "level": 0.0, "launch": None,
 
 
 def slide_momentum(v: float) -> None:
-    """Sliding, with v = 0 (about to stop) .. 1 (the speed it started at)."""
+    """Sliding, with v = 0 (about to stop) .. 1 (the speed it started at).
+
+    Once the bar is up it only shrinks. A late or noisy sample must not refill it.
+    """
     h = _slide_hud
-    if not h["on"]:
-        h["shown"] = max(0.0, min(1.0, v))
+    v = max(0.0, min(1.0, v))
+    if h["on"]:
+        v = min(float(h["v"]), v)
+    else:
+        h["shown"] = v
     h["on"] = True
     h["launch"] = None
-    h["v"] = max(0.0, min(1.0, v))
+    h["v"] = v
 
 
 def slide_end() -> None:
-    _slide_hud["on"] = False
+    h = _slide_hud
+    h["on"] = False
+    h["v"] = 0.0
 
 
 def slide_launch() -> None:
@@ -612,9 +620,10 @@ def _draw_slide(canvas) -> None:
         stretch, lift, boost = 1.0 + 0.5 * _smooth(k), -10.0 * _smooth(k), 0.6 * (1.0 - _smooth(k / 0.5))
         level = 1.0 - _smooth(k)
     else:
-        h["level"] = max(0.0, min(1.0, h["level"] + (dt / 0.1 if h["on"] else -dt / 0.2)))
+        h["level"] = max(0.0, min(1.0, h["level"] + (dt / 0.1 if h["on"] else -dt / 0.08)))
         level = _smooth(h["level"])
-        h["shown"] += (h["v"] - h["shown"]) * min(1.0, dt * 15.0)
+        chase = 28.0 if h["on"] else 40.0
+        h["shown"] += (h["v"] - h["shown"]) * min(1.0, dt * chase)
     if level <= 0.0:
         return
     v = h["shown"]

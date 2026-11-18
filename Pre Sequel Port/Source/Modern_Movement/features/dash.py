@@ -312,6 +312,21 @@ def _cancel() -> None:
     _end(pawn, "interrupted", restore=True, lock=False)
 
 
+def _surface_burst(pc, pawn, vx: float, vy: float, airborne: bool) -> None:
+    """Ground dash kicks the surface. An air dash is a cool wind burst. Never affects the dash."""
+    try:
+        from . import surfacefx
+
+        mag = math.hypot(vx, vy) or 1.0
+        if airborne:
+            surfacefx.air(pc, pawn, vx / mag, vy / mag, 1.0)
+        else:
+            surfacefx.slide(pc, pawn, 0.8)
+            surfacefx.air(pc, pawn, vx / mag, vy / mag, 0.5)
+    except Exception:  # noqa: BLE001
+        pass
+
+
 def _skim_speed(pc) -> float:
     """Upward speed for a skim that lands as a full-length dash ends (time = distance / speed)."""
     try:
@@ -350,8 +365,8 @@ def release_client() -> None:
     _CLIENT_DASH = None
 
 
-def _hold_dash(pawn, vx: float, vy: float, left: float) -> dict:
-    return {"pawn": pawn, "vx": float(vx), "vy": float(vy), "vz": 0.0, "left": float(left)}
+def _hold_dash(pawn, vx: float, vy: float, left: float, vz: float = 0.0) -> dict:
+    return {"pawn": pawn, "vx": float(vx), "vy": float(vy), "vz": float(vz), "left": float(left)}
 
 
 def host_apply_dash(ctx, vx: float, vy: float, vz: float = 0.0) -> None:
@@ -361,13 +376,22 @@ def host_apply_dash(ctx, vx: float, vy: float, vz: float = 0.0) -> None:
     mag = math.hypot(vx, vy)
     if mag < 1.0:
         return
-    # Eternal forces Z=0 during the dash hold on TPS.
-    _HOST_DASHES[ctx.key.player_id] = _hold_dash(ctx.pawn, vx, vy, _HOST_DASH_S)
+    # Ground skim is applied once below. Later ticks keep whatever Z the pawn has.
+    _HOST_DASHES[ctx.key.player_id] = _hold_dash(ctx.pawn, vx, vy, _HOST_DASH_S, vz)
 
     def apply() -> None:
-        core.set_velocity(ctx.pawn, float(vx), float(vy), 0.0)
+        try:
+            if int(ctx.pawn.Physics) == core.PHYS_WALKING:
+                core.set_physics(ctx.pawn, core.PHYS_FALLING)
+        except Exception:  # noqa: BLE001
+            pass
+        # Stamp the skim once. Later ticks must not rewrite Z: a constant Z
+        # fights gravity on the way back from the host and the joiner rubber-bands.
+        z = float(vz) if abs(float(vz)) > 1.0 else None
+        core.set_velocity(ctx.pawn, float(vx), float(vy), z)
 
     core.execute(ctx, apply)
+    _surface_burst(ctx.controller, ctx.pawn, float(vx), float(vy), abs(float(vz)) < 1.0)
 
 
 def _service_one_dash(d: dict, dt: float) -> bool:
@@ -378,9 +402,11 @@ def _service_one_dash(d: dict, dt: float) -> bool:
         if d["left"] <= 0.0:
             mag = math.hypot(d["vx"], d["vy"])
             if mag > 1.0:
-                core.set_velocity(pawn, d["vx"] / mag * 200.0, d["vy"] / mag * 200.0, -10.0)
+                # Ease the horizontal burst only. Forcing Z to -10 snapped the joiner
+                # against the host correction at the end of every dash.
+                core.set_velocity(pawn, d["vx"] / mag * 200.0, d["vy"] / mag * 200.0, None)
             return True
-        core.set_velocity(pawn, d["vx"], d["vy"], d["vz"])
+        core.set_velocity(pawn, d["vx"], d["vy"], None)
     except Exception:  # noqa: BLE001
         return True
     return False
@@ -405,6 +431,11 @@ def _service_client_dash(dt: float) -> None:
         return
     if _service_one_dash(_CLIENT_DASH, dt):
         _CLIENT_DASH = None
+        # Cooldown starts when the dash ends, same as a local dash. The ready hex fills from here.
+        state = _state()
+        state.last_end = core.clock
+        state.ready_pending = int(cooldown_slider.value) > 0
+        state.pip_on = True
 
 
 def _dash_pressed_impl(direction_code: str | None = None) -> bool:
@@ -476,6 +507,7 @@ def _dash_pressed_impl(direction_code: str | None = None) -> bool:
         _cam_start(pc, dx, dy)
     if audio_option.value and ctx.presentation:
         fx.play_sound(pc, pawn)
+    _surface_burst(pc, pawn, dx * _SPEED, dy * _SPEED, air)
     _log(
         f"air dash start: dir=({dx:.2f}, {dy:.2f}) distance={state.dash['distance']:.0f} "
         f"speed={state.dash['speed']:.0f} air={air} entry speed={entry_speed:.0f}"
@@ -600,7 +632,7 @@ def _update_pip() -> None:
             state.pip_on = False
         return
     cool = float(int(cooldown_slider.value))
-    if state.dash is not None:
+    if state.dash is not None or _CLIENT_DASH is not None:
         hudfx.pip_progress(0.0)
         state.pip_on = True
     elif state.pip_on:
@@ -713,6 +745,12 @@ def _presentation(event: str, payload: dict) -> None:
     # Never call pip_ready() from network state digests — that flashed the hex on every
     # jump/land when double-jump snapshots changed. Local _update_pip owns the ready flash.
     if not pip_option.value:
+        return
+    # Joiner dashes are a local hold. Host snapshots never record that cooldown, and a
+    # digest with cooldown_left 0 was clearing the hex every time it arrived.
+    from .. import coop_rpc
+
+    if ctx is not None and coop_rpc.is_requester(ctx):
         return
     cooldown_left = float(state_payload.get("cooldown_left", 0.0))
     cooldown = float(int(cooldown_slider.value))
@@ -913,28 +951,46 @@ def _dash_request() -> None:
         global _CLIENT_DASH
         if not enabled_option.value:
             return
+        state = _state(ctx)
+        cool = float(int(cooldown_slider.value))
+        # The local dash refuses inside _dash_pressed_impl. This path skipped that,
+        # so a joiner could tap dash again with no wait and no ready hex.
+        if _CLIENT_DASH is not None:
+            return
+        if cool > 0.0 and core.clock - state.last_end < cool:
+            return
         phys = int(pawn.Physics)
         if phys == core.PHYS_WALKING and air_only_option.value:
             return
         if phys not in (core.PHYS_FALLING, core.PHYS_WALKING):
             return
         dx, dy = _direction(pc, pawn)
+        if abs(dx) + abs(dy) < 1e-3:
+            dx, dy = core.facing(pc)
         speed = _SPEED
         vx, vy = float(dx) * speed, float(dy) * speed
-        if phys == core.PHYS_WALKING:
-            # Ground dash must leave walking clamp (same skim as local host dash).
-            try:
+        # Walking clamps a sideways burst to run speed. Leave the ground with the same
+        # skim the local dash uses, and keep that Z in the hold. Forcing Z to 0
+        # while still walking made a standing joiner dash do nothing.
+        vz = _skim_speed(pc) if phys == core.PHYS_WALKING else 0.0
+
+        def launch() -> None:
+            if phys == core.PHYS_WALKING:
                 _set_physics(pawn, core.PHYS_FALLING)
-                pawn.Velocity.Z = _skim_speed(pc)
-            except Exception:  # noqa: BLE001
-                pass
+                core.set_velocity(pawn, vx, vy, vz)
+            else:
+                # Air dash keeps the fall you already have. Stamping Z to 0 each
+                # tick is what made a joiner dash hitch against the host.
+                core.set_velocity(pawn, vx, vy, None)
+
+        core.execute(ctx, launch)
+        _surface_burst(pc, pawn, vx, vy, phys != core.PHYS_WALKING)
         if screen_option.value:
             hudfx.dash_arrows(pc, (dx, dy))
         if audio_option.value:
             fx.play_sound(pc, pawn)
-        core.set_velocity(pawn, vx, vy, 0.0)
-        _CLIENT_DASH = _hold_dash(pawn, vx, vy, _HOST_DASH_S)
-        coop_rpc.call_host(coop_rpc.server_dash, vx, vy, 0.0)
+        _CLIENT_DASH = _hold_dash(pawn, vx, vy, _HOST_DASH_S, vz)
+        coop_rpc.call_host(coop_rpc.server_dash, vx, vy, vz)
         return
     network.send_intent("dash", "start", {"direction": direction})
 

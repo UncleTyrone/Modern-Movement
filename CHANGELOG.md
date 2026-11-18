@@ -31,6 +31,17 @@ The last shipped Pre-Sequel package is **3.61.2**. The next minor is **3.62.0**.
 - Releasing crouch cancels a joiner slide and tells the host to stand that body back up. The host copy waits for that exit, because it does not see the joiner's crouch key.
 - Fast travel and level changes re-handshake co-op. An empty loading roster does not drop peers, and a world change or a broken token sends a fresh HELLO. Slide, dash, mantle, and slam holds from the old pawn are dropped.
 - Joiner slide length uses that player's Slide Distance. Remote double jump uses the requester's strength and extra jumps.
+- Joiner slide meters drain on a timer. Height noise no longer freezes the bar, refills it, stretches the slide, or leaves the fast crouch cap on after it ends.
+- Joiner ground dashes leave walking with the same skim as a local dash, so standing still and dashing forward works. Air-only stays an option.
+- Sprint Surge starts from a second sprint press while the weapon is already holstered, the same as with the gun out.
+- Joiner dashes use the same cooldown as a local dash. The ready hex fills while it waits, and another dash does not start until that wait is over.
+- Slides last about three quarters as long. They lose speed on that shorter clock, so the slowdown starts earlier.
+- Sliding kicks up the ground you are on (dust, sparks, splash, snow). An air dash and a double jump leave a cool wind burst. Each machine draws those trails locally, including on other players.
+- Slides no longer stutter. The coast pushes with a small acceleration instead of the full run acceleration, and the crouch speed cap matches the slide so the engine cannot lunge and snap back.
+- Joiner dashes keep their vertical speed. The hold no longer stamps a fixed Z every tick or a downward yank at the end, which was the rubber-band.
+- Surface effects use the game's own dust, impact, and smoke systems. A slide does not scan every particle or spawn a trace weapon, which was hitching the coast.
+- Holding crouch through a slide jump lands in another slide, so a sprint-slide-jump can keep going. That held key is no longer a slam. A new crouch press in the air still slams, and holding crouch through the impact slides out of it.
+- A slide cancel has to stay in the air for a moment. Jumping and touching ground again immediately no longer starts another slide, so the chain cannot be tapped as fast as the button allows.
 
 ## [3.61.2] — shipped Pre-Sequel baseline
 
