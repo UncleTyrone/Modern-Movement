@@ -445,7 +445,13 @@ def _tick(obj, args, _ret, _func) -> None:
         return
 
     world = _world_info(obj)
-    REGISTRY.observe_world(world)
+    if REGISTRY.observe_world(world):
+        try:
+            from . import network
+
+            network.on_world_changed()
+        except Exception as e:  # noqa: BLE001
+            logging.warning(f"[Modern Movement] travel reset failed: {e!r}")
     now = _now(world, dt, role.local)
     try:
         pawn = obj.Pawn
@@ -737,6 +743,19 @@ def _detach_context(ctx: PlayerContext, pawn, reason: str) -> None:
             camera.reset(ctx.controller, pawn)
         except Exception:  # noqa: BLE001
             pass
+    # Fast travel respawns the pawn. Drop host holds so the new body is not coasted
+    # with a slide, dash, or mantle that belonged to the old one.
+    try:
+        from .features import dash, mantle, slam, slide
+
+        slide.release_player(ctx.key.player_id)
+        dash.release_player(ctx.key.player_id)
+        mantle.release_player(ctx.key.player_id)
+        slam.release_player(ctx.key.player_id)
+        if ctx.local:
+            dash.release_client()
+    except Exception:  # noqa: BLE001
+        pass
 
 
 def on_enable() -> None:

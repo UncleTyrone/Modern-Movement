@@ -1,7 +1,7 @@
 [project]
 name = "Modern_Movement"
-version = "3.62.2"
-description = "Modern Movement for Borderlands: The Pre-Sequel with host-authoritative co-op support (optional for peers without the mod)."
+version = "3.62.0"
+description = "Modern Movement 3.62.0 for Borderlands 2 and The Pre-Sequel. Next minor after the shipped 3.61.2 Pre-Sequel package."
 readme = false
 requires-python = ">=3.10"
 authors = [
@@ -13,7 +13,7 @@ authors = [
 Modern_Movement = "Modern_Movement:build_mod"
 
 [tool.sdkmod]
-supported_game = "TPS"
+supported_game = "BL2,TPS"
 coop = "Optional"
 networking_min = "1.2"
 package_root = "Modern_Movement"

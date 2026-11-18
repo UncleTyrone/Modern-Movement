@@ -1,13 +1,13 @@
-# Modern Movement (Borderlands: The Pre-Sequel)
+# Modern Movement 3.62.0 (Borderlands 2 and The Pre-Sequel)
 
-Double Jump, Dash, Mantle, Slide, Holster, and Sprint Surge — one Willow2 SDK package with host-authoritative co-op.
+Next minor after the shipped Pre-Sequel package 3.61.2. Double Jump, Dash, Mantle, Slide, Holster, and Sprint Surge, with host-authoritative co-op. Borderlands 2 also gets Slam. The Pre-Sequel keeps its own Oz slam. Pre-release edits stay on 3.62.0.
 
 ## Install
 
 See [docs/INSTALL.md](docs/INSTALL.md). Short version:
 
 1. Take `dist/Modern_Movement.sdkmod` (verify SHA-256 in `dist/Modern_Movement.sdkmod.sha256`).
-2. Copy it into your Willow2 `sdk_mods` folder.
+2. Copy it into the game's `sdk_mods` folder (Borderlands 2 or The Pre-Sequel).
 3. Enable the mod; check key bindings at the bottom of the mod options.
 
 ## Features
@@ -20,6 +20,7 @@ See [docs/INSTALL.md](docs/INSTALL.md). Short version:
 | Slide | Sprint-crouch slides. On co-op, releasing forward keeps the coast |
 | Holster | Manual + sprint holster |
 | Sprint Surge | Second sprint press for a ramping speed boost |
+| Slam | Borderlands 2 only. Crouch in the air to slam. The Pre-Sequel uses native Oz slam |
 
 ## Co-op
 

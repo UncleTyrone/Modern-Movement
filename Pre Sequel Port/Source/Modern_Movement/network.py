@@ -216,10 +216,54 @@ def _world_now() -> float:
         return time.monotonic()
 
 
+_PEER_MISS_GRACE = 8.0
+_peer_missing_since: dict[int, float] = {}
+
+
 def _new_session() -> None:
     global _session
     _session = secrets.token_hex(8)
     _host_peers.clear()
+    _peer_missing_since.clear()
+
+
+def _reset_client_handshake() -> None:
+    """Drop the client session so the next tick sends a fresh HELLO.
+
+    TimeSeconds often restarts at 0 after a load. last_hello must be cleared too,
+    or the hello wait treats the new clock as still inside the old interval.
+    """
+    _client.session = ""
+    _client.token = ""
+    _client.ready = False
+    _client.desync_safe = True
+    _client.pending.clear()
+    _client.host_player_id = None
+    _client.pawn_token = 0
+    _client.send_sequence = 1
+    _client.acknowledgement = 0
+    _client.receive = SequenceWindow()
+    _client.last_hello = -100.0
+    _client.last_heartbeat = -100.0
+    _client.mirror.clear()
+    _client.mirror_digest = ""
+
+
+def on_world_changed() -> None:
+    """Level change / fast travel. Both sides forget the old session and re-handshake."""
+    _new_session()
+    _reset_client_handshake()
+    try:
+        from .features import dash, mantle, slam, slide
+
+        slide.release_player(None)
+        dash.release_player(None)
+        dash.release_client()
+        mantle.release_player(None)
+        slam.release_player(None)
+    except Exception:  # noqa: BLE001
+        _log("travel hold clear failed")
+    diagnostics.event("mm.net.travel_reset")
 
 
 def _host_peer(pri: Any) -> Peer | None:
@@ -401,9 +445,7 @@ def _from_host(raw: str) -> None:
         reason = message.payload.get("reason")
         if reason in (Reason.STALE_PAWN.value, Reason.STALE_RULES.value, Reason.BAD_TOKEN.value):
             # Force a fresh HELLO rather than sitting forever in DESYNC_SAFE.
-            _client.session = ""
-            _client.ready = False
-            _client.desync_safe = True
+            _reset_client_handshake()
         _dispatch_result("reject", message.payload)
     elif message.kind == Kind.END:
         _dispatch_result("end", message.payload)
@@ -435,7 +477,7 @@ def _handle_hello(sender: Any, message: Envelope) -> None:
             "protocol": 1,
             "rules": _rules.payload(),
             "rules_hash": _rules.hash,
-            "package": "3.62.2",
+            "package": "3.62.0",
         },
         request_sequence=message.sequence,
     )
@@ -607,19 +649,25 @@ def _dispatch_presentation(event: str, payload: dict[str, Any]) -> None:
 
 
 def _enter_desync(reason: str) -> None:
-    _client.desync_safe = True
-    _client.ready = False
+    """A gap or a dead token cannot be patched mid-travel. HELLO again instead."""
     _dispatch_presentation("desync", {})
     diagnostics.event("mm.net.desync", reason=reason)
-    if _client.session:
-        try:
-            _send_client(Kind.SNAPSHOT_REQUEST, {"reason": reason})
-        except Exception:
-            pass
+    _reset_client_handshake()
+
+
+def _hello_game() -> str:
+    try:
+        from . import game
+
+        return game.current()
+    except Exception:  # noqa: BLE001
+        return "UNSUPPORTED"
 
 
 def _hello(now: float) -> None:
-    if now - _client.last_hello < HELLO_INTERVAL:
+    elapsed = now - _client.last_hello
+    # A load that rewinds TimeSeconds must not sit inside the old hello window.
+    if _client.last_hello >= 0.0 and 0.0 <= elapsed < HELLO_INTERVAL:
         return
     _client.last_hello = now
     message = _envelope(
@@ -629,8 +677,8 @@ def _hello(now: float) -> None:
         {
             "protocol_min": 1,
             "protocol_max": 1,
-            "package": "3.62.2",
-            "game": "TPS",
+            "package": "3.62.0",
+            "game": _hello_game(),
             "rules_hash": _rules.hash,
             "boot": secrets.token_hex(4),
         },
@@ -688,6 +736,10 @@ def _poll_roster() -> None:
         pris = list(ENGINE.GetCurrentWorldInfo().GRI.PRIArray)
     except Exception:
         return
+    # Fast travel empties the roster for a while. Dropping every peer here is what
+    # left joiners with a dead token and no HELLO afterwards.
+    if not pris:
+        return
     local = _local_pri()
     active: set[int] = set()
     for pri in pris:
@@ -695,9 +747,16 @@ def _poll_roster() -> None:
         if pid is None or pri == local:
             continue
         active.add(pid)
+    now = time.monotonic()
     for pid in list(_host_peers):
-        if pid not in active:
-            _host_peers.pop(pid, None)
+        if pid in active:
+            _peer_missing_since.pop(pid, None)
+            continue
+        since = _peer_missing_since.setdefault(pid, now)
+        if now - since < _PEER_MISS_GRACE:
+            continue
+        _host_peers.pop(pid, None)
+        _peer_missing_since.pop(pid, None)
 
 
 def all_peers_ready() -> bool:
@@ -738,9 +797,8 @@ def disable() -> None:
             pass
     _enabled = False
     _host_peers.clear()
-    _client.pending.clear()
-    _client.ready = False
-    _client.desync_safe = True
+    _peer_missing_since.clear()
+    _reset_client_handshake()
 
 
 def networking_available() -> bool:

@@ -1,4 +1,4 @@
-"""Host RPCs for Willow co-op (Eternal dash hold, slide coast, double jump, surge, mantle).
+"""Host RPCs for Willow co-op (Eternal dash hold, slide coast, double jump, surge, mantle, BL2 slam).
 
 Joiners predict locally and call @host. The listen host writes the same values on
 sender.Owner.Pawn. A client-only Velocity write rubber-bands; a host-only write often
@@ -108,6 +108,7 @@ def server_slide_enter(
     distance_percent: float = 80.0,
     dir_x: float = 0.0,
     dir_y: float = 0.0,
+    speed_percent: float = 100.0,
 ) -> None:
     """Host raises CrouchedPct and coasts the joiner along their entry direction.
 
@@ -128,6 +129,7 @@ def server_slide_enter(
             float(distance_percent),
             float(dir_x),
             float(dir_y),
+            float(speed_percent),
         )
         diagnostics.event("mm.rpc.slide_enter", result="ok", player=ctx.key.player_id)
     except Exception as exc:  # noqa: BLE001
@@ -208,6 +210,48 @@ def server_mantle_end() -> None:
     mantle.host_end_mantle(ctx)
 
 
+def _slam_allowed(ctx) -> bool:
+    from . import game
+
+    return game.is_bl2() and ctx is not None
+
+
+@host.json_message
+def server_slam_begin(vx: float, vy: float, vz: float) -> None:
+    """BL2: host writes the joiner's slam dive until they land."""
+    pc = _sender_pc(server_slam_begin)
+    ctx = _host_context(pc)
+    if not _slam_allowed(ctx):
+        return
+    from .features import slam
+
+    slam.host_begin_slam(ctx, float(vx), float(vy), float(vz))
+
+
+@host.message
+def server_slam_end() -> None:
+    """BL2: joiner cancelled the slam before impact."""
+    pc = _sender_pc(server_slam_end)
+    ctx = _host_context(pc)
+    if not _slam_allowed(ctx):
+        return
+    from .features import slam
+
+    slam.host_end_slam(ctx)
+
+
+@host.json_message
+def server_slam_impact(power: float) -> None:
+    """BL2: host stops the dive and runs the landing blast once."""
+    pc = _sender_pc(server_slam_impact)
+    ctx = _host_context(pc)
+    if not _slam_allowed(ctx):
+        return
+    from .features import slam
+
+    slam.host_impact_slam(ctx, float(power))
+
+
 def call_host(fn, *args) -> bool:
     """Invoke a @host RPC; returns False if Networking cannot deliver.
 
@@ -243,6 +287,9 @@ server_speed_mult.network_identifier = "ModernMovement:Speed"
 server_holster.network_identifier = "ModernMovement:Holster"
 server_mantle_start.network_identifier = "ModernMovement:MantleStart"
 server_mantle_end.network_identifier = "ModernMovement:MantleEnd"
+server_slam_begin.network_identifier = "ModernMovement:SlamBegin"
+server_slam_end.network_identifier = "ModernMovement:SlamEnd"
+server_slam_impact.network_identifier = "ModernMovement:SlamImpact"
 
 NETWORK_FUNCTIONS = [
     server_dash,
@@ -253,4 +300,7 @@ NETWORK_FUNCTIONS = [
     server_holster,
     server_mantle_start,
     server_mantle_end,
+    server_slam_begin,
+    server_slam_end,
+    server_slam_impact,
 ]

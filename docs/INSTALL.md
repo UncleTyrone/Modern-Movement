@@ -1,9 +1,9 @@
-# Modern Movement (TPS co-op) installation
+# Modern Movement installation
 
 ## Install
 
 1. Build or obtain `dist/Modern_Movement.sdkmod` and confirm the SHA-256 in `dist/Modern_Movement.sdkmod.sha256`.
-2. Copy that file into your Willow2 mods folder (`sdk_mods/Modern_Movement.sdkmod`).
+2. Copy that file into the game's mods folder (`sdk_mods/Modern_Movement.sdkmod`) for Borderlands 2 or The Pre-Sequel.
 3. Friends without the mod can still join; their movement stays vanilla. Anyone who has the mod keeps their own abilities.
 
 ## Remove duplicate packages
@@ -18,7 +18,7 @@ The TPS port uses the canonical root name `Modern_Movement`. Before enabling:
 
 | Component | Requirement |
 |-----------|-------------|
-| Game | Borderlands: The Pre-Sequel only |
+| Game | Borderlands 2 and Borderlands: The Pre-Sequel. Slam loads only in Borderlands 2 |
 | Networking | Optional (1.2+). Movement/HUD work without it; each player runs the mod locally. |
 | mods_base | Version compatible with your mod manager build |
 | texloader | Optional TPS-capable fork for PNG HUD textures |

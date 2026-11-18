@@ -116,6 +116,10 @@ distance_slider = SliderOption(
     "Slide Distance (%)", value=90, min_value=50, max_value=140, step=5, is_integer=True,
     description="Fine trim for slide length. Higher = longer coast on flat ground.",
 )
+speed_slider = SliderOption(
+    "Slide Speed (%)", value=120, min_value=70, max_value=180, step=5, is_integer=True,
+    description="How fast the slide moves. 100 is the original coast. Distance still sets how long it lasts.",
+)
 indicator_option = BoolOption(
     "Slide Indicator", True, "On", "Off",
     description="A bar below the crosshair shows how much momentum your slide has left to carry into a slide jump.",
@@ -341,6 +345,23 @@ def _distance_scale(distance_percent: float) -> float:
     return max(0.5, min(1.4, float(distance_percent) / 100.0))
 
 
+def _speed_scale(speed_percent: float) -> float:
+    """Map Slide Speed (%) onto coast speed. 100 = original. Independent of distance."""
+    return max(0.7, min(1.8, float(speed_percent) / 100.0))
+
+
+def _coast_velocity(cp: float, walk: float, speed_percent: float) -> float:
+    return float(cp) * float(walk) * _speed_scale(speed_percent)
+
+
+def release_player(player_id: int | None) -> None:
+    """Drop host slide holds. None clears every joiner (level change)."""
+    if player_id is None:
+        _HOST_SLIDES.clear()
+        return
+    _HOST_SLIDES.pop(int(player_id), None)
+
+
 def _unit_dir(dx: float, dy: float) -> tuple[float, float]:
     mag = math.hypot(dx, dy)
     if mag < 1e-3:
@@ -352,7 +373,7 @@ def _coast_slide(pawn, dx: float, dy: float, speed: float) -> None:
     """Keep sliding after movement keys are released.
 
     Walking physics brakes when Acceleration is zero. Re-applying the slide
-    vector is what lets the local player let go of crouch and keep moving.
+    vector is what keeps the coast going after forward is released.
     """
     if pawn is None or speed <= 1.0:
         return
@@ -374,6 +395,7 @@ def host_enter_juso(
     distance_percent: float = 80.0,
     dir_x: float = 0.0,
     dir_y: float = 0.0,
+    speed_percent: float = 100.0,
 ) -> None:
     """Listen-host: raise CrouchedPct and remember the joiner's entry direction."""
     if ctx.pawn is None:
@@ -391,6 +413,7 @@ def host_enter_juso(
         "old_z": None,
         "elapsed": 0.0,
         "distance": float(distance_percent),
+        "speed_percent": float(speed_percent),
         "dir": (dx, dy),
     }
 
@@ -419,6 +442,15 @@ def host_exit_juso(ctx) -> None:
             ctx.pawn.CrouchedPct = _JUSO_CROUCH_PCT
         except Exception:  # noqa: BLE001
             pass
+        try:
+            ctx.pawn.ShouldCrouch(False)
+        except Exception:  # noqa: BLE001
+            pass
+        try:
+            if ctx.controller is not None:
+                ctx.controller.bDuck = 0
+        except Exception:  # noqa: BLE001
+            pass
 
     core.execute(ctx, apply)
 
@@ -441,7 +473,8 @@ def _service_host_slides(dt: float) -> None:
             cp = _decay_juso_pct(float(d["cp"]), z_diff, dt / scale)
             d["old_z"] = z
             d["cp"] = cp
-            pawn.CrouchedPct = cp
+            speed_percent = float(d.get("speed_percent", 100.0))
+            pawn.CrouchedPct = cp * _speed_scale(speed_percent)
             # TP look = engine crouch locomotion (juso never offsets Mesh). Keep it latched.
             try:
                 pawn.ShouldCrouch(True)
@@ -455,7 +488,7 @@ def _service_host_slides(dt: float) -> None:
             else:
                 # Same coast as the local slide: no movement keys must not brake them.
                 dx, dy = d.get("dir", (0.0, 0.0))
-                _coast_slide(pawn, dx, dy, cp * _walk_speed(pawn))
+                _coast_slide(pawn, dx, dy, _coast_velocity(cp, _walk_speed(pawn), speed_percent))
         except Exception:  # noqa: BLE001
             done.append(pid)
     for pid in done:
@@ -530,6 +563,8 @@ def _start(pc, pawn, reason: str) -> None:
         walk * max_speed_slider.value / 100.0,
     )
     start_speed = max(start_speed, walk * min_speed_slider.value / 100.0)
+    speed_percent = float(speed_slider.value)
+    start_speed *= _speed_scale(speed_percent)
     core.begin("slide", ctx=ctx)
     loc = (float(pawn.Location.X), float(pawn.Location.Y))
     _stop_carry()                                # a new slide replaces any carry still running
@@ -542,6 +577,7 @@ def _start(pc, pawn, reason: str) -> None:
         "last": loc,
         "commanded": 0.0,
         "stalled": 0,
+        "speed_percent": speed_percent,
         # Joiners are "local" but networked — location stall was ending slides in ~1 frame.
         "timed": ctx is not None
         and ctx.role in (ExecutionRole.LOCAL_REQUESTER, ExecutionRole.REMOTE_AUTHORITY),
@@ -595,6 +631,7 @@ def _start(pc, pawn, reason: str) -> None:
                 float(distance_slider.value),
                 float(dx),
                 float(dy),
+                float(speed_percent),
             )
     except Exception:  # noqa: BLE001
         pass
@@ -1248,17 +1285,21 @@ def _run(pc, pawn, dt) -> None:
             _end(pawn, "off_cliff", pc)
             return
 
+    # The player at the keyboard cancels by releasing crouch, same as a local slide.
+    # The host's copy of a joiner rarely has their bDuck, so it stays down until
+    # the joiner's exit RPC. Re-latching the owner hid that release and the slide
+    # only ran out on the timer.
+    owns_crouch = ctx is None or ctx.local
+    if owns_crouch and not _hit_recently() and not _crouching(pc, pawn):
+        _end(pawn, "stood up", pc)
+        return
     if not _crouching(pc, pawn):
-        # juso: keep duck latched while sliding. Listen-host rarely sees joiner bDuck.
         try:
             if pc is not None:
                 pc.bDuck = 1
             pawn.ShouldCrouch(True)
         except Exception:  # noqa: BLE001
             pass
-        if not timed and not _hit_recently() and not _crouching(pc, pawn):
-            _end(pawn, "stood up", pc)
-            return
 
     x, y = float(pawn.Location.X), float(pawn.Location.Y)
     dx, dy = s["dir"]
@@ -1277,9 +1318,10 @@ def _run(pc, pawn, dt) -> None:
         cp = _decay_juso_pct(cp, z_diff, dt / scale)
         s["old_z"] = z
         s["cp"] = cp
-        s["speed"] = cp * _walk_speed(pawn)
+        speed_percent = float(s.get("speed_percent", speed_slider.value))
+        s["speed"] = _coast_velocity(cp, _walk_speed(pawn), speed_percent)
         try:
-            pawn.CrouchedPct = cp
+            pawn.CrouchedPct = cp * _speed_scale(speed_percent)
             state.cp_written = cp
         except Exception:  # noqa: BLE001
             pass
@@ -1328,7 +1370,8 @@ def _run(pc, pawn, dt) -> None:
         _end(pawn, "timed out", pc)
         return
     walk = _walk_speed(pawn)
-    s["speed"] = min(s["speed"] + accel * dt, walk * max_speed_slider.value / 100.0)
+    cap_scale = _speed_scale(float(s.get("speed_percent", speed_slider.value)))
+    s["speed"] = min(s["speed"] + accel * dt, walk * max_speed_slider.value / 100.0 * cap_scale)
     if s["speed"] <= _crouch_walk_speed(pawn):
         _end(pawn, "slowed", pc)
         return
@@ -1654,7 +1697,8 @@ def _post_player_move(obj, args, _ret, _func):
         slide = state.slide
         if slide is not None:
             if slide.get("timed") and "cp" in slide:
-                ctx.pawn.CrouchedPct = float(slide["cp"])
+                speed_percent = float(slide.get("speed_percent", 100.0))
+                ctx.pawn.CrouchedPct = float(slide["cp"]) * _speed_scale(speed_percent)
                 # Joiner: PlayerMove already braked the released key. Put the coast back.
                 dx, dy = slide.get("dir", (0.0, 0.0))
                 _coast_slide(ctx.pawn, dx, dy, float(slide.get("speed", 0.0)))
@@ -1665,12 +1709,18 @@ def _post_player_move(obj, args, _ret, _func):
         # the joiner to a stop. The slide lives in _HOST_SLIDES, not slide state.
         if hosted is None:
             return
+        speed_percent = float(hosted.get("speed_percent", 100.0))
         try:
-            ctx.pawn.CrouchedPct = float(hosted["cp"])
+            ctx.pawn.CrouchedPct = float(hosted["cp"]) * _speed_scale(speed_percent)
         except Exception:  # noqa: BLE001
             pass
         dx, dy = hosted.get("dir", (0.0, 0.0))
-        _coast_slide(ctx.pawn, dx, dy, float(hosted["cp"]) * _walk_speed(ctx.pawn))
+        _coast_slide(
+            ctx.pawn,
+            dx,
+            dy,
+            _coast_velocity(float(hosted["cp"]), _walk_speed(ctx.pawn), speed_percent),
+        )
 
     core.execute(ctx, assert_crouch)
 
@@ -1682,7 +1732,7 @@ def on_enable() -> None:
         ground=_ground_jump,
         cancel=_cancel,
         priority=20,
-        events={"player_hit": _on_player_hit},
+        events={"player_hit": _on_player_hit, "slam_impact": _hold_crouch_icon},
     )
     authority.register_feature(
         "slide",
@@ -1732,7 +1782,7 @@ TUNING_OPTIONS = [
 OPTIONS = [
     enabled_option,
     *core.settings(
-        [audio_option, indicator_option, distance_slider, shake_slider, push_slider],
+        [audio_option, indicator_option, distance_slider, speed_slider, shake_slider, push_slider],
         "Fine-tune sliding.",
     ),
 ]

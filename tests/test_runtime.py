@@ -35,6 +35,23 @@ def test_registry_pawn_replacement_increments_generation():
     assert ctx.ground_speed.base is None
 
 
+def test_observe_world_ignores_null_and_reports_replacement():
+    reg = ContextRegistry()
+    assert reg.observe_world(None) is False
+    first = object()
+    assert reg.observe_world(first) is False
+    assert reg.world_epoch == 1
+    pawn = FakePawn(_id=10)
+    pc = bind_controller(FakeController(_id=1, PlayerReplicationInfo=FakePRI(PlayerID=5)))
+    assert reg.observe(pc, ExecutionRole.LOCAL_HOST, 0.0, pawn) is not None
+    assert reg.observe_world(object()) is True
+    assert reg.contexts() == ()
+    assert reg.world_epoch == 2
+    # A loading gap must not count as another travel.
+    assert reg.observe_world(None) is False
+    assert reg.world_epoch == 2
+
+
 def test_execution_role_flags():
     host = ExecutionRole.LOCAL_HOST
     requester = ExecutionRole.LOCAL_REQUESTER

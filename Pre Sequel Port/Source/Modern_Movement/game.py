@@ -1,8 +1,8 @@
 """Which Borderlands game is running.
 
-This TPS co-op package is TPS-only. Detection fails closed: if the game cannot be identified
-as The Pre-Sequel, features stay disabled rather than loading BL2-only behaviour such as custom
-Slam.
+Borderlands 2 and Borderlands: The Pre-Sequel are both supported. Detection fails closed:
+anything else leaves features disabled. Custom Slam loads only on Borderlands 2, because
+The Pre-Sequel already has Oz slam.
 """
 
 from __future__ import annotations
@@ -21,11 +21,12 @@ def _detect() -> str:
 
         current = Game.get_current()
         label = (getattr(current, "name", None) or str(current)).upper()
-        if "TPS" in label or "PRESEQUEL" in label or "PRE-SEQUEL" in label:
+        compact = label.replace("-", "").replace("_", "").replace(" ", "")
+        if "TPS" in compact or "PRESEQUEL" in compact:
             return "TPS"
-        if "BL2" in label:
+        if "BL2" in compact or "BORDERLANDS2" in compact:
             return "BL2"
-        if "AODK" in label:
+        if "AODK" in compact:
             return "AODK"
     except Exception:  # noqa: BLE001
         pass
@@ -44,11 +45,15 @@ def _detect() -> str:
 
 
 def current() -> str:
-    """'TPS' when supported; otherwise an unsupported label (never silently BL2)."""
+    """'BL2', 'TPS', or an unsupported label."""
     global _cached
     if _cached is None:
         _cached = _detect()
     return _cached
+
+
+def is_bl2() -> bool:
+    return current() == "BL2"
 
 
 def is_tps() -> bool:
@@ -56,4 +61,4 @@ def is_tps() -> bool:
 
 
 def supported() -> bool:
-    return is_tps()
+    return is_bl2() or is_tps()

@@ -865,6 +865,14 @@ def _set_physics(pawn, phys: int) -> None:
 _HOST_MANTLES: dict[int, dict] = {}
 
 
+def release_player(player_id: int | None) -> None:
+    """Drop host mantle holds. None clears every joiner (level change)."""
+    if player_id is None:
+        _HOST_MANTLES.clear()
+        return
+    _HOST_MANTLES.pop(int(player_id), None)
+
+
 def _serialize_climb(m: dict) -> dict:
     """JSON-safe climb plan so the listen host can replay the same motion."""
     out = {

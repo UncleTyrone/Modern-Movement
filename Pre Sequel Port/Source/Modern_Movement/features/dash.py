@@ -336,6 +336,20 @@ _CLIENT_DASH: dict | None = None
 _HOST_DASH_S = 0.15  # Eternal coroutine_tick_dash duration
 
 
+def release_player(player_id: int | None) -> None:
+    """Drop host dash holds. None clears every joiner (level change)."""
+    if player_id is None:
+        _HOST_DASHES.clear()
+        return
+    _HOST_DASHES.pop(int(player_id), None)
+
+
+def release_client() -> None:
+    """Drop the local predicted dash after a respawn or travel."""
+    global _CLIENT_DASH
+    _CLIENT_DASH = None
+
+
 def _hold_dash(pawn, vx: float, vy: float, left: float) -> dict:
     return {"pawn": pawn, "vx": float(vx), "vy": float(vy), "vz": 0.0, "left": float(left)}
 

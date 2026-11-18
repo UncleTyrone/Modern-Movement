@@ -1,6 +1,8 @@
 # API overview
 
-Package root: `Pre Sequel Port/Source/Modern_Movement`.
+Package version **3.62.0** (`Modern_Movement.__version__`), the next minor after the shipped Pre-Sequel baseline 3.61.2. Pre-release work stays on 3.62.0.
+
+Package root: `Pre Sequel Port/Source/Modern_Movement`. Slam (`features/slam.py`) loads when `game.is_bl2()` is true. Host slam writes are `server_slam_begin`, `server_slam_end`, and `server_slam_impact`.
 
 Bootstrap lives in `__init__.py` (`build_mod`, feature group wiring, enable/disable). Shared tick/input lives in `core.py`. Host/client roles are in `runtime.py` + `authority.py`. Wire protocol helpers are `network.py`, `coop_rpc.py`, `protocol.py`, `rules.py`.
 

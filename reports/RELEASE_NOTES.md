@@ -1,18 +1,22 @@
-# Modern Movement 3.62.2
+# Modern Movement 3.62.0
 
-Borderlands: The Pre-Sequel movement package for the Willow2 SDK. Double Jump, Dash, Mantle, Slide, Holster, and Sprint Surge ship together in one `Modern_Movement.sdkmod`.
+Next minor after the shipped Pre-Sequel package 3.61.2. The same file runs in Borderlands 2 and Borderlands: The Pre-Sequel. Double Jump, Dash, Mantle, Slide, Holster, and Sprint Surge ship in both games. Borderlands 2 also gets Slam. The Pre-Sequel keeps native Oz slam. Pre-release work stays on 3.62.0.
 
 **Package:** `dist/Modern_Movement.sdkmod`  
-**SHA-256:** `c97876c29b893a226f48948b2cc619562084f7705a2ec01df2bdc123e8b1ed0a`
+**SHA-256:** `786eec2bbde78a7747cf7c559a45c054972ed7fc0318dd8c360ea5cdf8819e9a`
 
-Install this exact file on every peer who wants the abilities. Confirm the hash against `dist/Modern_Movement.sdkmod.sha256` before enabling it. A 3.62.1 package will not coast joiner slides.
+Install this exact file on every peer who wants the abilities, in that game's `sdk_mods` folder. Confirm the hash against `dist/Modern_Movement.sdkmod.sha256` before enabling it. Use the same file on Borderlands 2 and on The Pre-Sequel.
 
 ## Highlights
 
+- The same package loads in Borderlands 2 and The Pre-Sequel. Borderlands 2 includes Slam. The Pre-Sequel leaves Oz slam alone.
+- Releasing crouch cancels a joiner slide. The slide ends when crouch is released.
+- Fast travel re-handshakes co-op. Joiners come back with movement instead of a dead session.
+- Slide Speed (%) sits next to Slide Distance. Default is 120, so slides are a little faster. Distance still sets how long they last.
 - Joiner slides keep going after you release forward. Crouch starts the slide; you do not have to hold the movement key.
 - Listen host owns custom movement. Joiners send intents and keep their own option values.
 - Jump Counter HUD (`mm_jump_chev`) defaults off. Dash Ready Indicator defaults on.
-- Native TPS Slam and Oz AirBoost stay in the game. Custom Slam is omitted from this package.
+- On The Pre-Sequel, native Slam and Oz AirBoost stay in the game. Custom Slam stays off there.
 
 ## Features
 
@@ -21,36 +25,40 @@ Install this exact file on every peer who wants the abilities. Confirm the hash 
 | Double Jump | Mid-air boost, coyote time, optional jump-counter chevrons |
 | Dash | Ground or air dash, ready pip, optional damage reduction and perfect-dodge burst |
 | Mantle / Vault | Ledge climbs and low-obstacle vaults |
-| Slide | Sprint-crouch slide. On co-op, releasing forward keeps the entry-direction coast |
+| Slide | Sprint-crouch slide. Speed and distance are separate. Releasing forward keeps the coast |
 | Holster | Manual holster and sprint holster |
 | Sprint Surge | Second sprint press for a speed boost that ramps up |
+| Slam | Borderlands 2. Crouch in the air to dive, with a landing blast and indicator |
 
 Players who do not install the mod can still join. Their movement stays vanilla.
 
-## Changes in 3.62.2
+## Changes since 3.61.2
+
+These notes are the whole 3.62.0 delta from the shipped 3.61.2 package.
+
+### Added
+
+- Host-authoritative co-op. The listen host writes custom movement. Joiners send intents and keep their own option values.
+- Borderlands 2 and The Pre-Sequel both load this package. Slam is included on Borderlands 2, with the indicator and a host dive so a joiner's plunge is written on the server pawn. The Pre-Sequel keeps native Oz slam.
+- Slide Speed (%) beside Slide Distance. Default 120. 100 is the previous coast.
+- Jump Counter HUD, off by default, and a Dash Perfect Dodge Effect toggle.
+- Per-player Slide Distance and Double Jump strength / extra jumps.
+
+### Changed
+
+- Dash Ready Indicator defaults on. Camera and feel sliders are under each feature's Settings.
+- Controller Dash and Toggle Holster start unbound. Gravity samples use a 300 floor on Borderlands 2 and accept moon gravity down to 60 on The Pre-Sequel.
 
 ### Fixed
 
-- Joiner slides stopped as soon as forward was released. CrouchedPct only raises the engine crouch-speed cap, so the game braked with no movement input. The joiner and the host now re-apply the entry-direction speed, including after PlayerMove, the same way a local slide coasts.
-- `server_slide_enter` sends that entry direction with the crouched percent and Slide Distance.
-
-## Included from 3.62.1
-
-- Jump Counter HUD, off by default, and a Dash Perfect Dodge Effect toggle.
-- Per-player Slide Distance and Double Jump strength / extra jumps. The host menu does not override the joiner.
-- Camera and feel sliders are back under each feature's Settings.
-- Dash Ready Indicator defaults on.
-
-## Included from 3.62.0
-
-- Host-authoritative movement through `coop_rpc` (Networking 1.2). Clients send intents; the listen host writes custom movement.
-- TPS-only package. Controller Dash and Toggle Holster start unbound.
-- Custom Slam is excluded. Slide exits clear crouch so native Slam is left unarmed.
+- Joiner slides keep the entry-direction coast after forward is released. `server_slide_enter` sends that direction with the crouched percent, Slide Distance, and Slide Speed. The joiner and the host re-apply the speed, including after PlayerMove.
+- Releasing crouch cancels a joiner slide and tells the host to stand that body back up. The host copy waits for the exit.
+- Fast travel and level changes send a fresh HELLO. An empty loading roster does not drop peers. Slide, dash, mantle, and slam holds from the old pawn are dropped.
 
 ## Install
 
 1. Remove or disable any older Modern Movement package (Borderlands 2 builds, loose folders, or a second copy).
-2. Copy `Modern_Movement.sdkmod` into the Willow2 `sdk_mods` folder.
+2. Copy `Modern_Movement.sdkmod` into the game's `sdk_mods` folder (Borderlands 2 or The Pre-Sequel).
 3. Enable the mod and check key bindings at the bottom of the mod options.
 4. Restart the game after copying the file so hooks and keybinds load.
 
@@ -60,7 +68,7 @@ texloader is optional. Without a TPS-capable texloader fork, indicators draw as 
 
 ## Verification
 
-Automated checks in this tree cover protocol, runtime, rules, gravity, input, the package allowlist, and dual-player co-op unit tests (`pytest`, 49 passed), plus a deterministic sdkmod build.
+Automated checks in this tree cover protocol, runtime, rules, gravity, input, the package allowlist, travel recovery, dual-player co-op unit tests, and a dual-game boot harness (`pytest`, 64 passed), plus a deterministic sdkmod build. The harness boots the package as Borderlands 2 (Slam loaded) and as The Pre-Sequel (Slam not loaded) and reads every shipped source line.
 
 Releasing forward on a joiner slide is covered by those unit tests and remains **LIVE_REQUIRED** in a real two-player session. Track that in [LIVE_VALIDATION.md](LIVE_VALIDATION.md) and [CAPABILITY_MATRIX.md](CAPABILITY_MATRIX.md).
 

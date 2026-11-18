@@ -85,6 +85,7 @@ def _enable_features(monkeypatch):
     monkeypatch.setattr(slide, "friction_slider", SimpleNamespace(value=0))
     monkeypatch.setattr(slide, "slope_slider", SimpleNamespace(value=0))
     monkeypatch.setattr(slide, "distance_slider", SimpleNamespace(value=100))
+    monkeypatch.setattr(slide, "speed_slider", SimpleNamespace(value=100))
     monkeypatch.setattr(slide, "indicator_option", SimpleNamespace(value=False))
     monkeypatch.setattr(slide, "back_cancel_option", SimpleNamespace(value=False))
     monkeypatch.setattr(double_jump, "enabled_option", SimpleNamespace(value=True))
@@ -410,6 +411,17 @@ def test_requester_slide_coasts_when_forward_released(monkeypatch):
     assert pawn.Acceleration.Y == pytest.approx(0.0)
 
 
+def test_host_slide_speed_scales_coast_not_duration():
+    """Slide Speed (%) speeds the coast up. Distance still owns how fast CrouchedPct decays."""
+    pawn = _Pawn(physics=core.PHYS_WALKING, crouch=0.5)
+    ctx = _remote(pawn)
+    slide.host_enter_juso(ctx, 2.2, 100.0, 1.0, 0.0, 150.0)
+    slide._service_host_slides(0.5)
+    cp = 2.2 - 0.5 * slide._JUSO_DECAY
+    assert pawn.CrouchedPct == pytest.approx(cp * 1.5, abs=0.05)
+    assert pawn.Velocity.X == pytest.approx(cp * pawn.GroundSpeed * 1.5, abs=12.0)
+
+
 def test_host_replayed_move_restores_slide_after_brake():
     """Server PlayerMove of a released key must not be the correction that stops the joiner."""
     pawn = _Pawn(physics=core.PHYS_WALKING, crouch=0.5)
@@ -477,6 +489,82 @@ def test_requester_slide_uses_timed_path(monkeypatch):
         core.execute(ctx, slide._run, ctx.controller, pawn, 1.0 / 60.0)
         assert (pawn.Location.X, pawn.Location.Y) == frozen
         assert slide._state(ctx).slide is not None, f"joiner slide died at tick {i}"
+
+
+def test_requester_slide_ends_when_crouch_released(monkeypatch):
+    """Releasing crouch cancels a joiner slide. It must not only run out on the timer."""
+    pawn = _Pawn(physics=core.PHYS_WALKING)
+    pawn.Velocity = _Vec(700.0, 0.0, 0.0)
+    pawn.bWantsToCrouch = True
+    pc = _PC()
+    ctx = PlayerContext(
+        key=PlayerKey(1, 12),
+        role=ExecutionRole.LOCAL_REQUESTER,
+        controller=pc,
+        pawn=pawn,
+        clock=10.0,
+        pawn_generation=1,
+    )
+    monkeypatch.setattr(slide.core, "phys", core.PHYS_WALKING)
+    monkeypatch.setattr(slide.core, "clock", 10.0)
+    exits = []
+    monkeypatch.setattr(
+        "Modern_Movement.coop_rpc.call_host",
+        lambda fn: exits.append(getattr(fn, "__name__", "exit")),
+    )
+    monkeypatch.setattr("Modern_Movement.coop_rpc.is_requester", lambda _ctx: True)
+
+    def start():
+        slide._start(ctx.controller, pawn, "test")
+
+    core.execute(ctx, start)
+    assert slide._state(ctx).slide is not None
+    pc.bDuck = 0
+    pawn.bWantsToCrouch = False
+    pawn.bIsCrouched = False
+    core.execute(ctx, slide._run, ctx.controller, pawn, 1.0 / 60.0)
+    assert slide._state(ctx).slide is None
+    assert exits == ["server_slide_exit"]
+
+
+def test_host_slide_ignores_missing_crouch(monkeypatch):
+    """The host copy does not see joiner bDuck, so a clear crouch flag must not cancel it."""
+    pawn = _Pawn(physics=core.PHYS_WALKING, crouch=2.2)
+    pawn.Velocity = _Vec(700.0, 0.0, 0.0)
+    pc = _PC()
+    pc.bDuck = 0
+    pawn.bWantsToCrouch = False
+    pawn.bIsCrouched = False
+    ctx = PlayerContext(
+        key=PlayerKey(1, 13),
+        role=ExecutionRole.REMOTE_AUTHORITY,
+        controller=pc,
+        pawn=pawn,
+        clock=10.0,
+        pawn_generation=1,
+    )
+    monkeypatch.setattr(slide.core, "phys", core.PHYS_WALKING)
+    monkeypatch.setattr(slide.core, "clock", 10.0)
+    slide.host_enter_juso(ctx, 2.2, 80.0, 1.0, 0.0)
+    state = slide._state(ctx)
+    state.slide = {
+        "dir": (1.0, 0.0),
+        "speed": 900.0,
+        "start": 900.0,
+        "entry": 700.0,
+        "elapsed": 0.1,
+        "last": (0.0, 0.0),
+        "commanded": 0.0,
+        "stalled": 0,
+        "timed": True,
+        "cp": 2.2,
+        "old_z": 50.0,
+        "distance": 80.0,
+        "speed_percent": 100.0,
+    }
+    core.execute(ctx, slide._run, pc, pawn, 1.0 / 60.0)
+    assert state.slide is not None
+    assert ctx.key.player_id in slide._HOST_SLIDES
 
 
 def test_slide_end_always_uncrouches():

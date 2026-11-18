@@ -87,8 +87,6 @@ def _texture():
 
 
 # ---- the arrow images (through texloader) -----------------------------------------------
-# Slam textures are retained in the source tree for forensic parity with the BL2 baseline but
-# are never installed by the TPS co-op package (native Slam owns that presentation).
 _IMAGES = (
     "mm_dash_side",
     "mm_dash_flat",
@@ -99,6 +97,19 @@ _IMAGES = (
     "mm_slide_cap",
     "mm_surge_arc",
 )
+# Borderlands 2 draws the custom slam indicator. Pre-Sequel keeps native Oz slam.
+_SLAM_IMAGES = ("mm_slam_bracket", "mm_slam_ring")
+
+
+def _install_names() -> tuple[str, ...]:
+    try:
+        from . import game
+
+        if game.is_bl2():
+            return _IMAGES + _SLAM_IMAGES
+    except Exception:  # noqa: BLE001
+        pass
+    return _IMAGES
 SIDE_S = 60.0        # mm_dash_side.png: chevron "s" in image pixels; image centre = chevron centre
 FLAT_W = 176.0       # mm_dash_flat.png: chevron half-width in image pixels; image centre = chevron centre
 BLEND_TRANSLUCENT = 2
@@ -129,7 +140,7 @@ def install_textures() -> None:
         changed = []
         zf = zipfile.ZipFile(zpath) if zpath else None
         try:
-            for name in _IMAGES:
+            for name in _install_names():
                 for ext in (".png", ".toml"):
                     rel = f"textures/{name}{ext}"
                     if zf is not None:

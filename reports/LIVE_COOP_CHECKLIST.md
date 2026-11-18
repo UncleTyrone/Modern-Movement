@@ -1,10 +1,12 @@
 # Live co-op verification checklist (joiners)
 
 Automated tests prove the **host mutation contract**. This checklist is the remaining
-gate for TPS listen-host + joiner with **Networking 1.2** and this mod installed on
-**both** machines.
+gate for a listen-host and a joiner on **3.62.0** with **Networking 1.2** and this mod installed on
+**both** machines. The same file is the Borderlands 2 package.
 
-Build under test: `c97876c29b893a226f48948b2cc619562084f7705a2ec01df2bdc123e8b1ed0a`
+Build under test: `786eec2bbde78a7747cf7c559a45c054972ed7fc0318dd8c360ea5cdf8819e9a`
+
+The same file is the Borderlands 2 build. On Borderlands 2 it also loads Slam. On The Pre-Sequel it does not.
 
 
 ## Setup
@@ -19,10 +21,11 @@ Build under test: `c97876c29b893a226f48948b2cc619562084f7705a2ec01df2bdc123e8b1e
 |---|--------|------|------|
 | 1 | **Dash** (air or ground) | Moves the aimed distance; little/no snap-back | Rubber-band, no move, or HUD-only |
 | 2 | **Double jump** | Clear second boost; lands normally | Nothing / Oz-only / delayed snap |
-| 3 | **Slide** (sprint+crouch, then release forward) | Coasts without holding forward; ends on its own | Stops the instant forward is released, or crouch in place |
+| 3 | **Slide** (sprint+crouch, release forward, then release crouch) | Coasts without holding forward; releasing crouch cancels it | Stops when forward is released, or crouch release does nothing and it only times out |
 | 4 | **Vault / Mantle** | Climbs onto the ledge; stays up | Rubber-band snap back to start |
 | 5 | **Sprint Surge** | Noticeably faster while surging | Holster/HUD but same run speed |
 | 6 | Host watches joiner | Host sees dash/slide/vault/surge | Host sees walk/crouch only |
+| 7 | **Fast travel** (everyone), then slide and dash again | Joiner movement still works after the load | Joiner abilities dead until restart |
 
 ## Host self-check
 

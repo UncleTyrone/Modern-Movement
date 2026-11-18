@@ -30,7 +30,10 @@ def main() -> None:
     with zipfile.ZipFile(ROOT / "dist" / "Modern_Movement.sdkmod") as bundle:
         names = set(bundle.namelist())
     print(f"zip_eq_allowlist: {allowlist == names}")
-    print(f"slam_in_zip: {any('slam' in name.lower() for name in names)}")
+    slam_in_zip = any("features/slam.py" in name.lower() for name in names)
+    print(f"slam_in_zip: {slam_in_zip}")
+    if not slam_in_zip:
+        raise SystemExit("BL2 slam.py missing from package")
     print(f"member_count: {len(names)}")
     dist_sha = (ROOT / "dist" / "Modern_Movement.sdkmod.sha256").read_text().split()[0]
     notes = (ROOT / "reports" / "RELEASE_NOTES.md").read_text(encoding="utf-8")

@@ -8,11 +8,15 @@ ALLOWLIST = ROOT / "build" / "package-allowlist.json"
 SOURCE = ROOT / "Pre Sequel Port" / "Source" / "Modern_Movement"
 
 
-def test_allowlist_excludes_slam_and_sources_exist():
+def test_allowlist_includes_bl2_slam_and_sources_exist():
     payload = json.loads(ALLOWLIST.read_text(encoding="utf-8"))
     members = payload["members"]
     joined = "\n".join(members)
-    assert "slam" not in joined.lower()
+    assert "Modern_Movement/features/slam.py" in members
+    assert "Modern_Movement/textures/mm_slam_bracket.png" in members
+    assert "Modern_Movement/textures/mm_slam_ring.png" in members
+    assert "features/slam.py" not in payload.get("exclude_patterns", [])
+    assert "slam" in joined.lower()
     for member in members:
         if member.endswith("/"):
             continue

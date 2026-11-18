@@ -2,11 +2,6 @@
   "schema": 1,
   "root": "Modern_Movement",
   "exclude_patterns": [
-    "features/slam.py",
-    "textures/mm_slam_bracket.png",
-    "textures/mm_slam_bracket.toml",
-    "textures/mm_slam_ring.png",
-    "textures/mm_slam_ring.toml",
     "pyproject.toml"
   ],
   "members": [
@@ -24,6 +19,7 @@
     "Modern_Movement/features/holster.py",
     "Modern_Movement/features/mantle.py",
     "Modern_Movement/features/slide.py",
+    "Modern_Movement/features/slam.py",
     "Modern_Movement/features/surge.py",
     "Modern_Movement/fx.py",
     "Modern_Movement/game.py",
@@ -46,6 +42,10 @@
     "Modern_Movement/textures/mm_pip_fill.toml",
     "Modern_Movement/textures/mm_pip_outline.png",
     "Modern_Movement/textures/mm_pip_outline.toml",
+    "Modern_Movement/textures/mm_slam_bracket.png",
+    "Modern_Movement/textures/mm_slam_bracket.toml",
+    "Modern_Movement/textures/mm_slam_ring.png",
+    "Modern_Movement/textures/mm_slam_ring.toml",
     "Modern_Movement/textures/mm_slide_bar.png",
     "Modern_Movement/textures/mm_slide_bar.toml",
     "Modern_Movement/textures/mm_slide_cap.png",

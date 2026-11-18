@@ -2,7 +2,7 @@
 
 Maintainer prepares a local commit; the publisher creates the GitHub Release.
 
-1. Bump `Modern_Movement.__version__` and add a Keep a Changelog section in `CHANGELOG.md`.
+1. The unreleased line is `3.62.0`, the next minor after the shipped Pre-Sequel package `3.61.2`. Record the work in that `CHANGELOG.md` section. Open 3.62.1 only when 3.62.0 itself has shipped.
 2. Run `python -m pytest`.
 3. Run `python scripts/build_sdkmod.py` and confirm `dist/Modern_Movement.sdkmod.sha256`.
 4. Commit locally (do not push unless asked).

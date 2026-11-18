@@ -5,42 +5,33 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.62.2] — 2026-11-18
-
-### Fixed
-
-- Joiner slides stopped as soon as forward was released. CrouchedPct only raises the crouch speed cap, so the game braked with no movement input. Joiner and host now keep the entry-direction coast, the same as a local slide.
-
-## [3.62.1] — 2026-11-18
-
-### Added
-
-- Double Jump Jump Counter HUD (`mm_jump_chev`) with On/Off toggle (defaults Off).
-- Dash Perfect Dodge Effect toggle for the ECHO chevron burst.
-- Per-player Slide Distance on the timed/juso host path via RPC payload.
-- Host double-jump applies requester impulse and `max_jumps` without host menu strength.
-- Repository docs tree (`docs/`), LICENSE, SECURITY, CONTRIBUTING, and `.gitignore`.
-
-### Changed
-
-- Mods-page description lists the six shipped features in Original voice.
-- Dash Ready Indicator defaults On.
-- Camera / feel sliders re-exposed under each feature's Settings (no Temporary labels).
-- Sprint Surge Camera Tilt and Mantle camera/height options visible again.
-- Package allowlist includes jump-counter textures.
-
-### Fixed
-
-- Joiner slide length ignored host `distance_slider` instead of the requester percent.
-- Remote double-jump authority leaked host Extra Jumps / Strength onto joiners.
+The last shipped Pre-Sequel package is **3.61.2**. The next minor is **3.62.0**. Everything since 3.61.2 stays on 3.62.0 until that package is released.
 
 ## [3.62.0] — 2026-11-18
 
 ### Added
 
-- Host-authoritative TPS co-op path (`coop_rpc`, Networking 1.2).
-- Eternal-style host dash hold and juso CrouchedPct-only network slides.
+- Host-authoritative co-op through `coop_rpc` and Networking 1.2. The listen host writes custom movement. Joiners send intents and keep their own option values. Peers without the mod stay vanilla.
+- One package for Borderlands 2 and Borderlands: The Pre-Sequel. Borderlands 2 loads custom Slam, including the indicator, the landing blast, and a host dive so a joiner's plunge is written on the server pawn. The Pre-Sequel keeps native Oz slam.
+- Double Jump Jump Counter HUD (`mm_jump_chev`), off by default, and a Dash Perfect Dodge Effect toggle.
+- Per-player Slide Distance and Double Jump strength / extra jumps. The host menu does not override the joiner.
+- Slide Speed (%) beside Slide Distance. Default 120. Distance still sets how long a slide lasts. Speed sets how fast it moves.
+- Repository docs under `docs/`, plus LICENSE, SECURITY, CONTRIBUTING, and `.gitignore`.
 
 ### Changed
 
-- TPS-only package; custom Slam omitted in favour of native Slam/Oz.
+- Dash Ready Indicator defaults on. Camera and feel sliders sit under each feature's Settings.
+- Controller Dash and Toggle Holster start unbound so they do not take the D-pad weapon slots. Rebind them in the menu if you want them.
+- Gravity samples keep the original 300 floor on Borderlands 2 and accept moon gravity down to 60 on The Pre-Sequel.
+- The package allowlist ships the jump-counter textures and the Borderlands 2 slam textures.
+
+### Fixed
+
+- Joiner slides keep their entry-direction coast after forward is released. The joiner and the host both re-apply that speed, including after PlayerMove.
+- Releasing crouch cancels a joiner slide and tells the host to stand that body back up. The host copy waits for that exit, because it does not see the joiner's crouch key.
+- Fast travel and level changes re-handshake co-op. An empty loading roster does not drop peers, and a world change or a broken token sends a fresh HELLO. Slide, dash, mantle, and slam holds from the old pawn are dropped.
+- Joiner slide length uses that player's Slide Distance. Remote double jump uses the requester's strength and extra jumps.
+
+## [3.61.2] — shipped Pre-Sequel baseline
+
+Controller twins for the mod keys, including Jump / Mantle / Double Jump on A and Sprint Surge on the left stick. Custom Slam stays off in favor of native Oz slam. This is the archive in `Pre Sequel Port/Modern_Movement.sdkmod`.

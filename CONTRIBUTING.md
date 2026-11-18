@@ -17,7 +17,7 @@ python scripts/verify_sdkmod.py --build-first
 ## Pull requests
 
 - Keep changes focused; do not mix unrelated HUD polish with authority rewrites.
-- Update `CHANGELOG.md` (Keep a Changelog) and bump `__version__` when shipping gameplay.
+- Keep gameplay notes in the unreleased `CHANGELOG.md` section. The working version stays **3.62.0**, the next minor after the shipped Pre-Sequel package 3.61.2, until that package is actually released. Do not open 3.62.1 for pre-release edits.
 - Rebuild `dist/Modern_Movement.sdkmod` and refresh the `.sha256` sidecar before asking for review.
 - Do not force-push `main` / `master`.
 

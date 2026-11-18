@@ -10,12 +10,20 @@ DEFAULT_GRAVITY = 1050.0
 MAX_GRAVITY = 6000.0
 TRUSTED_SAMPLES = 12
 KEPT_SAMPLES = 60
-# This package is TPS-only; accept moon/low-gravity samples down to 60 (BL2 used 300).
+# Pre-Sequel moon gravity can read near 60. Borderlands 2 keeps the original 300 floor.
 _TPS_MEASURED_MIN = 60.0
+_BL2_MEASURED_MIN = 300.0
 
 
 def measured_bounds() -> tuple[float, float]:
     """Valid range for gravity inferred from falling (jump pads / landings are outside this)."""
+    try:
+        from . import game
+
+        if game.is_bl2():
+            return _BL2_MEASURED_MIN, MAX_GRAVITY
+    except Exception:  # noqa: BLE001
+        pass
     return _TPS_MEASURED_MIN, MAX_GRAVITY
 
 

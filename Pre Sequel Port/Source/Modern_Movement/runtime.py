@@ -178,14 +178,22 @@ class ContextRegistry:
             self._detach_callbacks.append(callback)
 
     def observe_world(self, world: Any) -> bool:
-        identity = object_identity(world)
-        if identity == self._world_identity:
+        """Track the current world. Returns True only when a previous world was replaced.
+
+        A null world during a load is ignored so a travel flicker does not wipe the session
+        on every tick. The first real world binds without counting as a travel.
+        """
+        if world is None:
             return False
-        if self._world_identity is not None:
+        identity = object_identity(world)
+        if identity is None or identity == self._world_identity:
+            return False
+        replaced = self._world_identity is not None
+        if replaced:
             self.clear("world_changed")
         self._world_identity = identity
         self.world_epoch += 1
-        return True
+        return replaced
 
     def observe(
         self,

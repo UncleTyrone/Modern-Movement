@@ -1,6 +1,6 @@
 # Modern Movement docs
 
-Borderlands: The Pre-Sequel Willow2 SDK package — Double Jump, Dash, Mantle, Slide, Holster, Sprint Surge.
+Version **3.62.0**, the next minor after the shipped Pre-Sequel package 3.61.2. The same package runs in Borderlands 2 and The Pre-Sequel: Double Jump, Dash, Mantle, Slide, Holster, and Sprint Surge, plus Slam on Borderlands 2.
 
 ## Start here
 
@@ -18,6 +18,7 @@ Borderlands: The Pre-Sequel Willow2 SDK package — Double Jump, Dash, Mantle, S
 - [Slide](usage/slide.md)
 - [Holster](usage/holster.md)
 - [Sprint Surge](usage/surge.md)
+- Slam (Borderlands 2 only; The Pre-Sequel keeps native Oz slam)
 
 ## API
 

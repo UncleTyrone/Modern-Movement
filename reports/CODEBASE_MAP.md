@@ -2,12 +2,12 @@
 
 Forensic baseline of the supplied TPS 3.61.2 source before co-op work. The BL2 original remains
 under `Original/Source/Modern Movement`. The **live working tree** is
-`Pre Sequel Port/Source/Modern_Movement` at **3.62.2** (host-authoritative co-op).
+`Pre Sequel Port/Source/Modern_Movement` at **3.62.0** (the next minor after the shipped Pre-Sequel package 3.61.2).
 
 ## Co-op status (working tree — supersedes baseline notes below)
 
-- TPS-only fail-closed (`game.supported()`); custom Slam excluded from package allowlist.
-- Network slides (3.62.2): CrouchedPct decay plus entry-direction Velocity coast on the joiner and the host. Releasing forward must not stop the slide.
+- Borderlands 2 and The Pre-Sequel (`game.supported()`). Custom Slam loads on Borderlands 2 and stays out of the Pre-Sequel feature list.
+- Network slides (3.62.0): CrouchedPct decay plus entry-direction Velocity coast on the joiner and the host. Releasing forward keeps the coast. Releasing crouch cancels the joiner slide.
 - Modules: `runtime`, `protocol`, `network`, `rules`, `authority`, `input_state`, `gravity`, `diagnostics`.
 - Each machine writes its local pawn (Willow client simulation). Remote host contexts are observe-only.
 - Jump order: Slide first → Mantle → Double Jump (airborne DoJump blocked so Oz glide does not eat the press).

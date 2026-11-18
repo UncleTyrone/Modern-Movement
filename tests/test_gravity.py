@@ -21,6 +21,15 @@ def test_gravity_median_after_samples():
     assert math.isclose(measured, 100.0, rel_tol=1e-6)
 
 
+def test_bl2_gravity_floor_is_original(monkeypatch):
+    from Modern_Movement import game, gravity
+
+    monkeypatch.setattr(game, "_cached", "BL2")
+    assert gravity.measured_bounds() == (300.0, gravity.MAX_GRAVITY)
+    monkeypatch.setattr(game, "_cached", "TPS")
+    assert gravity.measured_bounds()[0] == 60.0
+
+
 def test_gravity_fallback_default():
     state = GravityState()
     assert state.value(None) == DEFAULT_GRAVITY

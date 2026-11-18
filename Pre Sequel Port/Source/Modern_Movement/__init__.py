@@ -1,6 +1,7 @@
-"""Modern Movement 3.62 — Borderlands: The Pre-Sequel
+"""Modern Movement 3.62.0 — Borderlands 2 and Borderlands: The Pre-Sequel
 
-(Historical changelog below still mentions Borderlands 2; this package build is TPS-only.)
+Next minor after the shipped Pre-Sequel package (3.61.2). Custom Slam loads on
+Borderlands 2. The Pre-Sequel keeps its own Oz slam.
 
 Gameplay features combined into one mod:
   - Double Jump:   press jump again in mid-air for an extra boost
@@ -18,32 +19,22 @@ Layout
                group, and any of them can be removed by deleting its file and its
                line in _FEATURE_SPECS below
 
-3.62.2 (joiner slide coast)
-  * Slide: releasing forward no longer stops a joiner slide. CrouchedPct still times it;
-    joiner and host both keep the entry-direction speed the way a local slide does
+3.62.0 (unreleased; next minor after the shipped 3.61.2 package)
+  * Both games. Slam loads on Borderlands 2. The Pre-Sequel keeps native Oz slam
+  * Listen host owns custom movement; joiners send intents and keep their own options
+  * Joiner slides coast after forward is released, and releasing crouch cancels them
+  * Slide Speed (%) sits next to Slide Distance. Default 120
+  * Fast travel re-handshakes co-op and drops holds from the old pawn
+  * Jump Counter (off by default), Dash Ready Indicator on, Perfect Dodge Effect toggle
+  * Controller Dash and Toggle Holster start unbound (D-pad stays on weapon slots)
 
-3.62.1 (TPS HUD + per-player polish)
-  * Double Jump: Jump Counter restored (Off by default) — chevrons below-left of the crosshair show extra jumps left
-  * Dash: Dash Ready Indicator defaults On; Perfect Dodge Effect toggle for the ECHO chevron burst
-  * Every shipped indicator has its own On/Off; camera sliders back in each feature's Settings
-  * Joiners keep their own Slide Distance and Double Jump Strength/Extra Jumps over host menus
-  * Mods-page description matches the six shipped features (no omission language)
-
-3.62.0 (TPS host-authoritative co-op)
-  * Listen host owns all custom movement; clients send intents only
-  * Same package required on every peer (Networking 1.2); readiness enforced before gameplay
-  * Controller Dash and Toggle Holster default to unbound (avoid TPS D-pad weapon slots)
-  * Custom Slam removed from the TPS deliverable; native Slam/Oz preserved
-  * Slide jump/sprint/off-cliff exits clear crouch so native Slam is not auto-armed
-
-3.61.2 (controller support — historical)
+3.61.2 (controller support — shipped Pre-Sequel baseline)
   * Every key has a controller twin; Jump / Mantle / Double Jump (A); Sprint Surge (left stick)
   * Holding jump to climb a ledge works with the controller jump button
   * Rebind controller keys in the menu as needed
 
 3.61.1 (Borderlands: The Pre-Sequel support — historical baseline)
-  * Ported to TPS; later 3.62 makes the package TPS-only fail-closed
-  * Custom Slam skipped on TPS in favour of the native ground slam
+  * Ported to TPS. Custom Slam skipped on TPS in favour of the native ground slam
   * Mantle/Vault: gravity is measured from your fall to time hops. Moon gravity is lower than Borderlands 2's,
     so on The Pre-Sequel readings down to 60 are accepted (300 before) instead of being thrown away
   * Sounds and effects that only exist in Borderlands 2 (the Longbow, Bee and Stalker sounds and the sand
@@ -709,7 +700,7 @@ from . import game as _game
 from . import hudfx as _hudfx
 from . import rules as _rules
 
-__version__ = "3.62.2"
+__version__ = "3.62.0"
 __author__ = "Jinxxtt"
 __credits__ = "Original Modern Movement by Jinxxtt; TPS co-op authority port maintained in-tree."
 
@@ -718,16 +709,20 @@ def _log(message: str) -> None:
     print(f"[Modern Movement] {message}")
 
 
-# Feature modules, in the order they appear in the options menu. Custom Slam is intentionally
-# absent: TPS owns native Slam/Oz and the co-op package must not ship a competing implementation.
-_FEATURE_SPECS = (
+# Feature modules, in the order they appear in the options menu. Slam is Borderlands 2 only:
+# The Pre-Sequel already has Oz slam, and loading a second one fights the native mechanic.
+_FEATURE_SPECS = [
     ("Double Jump", "double_jump", "Perform an additional jump while airborne."),
     ("Dash", "dash", "Dash forwards, backwards, and side to side with a hotkey. Works on the ground or in the air."),
     ("Misc", "holster", "Holster your weapon by hotkey or automatically when sprinting."),
     ("Sprint Surge", "surge", "Press sprint again while sprinting to holster your weapon and receive a speed boost."),
     ("Mantle/Vault", "mantle", "Allows for mantling ledges and various obstacles by pressing or holding jump while airborne."),
     ("Slide", "slide", "Crouch while sprinting to slide. The more momentum you bring, the further you go."),
-)
+]
+if _game.is_bl2():
+    _FEATURE_SPECS.append(
+        ("Slam", "slam", "Press crouch while high in the air to slam down into the ground.")
+    )
 
 _FEATURES = []
 _ENABLED_STACK: list[str] = []
@@ -739,7 +734,7 @@ _log(f"game: {_game.current()}")
 if not _game.supported():
     _BLOCKED = True
     _log(
-        "refusing to load: this package is TPS-only and the running game was not detected as "
+        "refusing to load: Modern Movement supports Borderlands 2 and "
         "Borderlands: The Pre-Sequel"
     )
 
@@ -780,7 +775,7 @@ def _duplicate_install() -> bool:
 def _on_enable() -> None:
     global _ENABLED_STACK
     if _BLOCKED:
-        _log("enable blocked: unsupported game (TPS only)")
+        _log("enable blocked: unsupported game (Borderlands 2 and The Pre-Sequel)")
         return
     if _duplicate_install():
         _log(
@@ -895,7 +890,12 @@ _build_kwargs = dict(
     version=__version__,
     description=(
         "Double Jump, Dash, Mantle, Slide, Holster, and Sprint Surge. "
-        "Each module can be enabled or disabled. "
+        + (
+            "Includes Slam on Borderlands 2. "
+            if _game.is_bl2()
+            else "Runs on Borderlands 2 and The Pre-Sequel. The Pre-Sequel keeps its own slam. "
+        )
+        + "Each module can be enabled or disabled. "
         "Make sure to check key bindings at the bottom!"
     ),
     options=_OPTIONS,
@@ -908,9 +908,21 @@ _build_kwargs = dict(
 try:
     from mods_base import Game as _Game
 
-    _tps = getattr(_Game, "TPS", None)
-    if _tps is not None:
-        _build_kwargs["supported_games"] = _tps
+    _selected = []
+    for _game_name in ("BL2", "TPS"):
+        _game_value = getattr(_Game, _game_name, None)
+        if _game_value is not None:
+            _selected.append(_game_value)
+    if len(_selected) == 1:
+        _build_kwargs["supported_games"] = _selected[0]
+    elif len(_selected) > 1:
+        try:
+            _folded = _selected[0]
+            for _game_value in _selected[1:]:
+                _folded = _folded | _game_value
+            _build_kwargs["supported_games"] = _folded
+        except TypeError:
+            _build_kwargs["supported_games"] = tuple(_selected)
 except Exception:  # noqa: BLE001
     pass
 

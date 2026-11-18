@@ -186,9 +186,6 @@ def allowlist_checks() -> dict:
         seen.add(member)
         if not safe_member(member):
             problems.append(f"unsafe allowlist path: {member}")
-        lowered = member.casefold()
-        if "slam" in lowered and any(x in lowered for x in ("slam.py", "mm_slam_")):
-            problems.append(f"slam asset must not be packaged: {member}")
         if member.endswith("/"):
             continue
         rel = member.removeprefix("Modern_Movement/").rstrip("/")
@@ -197,6 +194,16 @@ def allowlist_checks() -> dict:
         source_path = PORT_PACKAGE / PurePosixPath(rel)
         if not source_path.is_file():
             problems.append(f"allowlist member missing source: {member}")
+    required_slam = {
+        "Modern_Movement/features/slam.py",
+        "Modern_Movement/textures/mm_slam_bracket.png",
+        "Modern_Movement/textures/mm_slam_bracket.toml",
+        "Modern_Movement/textures/mm_slam_ring.png",
+        "Modern_Movement/textures/mm_slam_ring.toml",
+    }
+    missing_slam = sorted(required_slam.difference(members))
+    if missing_slam:
+        problems.append("BL2 slam assets missing from allowlist: " + ", ".join(missing_slam))
     py_files = sorted(p.relative_to(PORT_PACKAGE).as_posix() for p in PORT_PACKAGE.rglob("*.py"))
     packaged_py = {
         m.removeprefix("Modern_Movement/").rstrip("/")
