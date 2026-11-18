@@ -1,0 +1,13 @@
+# Texloader manifest for Modern Movement's dash ready indicator (installed by Modern Movement).
+image = "mm_pip_outline.png"
+name = "mm_pip_outline"
+outer = "Transient"
+
+[texture]
+mips = true
+flip = false
+srgb = true
+filter = "linear"
+address = "clamp"
+tiling = false
+lod_group = "ui"

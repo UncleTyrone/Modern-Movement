@@ -1,0 +1,96 @@
+{
+  "extraction_verified_before_edits": true,
+  "normalized_diff": {
+    "added": [
+      "game.py"
+    ],
+    "changed": [
+      {
+        "original_sha256": "6236bf4b8f0491a4b0c0de0dcd2853712615f618d0a1d43ed4c7f783b64c1902",
+        "original_size": 42310,
+        "path": "__init__.py",
+        "port_sha256": "3809ce2b0935ff2f5a8c9bb21ee4935df3fff28091e6cec702c97f39c3019503",
+        "port_size": 45003
+      },
+      {
+        "original_sha256": "a55d247d7c4048e93607f29199e1b49a7b61640b4858094ae73f31f4145237fa",
+        "original_size": 14237,
+        "path": "core.py",
+        "port_sha256": "52a4fb42b179aff82a41ad9c0d0a178031a9e4e01d7868045707080c68540435",
+        "port_size": 14771
+      },
+      {
+        "original_sha256": "4bcdcc0b76f02ecf4c4fb76337945d3c478e14b8ecc6a021c0e7cb39a25b27f1",
+        "original_size": 23584,
+        "path": "features/dash.py",
+        "port_sha256": "1672a5c3e469c5886853da1fe013da4fe3892657f6759ede097af2ffb632811e",
+        "port_size": 23892
+      },
+      {
+        "original_sha256": "7bb5726fa1574c3f6d155a6297864b09a3e6622d950b3283de3a2112c0ec1fd6",
+        "original_size": 21753,
+        "path": "features/holster.py",
+        "port_sha256": "04c9aa45967abf2fbe20356408c19e596779b4b199d1fa51a8f7a42da3a842be",
+        "port_size": 22394
+      },
+      {
+        "original_sha256": "eb959519ce7f0bbaaca115322bc297a6be538ba75a122e0d613b0aec8dcd76c3",
+        "original_size": 75943,
+        "path": "features/mantle.py",
+        "port_sha256": "1bbdb5ccbf5a09ccc0151ac7b9cb99651b1ec94b27cc9a655bc9d672d6bf2e35",
+        "port_size": 76086
+      }
+    ],
+    "identical": [
+      "camera.py",
+      "features",
+      "features/__init__.py",
+      "features/double_jump.py",
+      "features/slam.py",
+      "features/slide.py",
+      "features/surge.py",
+      "fx.py",
+      "hudfx.py",
+      "textures",
+      "textures/mm_dash_flat.png",
+      "textures/mm_dash_flat.toml",
+      "textures/mm_dash_side.png",
+      "textures/mm_dash_side.toml",
+      "textures/mm_jump_chev.png",
+      "textures/mm_jump_chev.toml",
+      "textures/mm_pip_fill.png",
+      "textures/mm_pip_fill.toml",
+      "textures/mm_pip_outline.png",
+      "textures/mm_pip_outline.toml",
+      "textures/mm_slam_bracket.png",
+      "textures/mm_slam_bracket.toml",
+      "textures/mm_slam_ring.png",
+      "textures/mm_slam_ring.toml",
+      "textures/mm_slide_bar.png",
+      "textures/mm_slide_bar.toml",
+      "textures/mm_slide_cap.png",
+      "textures/mm_slide_cap.toml",
+      "textures/mm_surge_arc.png",
+      "textures/mm_surge_arc.toml",
+      "tracing.py"
+    ],
+    "removed": []
+  },
+  "original_archive": {
+    "bad_crc_member": null,
+    "file_count": 34,
+    "path": "Original/Modern Movement.sdkmod",
+    "sha256": "d9431034750f6a8739841220a60a8da391f5a20772eb3affb3fedb4c8774278e",
+    "size": 280959,
+    "unsafe_members": []
+  },
+  "port_archive": {
+    "bad_crc_member": null,
+    "file_count": 35,
+    "path": "Pre Sequel Port/Modern_Movement.sdkmod",
+    "sha256": "4f7c1fbeda6bc75e1d624123e323f109e716fc0d3b0ca2026939aee1919a2429",
+    "size": 283802,
+    "unsafe_members": []
+  },
+  "schema": 1
+}

@@ -1,0 +1,13 @@
+# Texloader manifest for Modern Movement's Sprint Surge arcs (installed by Modern Movement).
+image = "mm_surge_arc.png"
+name = "mm_surge_arc"
+outer = "Transient"
+
+[texture]
+mips = true
+flip = false
+srgb = true
+filter = "linear"
+address = "clamp"
+tiling = false
+lod_group = "ui"

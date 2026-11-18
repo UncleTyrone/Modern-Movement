@@ -1,0 +1,13 @@
+# Texloader manifest for Modern Movement's slide momentum bar ends (installed by Modern Movement).
+image = "mm_slide_cap.png"
+name = "mm_slide_cap"
+outer = "Transient"
+
+[texture]
+mips = true
+flip = false
+srgb = true
+filter = "linear"
+address = "clamp"
+tiling = false
+lod_group = "ui"

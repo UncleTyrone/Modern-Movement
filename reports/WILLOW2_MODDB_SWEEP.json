@@ -1,0 +1,4234 @@
+[
+  {
+    "slug": "bl2speed",
+    "title": "Speed",
+    "author": "NK",
+    "latest": "1.0.1",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "GPL-3.0",
+    "requires": "",
+    "desc": "Adds a single option, Sprint Speed , with choices from 1x up to 10x . The number is how fast you sprint compared to a normal sprint, so 2x means you cover ground twice as quickly as vanilla sprinting does. 1x is the game\u2019s own speed, so the mod can be left enabled with no effect. The default is 1.5x .",
+    "github": [
+      "https://github.com/NKAYE0/BL2speed",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 7,
+    "relevant": true
+  },
+  {
+    "slug": "newweapononkill",
+    "title": "New Weapon On Kill",
+    "author": "RedxYeti",
+    "latest": "1.0",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "",
+    "desc": "Options include: Weapon Type Legit, cursed or very cursed weapons How many kills between swaps Showing the new weapon name on screen",
+    "github": [
+      "https://github.com/RedxYeti/Yeti-BL2-SDK-Mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 7,
+    "relevant": true
+  },
+  {
+    "slug": "widescreenfogfix",
+    "title": "Widescreen Fog Fix",
+    "author": "Lumi",
+    "latest": "1.0",
+    "supports": "BL2",
+    "coop": "Client Side",
+    "license": "MIT",
+    "requires": "",
+    "desc": "On a screen wider than 16:9, Borderlands 2 stops drawing a map\u2019s height fog on the ground once the FOV gets high enough, and the game suddenly looks crisp and flat. The sprint zoom (and vehicle boost) widens the view too, so the fog pops in and out while you run. This is the \u201csky darkens / fog disappears when sprinting on 21:9\u201d bug, and the usual advice was to lower the FOV to 108.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/lumi-fiona/bl2-widescreen-fog-fix",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 5,
+    "relevant": true
+  },
+  {
+    "slug": "gearrandomiser",
+    "title": "Gear Randomiser",
+    "author": "ZetaD\u00e6mon",
+    "latest": "1.0",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "Structs",
+    "desc": "Adds options to additionally choose which character class mods will be locked to as well as a chaos mode which removes restrictions for weapons as to which parts spawn where on a gun. Does not change how loot is obtained or enemy drops so it is highly suggested to also use a mod like Cold Dead Hands. Also works with mods that add new gear to the game, you will just need to update parts for the ran",
+    "github": [
+      "https://github.com/ZetaDaemon/bl-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 4,
+    "relevant": true
+  },
+  {
+    "slug": "maploader",
+    "title": "maploader",
+    "author": "juso",
+    "latest": "1.0",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "To add/remove a custom map simply place/remove the .json map file into/from the directory. Each map file has its own Options/Mods entry that you can either enable or disable. Because loading in and creating hundreds of new objects takes time, this mod will increase your Loading screen times. If you absolutely can\u2019t live with ~4 additional seconds of Loading, check out the Options>Mod Menu. This mo",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk-mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 4,
+    "relevant": true
+  },
+  {
+    "slug": "speedometer",
+    "title": "speedometer",
+    "author": "juso",
+    "latest": "1.1",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "Coroutines",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk_Mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 3,
+    "relevant": true
+  },
+  {
+    "slug": "bl2modcabinet",
+    "title": "Bl2ModCabinet",
+    "author": "Ty-Gone",
+    "latest": "1.0.0",
+    "supports": "BL2",
+    "coop": "Client Side",
+    "license": "MIT",
+    "requires": "",
+    "desc": "It\u2019s designed to behave like the normal Mods menu (options-style list with hover/click selection), while letting you:",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 2,
+    "relevant": true
+  },
+  {
+    "slug": "canvaslib",
+    "title": "CanvasLIB",
+    "author": "juso",
+    "latest": "1.1",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "Coroutines",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk_Mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 2,
+    "relevant": true
+  },
+  {
+    "slug": "ping",
+    "title": "Ping!",
+    "author": "juso",
+    "latest": "1.1",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Client Side",
+    "license": "MIT",
+    "requires": "uemath",
+    "desc": "",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk-mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 2,
+    "relevant": true
+  },
+  {
+    "slug": "pythonpartnotifier",
+    "title": "Python Part Notifier",
+    "author": "apple1417",
+    "latest": "1.9",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "",
+    "desc": "What exactly is shown on the card is very customizable through the options menu. Don\u2019t care about a part slot? You can turn it off. Running out of space with all the parts you want to show? You can remove the original description or turn the font size down. Or playing Randomizer and want to know what weapons each part comes from? Why not use detailed part names.",
+    "github": [
+      "https://github.com/apple1417/willow2-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 2,
+    "relevant": true
+  },
+  {
+    "slug": "tracelib",
+    "title": "tracelib",
+    "author": "juso",
+    "latest": "1.1",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "uemath",
+    "desc": "",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk-mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 2,
+    "relevant": true
+  },
+  {
+    "slug": "tweens",
+    "title": "tweens",
+    "author": "juso",
+    "latest": "1.0",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "coroutines",
+    "desc": "",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk-mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 2,
+    "relevant": true
+  },
+  {
+    "slug": "visualtriggers",
+    "title": "Visual Triggers",
+    "author": "GameChanger97",
+    "latest": "1.0",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "Unknown",
+    "requires": "",
+    "desc": "By default \u20188\u2019 will toggle waypoints and \u20189\u2019 will toggle triggers. Once enabled, you can change the keybinds for showing triggers and waypoints in the keybinds menu.",
+    "github": [
+      "https://github.com/GameChanger97/Bl2-Mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 2,
+    "relevant": true
+  },
+  {
+    "slug": "weaponprof",
+    "title": "Weapon Proficiencies",
+    "author": "Yeti",
+    "latest": "1",
+    "supports": "BL2",
+    "coop": "Host Only",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "Get a kill while holding a specific weapon and the proficiency goes up based on how much xp the enemy was worth.",
+    "github": [
+      "https://github.com/RedxYeti/bl2-willow2-sdkmods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 2,
+    "relevant": true
+  },
+  {
+    "slug": "actionskillcountdowntimer",
+    "title": "Action Skill Countdown Timer",
+    "author": "RedxYeti",
+    "latest": "1.0",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/RedxYeti/Yeti-BL2-SDK-Mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "alt-use-vendors",
+    "title": "Alt Use Vendors",
+    "author": "apple1417",
+    "latest": "4",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Host Only",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "In coop there are a few visual oddities, however it functions perfectly fine.",
+    "github": [
+      "https://github.com/apple1417/willow2-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "alwaysteleportvehicles",
+    "title": "Always Teleport Vehicles",
+    "author": "Yeti",
+    "latest": "1",
+    "supports": "BL2",
+    "coop": "Client Side",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/RedxYeti/bl2-willow2-sdkmods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "ambientspawns",
+    "title": "Ambient Spawns",
+    "author": "Siggles",
+    "latest": "1.1.0",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "UserFeedback",
+    "desc": "It matches spawn points to enemies with spawn animations, so it doesn\u2019t look too janky. Options for spawn frequency and distance to the player, and which enemies to use:",
+    "github": [
+      "https://github.com/Siggless/bl-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "audiocontrol",
+    "title": "Audio Control",
+    "author": "Pyrex",
+    "latest": "1.0.1",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/PyrexBLJ/blsdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "automaticreloadfix",
+    "title": "Automatic Reload Fix",
+    "author": "Yeti",
+    "latest": "1.1",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Client Side",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/RedxYeti/bl2-willow2-sdkmods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "balancedropperbl2",
+    "title": "BalanceDropper",
+    "author": "Ty-Gone",
+    "latest": "2.0",
+    "supports": "BL2",
+    "coop": "Client Side",
+    "license": "MIT",
+    "requires": "blimgui",
+    "desc": "",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "better-third-person",
+    "title": "Better Third Person",
+    "author": "ZetaDaemon",
+    "latest": "3",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/ZetaDaemon/willow2-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "betterdamagefeedback",
+    "title": "Better Damage Feedback",
+    "author": "ZetaD\u00e6mon",
+    "latest": "1.0",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "Enums",
+    "desc": "Adds support for other mods to give the information for damage particles, check the README for details on doing this.",
+    "github": [
+      "https://github.com/ZetaDaemon/bl-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "betteruicontrols",
+    "title": "Better UI Controls",
+    "author": "Yeti",
+    "latest": "1",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "Vehicle station, but only left and right on the first screen",
+    "github": [
+      "https://github.com/RedxYeti/bl2-willow2-sdkmods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "bigparticleparty",
+    "title": "Big Particle Party",
+    "author": "juso",
+    "latest": "1.0",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk_Mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "bl2eternal",
+    "title": "BL2 Eternal",
+    "author": "juso",
+    "latest": "1.0.3",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Requires All Players",
+    "license": "MIT",
+    "requires": "uemath",
+    "desc": "",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk-mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "blsearchtool",
+    "title": "BLSearchTool",
+    "author": "Ty-gone",
+    "latest": "2",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Client Side",
+    "license": "MIT",
+    "requires": "blimgui",
+    "desc": "",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "borderlandsrewind",
+    "title": "Borderlands Rewind",
+    "author": "Justin99",
+    "latest": "1.0",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "UserFeedback",
+    "desc": "Keybinds are available to instantly stack various glitches from older and current patch:",
+    "github": [
+      "https://github.com/Justin99x/bl-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "bossbar",
+    "title": "Bossbar",
+    "author": "juso",
+    "latest": "1.1",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk_Mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "chatlog",
+    "title": "ChatLog",
+    "author": "galqawala",
+    "latest": "1.0.6",
+    "supports": "BL2 and TPS",
+    "coop": "Client Side",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/galqawala/ChatLog",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "combocounter",
+    "title": "ComboCounter",
+    "author": "Juso, Sartick",
+    "latest": "1.0",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "Unknown",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/Sartick/bl-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "command-extensions",
+    "title": "Command Extensions",
+    "author": "apple1417",
+    "latest": "5",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Client Side",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "See here for info on the builtin commands and how to write mods using them.",
+    "github": [
+      "https://github.com/apple1417/willow2-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "configurableviewmodelcvm",
+    "title": "ConfigurableViewModel (CVM)",
+    "author": "juso",
+    "latest": "2.1",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk_Mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "controllerbinds",
+    "title": "Controller Binds",
+    "author": "Siggles",
+    "latest": "1.0.2",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/Siggless/bl-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "cooppause",
+    "title": "Coop Pause",
+    "author": "Pyrex",
+    "latest": "1.0.0",
+    "supports": "BL2 and TPS",
+    "coop": "Requires All Players",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "ALL players in the lobby must have this installed and running for it to work.",
+    "github": [
+      "https://github.com/PyrexBLJ/BL2-SDK-Mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "coroutines",
+    "title": "coroutines",
+    "author": "juso",
+    "latest": "1.1",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk-mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "effectrandomizer",
+    "title": "Effect Randomizer",
+    "author": "milo",
+    "latest": "2.0",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "From the main menu, under Mods, enable \u2018Effect Randomizer\u2019 and escape back to the main menu. Bring up Options->Mods->Effect Randomizer to enable the effects you want to change, then load your character and start the session as usual. Changes to settings in the in-game menu will have no effect until after a return to the main menu.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/ncalvin1/Milo-BL2-SDK-Mods",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "equip-locker",
+    "title": "Equip Locker",
+    "author": "apple1417",
+    "latest": "4",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "Useful for allegiance or single rarity or weapon type runs.",
+    "github": [
+      "https://github.com/apple1417/willow2-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "expadjuster",
+    "title": "Exp Adjuster",
+    "author": "plu5",
+    "latest": "1.0.0 2021-04-05",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "Unknown",
+    "requires": "",
+    "desc": "By default all the values are set to what they are normally. Check Options -> Mods menu to adjust them.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/plu5/p-borderlands",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "farmcounter",
+    "title": "Farm Counter",
+    "author": "ZetaD\u00e6mon",
+    "latest": "1.1",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "UserFeedback",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/ZetaDaemon/bl-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "fpsslider",
+    "title": "FPS Slider",
+    "author": "juso",
+    "latest": "1.0",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk_Mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "grenadejumpkey",
+    "title": "Grenade Jump Key",
+    "author": "Yeti",
+    "latest": "1",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/RedxYeti/bl2-willow2-sdkmods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "hide-undiscovered-missions",
+    "title": "Hide Undiscovered Missions",
+    "author": "apple1417",
+    "latest": "3",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Client Side",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/apple1417/willow2-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "hitsounds",
+    "title": "HitSounds",
+    "author": "juso",
+    "latest": "1.0",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk_Mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "jumptolevelchallenges",
+    "title": "Jump To Level Challenges",
+    "author": "Siggles",
+    "latest": "2.1.0",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/Siggless/bl-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "lessdotscreams",
+    "title": "Less DOT Screams",
+    "author": "Siggles",
+    "latest": "1.0.0",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "To customise for certain characters, consider \u2018Customizable Player Audio Muter\u2019 BLCMM text mod instead.",
+    "github": [
+      "https://github.com/Siggless/bl-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "movementtech",
+    "title": "Movement Tech",
+    "author": "ZetaDaemon",
+    "latest": "2.3",
+    "supports": "BL2",
+    "coop": "Requires All Players",
+    "license": "GPL3",
+    "requires": "Command Extensions",
+    "desc": "",
+    "github": [
+      "https://github.com/ZetaDaemon/willow2-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "no-ads",
+    "title": "No Ads",
+    "author": "apple1417",
+    "latest": "2",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Client Side",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/apple1417/willow2-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "nocrosshair",
+    "title": "NoCrosshair",
+    "author": "juso",
+    "latest": "1.1",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk_Mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "objectrelocator",
+    "title": "Object Relocator",
+    "author": "Zazk0u",
+    "latest": "1.42",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "uemath",
+    "desc": "",
+    "github": [
+      "https://github.com/Zazk0u/new-bl-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "offline-helpers",
+    "title": "Offline Helpers",
+    "author": "apple1417",
+    "latest": "3",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Client Side",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/apple1417/willow2-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "optionalobjectivesreward",
+    "title": "Optional Objectives Rewards",
+    "author": "Sergio Almela",
+    "latest": "1.2",
+    "supports": "BL2 and TPS",
+    "coop": "Host Only",
+    "license": "MIT",
+    "requires": "",
+    "desc": "Open the mod options in-game to configure:",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/sergioalmela/Sergio-Borderlands-SDK-Mods",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "pickupmessage",
+    "title": "Pickup Message",
+    "author": "juso",
+    "latest": "1.1",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "Coroutines",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk_Mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "quick-startup",
+    "title": "Quick Startup",
+    "author": "juso and mopioid",
+    "latest": "1.2",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Client Side",
+    "license": "MIT",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk-mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "quietconsole",
+    "title": "Quiet Console",
+    "author": "RedxYeti",
+    "latest": "1.1",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "",
+    "desc": "Disabled Messages are: Debug Messages Item Messages Weapon Messages Ammo Messages Credits Messages Challenge Messages Mission Messages Fast Travel Station Messages Level Up Messages Join/Leave Game Messages Change Name Messages",
+    "github": [
+      "https://github.com/RedxYeti/Yeti-BL2-SDK-Mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "roguelands",
+    "title": "RogueLands",
+    "author": "juso",
+    "latest": "1.3",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "UserFeedback",
+    "desc": "This mod works similar to the 1life challenge, but with the twist, that when you die, you respawn at the start of the game with all your Exp. You will lose all your items, but you will keep your stats and skills. All progress with this mod will count towards the UVHM. You do not need to have it unlocked to play. Overpower Levels will also be ignored, it is recommended to create a new character for",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk_Mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "runcounter",
+    "title": "Run Counter",
+    "author": "Pyrex",
+    "latest": "1.0.8",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/PyrexBLJ/blsdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "save-file-organizer",
+    "title": "Save File Organizer",
+    "author": "Justin99",
+    "latest": "1.1",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "Unknown",
+    "requires": "",
+    "desc": "In the options menu there is a button to rename all saves in your save folder to follow the format: Save#### - <UICharacterName>.sav.",
+    "github": [
+      "https://github.com/Justin99x/willow2-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "shieldrechargetimer",
+    "title": "Shield Recharge Timer",
+    "author": "LaryIsland",
+    "latest": "1.0",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/LaryIsland/bl-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "sliding",
+    "title": "Sliding",
+    "author": "juso",
+    "latest": "1.0",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Requires All Players",
+    "license": "MIT",
+    "requires": "uemath",
+    "desc": "",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk-mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "speedrun-practice",
+    "title": "Speedrun Practice",
+    "author": "Justin99",
+    "latest": "2.3",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Requires All Players",
+    "license": "Unknown",
+    "requires": "Commander",
+    "desc": "Accidental presses of the Achievements menu option no longer open Steam/Epic",
+    "github": [
+      "https://github.com/Justin99x/willow2-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "sprintadjuster",
+    "title": "Sprint Adjuster",
+    "author": "plu5",
+    "latest": "1.1.0 2021-05-17",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "Unknown",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/plu5/p-borderlands",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "sprintsetandforget",
+    "title": "Sprint Set-and-Forget",
+    "author": "Ceiyne",
+    "latest": "1.0.0",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "Unknown",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "superscreenshots",
+    "title": "Super Screenshots",
+    "author": "Pyrex",
+    "latest": "1.0.0",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/PyrexBLJ/blsdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "texloader",
+    "title": "texloader",
+    "author": "juso",
+    "latest": "1.1",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "This mod uses native modules, which makes it a little more fragile. You may need to update it after an SDK update.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/Willow-Texture-Loader",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "text-mod-loader",
+    "title": "Text Mod Loader",
+    "author": "apple1417",
+    "latest": "5",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Client Side",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "This mod is not a replacement for BLCMM. You still need to understand how to configure and execute text mods manually before being able to use it properly. All this does is automatically run the exec command for you.",
+    "github": [
+      "https://github.com/apple1417/willow2-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "throwweaponthenpickup",
+    "title": "Throw Weapon Then Pickup",
+    "author": "Lengyu",
+    "latest": "1.0",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/aa3615058/Lengyu-BL2-sdk-Mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "ue-timers",
+    "title": "UE Timers",
+    "author": "ZetaDaemon and RedxYeti",
+    "latest": "2",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/ZetaDaemon/willow2-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "uemath",
+    "title": "uemath",
+    "author": "juso",
+    "latest": "1.1",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk-mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "vhrandomizer",
+    "title": "Vault Hunter Randomizer",
+    "author": "Yeti",
+    "latest": "0.8",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "Keeps your gear/levels/skill tree/missions etc.",
+    "github": [
+      "https://github.com/RedxYeti/bl2-willow2-sdkmods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "weapondebug",
+    "title": "Weapon Debug",
+    "author": "Snake",
+    "latest": "1.0.1",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "Creative Commons Attribution Share Alike 4.0 International",
+    "requires": "Enums",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/slserpent/bl-sdk-mods",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "weaponquickswitcher",
+    "title": "Weapon Quick Switcher",
+    "author": "Lengyu",
+    "latest": "1.1",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/aa3615058/Lengyu-BL2-sdk-Mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "weaponrandomizer",
+    "title": "Weapon Randomizer",
+    "author": "juso",
+    "latest": "1.0",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk_Mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 1,
+    "relevant": true
+  },
+  {
+    "slug": "afterburntweaks",
+    "title": "Afterburn Tweaks",
+    "author": "RedxYeti",
+    "latest": "1.0",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/RedxYeti/Yeti-BL2-SDK-Mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "akeventplayer",
+    "title": "AkEvent Player",
+    "author": "juso",
+    "latest": "1.0",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "blimgui",
+    "desc": "",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk-mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "allmyhomieshateshift",
+    "title": "All My Homies Hate SHiFT",
+    "author": "Pyrex",
+    "latest": "1.0.0",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/PyrexBLJ/blsdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "allornothingcompanion",
+    "title": "All Or Nothing Companion",
+    "author": "Pyrex",
+    "latest": "1.0.3",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/PyrexBLJ/blsdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "altusecatcharide",
+    "title": "Alt Use Catch-a-Ride",
+    "author": "Siggles",
+    "latest": "2.0.0",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/Siggless/bl-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "altusefasttravel",
+    "title": "Alt Use Fast Travel",
+    "author": "Yeti",
+    "latest": "1",
+    "supports": "BL2 and AoDK",
+    "coop": "Host Only",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "Current objective will take you to where it shows your objective is when you open the menu. For example if you don\u2019t have Tundra Express unlocked, it will take you to Three Horns because that\u2019s the closest fast travel you have unlocked. (Determined by the game not the mod)",
+    "github": [
+      "https://github.com/RedxYeti/bl2-willow2-sdkmods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "anarchydeathcap",
+    "title": "Anarchy Death Cap",
+    "author": "renard162",
+    "latest": "1.2.1",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "Anarchy stacks are also preserved when quitting the game, preventing unintended losses outside of combat.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/renard162/borderlands_sdk_mods",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "anarchysaver",
+    "title": "Anarchy Saver",
+    "author": "bisnap",
+    "latest": "1.1.1",
+    "supports": "BL2",
+    "coop": "Host Only",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/bisnapYT/AnarchySaver",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "apples-borderlands-cheats",
+    "title": "Apple's Borderlands Cheats",
+    "author": "apple1417",
+    "latest": "3",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "Features include (but are not limited to):",
+    "github": [
+      "https://github.com/apple1417/willow2-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "autoloot",
+    "title": "AutoLoot",
+    "author": "galqawala",
+    "latest": "2.0.67",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "ui_utils",
+    "desc": "",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/galqawala/AutoLoot",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "autopickup",
+    "title": "AutoPickup",
+    "author": "Tominator",
+    "latest": "1.0.3",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/tominator1pl/bl-sdk-mods",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "autopickuptweaks",
+    "title": "Auto Pickup Tweaks",
+    "author": "Yeti",
+    "latest": "1",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/RedxYeti/bl2-willow2-sdkmods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "autosaveblocker",
+    "title": "AutoSave Blocker",
+    "author": "identity",
+    "latest": "1.0.2",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/infernumx/bl-sdk-mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "backpackmanager",
+    "title": "Backpack Manager",
+    "author": "FromDarkHell",
+    "latest": "1.1",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "Unknown",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/former-default-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "badassbounties",
+    "title": "Badass Bounties",
+    "author": "juso",
+    "latest": "1.0",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "UserFeedback",
+    "desc": "You can reroll your active bounties at any time for the cheap price of 2 Eridium per bounty that is not completed.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk_Mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "badassranklock",
+    "title": "Badass Rank Lock",
+    "author": "Siggles",
+    "latest": "2.0.0",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "bankmanager",
+    "title": "BankManager",
+    "author": "PureEvil139/FromDarkHell",
+    "latest": "1.0",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/PureEvil139/Bl2-Mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "bankstashanywherebasa",
+    "title": "Bank & Stash Anywhere (BASA)",
+    "author": "Pyrex",
+    "latest": "1.0.2",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/PyrexBLJ/blsdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "begoneoutofboundsloot",
+    "title": "Be Gone Out Of Bounds Loot",
+    "author": "juso",
+    "latest": "2.0",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk_Mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "betterboostedsaves",
+    "title": "Better Boosted Saves",
+    "author": "Yeti",
+    "latest": "1",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/RedxYeti/bl2-willow2-sdkmods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "betterspawnsandbettertravelbsabt",
+    "title": "Better Spawns and Better Travel (BSABT)",
+    "author": "juso",
+    "latest": "1.2.0",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk_Mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "bl2exodus",
+    "title": "BL2 Exodus",
+    "author": "Exotek, juso",
+    "latest": "1.1.8",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "blimgui",
+    "title": "blimgui",
+    "author": "juso and smugg",
+    "latest": "1.1",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "This mod cannot be installed like a regular .sdkmod , instead it comes as a .zip . After downloading the .zip file, place it exactly where you would place a .sdkmod file. Then, extract the contents of the .zip file. You should now have a folder named blimgui in your mods folder. After that you can safely delete the .zip file.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/blimgui",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "bomberozkitfix",
+    "title": "Bomber Ozkit Fix",
+    "author": "Zazk0u",
+    "latest": "1",
+    "supports": "TPS",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/Zazk0u/new-bl-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "boostedtpscharacters",
+    "title": "Boosted TPS Characters",
+    "author": "Yeti",
+    "latest": "1",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/RedxYeti/bl2-willow2-sdkmods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "bossxpboosters",
+    "title": "Boss XP Boosters",
+    "author": "Pyrex, skill_issue_shynes, Raidsauced, and III_Gunther_III",
+    "latest": "1.0.1",
+    "supports": "BL2",
+    "coop": "Incompatible",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "Special thanks to skill_issue_shynes, Raidsauced and III_Gunther_III for coming up with the idea and doing most of the testing.",
+    "github": [
+      "https://github.com/PyrexBLJ/BL2-SDK-Mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "bpdusefulcommands",
+    "title": "BPD Useful Commands",
+    "author": "Zazk0u",
+    "latest": "1",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "Command Extensions",
+    "desc": "",
+    "github": [
+      "https://github.com/Zazk0u/new-bl-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "changeutil",
+    "title": "Change Util",
+    "author": "Milo",
+    "latest": "0.1",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/ncalvin1/Milo-BL2-SDK-Mods",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "chronos",
+    "title": "Chronos",
+    "author": "juso",
+    "latest": "1.0",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk_Mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "cleaninguppandora",
+    "title": "Cleaning Up Pandora",
+    "author": "Deceptix_",
+    "latest": "1.1",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "Unknown",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/Decept1x/Borderlands-Cleaning-Up-Pandora",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "collisionvisualizer",
+    "title": "Collision Visualizer",
+    "author": "None",
+    "latest": "0.1.0",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "Be aware that the game may hang for several seconds when enabling visualization in a map with many invisible volumes. Additionally, while kill volumes and blocking volumes can be toggled on independently, both of them will always be toggled off together.",
+    "github": [
+      "https://github.com/NoneGiven/bl-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "commander",
+    "title": "Commander",
+    "author": "mopioid",
+    "latest": "3.0.1",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Requires All Players",
+    "license": "Unknown",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/mopioid/Borderlands-Commander",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "consistenttime",
+    "title": "Consistent Time",
+    "author": "Yeti",
+    "latest": "1",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/RedxYeti/bl2-willow2-sdkmods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "consolefontsize",
+    "title": "Console Font Size",
+    "author": "ZetaD\u00e6mon",
+    "latest": "1.0",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/ZetaDaemon/bl-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "constructor",
+    "title": "Constructor",
+    "author": "juso",
+    "latest": "1.2.0",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "Simply place the provided files/folders anywhere inside /Binaries/Win32/Mods/Constructor . The names of the files do not really matter, as most mods will add new objects, so they won\u2019t overwrite each other and shouldn\u2019t cause any compatibility issues. If you do care about load order, the files will be loaded in alphabetical order of their respective directory.",
+    "github": [
+      "https://github.com/bl-sdk/PythonSDK",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk_Mods",
+      "https://github.com/just-the-docs/just-the-docs"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "coopsavequit",
+    "title": "Co-op Save Quit",
+    "author": "web",
+    "latest": "3.0.1",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Host Only",
+    "license": "Unknown",
+    "requires": "",
+    "desc": "read only mode (f6) is farming mode. the game stops saving and every reload puts your missions back to where they stood when you turned it on, so quest rewards stay farmable. everything else you do goes with them, levels and loot included. your partner needs the mod for this one since saving happens on their machine, and toggling it as host toggles theirs. f7 saves on the spot if you want to commi",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/tunnelweb/coop-save-quit",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "crossclassskillrandomizer",
+    "title": "Cross Class Skill Randomizer",
+    "author": "Abahbob",
+    "latest": "1.2",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "Unknown",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/former-default-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "customscopedsensitivity",
+    "title": "Custom Scoped Sensitivity",
+    "author": "Deceptix_",
+    "latest": "1.0",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "Unknown",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/Decept1x/Borderlands-Custom-Scoped-Sensitivity",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "customskins",
+    "title": "Custom Skins",
+    "author": "FromDarkHell",
+    "latest": "1.0",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/FromDarkHell/bl-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "deathtrapmemoryprogram",
+    "title": "Death Trap Memory Program",
+    "author": "Lengyu",
+    "latest": "1.4",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "UserFeedback",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/aa3615058/Lengyu-BL2-sdk-Mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "deathtrapshield",
+    "title": "Deathtrap Shield",
+    "author": "Relentless",
+    "latest": "1.1.1",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "EridiumLib",
+    "desc": "Everything related to versions and their release notes can be found in the changelog . If you found a bug or you have a feature request, please use our issue tracker linked below.",
+    "github": [
+      "https://github.com/DAmNRelentless/bl2-deathtrapshield",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "decent-console",
+    "title": "Decent Console",
+    "author": "juso",
+    "latest": "1.0",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk-mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "dialog-skipper",
+    "title": "Dialog Skipper",
+    "author": "ZetaDaemon",
+    "latest": "2.3",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/ZetaDaemon/willow2-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "dialograndomizer",
+    "title": "Dialog Randomizer",
+    "author": "juso",
+    "latest": "2.1",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk_Mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "difficultymodes",
+    "title": "Difficulty Modes",
+    "author": "ZetaD\u00e6mon",
+    "latest": "1.0",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "Structs",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/ZetaDaemon/bl-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "dropchancemultiplier",
+    "title": "DropChanceMultiplier",
+    "author": "juso",
+    "latest": "2.0",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk_Mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "dualbinds",
+    "title": "Dual Binds",
+    "author": "RedxYeti",
+    "latest": "1.0",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/RedxYeti/Yeti-BL2-SDK-Mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "earlyskillpoints",
+    "title": "Early Skill Points",
+    "author": "Zazk0u27 and ZetaDaemon",
+    "latest": "1.00",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/Zazk0u/new-bl-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "easyreadonly",
+    "title": "Easy Read Only",
+    "author": "FromDarkHell",
+    "latest": "1.0",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "Unknown",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/former-default-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "emotes",
+    "title": "Emotes",
+    "author": "juso",
+    "latest": "1.0",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk_Mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "endactionskillkey",
+    "title": "End Action Skill Key",
+    "author": "RedxYeti",
+    "latest": "1.0",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/RedxYeti/Yeti-BL2-SDK-Mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "enemy-level-randomizer",
+    "title": "Enemy Level Randomizer",
+    "author": "apple1417",
+    "latest": "3",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/apple1417/willow2-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "enemybalancer",
+    "title": "EnemyBalancer",
+    "author": "galqawala",
+    "latest": "1.0.85",
+    "supports": "BL2 and TPS",
+    "coop": "Host Only",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/galqawala/EnemyBalancer",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "enemyitemscaling",
+    "title": "Enemy and Item Scaling",
+    "author": "CalebEaston",
+    "latest": "0.10",
+    "supports": "BL2 and TPS",
+    "coop": "Host Only",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/CalebEaston/bl2-and-tps-enemy-and-item-scaling-sdk",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "enums",
+    "title": "Enums",
+    "author": "apple1417",
+    "latest": "1.1",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/apple1417/willow2-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "eridiumlib",
+    "title": "EridiumLib",
+    "author": "Chronophylos and Relentless",
+    "latest": "0.4.2",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "GNU Lesser General Public License v2.1",
+    "requires": "",
+    "desc": "Everything related to versions and their release notes can be found in the changelog . If you found a bug or you have a feature request, please use our issue tracker linked below.",
+    "github": [
+      "https://github.com/DAmNRelentless/bl2-eridiumlib",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "find-actors",
+    "title": "Find Actors",
+    "author": "Yeti",
+    "latest": "1.1",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "Includes the command \u201cfind_actors\u201d usage is \u201cfind_actors class_type distance\u201d.",
+    "github": [
+      "https://github.com/RedxYeti/bl2-willow2-sdkmods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "firingfix",
+    "title": "Firing Fix",
+    "author": "ZetaDaemon",
+    "latest": "1",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "Unknown",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/ZetaDaemon/willow2-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "firstpersondriver",
+    "title": "FirstPersonDriver",
+    "author": "juso",
+    "latest": "2.0",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk_Mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "gamescaler",
+    "title": "Game Scaler",
+    "author": "Rossay",
+    "latest": "2.1",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/Rossays/BL-SDK-Mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "grenademodquickswitcher",
+    "title": "Grenade Mod Quick Switcher",
+    "author": "Siggles",
+    "latest": "2.0.0",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/Siggless/bl-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "instavehicles",
+    "title": "Insta Vehicles",
+    "author": "ZetaDaemon",
+    "latest": "1.0",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/ZetaDaemon/willow2-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "inventory-editor",
+    "title": "Inventory Editor",
+    "author": "juso",
+    "latest": "1.0",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "blimgui",
+    "desc": "",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk-mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "itemleveluncapper",
+    "title": "Item Level Uncapper",
+    "author": "apple1417",
+    "latest": "1.3",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "",
+    "desc": "Fixes the level cap of most items so that they continue spawning past level 100.",
+    "github": [
+      "https://github.com/apple1417/willow2-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "itemlights",
+    "title": "Item Lights",
+    "author": "Yeti",
+    "latest": "1.1",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/RedxYeti/bl2-willow2-sdkmods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "keepanarchy",
+    "title": "KeepAnarchy",
+    "author": "Sampletext282",
+    "latest": "0.9",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "Unknown",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/Sampletext282/bl2-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "keyboardchange",
+    "title": "Keyboard Change",
+    "author": "Ceiyne",
+    "latest": "0.1.1",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "Unknown",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "lengyucopydevice",
+    "title": "Lengyu Copy Device",
+    "author": "Lengyu",
+    "latest": "1.0",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/aa3615058/Lengyu-BL2-sdk-Mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "lengyutpdevice",
+    "title": "Lengyu TP Device",
+    "author": "Lengyu",
+    "latest": "1.3",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "UserFeedback",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/aa3615058/Lengyu-BL2-sdk-Mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "lilithpatch",
+    "title": "Lilith Patch",
+    "author": "Milo",
+    "latest": "0.1",
+    "supports": "BL2 and AoDK",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "",
+    "desc": "BTW, this mod is a case study of how NOT to fix a problem\u2026",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/ncalvin1/Milo-BL2-SDK-Mods",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "limitless",
+    "title": "Limitless",
+    "author": "BlModded114",
+    "latest": "1.0",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/Blmodded114/Bl2-SDK-Mods",
+      "https://github.com/Blmodded114/Bl2-SDK-Mods.git",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "livefeed",
+    "title": "Live Feed",
+    "author": "mopioid",
+    "latest": "1.2",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "Unknown",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/mopioid/Borderlands-Live-Feed",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "lootcollector",
+    "title": "Loot Collector",
+    "author": "Lengyu",
+    "latest": "1.4",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/aa3615058/Lengyu-BL2-sdk-Mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "lootcollision",
+    "title": "Loot Collision",
+    "author": "RedxYeti",
+    "latest": "1.0",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/RedxYeti/Yeti-BL2-SDK-Mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "lootmarker",
+    "title": "LootMarker",
+    "author": "juso",
+    "latest": "1.4",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk_Mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "lootmidgetworld",
+    "title": "Loot Midget World",
+    "author": "BlModded114",
+    "latest": "1.1",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "package_loader",
+    "desc": "",
+    "github": [
+      "https://github.com/Blmodded114/Bl2-SDK-Mods",
+      "https://github.com/Blmodded114/Bl2-SDK-Mods.git",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "lootnotificator",
+    "title": "LootNotificator",
+    "author": "juso",
+    "latest": "2.1",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk_Mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "lootrandomizer",
+    "title": "Loot Randomizer",
+    "author": "mopioid",
+    "latest": "1.5.5",
+    "supports": "BL2 and TPS",
+    "coop": "Requires All Players",
+    "license": "Unknown",
+    "requires": "",
+    "desc": "When playing Loot Randomizer, you create a seed, and your game\u2019s loot sources are assigned all new drops based on that seed. Your Knuckle Dragger may drop the Norfleet, while your Hyperius drops The Cradle.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/mopioid/Borderlands-Loot-Randomizer",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "mapreloader",
+    "title": "Map Reloader",
+    "author": "FromDarkHell",
+    "latest": "1.1",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "Unknown",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/former-default-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "mario",
+    "title": "Mario Mode",
+    "author": "apple1417",
+    "latest": "4",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Host Only",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/apple1417/willow2-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "mateditor",
+    "title": "Material Editor",
+    "author": "juso",
+    "latest": "1.0",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "blimgui",
+    "desc": "",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk-mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "meleeenhancement",
+    "title": "Melee Enhancement",
+    "author": "LaryIsland",
+    "latest": "1.0",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "Structs",
+    "desc": "Zer0 Fearless increases shield recharge delay, and Kunai no longer inflict self damage Krieg Silence the Voices self-hit chance scales down, and Buzz Axe Bombadier causes slag explosions",
+    "github": [
+      "https://github.com/LaryIsland/bl-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "missionquickswitcher",
+    "title": "MissionQuickswitcher",
+    "author": "juso",
+    "latest": "1.0",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk_Mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "missionselector",
+    "title": "Mission Selector",
+    "author": "Chronophylos and Relentless",
+    "latest": "1.3.2",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "EridiumLib",
+    "desc": "Everything related to versions and their release notes can be found in the changelog . If you found a bug or you have a feature request, please use our issue tracker linked below.",
+    "github": [
+      "https://github.com/DAmNRelentless/bl2-missionselector",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "modder-commands",
+    "title": "Modder Commands",
+    "author": "ZetaDaemon",
+    "latest": "1",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/ZetaDaemon/willow2-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "modthatclosesthegamewhenitopens",
+    "title": "modthatclosesthegamewhenitopens",
+    "author": "Pyrex",
+    "latest": "1.0.0",
+    "supports": "AoDK, TPS, and BL2",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/PyrexBLJ/modthatclosesthegamewhenitopens-bl",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "myfavorite",
+    "title": "My Favorite Mod",
+    "author": "milo",
+    "latest": "2.0",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/ncalvin1/Milo-BL2-SDK-Mods",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "nocap",
+    "title": "NoCap",
+    "author": "stelmo",
+    "latest": "0.2.2",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Requires All Players",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/stealmyhousekey/willow2-sdk-mods",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "nomainmenurotation",
+    "title": "No Main Menu Rotation",
+    "author": "Zazk0u",
+    "latest": "1",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/Zazk0u/new-bl-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "notexturefade",
+    "title": "No Texture Fade",
+    "author": "Yeti",
+    "latest": "1",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/RedxYeti/bl2-willow2-sdkmods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "npcrevives",
+    "title": "NPCRevives",
+    "author": "juso",
+    "latest": "1.1",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk_Mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "ohko",
+    "title": "One-Hit KO",
+    "author": "apple1417",
+    "latest": "3",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/apple1417/willow2-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "onezerker",
+    "title": "Onezerker",
+    "author": "apple1417",
+    "latest": "1.8",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "",
+    "desc": "Thanks to FromDarkHell for finding the object which lets you gunzerk with only one equipped gun.",
+    "github": [
+      "https://github.com/apple1417/willow2-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "opensanctuarydoors",
+    "title": "Open Sanctuary Doors",
+    "author": "Yeti",
+    "latest": "1",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/RedxYeti/bl2-willow2-sdkmods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "opensesame",
+    "title": "Open Sesame",
+    "author": "Zazk0u",
+    "latest": "1",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/Zazk0u/new-bl-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "packageloader",
+    "title": "Package Loader",
+    "author": "mopioid",
+    "latest": "1.0",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/mopioid/Borderlands-Package-Loader",
+      "https://github.com/mopioid/Borderlands-Package-Loader.git"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "paintball",
+    "title": "Paintball",
+    "author": "juso",
+    "latest": "1.0",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk-mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "paytoloot",
+    "title": "Pay To Loot",
+    "author": "Yeti",
+    "latest": "1",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "UserFeedback",
+    "desc": "",
+    "github": [
+      "https://github.com/RedxYeti/bl2-willow2-sdkmods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "photomode",
+    "title": "Photo Mode",
+    "author": "juso",
+    "latest": "1.3",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk-mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "pickupastrash",
+    "title": "PickupAsTrash",
+    "author": "Tominator",
+    "latest": "1.0.1",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "Enums",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/tominator1pl/bl-sdk-mods",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "pizzaforfastball",
+    "title": "PizzaForFastball",
+    "author": "juso",
+    "latest": "1.0",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk_Mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "playerrandomizer",
+    "title": "Player Randomizer",
+    "author": "milo",
+    "latest": "2.02",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/ncalvin1/Milo-BL2-SDK-Mods",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "pokelands",
+    "title": "Pokelands",
+    "author": "juso",
+    "latest": "1.0",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk_Mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "projectilerandomizer",
+    "title": "Projectile Randomizer",
+    "author": "Yeti",
+    "latest": "2",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "**WARNING: THIS MOD CAN HAVE LOTS OF FLASHING LIGHTS AND OFTEN IS VERY LOUD ** **RECOMMNDED YOU HAVE YOUR VOLUME LOW **",
+    "github": [
+      "https://github.com/RedxYeti/bl2-willow2-sdkmods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/doitsujin/dxvk",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "reignofgiants",
+    "title": "Reign Of Giants",
+    "author": "mopioid",
+    "latest": "1.2",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "Unknown",
+    "requires": "",
+    "desc": "Yes, every enemy in the game! In Reign Of Giants, Psychos, Loaders, Saturn, Loot Midgets, Varkids, Savage Lee, Dexiduous the Invincible\u2026 All have a rare chance of spawning as a gigantic version of their normal self.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/mopioid/Borderlands-Reign-Of-Giants",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "respechotkeyrhk",
+    "title": "Respec HotKey (RHK)",
+    "author": "Pyrex",
+    "latest": "1.0.0",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/PyrexBLJ/blsdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "revivetimemodifier",
+    "title": "Revive Time Modifier",
+    "author": "RedxYeti",
+    "latest": "1.0",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/RedxYeti/Yeti-BL2-SDK-Mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "rewardreroller",
+    "title": "Reward Reroller",
+    "author": "ZetaD\u00e6mon",
+    "latest": "1.1",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "Enums",
+    "desc": "Thankyou to Flare2V and alienoliver for the original work in BL2Fix.",
+    "github": [
+      "https://github.com/ZetaDaemon/bl-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "roguelandsgamemode",
+    "title": "Roguelands",
+    "author": "Pyrex and JoltzDude139",
+    "latest": "1.1.2",
+    "supports": "BL2",
+    "coop": "Incompatible",
+    "license": "GPL3",
+    "requires": "maploader",
+    "desc": "To install the mod download the .zip and extract the RoguelandsGamemode folder to your games sdk_mods folder, and do the same with the maploader.",
+    "github": [
+      "https://github.com/PyrexBLJ/BL2-SDK-Mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "sanitysaver",
+    "title": "Sanity Saver",
+    "author": "apple1417",
+    "latest": "2.2",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "",
+    "desc": "See the readme for some extra information on how to save edit while using this.",
+    "github": [
+      "https://github.com/apple1417/willow2-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "savesbackuper",
+    "title": "Saves Backuper",
+    "author": "plu5",
+    "latest": "1.0.0 2021-04-21",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "Unknown",
+    "requires": "UserFeedback",
+    "desc": "UserFeedback is required, make sure you remember to install that too.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/plu5/p-borderlands",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "scaledtvhm",
+    "title": "ScaledTVHM",
+    "author": "juso",
+    "latest": "1.0",
+    "supports": "AoDK",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk_Mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "scaling-adjuster",
+    "title": "Scaling Adjuster",
+    "author": "apple1417",
+    "latest": "3",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/apple1417/willow2-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "shinyloothunt",
+    "title": "Shiny Loot Hunt",
+    "author": "Pyrex, JoltzDude139, and Exotek",
+    "latest": "1.0.3",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "Command Extensions",
+    "desc": "They can only be farmed from dedicated loot sources with drop rates ranging from 1%-5%.",
+    "github": [
+      "https://github.com/PyrexBLJ/BL2-SDK-Mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "shopreseter",
+    "title": "Shop Reseter",
+    "author": "Lengyu",
+    "latest": "1.1",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/aa3615058/Lengyu-BL2-sdk-Mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "sillyscales",
+    "title": "Silly Scales",
+    "author": "RedxYeti",
+    "latest": "1.0",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "",
+    "desc": "Wacky NPC Scale is only for fun. The only way to damage them is explosions or melee with that option on.",
+    "github": [
+      "https://github.com/RedxYeti/Yeti-BL2-SDK-Mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "simplechinesefix",
+    "title": "Simple Chinese Fix",
+    "author": "Lengyu",
+    "latest": "1.0",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/aa3615058/Lengyu-BL2-sdk-Mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "simplezoom",
+    "title": "SimpleZoom",
+    "author": "juso",
+    "latest": "1.0.0",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk_Mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "skillsaver",
+    "title": "Skill Saver",
+    "author": "FromDarkHell",
+    "latest": "1.0",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "UserFeedback",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/FromDarkHell/bl-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "skilltoggles",
+    "title": "Skill Toggles",
+    "author": "Relentless and Chronophylos",
+    "latest": "1.3.2",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "EridiumLib",
+    "desc": "Everything related to versions and their release notes can be found in the changelog . If you found a bug or you have a feature request, please use our issue tracker linked below.",
+    "github": [
+      "https://github.com/DAmNRelentless/bl2-skilltoggles",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "skilltreeloadouts",
+    "title": "Skill Tree Loadouts",
+    "author": "Yeti",
+    "latest": "1",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/RedxYeti/bl2-willow2-sdkmods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "skinrandomizer",
+    "title": "Skin Randomizer",
+    "author": "Cael",
+    "latest": "1.2",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "Unknown",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/Cae-l/bl-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "sniperbutton",
+    "title": "SniperButton",
+    "author": "Pyrex",
+    "latest": "1.0.3",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/PyrexBLJ/blsdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "sodoffskeletonmages",
+    "title": "Sod Off, Skeleton Mages!",
+    "author": "Siggles",
+    "latest": "2.0.0",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/Siggless/bl-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "spareparts",
+    "title": "Spare Parts",
+    "author": "LaryIsland",
+    "latest": "1.6",
+    "supports": "BL2 and TPS",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "UserFeedback",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/LaryIsland/bl-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "spawn-multiplier",
+    "title": "Spawn Multiplier",
+    "author": "apple1417",
+    "latest": "5",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "This mod is known to cause softlocks. The game handles \u201ckill all enemies\u201d objectives in half a dozen different ways for example, and not all of them interact with this properly. When something softlocks, SQing and disabling the mod, completing the objective without it, and then re-enabling it, should let you progress further.",
+    "github": [
+      "https://github.com/apple1417/willow2-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "storagemanager",
+    "title": "Storage Manager",
+    "author": "Milo",
+    "latest": "1.0",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "",
+    "desc": "Credit goes to PureEvil139\u2019s BankManager, FromDarkHell\u2019s BackpackManager, and Our Lord And Savior Gabe Newell/OB4MA\u2019s Bank & Backpack Space Customizer.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/ncalvin1/Milo-BL2-SDK-Mods",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "structs",
+    "title": "Structs",
+    "author": "apple1417",
+    "latest": "1.1",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/apple1417/willow2-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "timeofdaychanger",
+    "title": "Time of Day Changer",
+    "author": "Snake",
+    "latest": "1.0.1",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "Creative Commons Attribution Share Alike 4.0 International",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/slserpent/bl-sdk-mods",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "tpsexodus",
+    "title": "TPS Exodus",
+    "author": "Exotek, juso",
+    "latest": "1.0.3",
+    "supports": "TPS",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "tpsskinfix",
+    "title": "TPS SkinFix",
+    "author": "juso",
+    "latest": "1.0",
+    "supports": "TPS",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk_Mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "tpsstylebhop",
+    "title": "TPS Style Bunny Hop",
+    "author": "Yeti",
+    "latest": "1",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/RedxYeti/bl2-willow2-sdkmods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "trivia",
+    "title": "Trivia",
+    "author": "Pyrex",
+    "latest": "1.0.2",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "MapLoader",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/PyrexBLJ/blsdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "true-damage-logger",
+    "title": "True Damage Logger",
+    "author": "apple1417",
+    "latest": "3",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "",
+    "github": [
+      "https://github.com/apple1417/willow2-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "uberpostprocessing",
+    "title": "Uber Post Processing",
+    "author": "juso",
+    "latest": "1.2",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "MIT",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/juso40/bl2sdk_Mods",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "ultimatescavengermod",
+    "title": "Ultimate Scavenger Mod",
+    "author": "RedxYeti",
+    "latest": "1.5",
+    "supports": "BL2",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/RedxYeti/Yeti-BL2-SDK-Mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "unspecskills",
+    "title": "Unspec Skills",
+    "author": "ZetaD\u00e6mon",
+    "latest": "1.1",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "Enums",
+    "desc": "Modders can add custom conditions for removing points from skills, check the README for details on doing this",
+    "github": [
+      "https://github.com/ZetaDaemon/bl-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "userfeedback",
+    "title": "UserFeedback",
+    "author": "apple1417",
+    "latest": "1.6",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GNU GPLv3",
+    "requires": "",
+    "desc": "This is a legacy mod, which will be run in compatibility mode. It may behave slightly odd, and it may stop working at some point in the future.",
+    "github": [
+      "https://github.com/apple1417/willow2-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  },
+  {
+    "slug": "vendor-edit",
+    "title": "Vendor Edit",
+    "author": "apple1417",
+    "latest": "6",
+    "supports": "BL2, TPS, and AoDK",
+    "coop": "Unknown",
+    "license": "GPL3",
+    "requires": "",
+    "desc": "Has full mod support, including introducing a way to share modded item codes.",
+    "github": [
+      "https://github.com/apple1417/willow2-sdk-mods",
+      "https://github.com/bl-sdk/willow2-mod-manager",
+      "https://github.com/feathericons/feather",
+      "https://github.com/just-the-docs/just-the-docs",
+      "https://github.com/twbs/icons"
+    ],
+    "score": 0,
+    "relevant": false
+  }
+]

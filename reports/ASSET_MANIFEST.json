@@ -1,0 +1,1410 @@
+{
+  "allowlist": {
+    "exclude_patterns": [
+      "features/slam.py",
+      "pyproject.toml",
+      "textures/mm_slam_bracket.png",
+      "textures/mm_slam_bracket.toml",
+      "textures/mm_slam_ring.png",
+      "textures/mm_slam_ring.toml"
+    ],
+    "member_count": 41,
+    "ok": true,
+    "problems": [],
+    "undeclared_python": []
+  },
+  "loose_textures": [
+    {
+      "height": 176,
+      "path": "Original/custom textures/mm_dash_flat/mm_dash_flat.png",
+      "sha256": "c712cdacaa9a793375cd8fa124c7b67742ce7f3508b6adb49e3dd28bbb862287",
+      "size": 19721,
+      "width": 448
+    },
+    {
+      "path": "Original/custom textures/mm_dash_flat/mm_dash_flat.toml",
+      "sha256": "b25b39828d8c1a3d7098fe91e3be8e3a5e6451d3a2addf465af80c6101fb0b39",
+      "size": 272
+    },
+    {
+      "height": 200,
+      "path": "Original/custom textures/mm_dash_side/mm_dash_side.png",
+      "sha256": "27be51fcd5266dcd3862a2f3813d13677098360e578f2a805416162ce111c71e",
+      "size": 23982,
+      "width": 160
+    },
+    {
+      "path": "Original/custom textures/mm_dash_side/mm_dash_side.toml",
+      "sha256": "c5e97c1f5cd9ecaecffbc4018b6782396f4ef0da0c1bf1a0e3b15c6839014db1",
+      "size": 272
+    },
+    {
+      "height": 96,
+      "path": "Original/custom textures/mm_jump_chev/mm_jump_chev.png",
+      "sha256": "65e4b3926551bf7b73ac9dae60c221823efa32805a672824684489c1203d1654",
+      "size": 22275,
+      "width": 160
+    },
+    {
+      "path": "Original/custom textures/mm_jump_chev/mm_jump_chev.toml",
+      "sha256": "1ccdfffd3fca30d888014c74e70d72ff5254076e29b2d0c36687cdc8bf56836e",
+      "size": 273
+    },
+    {
+      "height": 128,
+      "path": "Original/custom textures/mm_pip_fill/mm_pip_fill.png",
+      "sha256": "c2502bfb884ea57313f048bf37991d7a854a03d94acd53b18ae339a7920cdf84",
+      "size": 1425,
+      "width": 128
+    },
+    {
+      "path": "Original/custom textures/mm_pip_fill/mm_pip_fill.toml",
+      "sha256": "8641b60bb4716e45e64d3fd2684934dab99cceb218bec19cfef48845fa97f670",
+      "size": 279
+    },
+    {
+      "height": 128,
+      "path": "Original/custom textures/mm_pip_outline/mm_pip_outline.png",
+      "sha256": "eb235028f25d2a45cc5a8987e172bcfd552d7138271d0cad31448c73952a0262",
+      "size": 19688,
+      "width": 128
+    },
+    {
+      "path": "Original/custom textures/mm_pip_outline/mm_pip_outline.toml",
+      "sha256": "baa72ab5575dfe631d5f641f95c53650f7cbb4d6f7cd0ca920465aad0ba717dd",
+      "size": 285
+    },
+    {
+      "height": 128,
+      "path": "Original/custom textures/mm_slam_bracket/mm_slam_bracket.png",
+      "sha256": "e656586ffaefa43f216afcf7ec564942f4a73b8ba08e10ddfb5066d102454ace",
+      "size": 6265,
+      "width": 128
+    },
+    {
+      "path": "Original/custom textures/mm_slam_bracket/mm_slam_bracket.toml",
+      "sha256": "3a1595f68ff852eb9bb2ecd332939c8ccc9b57199437fe1ab23acb7794042844",
+      "size": 286
+    },
+    {
+      "height": 160,
+      "path": "Original/custom textures/mm_slam_ring/mm_slam_ring.png",
+      "sha256": "f562fdeffed6c0debe4a330b4f069b01dd0759913370e705dfc8410d87f0b9ab",
+      "size": 61244,
+      "width": 512
+    },
+    {
+      "path": "Original/custom textures/mm_slam_ring/mm_slam_ring.toml",
+      "sha256": "be8662980c9d554d9c219b0bd44b6db89b06631deb9dacceab3b3bc06fb7b72c",
+      "size": 275
+    },
+    {
+      "height": 40,
+      "path": "Original/custom textures/mm_slide_bar/mm_slide_bar.png",
+      "sha256": "b4cd8773cba7bc9392812f531fa4943c474aa6a81e584a41c4f6b92c2a6c7a05",
+      "size": 398,
+      "width": 256
+    },
+    {
+      "path": "Original/custom textures/mm_slide_bar/mm_slide_bar.toml",
+      "sha256": "5bdc33e8e0828c7bfd16d4a8f2899e6db80a072087d5305e346758497ea7cd01",
+      "size": 279
+    },
+    {
+      "height": 64,
+      "path": "Original/custom textures/mm_slide_cap/mm_slide_cap.png",
+      "sha256": "03ce3f775c2b13b32a9f478401f25b3b323dbd7c569fa078f407dfbb702d2f4d",
+      "size": 1960,
+      "width": 40
+    },
+    {
+      "path": "Original/custom textures/mm_slide_cap/mm_slide_cap.toml",
+      "sha256": "a0d372c55a4c90f1beaf53d8ef0b1719effc5d0c94ab7716cf31ceef2a078d1a",
+      "size": 284
+    },
+    {
+      "height": 32,
+      "path": "Original/custom textures/mm_slide_streak/mm_slide_streak.png",
+      "sha256": "12f0ee6739c2beff64631e66c382862ec8bc515d4dc55297f41ba3e1f2366967",
+      "size": 3196,
+      "width": 128
+    },
+    {
+      "path": "Original/custom textures/mm_slide_streak/mm_slide_streak.toml",
+      "sha256": "9127f15b3f361d57060dc0070849b0f0cc8c02d0f973fbb5832abdf9fd510116",
+      "size": 286
+    },
+    {
+      "height": 256,
+      "path": "Original/custom textures/mm_surge_arc/mm_surge_arc.png",
+      "sha256": "e6be7faaa4f638253dc36b1fbbde72c348b85b282656c25d38c4f7330bf51151",
+      "size": 18971,
+      "width": 96
+    },
+    {
+      "path": "Original/custom textures/mm_surge_arc/mm_surge_arc.toml",
+      "sha256": "ec2ccfb73d1a430395c3dffb56c5c645376c28ea67d8fc7c3ce8172400fdec99",
+      "size": 278
+    }
+  ],
+  "normalized_diff": {
+    "added": [
+      "game.py"
+    ],
+    "changed": [
+      {
+        "original_sha256": "6236bf4b8f0491a4b0c0de0dcd2853712615f618d0a1d43ed4c7f783b64c1902",
+        "original_size": 42310,
+        "path": "__init__.py",
+        "port_sha256": "3809ce2b0935ff2f5a8c9bb21ee4935df3fff28091e6cec702c97f39c3019503",
+        "port_size": 45003
+      },
+      {
+        "original_sha256": "a55d247d7c4048e93607f29199e1b49a7b61640b4858094ae73f31f4145237fa",
+        "original_size": 14237,
+        "path": "core.py",
+        "port_sha256": "52a4fb42b179aff82a41ad9c0d0a178031a9e4e01d7868045707080c68540435",
+        "port_size": 14771
+      },
+      {
+        "original_sha256": "4bcdcc0b76f02ecf4c4fb76337945d3c478e14b8ecc6a021c0e7cb39a25b27f1",
+        "original_size": 23584,
+        "path": "features/dash.py",
+        "port_sha256": "1672a5c3e469c5886853da1fe013da4fe3892657f6759ede097af2ffb632811e",
+        "port_size": 23892
+      },
+      {
+        "original_sha256": "7bb5726fa1574c3f6d155a6297864b09a3e6622d950b3283de3a2112c0ec1fd6",
+        "original_size": 21753,
+        "path": "features/holster.py",
+        "port_sha256": "04c9aa45967abf2fbe20356408c19e596779b4b199d1fa51a8f7a42da3a842be",
+        "port_size": 22394
+      },
+      {
+        "original_sha256": "eb959519ce7f0bbaaca115322bc297a6be538ba75a122e0d613b0aec8dcd76c3",
+        "original_size": 75943,
+        "path": "features/mantle.py",
+        "port_sha256": "1bbdb5ccbf5a09ccc0151ac7b9cb99651b1ec94b27cc9a655bc9d672d6bf2e35",
+        "port_size": 76086
+      }
+    ],
+    "identical": [
+      "camera.py",
+      "features",
+      "features/__init__.py",
+      "features/double_jump.py",
+      "features/slam.py",
+      "features/slide.py",
+      "features/surge.py",
+      "fx.py",
+      "hudfx.py",
+      "textures",
+      "textures/mm_dash_flat.png",
+      "textures/mm_dash_flat.toml",
+      "textures/mm_dash_side.png",
+      "textures/mm_dash_side.toml",
+      "textures/mm_jump_chev.png",
+      "textures/mm_jump_chev.toml",
+      "textures/mm_pip_fill.png",
+      "textures/mm_pip_fill.toml",
+      "textures/mm_pip_outline.png",
+      "textures/mm_pip_outline.toml",
+      "textures/mm_slam_bracket.png",
+      "textures/mm_slam_bracket.toml",
+      "textures/mm_slam_ring.png",
+      "textures/mm_slam_ring.toml",
+      "textures/mm_slide_bar.png",
+      "textures/mm_slide_bar.toml",
+      "textures/mm_slide_cap.png",
+      "textures/mm_slide_cap.toml",
+      "textures/mm_surge_arc.png",
+      "textures/mm_surge_arc.toml",
+      "tracing.py"
+    ],
+    "removed": []
+  },
+  "original": {
+    "all_source_members_match": true,
+    "bad_crc_member": null,
+    "case_collisions": [],
+    "duplicate_normalized_members": [],
+    "file_count": 34,
+    "members": [
+      {
+        "crc32": "00000000",
+        "is_directory": true,
+        "normalized_path": "",
+        "path": "Modern Movement/",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size": 0,
+        "source_matches": true,
+        "source_sha256": null
+      },
+      {
+        "crc32": "9382106a",
+        "is_directory": false,
+        "normalized_path": "tracing.py",
+        "path": "Modern Movement/tracing.py",
+        "sha256": "adb1f48190a73254ca9a8056c1e2c95bb26cc7b80387fdc77fed8e6fd39235d2",
+        "size": 9098,
+        "source_matches": true,
+        "source_sha256": "adb1f48190a73254ca9a8056c1e2c95bb26cc7b80387fdc77fed8e6fd39235d2"
+      },
+      {
+        "crc32": "edcc300a",
+        "is_directory": false,
+        "normalized_path": "camera.py",
+        "path": "Modern Movement/camera.py",
+        "sha256": "bd576597d2d1dbb0061f921200d6d079e7c70dad05d80077a84ff8a3f6304df9",
+        "size": 3983,
+        "source_matches": true,
+        "source_sha256": "bd576597d2d1dbb0061f921200d6d079e7c70dad05d80077a84ff8a3f6304df9"
+      },
+      {
+        "crc32": "47b97829",
+        "is_directory": false,
+        "normalized_path": "__init__.py",
+        "path": "Modern Movement/__init__.py",
+        "sha256": "6236bf4b8f0491a4b0c0de0dcd2853712615f618d0a1d43ed4c7f783b64c1902",
+        "size": 42310,
+        "source_matches": true,
+        "source_sha256": "6236bf4b8f0491a4b0c0de0dcd2853712615f618d0a1d43ed4c7f783b64c1902"
+      },
+      {
+        "crc32": "31577954",
+        "is_directory": false,
+        "normalized_path": "core.py",
+        "path": "Modern Movement/core.py",
+        "sha256": "a55d247d7c4048e93607f29199e1b49a7b61640b4858094ae73f31f4145237fa",
+        "size": 14237,
+        "source_matches": true,
+        "source_sha256": "a55d247d7c4048e93607f29199e1b49a7b61640b4858094ae73f31f4145237fa"
+      },
+      {
+        "crc32": "00000000",
+        "is_directory": true,
+        "normalized_path": "features",
+        "path": "Modern Movement/features/",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size": 0,
+        "source_matches": true,
+        "source_sha256": null
+      },
+      {
+        "crc32": "37688f12",
+        "is_directory": false,
+        "normalized_path": "features/surge.py",
+        "path": "Modern Movement/features/surge.py",
+        "sha256": "0689e623881d4a490bb234dfd318f246954fa23945987d6fa3d58eca50187ad3",
+        "size": 2396,
+        "source_matches": true,
+        "source_sha256": "0689e623881d4a490bb234dfd318f246954fa23945987d6fa3d58eca50187ad3"
+      },
+      {
+        "crc32": "d78a5d98",
+        "is_directory": false,
+        "normalized_path": "features/__init__.py",
+        "path": "Modern Movement/features/__init__.py",
+        "sha256": "84317ffcbb542058d03cb7df1f39a8ca07adfc4136e007a1299cf27cd404f140",
+        "size": 692,
+        "source_matches": true,
+        "source_sha256": "84317ffcbb542058d03cb7df1f39a8ca07adfc4136e007a1299cf27cd404f140"
+      },
+      {
+        "crc32": "24263518",
+        "is_directory": false,
+        "normalized_path": "features/mantle.py",
+        "path": "Modern Movement/features/mantle.py",
+        "sha256": "eb959519ce7f0bbaaca115322bc297a6be538ba75a122e0d613b0aec8dcd76c3",
+        "size": 75943,
+        "source_matches": true,
+        "source_sha256": "eb959519ce7f0bbaaca115322bc297a6be538ba75a122e0d613b0aec8dcd76c3"
+      },
+      {
+        "crc32": "c89e76d0",
+        "is_directory": false,
+        "normalized_path": "features/slide.py",
+        "path": "Modern Movement/features/slide.py",
+        "sha256": "9c74e3556114deb01d43f6bb934e031dee74096bbd892ff5e86057547f250a68",
+        "size": 34684,
+        "source_matches": true,
+        "source_sha256": "9c74e3556114deb01d43f6bb934e031dee74096bbd892ff5e86057547f250a68"
+      },
+      {
+        "crc32": "72e10e14",
+        "is_directory": false,
+        "normalized_path": "features/slam.py",
+        "path": "Modern Movement/features/slam.py",
+        "sha256": "80f9b3fb5e651e2fd2b30a998ae8b89a2e52456b0f033222dbb795e701ef9242",
+        "size": 29702,
+        "source_matches": true,
+        "source_sha256": "80f9b3fb5e651e2fd2b30a998ae8b89a2e52456b0f033222dbb795e701ef9242"
+      },
+      {
+        "crc32": "1fb2a937",
+        "is_directory": false,
+        "normalized_path": "features/dash.py",
+        "path": "Modern Movement/features/dash.py",
+        "sha256": "4bcdcc0b76f02ecf4c4fb76337945d3c478e14b8ecc6a021c0e7cb39a25b27f1",
+        "size": 23584,
+        "source_matches": true,
+        "source_sha256": "4bcdcc0b76f02ecf4c4fb76337945d3c478e14b8ecc6a021c0e7cb39a25b27f1"
+      },
+      {
+        "crc32": "05fcf207",
+        "is_directory": false,
+        "normalized_path": "features/double_jump.py",
+        "path": "Modern Movement/features/double_jump.py",
+        "sha256": "c7ddb00fadb23d864d4154ec2006b9557b66e1a95b518ad3abaefc07d4ff3285",
+        "size": 9267,
+        "source_matches": true,
+        "source_sha256": "c7ddb00fadb23d864d4154ec2006b9557b66e1a95b518ad3abaefc07d4ff3285"
+      },
+      {
+        "crc32": "38c9d4be",
+        "is_directory": false,
+        "normalized_path": "features/holster.py",
+        "path": "Modern Movement/features/holster.py",
+        "sha256": "7bb5726fa1574c3f6d155a6297864b09a3e6622d950b3283de3a2112c0ec1fd6",
+        "size": 21753,
+        "source_matches": true,
+        "source_sha256": "7bb5726fa1574c3f6d155a6297864b09a3e6622d950b3283de3a2112c0ec1fd6"
+      },
+      {
+        "crc32": "3ded3fc9",
+        "is_directory": false,
+        "normalized_path": "fx.py",
+        "path": "Modern Movement/fx.py",
+        "sha256": "9eae0fbd4927de364f257f2b7dfad2e4957e37476db905f2dd9a3a20aaf1fcef",
+        "size": 7934,
+        "source_matches": true,
+        "source_sha256": "9eae0fbd4927de364f257f2b7dfad2e4957e37476db905f2dd9a3a20aaf1fcef"
+      },
+      {
+        "crc32": "b335f84e",
+        "is_directory": false,
+        "normalized_path": "hudfx.py",
+        "path": "Modern Movement/hudfx.py",
+        "sha256": "d7e6b814ec958b7c63a66008452d3104dcbba1506153a1e6da6efe19288c74f7",
+        "size": 36791,
+        "source_matches": true,
+        "source_sha256": "d7e6b814ec958b7c63a66008452d3104dcbba1506153a1e6da6efe19288c74f7"
+      },
+      {
+        "crc32": "00000000",
+        "is_directory": true,
+        "normalized_path": "textures",
+        "path": "Modern Movement/textures/",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size": 0,
+        "source_matches": true,
+        "source_sha256": null
+      },
+      {
+        "crc32": "ffd7811e",
+        "is_directory": false,
+        "normalized_path": "textures/mm_pip_outline.toml",
+        "path": "Modern Movement/textures/mm_pip_outline.toml",
+        "sha256": "baa72ab5575dfe631d5f641f95c53650f7cbb4d6f7cd0ca920465aad0ba717dd",
+        "size": 285,
+        "source_matches": true,
+        "source_sha256": "baa72ab5575dfe631d5f641f95c53650f7cbb4d6f7cd0ca920465aad0ba717dd"
+      },
+      {
+        "crc32": "9b9a44cb",
+        "is_directory": false,
+        "normalized_path": "textures/mm_pip_outline.png",
+        "path": "Modern Movement/textures/mm_pip_outline.png",
+        "sha256": "eb235028f25d2a45cc5a8987e172bcfd552d7138271d0cad31448c73952a0262",
+        "size": 19688,
+        "source_matches": true,
+        "source_sha256": "eb235028f25d2a45cc5a8987e172bcfd552d7138271d0cad31448c73952a0262"
+      },
+      {
+        "crc32": "8695493a",
+        "is_directory": false,
+        "normalized_path": "textures/mm_surge_arc.png",
+        "path": "Modern Movement/textures/mm_surge_arc.png",
+        "sha256": "e6be7faaa4f638253dc36b1fbbde72c348b85b282656c25d38c4f7330bf51151",
+        "size": 18971,
+        "source_matches": true,
+        "source_sha256": "e6be7faaa4f638253dc36b1fbbde72c348b85b282656c25d38c4f7330bf51151"
+      },
+      {
+        "crc32": "6242f18d",
+        "is_directory": false,
+        "normalized_path": "textures/mm_jump_chev.toml",
+        "path": "Modern Movement/textures/mm_jump_chev.toml",
+        "sha256": "1ccdfffd3fca30d888014c74e70d72ff5254076e29b2d0c36687cdc8bf56836e",
+        "size": 273,
+        "source_matches": true,
+        "source_sha256": "1ccdfffd3fca30d888014c74e70d72ff5254076e29b2d0c36687cdc8bf56836e"
+      },
+      {
+        "crc32": "6b320c89",
+        "is_directory": false,
+        "normalized_path": "textures/mm_jump_chev.png",
+        "path": "Modern Movement/textures/mm_jump_chev.png",
+        "sha256": "65e4b3926551bf7b73ac9dae60c221823efa32805a672824684489c1203d1654",
+        "size": 22275,
+        "source_matches": true,
+        "source_sha256": "65e4b3926551bf7b73ac9dae60c221823efa32805a672824684489c1203d1654"
+      },
+      {
+        "crc32": "ca281424",
+        "is_directory": false,
+        "normalized_path": "textures/mm_pip_fill.png",
+        "path": "Modern Movement/textures/mm_pip_fill.png",
+        "sha256": "c2502bfb884ea57313f048bf37991d7a854a03d94acd53b18ae339a7920cdf84",
+        "size": 1425,
+        "source_matches": true,
+        "source_sha256": "c2502bfb884ea57313f048bf37991d7a854a03d94acd53b18ae339a7920cdf84"
+      },
+      {
+        "crc32": "75c1f99f",
+        "is_directory": false,
+        "normalized_path": "textures/mm_slide_cap.png",
+        "path": "Modern Movement/textures/mm_slide_cap.png",
+        "sha256": "03ce3f775c2b13b32a9f478401f25b3b323dbd7c569fa078f407dfbb702d2f4d",
+        "size": 1960,
+        "source_matches": true,
+        "source_sha256": "03ce3f775c2b13b32a9f478401f25b3b323dbd7c569fa078f407dfbb702d2f4d"
+      },
+      {
+        "crc32": "1f51d74a",
+        "is_directory": false,
+        "normalized_path": "textures/mm_slam_ring.png",
+        "path": "Modern Movement/textures/mm_slam_ring.png",
+        "sha256": "f562fdeffed6c0debe4a330b4f069b01dd0759913370e705dfc8410d87f0b9ab",
+        "size": 61244,
+        "source_matches": true,
+        "source_sha256": "f562fdeffed6c0debe4a330b4f069b01dd0759913370e705dfc8410d87f0b9ab"
+      },
+      {
+        "crc32": "956ff606",
+        "is_directory": false,
+        "normalized_path": "textures/mm_dash_flat.toml",
+        "path": "Modern Movement/textures/mm_dash_flat.toml",
+        "sha256": "b25b39828d8c1a3d7098fe91e3be8e3a5e6451d3a2addf465af80c6101fb0b39",
+        "size": 272,
+        "source_matches": true,
+        "source_sha256": "b25b39828d8c1a3d7098fe91e3be8e3a5e6451d3a2addf465af80c6101fb0b39"
+      },
+      {
+        "crc32": "e744ccd2",
+        "is_directory": false,
+        "normalized_path": "textures/mm_dash_side.toml",
+        "path": "Modern Movement/textures/mm_dash_side.toml",
+        "sha256": "c5e97c1f5cd9ecaecffbc4018b6782396f4ef0da0c1bf1a0e3b15c6839014db1",
+        "size": 272,
+        "source_matches": true,
+        "source_sha256": "c5e97c1f5cd9ecaecffbc4018b6782396f4ef0da0c1bf1a0e3b15c6839014db1"
+      },
+      {
+        "crc32": "bdec14f4",
+        "is_directory": false,
+        "normalized_path": "textures/mm_dash_side.png",
+        "path": "Modern Movement/textures/mm_dash_side.png",
+        "sha256": "27be51fcd5266dcd3862a2f3813d13677098360e578f2a805416162ce111c71e",
+        "size": 23982,
+        "source_matches": true,
+        "source_sha256": "27be51fcd5266dcd3862a2f3813d13677098360e578f2a805416162ce111c71e"
+      },
+      {
+        "crc32": "edead8f2",
+        "is_directory": false,
+        "normalized_path": "textures/mm_dash_flat.png",
+        "path": "Modern Movement/textures/mm_dash_flat.png",
+        "sha256": "c712cdacaa9a793375cd8fa124c7b67742ce7f3508b6adb49e3dd28bbb862287",
+        "size": 19721,
+        "source_matches": true,
+        "source_sha256": "c712cdacaa9a793375cd8fa124c7b67742ce7f3508b6adb49e3dd28bbb862287"
+      },
+      {
+        "crc32": "7a504998",
+        "is_directory": false,
+        "normalized_path": "textures/mm_slam_bracket.toml",
+        "path": "Modern Movement/textures/mm_slam_bracket.toml",
+        "sha256": "3a1595f68ff852eb9bb2ecd332939c8ccc9b57199437fe1ab23acb7794042844",
+        "size": 286,
+        "source_matches": true,
+        "source_sha256": "3a1595f68ff852eb9bb2ecd332939c8ccc9b57199437fe1ab23acb7794042844"
+      },
+      {
+        "crc32": "15bcb108",
+        "is_directory": false,
+        "normalized_path": "textures/mm_slide_bar.toml",
+        "path": "Modern Movement/textures/mm_slide_bar.toml",
+        "sha256": "5bdc33e8e0828c7bfd16d4a8f2899e6db80a072087d5305e346758497ea7cd01",
+        "size": 279,
+        "source_matches": true,
+        "source_sha256": "5bdc33e8e0828c7bfd16d4a8f2899e6db80a072087d5305e346758497ea7cd01"
+      },
+      {
+        "crc32": "bd2001e7",
+        "is_directory": false,
+        "normalized_path": "textures/mm_slide_cap.toml",
+        "path": "Modern Movement/textures/mm_slide_cap.toml",
+        "sha256": "a0d372c55a4c90f1beaf53d8ef0b1719effc5d0c94ab7716cf31ceef2a078d1a",
+        "size": 284,
+        "source_matches": true,
+        "source_sha256": "a0d372c55a4c90f1beaf53d8ef0b1719effc5d0c94ab7716cf31ceef2a078d1a"
+      },
+      {
+        "crc32": "22779983",
+        "is_directory": false,
+        "normalized_path": "textures/mm_slam_ring.toml",
+        "path": "Modern Movement/textures/mm_slam_ring.toml",
+        "sha256": "be8662980c9d554d9c219b0bd44b6db89b06631deb9dacceab3b3bc06fb7b72c",
+        "size": 275,
+        "source_matches": true,
+        "source_sha256": "be8662980c9d554d9c219b0bd44b6db89b06631deb9dacceab3b3bc06fb7b72c"
+      },
+      {
+        "crc32": "9eb78f14",
+        "is_directory": false,
+        "normalized_path": "textures/mm_surge_arc.toml",
+        "path": "Modern Movement/textures/mm_surge_arc.toml",
+        "sha256": "ec2ccfb73d1a430395c3dffb56c5c645376c28ea67d8fc7c3ce8172400fdec99",
+        "size": 278,
+        "source_matches": true,
+        "source_sha256": "ec2ccfb73d1a430395c3dffb56c5c645376c28ea67d8fc7c3ce8172400fdec99"
+      },
+      {
+        "crc32": "0efe181b",
+        "is_directory": false,
+        "normalized_path": "textures/mm_pip_fill.toml",
+        "path": "Modern Movement/textures/mm_pip_fill.toml",
+        "sha256": "8641b60bb4716e45e64d3fd2684934dab99cceb218bec19cfef48845fa97f670",
+        "size": 279,
+        "source_matches": true,
+        "source_sha256": "8641b60bb4716e45e64d3fd2684934dab99cceb218bec19cfef48845fa97f670"
+      },
+      {
+        "crc32": "98f4ee91",
+        "is_directory": false,
+        "normalized_path": "textures/mm_slam_bracket.png",
+        "path": "Modern Movement/textures/mm_slam_bracket.png",
+        "sha256": "e656586ffaefa43f216afcf7ec564942f4a73b8ba08e10ddfb5066d102454ace",
+        "size": 6265,
+        "source_matches": true,
+        "source_sha256": "e656586ffaefa43f216afcf7ec564942f4a73b8ba08e10ddfb5066d102454ace"
+      },
+      {
+        "crc32": "37b74b74",
+        "is_directory": false,
+        "normalized_path": "textures/mm_slide_bar.png",
+        "path": "Modern Movement/textures/mm_slide_bar.png",
+        "sha256": "b4cd8773cba7bc9392812f531fa4943c474aa6a81e584a41c4f6b92c2a6c7a05",
+        "size": 398,
+        "source_matches": true,
+        "source_sha256": "b4cd8773cba7bc9392812f531fa4943c474aa6a81e584a41c4f6b92c2a6c7a05"
+      }
+    ],
+    "path": "Original/Modern Movement.sdkmod",
+    "sha256": "d9431034750f6a8739841220a60a8da391f5a20772eb3affb3fedb4c8774278e",
+    "size": 280959,
+    "unsafe_members": []
+  },
+  "port": {
+    "all_source_members_match": false,
+    "bad_crc_member": null,
+    "case_collisions": [],
+    "duplicate_normalized_members": [],
+    "file_count": 35,
+    "members": [
+      {
+        "crc32": "00000000",
+        "is_directory": true,
+        "normalized_path": "",
+        "path": "Modern_Movement/",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size": 0,
+        "source_matches": true,
+        "source_sha256": null
+      },
+      {
+        "crc32": "1571d1f4",
+        "is_directory": false,
+        "normalized_path": "__init__.py",
+        "path": "Modern_Movement/__init__.py",
+        "sha256": "3809ce2b0935ff2f5a8c9bb21ee4935df3fff28091e6cec702c97f39c3019503",
+        "size": 45003,
+        "source_matches": false,
+        "source_sha256": "3ec2673e61729c3e0bcde209bb5f758d322053dcad14715df7520319c8652828"
+      },
+      {
+        "crc32": "edcc300a",
+        "is_directory": false,
+        "normalized_path": "camera.py",
+        "path": "Modern_Movement/camera.py",
+        "sha256": "bd576597d2d1dbb0061f921200d6d079e7c70dad05d80077a84ff8a3f6304df9",
+        "size": 3983,
+        "source_matches": true,
+        "source_sha256": "bd576597d2d1dbb0061f921200d6d079e7c70dad05d80077a84ff8a3f6304df9"
+      },
+      {
+        "crc32": "05621628",
+        "is_directory": false,
+        "normalized_path": "core.py",
+        "path": "Modern_Movement/core.py",
+        "sha256": "52a4fb42b179aff82a41ad9c0d0a178031a9e4e01d7868045707080c68540435",
+        "size": 14771,
+        "source_matches": false,
+        "source_sha256": "a9d5dc07d5420187a46edec3450f40fcdae776e3a1ff8252aa2cd39a6fe05f96"
+      },
+      {
+        "crc32": "3ded3fc9",
+        "is_directory": false,
+        "normalized_path": "fx.py",
+        "path": "Modern_Movement/fx.py",
+        "sha256": "9eae0fbd4927de364f257f2b7dfad2e4957e37476db905f2dd9a3a20aaf1fcef",
+        "size": 7934,
+        "source_matches": true,
+        "source_sha256": "9eae0fbd4927de364f257f2b7dfad2e4957e37476db905f2dd9a3a20aaf1fcef"
+      },
+      {
+        "crc32": "4c8d74ca",
+        "is_directory": false,
+        "normalized_path": "game.py",
+        "path": "Modern_Movement/game.py",
+        "sha256": "3ac19c8fc2b783ed42ba4fa6e71312f846cbdad840c285e5601ec65181f3a356",
+        "size": 1866,
+        "source_matches": false,
+        "source_sha256": "7399f3437912ee217f73a70da6fac822314a7c69b4f3e9e925408f462fd95490"
+      },
+      {
+        "crc32": "b335f84e",
+        "is_directory": false,
+        "normalized_path": "hudfx.py",
+        "path": "Modern_Movement/hudfx.py",
+        "sha256": "d7e6b814ec958b7c63a66008452d3104dcbba1506153a1e6da6efe19288c74f7",
+        "size": 36791,
+        "source_matches": false,
+        "source_sha256": "a3c8f63fa3b3e81c581ee14e0e1642068adc2f9819e70f6aac1ad214070ca230"
+      },
+      {
+        "crc32": "9382106a",
+        "is_directory": false,
+        "normalized_path": "tracing.py",
+        "path": "Modern_Movement/tracing.py",
+        "sha256": "adb1f48190a73254ca9a8056c1e2c95bb26cc7b80387fdc77fed8e6fd39235d2",
+        "size": 9098,
+        "source_matches": false,
+        "source_sha256": "0223ba39421f765ca8afefc5fa41d0aea71cf2a5912db0ad85e41c994b56793b"
+      },
+      {
+        "crc32": "00000000",
+        "is_directory": true,
+        "normalized_path": "features",
+        "path": "Modern_Movement/features/",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size": 0,
+        "source_matches": true,
+        "source_sha256": null
+      },
+      {
+        "crc32": "d78a5d98",
+        "is_directory": false,
+        "normalized_path": "features/__init__.py",
+        "path": "Modern_Movement/features/__init__.py",
+        "sha256": "84317ffcbb542058d03cb7df1f39a8ca07adfc4136e007a1299cf27cd404f140",
+        "size": 692,
+        "source_matches": true,
+        "source_sha256": "84317ffcbb542058d03cb7df1f39a8ca07adfc4136e007a1299cf27cd404f140"
+      },
+      {
+        "crc32": "fd4df752",
+        "is_directory": false,
+        "normalized_path": "features/dash.py",
+        "path": "Modern_Movement/features/dash.py",
+        "sha256": "1672a5c3e469c5886853da1fe013da4fe3892657f6759ede097af2ffb632811e",
+        "size": 23892,
+        "source_matches": false,
+        "source_sha256": "60b0f7fd3ce64fa58873098d3f2cb454e3a9b3cd5fdb1d8c960a13c6571aca4e"
+      },
+      {
+        "crc32": "05fcf207",
+        "is_directory": false,
+        "normalized_path": "features/double_jump.py",
+        "path": "Modern_Movement/features/double_jump.py",
+        "sha256": "c7ddb00fadb23d864d4154ec2006b9557b66e1a95b518ad3abaefc07d4ff3285",
+        "size": 9267,
+        "source_matches": false,
+        "source_sha256": "2db2580ac3e2c6ce062a9c40e963df4fb808e7230ce87f3be49c2433ff0178f8"
+      },
+      {
+        "crc32": "eb066016",
+        "is_directory": false,
+        "normalized_path": "features/holster.py",
+        "path": "Modern_Movement/features/holster.py",
+        "sha256": "04c9aa45967abf2fbe20356408c19e596779b4b199d1fa51a8f7a42da3a842be",
+        "size": 22394,
+        "source_matches": false,
+        "source_sha256": "9c4c57ae8e3043820c46b3f23687e79cdaccaf3b81049eec6381caccbdff6235"
+      },
+      {
+        "crc32": "5f1a3557",
+        "is_directory": false,
+        "normalized_path": "features/mantle.py",
+        "path": "Modern_Movement/features/mantle.py",
+        "sha256": "1bbdb5ccbf5a09ccc0151ac7b9cb99651b1ec94b27cc9a655bc9d672d6bf2e35",
+        "size": 76086,
+        "source_matches": false,
+        "source_sha256": "60c2b558273e7177c3e6a772a35df5d0d4b2fbc8fa68865506dd61bd869b1e5a"
+      },
+      {
+        "crc32": "72e10e14",
+        "is_directory": false,
+        "normalized_path": "features/slam.py",
+        "path": "Modern_Movement/features/slam.py",
+        "sha256": "80f9b3fb5e651e2fd2b30a998ae8b89a2e52456b0f033222dbb795e701ef9242",
+        "size": 29702,
+        "source_matches": true,
+        "source_sha256": "80f9b3fb5e651e2fd2b30a998ae8b89a2e52456b0f033222dbb795e701ef9242"
+      },
+      {
+        "crc32": "c89e76d0",
+        "is_directory": false,
+        "normalized_path": "features/slide.py",
+        "path": "Modern_Movement/features/slide.py",
+        "sha256": "9c74e3556114deb01d43f6bb934e031dee74096bbd892ff5e86057547f250a68",
+        "size": 34684,
+        "source_matches": false,
+        "source_sha256": "4bd033069b6bbddad679fde3594ecd1e664c2c177ca966c744437f12db4f4c51"
+      },
+      {
+        "crc32": "37688f12",
+        "is_directory": false,
+        "normalized_path": "features/surge.py",
+        "path": "Modern_Movement/features/surge.py",
+        "sha256": "0689e623881d4a490bb234dfd318f246954fa23945987d6fa3d58eca50187ad3",
+        "size": 2396,
+        "source_matches": false,
+        "source_sha256": "a05b8025e3664de7c633c304141a214bba60e63c23d4b44ae779d457c50474ee"
+      },
+      {
+        "crc32": "00000000",
+        "is_directory": true,
+        "normalized_path": "textures",
+        "path": "Modern_Movement/textures/",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size": 0,
+        "source_matches": true,
+        "source_sha256": null
+      },
+      {
+        "crc32": "edead8f2",
+        "is_directory": false,
+        "normalized_path": "textures/mm_dash_flat.png",
+        "path": "Modern_Movement/textures/mm_dash_flat.png",
+        "sha256": "c712cdacaa9a793375cd8fa124c7b67742ce7f3508b6adb49e3dd28bbb862287",
+        "size": 19721,
+        "source_matches": true,
+        "source_sha256": "c712cdacaa9a793375cd8fa124c7b67742ce7f3508b6adb49e3dd28bbb862287"
+      },
+      {
+        "crc32": "956ff606",
+        "is_directory": false,
+        "normalized_path": "textures/mm_dash_flat.toml",
+        "path": "Modern_Movement/textures/mm_dash_flat.toml",
+        "sha256": "b25b39828d8c1a3d7098fe91e3be8e3a5e6451d3a2addf465af80c6101fb0b39",
+        "size": 272,
+        "source_matches": true,
+        "source_sha256": "b25b39828d8c1a3d7098fe91e3be8e3a5e6451d3a2addf465af80c6101fb0b39"
+      },
+      {
+        "crc32": "bdec14f4",
+        "is_directory": false,
+        "normalized_path": "textures/mm_dash_side.png",
+        "path": "Modern_Movement/textures/mm_dash_side.png",
+        "sha256": "27be51fcd5266dcd3862a2f3813d13677098360e578f2a805416162ce111c71e",
+        "size": 23982,
+        "source_matches": true,
+        "source_sha256": "27be51fcd5266dcd3862a2f3813d13677098360e578f2a805416162ce111c71e"
+      },
+      {
+        "crc32": "e744ccd2",
+        "is_directory": false,
+        "normalized_path": "textures/mm_dash_side.toml",
+        "path": "Modern_Movement/textures/mm_dash_side.toml",
+        "sha256": "c5e97c1f5cd9ecaecffbc4018b6782396f4ef0da0c1bf1a0e3b15c6839014db1",
+        "size": 272,
+        "source_matches": true,
+        "source_sha256": "c5e97c1f5cd9ecaecffbc4018b6782396f4ef0da0c1bf1a0e3b15c6839014db1"
+      },
+      {
+        "crc32": "6b320c89",
+        "is_directory": false,
+        "normalized_path": "textures/mm_jump_chev.png",
+        "path": "Modern_Movement/textures/mm_jump_chev.png",
+        "sha256": "65e4b3926551bf7b73ac9dae60c221823efa32805a672824684489c1203d1654",
+        "size": 22275,
+        "source_matches": true,
+        "source_sha256": "65e4b3926551bf7b73ac9dae60c221823efa32805a672824684489c1203d1654"
+      },
+      {
+        "crc32": "6242f18d",
+        "is_directory": false,
+        "normalized_path": "textures/mm_jump_chev.toml",
+        "path": "Modern_Movement/textures/mm_jump_chev.toml",
+        "sha256": "1ccdfffd3fca30d888014c74e70d72ff5254076e29b2d0c36687cdc8bf56836e",
+        "size": 273,
+        "source_matches": true,
+        "source_sha256": "1ccdfffd3fca30d888014c74e70d72ff5254076e29b2d0c36687cdc8bf56836e"
+      },
+      {
+        "crc32": "ca281424",
+        "is_directory": false,
+        "normalized_path": "textures/mm_pip_fill.png",
+        "path": "Modern_Movement/textures/mm_pip_fill.png",
+        "sha256": "c2502bfb884ea57313f048bf37991d7a854a03d94acd53b18ae339a7920cdf84",
+        "size": 1425,
+        "source_matches": true,
+        "source_sha256": "c2502bfb884ea57313f048bf37991d7a854a03d94acd53b18ae339a7920cdf84"
+      },
+      {
+        "crc32": "0efe181b",
+        "is_directory": false,
+        "normalized_path": "textures/mm_pip_fill.toml",
+        "path": "Modern_Movement/textures/mm_pip_fill.toml",
+        "sha256": "8641b60bb4716e45e64d3fd2684934dab99cceb218bec19cfef48845fa97f670",
+        "size": 279,
+        "source_matches": true,
+        "source_sha256": "8641b60bb4716e45e64d3fd2684934dab99cceb218bec19cfef48845fa97f670"
+      },
+      {
+        "crc32": "9b9a44cb",
+        "is_directory": false,
+        "normalized_path": "textures/mm_pip_outline.png",
+        "path": "Modern_Movement/textures/mm_pip_outline.png",
+        "sha256": "eb235028f25d2a45cc5a8987e172bcfd552d7138271d0cad31448c73952a0262",
+        "size": 19688,
+        "source_matches": true,
+        "source_sha256": "eb235028f25d2a45cc5a8987e172bcfd552d7138271d0cad31448c73952a0262"
+      },
+      {
+        "crc32": "ffd7811e",
+        "is_directory": false,
+        "normalized_path": "textures/mm_pip_outline.toml",
+        "path": "Modern_Movement/textures/mm_pip_outline.toml",
+        "sha256": "baa72ab5575dfe631d5f641f95c53650f7cbb4d6f7cd0ca920465aad0ba717dd",
+        "size": 285,
+        "source_matches": true,
+        "source_sha256": "baa72ab5575dfe631d5f641f95c53650f7cbb4d6f7cd0ca920465aad0ba717dd"
+      },
+      {
+        "crc32": "98f4ee91",
+        "is_directory": false,
+        "normalized_path": "textures/mm_slam_bracket.png",
+        "path": "Modern_Movement/textures/mm_slam_bracket.png",
+        "sha256": "e656586ffaefa43f216afcf7ec564942f4a73b8ba08e10ddfb5066d102454ace",
+        "size": 6265,
+        "source_matches": true,
+        "source_sha256": "e656586ffaefa43f216afcf7ec564942f4a73b8ba08e10ddfb5066d102454ace"
+      },
+      {
+        "crc32": "7a504998",
+        "is_directory": false,
+        "normalized_path": "textures/mm_slam_bracket.toml",
+        "path": "Modern_Movement/textures/mm_slam_bracket.toml",
+        "sha256": "3a1595f68ff852eb9bb2ecd332939c8ccc9b57199437fe1ab23acb7794042844",
+        "size": 286,
+        "source_matches": true,
+        "source_sha256": "3a1595f68ff852eb9bb2ecd332939c8ccc9b57199437fe1ab23acb7794042844"
+      },
+      {
+        "crc32": "1f51d74a",
+        "is_directory": false,
+        "normalized_path": "textures/mm_slam_ring.png",
+        "path": "Modern_Movement/textures/mm_slam_ring.png",
+        "sha256": "f562fdeffed6c0debe4a330b4f069b01dd0759913370e705dfc8410d87f0b9ab",
+        "size": 61244,
+        "source_matches": true,
+        "source_sha256": "f562fdeffed6c0debe4a330b4f069b01dd0759913370e705dfc8410d87f0b9ab"
+      },
+      {
+        "crc32": "22779983",
+        "is_directory": false,
+        "normalized_path": "textures/mm_slam_ring.toml",
+        "path": "Modern_Movement/textures/mm_slam_ring.toml",
+        "sha256": "be8662980c9d554d9c219b0bd44b6db89b06631deb9dacceab3b3bc06fb7b72c",
+        "size": 275,
+        "source_matches": true,
+        "source_sha256": "be8662980c9d554d9c219b0bd44b6db89b06631deb9dacceab3b3bc06fb7b72c"
+      },
+      {
+        "crc32": "37b74b74",
+        "is_directory": false,
+        "normalized_path": "textures/mm_slide_bar.png",
+        "path": "Modern_Movement/textures/mm_slide_bar.png",
+        "sha256": "b4cd8773cba7bc9392812f531fa4943c474aa6a81e584a41c4f6b92c2a6c7a05",
+        "size": 398,
+        "source_matches": true,
+        "source_sha256": "b4cd8773cba7bc9392812f531fa4943c474aa6a81e584a41c4f6b92c2a6c7a05"
+      },
+      {
+        "crc32": "15bcb108",
+        "is_directory": false,
+        "normalized_path": "textures/mm_slide_bar.toml",
+        "path": "Modern_Movement/textures/mm_slide_bar.toml",
+        "sha256": "5bdc33e8e0828c7bfd16d4a8f2899e6db80a072087d5305e346758497ea7cd01",
+        "size": 279,
+        "source_matches": true,
+        "source_sha256": "5bdc33e8e0828c7bfd16d4a8f2899e6db80a072087d5305e346758497ea7cd01"
+      },
+      {
+        "crc32": "75c1f99f",
+        "is_directory": false,
+        "normalized_path": "textures/mm_slide_cap.png",
+        "path": "Modern_Movement/textures/mm_slide_cap.png",
+        "sha256": "03ce3f775c2b13b32a9f478401f25b3b323dbd7c569fa078f407dfbb702d2f4d",
+        "size": 1960,
+        "source_matches": true,
+        "source_sha256": "03ce3f775c2b13b32a9f478401f25b3b323dbd7c569fa078f407dfbb702d2f4d"
+      },
+      {
+        "crc32": "bd2001e7",
+        "is_directory": false,
+        "normalized_path": "textures/mm_slide_cap.toml",
+        "path": "Modern_Movement/textures/mm_slide_cap.toml",
+        "sha256": "a0d372c55a4c90f1beaf53d8ef0b1719effc5d0c94ab7716cf31ceef2a078d1a",
+        "size": 284,
+        "source_matches": true,
+        "source_sha256": "a0d372c55a4c90f1beaf53d8ef0b1719effc5d0c94ab7716cf31ceef2a078d1a"
+      },
+      {
+        "crc32": "8695493a",
+        "is_directory": false,
+        "normalized_path": "textures/mm_surge_arc.png",
+        "path": "Modern_Movement/textures/mm_surge_arc.png",
+        "sha256": "e6be7faaa4f638253dc36b1fbbde72c348b85b282656c25d38c4f7330bf51151",
+        "size": 18971,
+        "source_matches": true,
+        "source_sha256": "e6be7faaa4f638253dc36b1fbbde72c348b85b282656c25d38c4f7330bf51151"
+      },
+      {
+        "crc32": "9eb78f14",
+        "is_directory": false,
+        "normalized_path": "textures/mm_surge_arc.toml",
+        "path": "Modern_Movement/textures/mm_surge_arc.toml",
+        "sha256": "ec2ccfb73d1a430395c3dffb56c5c645376c28ea67d8fc7c3ce8172400fdec99",
+        "size": 278,
+        "source_matches": true,
+        "source_sha256": "ec2ccfb73d1a430395c3dffb56c5c645376c28ea67d8fc7c3ce8172400fdec99"
+      }
+    ],
+    "path": "Pre Sequel Port/Modern_Movement.sdkmod",
+    "sha256": "4f7c1fbeda6bc75e1d624123e323f109e716fc0d3b0ca2026939aee1919a2429",
+    "size": 283802,
+    "unsafe_members": []
+  },
+  "schema": 1,
+  "source_checks": {
+    "original": {
+      "png": [
+        {
+          "height": 176,
+          "path": "Modern Movement/textures/mm_dash_flat.png",
+          "sha256": "c712cdacaa9a793375cd8fa124c7b67742ce7f3508b6adb49e3dd28bbb862287",
+          "width": 448
+        },
+        {
+          "height": 200,
+          "path": "Modern Movement/textures/mm_dash_side.png",
+          "sha256": "27be51fcd5266dcd3862a2f3813d13677098360e578f2a805416162ce111c71e",
+          "width": 160
+        },
+        {
+          "height": 96,
+          "path": "Modern Movement/textures/mm_jump_chev.png",
+          "sha256": "65e4b3926551bf7b73ac9dae60c221823efa32805a672824684489c1203d1654",
+          "width": 160
+        },
+        {
+          "height": 128,
+          "path": "Modern Movement/textures/mm_pip_fill.png",
+          "sha256": "c2502bfb884ea57313f048bf37991d7a854a03d94acd53b18ae339a7920cdf84",
+          "width": 128
+        },
+        {
+          "height": 128,
+          "path": "Modern Movement/textures/mm_pip_outline.png",
+          "sha256": "eb235028f25d2a45cc5a8987e172bcfd552d7138271d0cad31448c73952a0262",
+          "width": 128
+        },
+        {
+          "height": 128,
+          "path": "Modern Movement/textures/mm_slam_bracket.png",
+          "sha256": "e656586ffaefa43f216afcf7ec564942f4a73b8ba08e10ddfb5066d102454ace",
+          "width": 128
+        },
+        {
+          "height": 160,
+          "path": "Modern Movement/textures/mm_slam_ring.png",
+          "sha256": "f562fdeffed6c0debe4a330b4f069b01dd0759913370e705dfc8410d87f0b9ab",
+          "width": 512
+        },
+        {
+          "height": 40,
+          "path": "Modern Movement/textures/mm_slide_bar.png",
+          "sha256": "b4cd8773cba7bc9392812f531fa4943c474aa6a81e584a41c4f6b92c2a6c7a05",
+          "width": 256
+        },
+        {
+          "height": 64,
+          "path": "Modern Movement/textures/mm_slide_cap.png",
+          "sha256": "03ce3f775c2b13b32a9f478401f25b3b323dbd7c569fa078f407dfbb702d2f4d",
+          "width": 40
+        },
+        {
+          "height": 256,
+          "path": "Modern Movement/textures/mm_surge_arc.png",
+          "sha256": "e6be7faaa4f638253dc36b1fbbde72c348b85b282656c25d38c4f7330bf51151",
+          "width": 96
+        }
+      ],
+      "python": [
+        {
+          "lines": 774,
+          "path": "Modern Movement/__init__.py",
+          "sha256": "6236bf4b8f0491a4b0c0de0dcd2853712615f618d0a1d43ed4c7f783b64c1902"
+        },
+        {
+          "lines": 91,
+          "path": "Modern Movement/camera.py",
+          "sha256": "bd576597d2d1dbb0061f921200d6d079e7c70dad05d80077a84ff8a3f6304df9"
+        },
+        {
+          "lines": 445,
+          "path": "Modern Movement/core.py",
+          "sha256": "a55d247d7c4048e93607f29199e1b49a7b61640b4858094ae73f31f4145237fa"
+        },
+        {
+          "lines": 16,
+          "path": "Modern Movement/features/__init__.py",
+          "sha256": "84317ffcbb542058d03cb7df1f39a8ca07adfc4136e007a1299cf27cd404f140"
+        },
+        {
+          "lines": 635,
+          "path": "Modern Movement/features/dash.py",
+          "sha256": "4bcdcc0b76f02ecf4c4fb76337945d3c478e14b8ecc6a021c0e7cb39a25b27f1"
+        },
+        {
+          "lines": 272,
+          "path": "Modern Movement/features/double_jump.py",
+          "sha256": "c7ddb00fadb23d864d4154ec2006b9557b66e1a95b518ad3abaefc07d4ff3285"
+        },
+        {
+          "lines": 605,
+          "path": "Modern Movement/features/holster.py",
+          "sha256": "7bb5726fa1574c3f6d155a6297864b09a3e6622d950b3283de3a2112c0ec1fd6"
+        },
+        {
+          "lines": 1731,
+          "path": "Modern Movement/features/mantle.py",
+          "sha256": "eb959519ce7f0bbaaca115322bc297a6be538ba75a122e0d613b0aec8dcd76c3"
+        },
+        {
+          "lines": 805,
+          "path": "Modern Movement/features/slam.py",
+          "sha256": "80f9b3fb5e651e2fd2b30a998ae8b89a2e52456b0f033222dbb795e701ef9242"
+        },
+        {
+          "lines": 867,
+          "path": "Modern Movement/features/slide.py",
+          "sha256": "9c74e3556114deb01d43f6bb934e031dee74096bbd892ff5e86057547f250a68"
+        },
+        {
+          "lines": 81,
+          "path": "Modern Movement/features/surge.py",
+          "sha256": "0689e623881d4a490bb234dfd318f246954fa23945987d6fa3d58eca50187ad3"
+        },
+        {
+          "lines": 205,
+          "path": "Modern Movement/fx.py",
+          "sha256": "9eae0fbd4927de364f257f2b7dfad2e4957e37476db905f2dd9a3a20aaf1fcef"
+        },
+        {
+          "lines": 869,
+          "path": "Modern Movement/hudfx.py",
+          "sha256": "d7e6b814ec958b7c63a66008452d3104dcbba1506153a1e6da6efe19288c74f7"
+        },
+        {
+          "lines": 267,
+          "path": "Modern Movement/tracing.py",
+          "sha256": "adb1f48190a73254ca9a8056c1e2c95bb26cc7b80387fdc77fed8e6fd39235d2"
+        }
+      ],
+      "toml": [
+        {
+          "path": "Modern Movement/textures/mm_dash_flat.toml",
+          "sha256": "b25b39828d8c1a3d7098fe91e3be8e3a5e6451d3a2addf465af80c6101fb0b39"
+        },
+        {
+          "path": "Modern Movement/textures/mm_dash_side.toml",
+          "sha256": "c5e97c1f5cd9ecaecffbc4018b6782396f4ef0da0c1bf1a0e3b15c6839014db1"
+        },
+        {
+          "path": "Modern Movement/textures/mm_jump_chev.toml",
+          "sha256": "1ccdfffd3fca30d888014c74e70d72ff5254076e29b2d0c36687cdc8bf56836e"
+        },
+        {
+          "path": "Modern Movement/textures/mm_pip_fill.toml",
+          "sha256": "8641b60bb4716e45e64d3fd2684934dab99cceb218bec19cfef48845fa97f670"
+        },
+        {
+          "path": "Modern Movement/textures/mm_pip_outline.toml",
+          "sha256": "baa72ab5575dfe631d5f641f95c53650f7cbb4d6f7cd0ca920465aad0ba717dd"
+        },
+        {
+          "path": "Modern Movement/textures/mm_slam_bracket.toml",
+          "sha256": "3a1595f68ff852eb9bb2ecd332939c8ccc9b57199437fe1ab23acb7794042844"
+        },
+        {
+          "path": "Modern Movement/textures/mm_slam_ring.toml",
+          "sha256": "be8662980c9d554d9c219b0bd44b6db89b06631deb9dacceab3b3bc06fb7b72c"
+        },
+        {
+          "path": "Modern Movement/textures/mm_slide_bar.toml",
+          "sha256": "5bdc33e8e0828c7bfd16d4a8f2899e6db80a072087d5305e346758497ea7cd01"
+        },
+        {
+          "path": "Modern Movement/textures/mm_slide_cap.toml",
+          "sha256": "a0d372c55a4c90f1beaf53d8ef0b1719effc5d0c94ab7716cf31ceef2a078d1a"
+        },
+        {
+          "path": "Modern Movement/textures/mm_surge_arc.toml",
+          "sha256": "ec2ccfb73d1a430395c3dffb56c5c645376c28ea67d8fc7c3ce8172400fdec99"
+        }
+      ]
+    },
+    "port": {
+      "png": [
+        {
+          "height": 176,
+          "path": "Modern_Movement/textures/mm_dash_flat.png",
+          "sha256": "c712cdacaa9a793375cd8fa124c7b67742ce7f3508b6adb49e3dd28bbb862287",
+          "width": 448
+        },
+        {
+          "height": 200,
+          "path": "Modern_Movement/textures/mm_dash_side.png",
+          "sha256": "27be51fcd5266dcd3862a2f3813d13677098360e578f2a805416162ce111c71e",
+          "width": 160
+        },
+        {
+          "height": 96,
+          "path": "Modern_Movement/textures/mm_jump_chev.png",
+          "sha256": "65e4b3926551bf7b73ac9dae60c221823efa32805a672824684489c1203d1654",
+          "width": 160
+        },
+        {
+          "height": 128,
+          "path": "Modern_Movement/textures/mm_pip_fill.png",
+          "sha256": "c2502bfb884ea57313f048bf37991d7a854a03d94acd53b18ae339a7920cdf84",
+          "width": 128
+        },
+        {
+          "height": 128,
+          "path": "Modern_Movement/textures/mm_pip_outline.png",
+          "sha256": "eb235028f25d2a45cc5a8987e172bcfd552d7138271d0cad31448c73952a0262",
+          "width": 128
+        },
+        {
+          "height": 128,
+          "path": "Modern_Movement/textures/mm_slam_bracket.png",
+          "sha256": "e656586ffaefa43f216afcf7ec564942f4a73b8ba08e10ddfb5066d102454ace",
+          "width": 128
+        },
+        {
+          "height": 160,
+          "path": "Modern_Movement/textures/mm_slam_ring.png",
+          "sha256": "f562fdeffed6c0debe4a330b4f069b01dd0759913370e705dfc8410d87f0b9ab",
+          "width": 512
+        },
+        {
+          "height": 40,
+          "path": "Modern_Movement/textures/mm_slide_bar.png",
+          "sha256": "b4cd8773cba7bc9392812f531fa4943c474aa6a81e584a41c4f6b92c2a6c7a05",
+          "width": 256
+        },
+        {
+          "height": 64,
+          "path": "Modern_Movement/textures/mm_slide_cap.png",
+          "sha256": "03ce3f775c2b13b32a9f478401f25b3b323dbd7c569fa078f407dfbb702d2f4d",
+          "width": 40
+        },
+        {
+          "height": 256,
+          "path": "Modern_Movement/textures/mm_surge_arc.png",
+          "sha256": "e6be7faaa4f638253dc36b1fbbde72c348b85b282656c25d38c4f7330bf51151",
+          "width": 96
+        }
+      ],
+      "python": [
+        {
+          "lines": 935,
+          "path": "Modern_Movement/__init__.py",
+          "sha256": "3ec2673e61729c3e0bcde209bb5f758d322053dcad14715df7520319c8652828"
+        },
+        {
+          "lines": 192,
+          "path": "Modern_Movement/authority.py",
+          "sha256": "c5beacca972a86bccacfe52cea6973bcc568399a1541bec06d5338d0b2ef5294"
+        },
+        {
+          "lines": 91,
+          "path": "Modern_Movement/camera.py",
+          "sha256": "bd576597d2d1dbb0061f921200d6d079e7c70dad05d80077a84ff8a3f6304df9"
+        },
+        {
+          "lines": 721,
+          "path": "Modern_Movement/core.py",
+          "sha256": "a9d5dc07d5420187a46edec3450f40fcdae776e3a1ff8252aa2cd39a6fe05f96"
+        },
+        {
+          "lines": 100,
+          "path": "Modern_Movement/diagnostics.py",
+          "sha256": "fda149da98fdb87f1ab3e5310a284a15173fae878564335bcc2cd6cf5ed9a6ae"
+        },
+        {
+          "lines": 16,
+          "path": "Modern_Movement/features/__init__.py",
+          "sha256": "84317ffcbb542058d03cb7df1f39a8ca07adfc4136e007a1299cf27cd404f140"
+        },
+        {
+          "lines": 808,
+          "path": "Modern_Movement/features/dash.py",
+          "sha256": "60b0f7fd3ce64fa58873098d3f2cb454e3a9b3cd5fdb1d8c960a13c6571aca4e"
+        },
+        {
+          "lines": 388,
+          "path": "Modern_Movement/features/double_jump.py",
+          "sha256": "2db2580ac3e2c6ce062a9c40e963df4fb808e7230ce87f3be49c2433ff0178f8"
+        },
+        {
+          "lines": 799,
+          "path": "Modern_Movement/features/holster.py",
+          "sha256": "9c4c57ae8e3043820c46b3f23687e79cdaccaf3b81049eec6381caccbdff6235"
+        },
+        {
+          "lines": 1854,
+          "path": "Modern_Movement/features/mantle.py",
+          "sha256": "60c2b558273e7177c3e6a772a35df5d0d4b2fbc8fa68865506dd61bd869b1e5a"
+        },
+        {
+          "lines": 805,
+          "path": "Modern_Movement/features/slam.py",
+          "sha256": "80f9b3fb5e651e2fd2b30a998ae8b89a2e52456b0f033222dbb795e701ef9242"
+        },
+        {
+          "lines": 1182,
+          "path": "Modern_Movement/features/slide.py",
+          "sha256": "4bd033069b6bbddad679fde3594ecd1e664c2c177ca966c744437f12db4f4c51"
+        },
+        {
+          "lines": 112,
+          "path": "Modern_Movement/features/surge.py",
+          "sha256": "a05b8025e3664de7c633c304141a214bba60e63c23d4b44ae779d457c50474ee"
+        },
+        {
+          "lines": 205,
+          "path": "Modern_Movement/fx.py",
+          "sha256": "9eae0fbd4927de364f257f2b7dfad2e4957e37476db905f2dd9a3a20aaf1fcef"
+        },
+        {
+          "lines": 60,
+          "path": "Modern_Movement/game.py",
+          "sha256": "7399f3437912ee217f73a70da6fac822314a7c69b4f3e9e925408f462fd95490"
+        },
+        {
+          "lines": 92,
+          "path": "Modern_Movement/gravity.py",
+          "sha256": "1154846a508d911927048b5e3adfdf7155d5c62af7e58a4812d66e42b453ef7a"
+        },
+        {
+          "lines": 878,
+          "path": "Modern_Movement/hudfx.py",
+          "sha256": "a3c8f63fa3b3e81c581ee14e0e1642068adc2f9819e70f6aac1ad214070ca230"
+        },
+        {
+          "lines": 96,
+          "path": "Modern_Movement/input_state.py",
+          "sha256": "ef48a8ba31e05ac699af5d5c638023f12102efbfec7ea70b9d8dc229eeaef56d"
+        },
+        {
+          "lines": 656,
+          "path": "Modern_Movement/network.py",
+          "sha256": "7b37c553282c51cf89697f1c1c29e72fea3f0b03b6e2ed2c44620b9c5966c241"
+        },
+        {
+          "lines": 222,
+          "path": "Modern_Movement/protocol.py",
+          "sha256": "eaecdc2628687660d1f1119bc335a1f12f7c3789e1eed69cf018cb4d7f4e42bb"
+        },
+        {
+          "lines": 106,
+          "path": "Modern_Movement/rules.py",
+          "sha256": "4be5526a7ca8ce068ba4dd1a2ee79367e7286d3cdce981ec88654072768bc462"
+        },
+        {
+          "lines": 275,
+          "path": "Modern_Movement/runtime.py",
+          "sha256": "c6c70d7f848ad285d9cb703c4ed58429a901e241c55f175ea0eff326f7c02433"
+        },
+        {
+          "lines": 402,
+          "path": "Modern_Movement/tracing.py",
+          "sha256": "0223ba39421f765ca8afefc5fa41d0aea71cf2a5912db0ad85e41c994b56793b"
+        }
+      ],
+      "toml": [
+        {
+          "path": "Modern_Movement/pyproject.toml",
+          "sha256": "596e06c1e104371ace1fccf65db90687ee22b37f0c9cf3d4cbb4de88a9fabd77"
+        },
+        {
+          "path": "Modern_Movement/textures/mm_dash_flat.toml",
+          "sha256": "b25b39828d8c1a3d7098fe91e3be8e3a5e6451d3a2addf465af80c6101fb0b39"
+        },
+        {
+          "path": "Modern_Movement/textures/mm_dash_side.toml",
+          "sha256": "c5e97c1f5cd9ecaecffbc4018b6782396f4ef0da0c1bf1a0e3b15c6839014db1"
+        },
+        {
+          "path": "Modern_Movement/textures/mm_jump_chev.toml",
+          "sha256": "1ccdfffd3fca30d888014c74e70d72ff5254076e29b2d0c36687cdc8bf56836e"
+        },
+        {
+          "path": "Modern_Movement/textures/mm_pip_fill.toml",
+          "sha256": "8641b60bb4716e45e64d3fd2684934dab99cceb218bec19cfef48845fa97f670"
+        },
+        {
+          "path": "Modern_Movement/textures/mm_pip_outline.toml",
+          "sha256": "baa72ab5575dfe631d5f641f95c53650f7cbb4d6f7cd0ca920465aad0ba717dd"
+        },
+        {
+          "path": "Modern_Movement/textures/mm_slam_bracket.toml",
+          "sha256": "3a1595f68ff852eb9bb2ecd332939c8ccc9b57199437fe1ab23acb7794042844"
+        },
+        {
+          "path": "Modern_Movement/textures/mm_slam_ring.toml",
+          "sha256": "be8662980c9d554d9c219b0bd44b6db89b06631deb9dacceab3b3bc06fb7b72c"
+        },
+        {
+          "path": "Modern_Movement/textures/mm_slide_bar.toml",
+          "sha256": "5bdc33e8e0828c7bfd16d4a8f2899e6db80a072087d5305e346758497ea7cd01"
+        },
+        {
+          "path": "Modern_Movement/textures/mm_slide_cap.toml",
+          "sha256": "a0d372c55a4c90f1beaf53d8ef0b1719effc5d0c94ab7716cf31ceef2a078d1a"
+        },
+        {
+          "path": "Modern_Movement/textures/mm_surge_arc.toml",
+          "sha256": "ec2ccfb73d1a430395c3dffb56c5c645376c28ea67d8fc7c3ce8172400fdec99"
+        }
+      ]
+    }
+  }
+}

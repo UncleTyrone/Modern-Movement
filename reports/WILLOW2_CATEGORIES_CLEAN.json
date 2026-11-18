@@ -1,0 +1,826 @@
+{
+  "movement": [
+    {
+      "slug": "bl2eternal",
+      "title": "BL2 Eternal",
+      "desc": "Doom Eternal, but it's BL2. Adds in-air dashing and glory kills for critically low health enemies."
+    },
+    {
+      "slug": "movementtech",
+      "title": "Movement Tech",
+      "desc": "Adds double jumps, slams and grappling. There are configurable settings for the slams and grappling. Grappling is disabled in coop."
+    },
+    {
+      "slug": "sliding",
+      "title": "Sliding",
+      "desc": "*Adds sliding to BL2/TPS/AoDK.* Pressing crouch while sprinting will make you slide. If you jump while sliding, you will jump keep the momentum, which generally makes you go further. Sliding down slopes will accelerate you, while sliding up slopes will slow you down."
+    },
+    {
+      "slug": "bl2speed",
+      "title": "Speed",
+      "desc": "Makes sprinting faster, leaving normal walking speed untouched."
+    },
+    {
+      "slug": "sprintadjuster",
+      "title": "Sprint Adjuster",
+      "desc": "Change speed when sprinting, while preserving normal speed when not sprinting. Optionally set Air Control to allow better control in the air with the movement keys, to have a better chance of stopping yourself from flinging off a cliff for instance. Configurable keybinding to allow turning on and off on the fly."
+    },
+    {
+      "slug": "sprintsetandforget",
+      "title": "Sprint Set-and-Forget",
+      "desc": "This mod remembers your movement mode (sprinting or walking): if you were sprinting the last time you moved, you will automatically start sprinting the next time you move. Pressing the Sprint key will switch back and forth between sprinting and walking at any time. There is a setting in Mod Options that controls whether you start out sprinting or walking when the game begins."
+    },
+    {
+      "slug": "tpsstylebhop",
+      "title": "TPS Style Bunny Hop",
+      "desc": "Lets you bunny hop like you can in Pre-Sequel."
+    },
+    {
+      "slug": "speedometer",
+      "title": "speedometer",
+      "desc": "Gotta go fast! Shows your current speed in km/h or mph."
+    }
+  ],
+  "ui": [
+    {
+      "slug": "actionskillcountdowntimer",
+      "title": "Action Skill Countdown Timer",
+      "desc": "When your action skill ends, a timer will start on your hud. The timer is fairly customizable, you can change its color, position, size and font. Note: The timer is more based on your action skill cooldown rate more than actual seconds. Thanks to ZetaDaemon for the farm counter, which made this possible."
+    },
+    {
+      "slug": "betterdamagefeedback",
+      "title": "Better Damage Feedback",
+      "desc": "Allows for the customisation of damage particles changing the colour, colour on crit, toggle CRITICAL effect, increased size on crit or turn damage numbers off entirely. Additionally allows for hit sounds and critical hit sounds."
+    },
+    {
+      "slug": "better-third-person",
+      "title": "Better Third Person",
+      "desc": "Improves the functionality of third person with camera customisation. Third person aim has a couple options, zoom in while remaining third person, scope in like normal or default zoom in but double click to zoom. Also fixes third person weapon aim, this may cause performance issues so it can be..."
+    },
+    {
+      "slug": "betteruicontrols",
+      "title": "Better UI Controls",
+      "desc": "This mod will let you use your movement keys (in my case WASD) to control a bunch of menus. It also enables your Use key (in my case E) to select items in menus. The mod will automatically adjust to your keys."
+    },
+    {
+      "slug": "bigparticleparty",
+      "title": "Big Particle Party",
+      "desc": "Have you ever felt like the games particles is lacking a bit of oomph? Big PP allows you to increase the amount of various particles. Check out the various particle types in the mod options. Using Big PP might decrease your performance, depending on your GPU and your game settings."
+    },
+    {
+      "slug": "bossbar",
+      "title": "Bossbar",
+      "desc": "Adds a Boss-/Health-bar to most named enemies."
+    },
+    {
+      "slug": "chatlog",
+      "title": "ChatLog",
+      "desc": "Logs received chat messages to the SDK console. On BL1/BL1E, also lets you extend how long chat stays on screen."
+    },
+    {
+      "slug": "configurableviewmodelcvm",
+      "title": "ConfigurableViewModel (CVM)",
+      "desc": "A mod that allows you to change the viewmodel of any WeaponType. To change your viewmodel go ingame, Escape->Mods->CVM"
+    },
+    {
+      "slug": "consistenttime",
+      "title": "Consistent Time",
+      "desc": "Keeps a consistent Day/Night cycle by stopping maps from setting specific times. Also includes an option to force the time to stay at a specific time."
+    },
+    {
+      "slug": "customskins",
+      "title": "Custom Skins",
+      "desc": "A simple mod allowing you to have custom character skins, all selectable! Hit R in the mod menu to reload your skins Press O to open your skin folder Toggle skins in the Options menu, sorted by character"
+    },
+    {
+      "slug": "hide-undiscovered-missions",
+      "title": "Hide Undiscovered Missions",
+      "desc": "Hides undiscoved missions in the mission log."
+    },
+    {
+      "slug": "itemlights",
+      "title": "Item Lights",
+      "desc": "Adds lights to items."
+    },
+    {
+      "slug": "jumptolevelchallenges",
+      "title": "Jump To Level Challenges",
+      "desc": "Adds a keybind to the Challenges menu to jump to the current level's challenges, and an option to hide completed challenges."
+    },
+    {
+      "slug": "lootmarker",
+      "title": "LootMarker",
+      "desc": "Places a marker on the map and minimap for every legendary or better. Currently supports Exodus and UPC/Vanilla for both, TPS and BL2. You can change the marker type, optionally enable a sound (and choose out of a predefined list) to be played when a legendary got dropped."
+    },
+    {
+      "slug": "no-ads",
+      "title": "No Ads",
+      "desc": "Prevents ads from showing. Includes both the obnoxious banner ads as well as the small MoTD DLC ads."
+    },
+    {
+      "slug": "nomainmenurotation",
+      "title": "No Main Menu Rotation",
+      "desc": "Disable the rotation in the main menu, for peoples with vertigo."
+    },
+    {
+      "slug": "notexturefade",
+      "title": "No Texture Fade",
+      "desc": "Disables texture fading on game start, forcing textures to load at thier highest level."
+    },
+    {
+      "slug": "nocrosshair",
+      "title": "NoCrosshair",
+      "desc": "Disables your Crosshair. If you have the coroutines and canvaslib libraries installed, you may enable a static square crosshair in the center of the screen. This static square can further be customized in the mods settings menu."
+    },
+    {
+      "slug": "offline-helpers",
+      "title": "Offline Helpers",
+      "desc": "Adds a few small features useful when playing offline."
+    },
+    {
+      "slug": "paintball",
+      "title": "Paintball",
+      "desc": "Replaces the boring decals with paintball splats!"
+    },
+    {
+      "slug": "photomode",
+      "title": "Photo Mode",
+      "desc": "Simple Photo Mode. 'Mousewheel Up/Down' to change the active modifier. Hold 'Shift' while scrolling to change the camera movement speed. Hold 'R' while scrolling to change the camera rotation. Hold 'F' while scrolling to change the camera FOV."
+    },
+    {
+      "slug": "ping",
+      "title": "Ping!",
+      "desc": "Ping the world! Allows you to ping various objects and locations to communicate with other players. Every player needs to have this mod installed to be able to receive pings."
+    },
+    {
+      "slug": "pizzaforfastball",
+      "title": "PizzaForFastball",
+      "desc": "Replaces the Fastballs mesh with the one of a Pizza."
+    },
+    {
+      "slug": "pythonpartnotifier",
+      "title": "Python Part Notifier",
+      "desc": "Shows the parts making up all of your items and weapons on their cards. Yes this even includes Grenades, COMs, and Relics/Oz Kits. Has full mod support, so if a mod adds extra parts to a weapon or changes a part\u2019s mesh it will properly update. Unique part support is limited, they may just show the same as the base part with the same mesh."
+    },
+    {
+      "slug": "runcounter",
+      "title": "Run Counter",
+      "desc": "A Mod that tracks save quits and item drops of at least legendary rarity. Chat command control with .rc prefix allows you to create new tracked farms, load previously made farms and control what data is shown where at any given time. If you are looking for something to make obs overlays check out ZetaD\u00e6mon\u2019s Farm Counter"
+    },
+    {
+      "slug": "shieldrechargetimer",
+      "title": "Shield Recharge Timer",
+      "desc": "Displays a configurable timer on your HUD that counts the seconds before your shield starts to recharge"
+    },
+    {
+      "slug": "simplechinesefix",
+      "title": "Simple Chinese Fix",
+      "desc": "Fix several inexplicably invalid Simple Chinese Language localization words. Lyuda = \u9c81\u8fbe Minds Eye Skill = \u7075\u7280\u4e4b\u773c"
+    },
+    {
+      "slug": "simplezoom",
+      "title": "SimpleZoom",
+      "desc": "Adds a keybind that allows you to zoom."
+    },
+    {
+      "slug": "superscreenshots",
+      "title": "Super Screenshots",
+      "desc": "High resolution screenshots independent of game resolution, 1440p - 16k"
+    },
+    {
+      "slug": "tpsskinfix",
+      "title": "TPS SkinFix",
+      "desc": "Allows the exec and set command for MaterialInstanceConstant Objects. This allows the editing of Skins in TPS. Simply place this mod inside your TPS Mods folder, no enabling of this mod needed."
+    },
+    {
+      "slug": "timeofdaychanger",
+      "title": "Time of Day Changer",
+      "desc": "Allows changing the current in-game time of day either to day, night, or forward in a fixed increment using hotkeys."
+    },
+    {
+      "slug": "uberpostprocessing",
+      "title": "Uber Post Processing",
+      "desc": "Exposes many post processing effects to the user. It allows you to easily change the color of any scene. Furthermore you can change settings related to Depth of Field, Bloom, Motion Blur and many other effects. For this mod to work correctly, please ensure that you enabled the Depth of Field in your settings."
+    },
+    {
+      "slug": "widescreenfogfix",
+      "title": "Widescreen Fog Fix",
+      "desc": "Keeps the fog, haze and atmosphere at any field of view on ultrawide and super ultrawide screens."
+    },
+    {
+      "slug": "speedometer",
+      "title": "speedometer",
+      "desc": "Gotta go fast! Shows your current speed in km/h or mph."
+    }
+  ],
+  "utility": [
+    {
+      "slug": "allmyhomieshateshift",
+      "title": "All My Homies Hate SHiFT",
+      "desc": "Sets offline/lan mode on boot to speed up starting the game a lil bit"
+    },
+    {
+      "slug": "altusecatcharide",
+      "title": "Alt Use Catch-a-Ride",
+      "desc": "Adds alt use binds to Catch-a-Ride stations, to instantly deploy a vehicle. Options to teleport to vehicle on spawn, choose a vehicle family (including DLC vehicles), and choose the vehicle weapon to use for each family."
+    },
+    {
+      "slug": "altusefasttravel",
+      "title": "Alt Use Fast Travel",
+      "desc": "This mod enables alt use for fast travel stations that will travel you to either your current objective, the station you last traveled from, or a specific station."
+    },
+    {
+      "slug": "alt-use-vendors",
+      "title": "Alt Use Vendors",
+      "desc": "Adds alt use binds to vendors to let you quickly refill health and ammo and sell trash, like in BL3/Wonderlands."
+    },
+    {
+      "slug": "autosaveblocker",
+      "title": "AutoSave Blocker",
+      "desc": "F2 to toggle Displays text indicator of current status, as well as an HUD message when a save is attempted but blocked."
+    },
+    {
+      "slug": "badassranklock",
+      "title": "Badass Rank Lock",
+      "desc": "Prevents badass rank increasing, and non-level-specific challenge reward pop-ups from showing. Intended for use with mods that would otherwise give you loads of rank."
+    },
+    {
+      "slug": "bankstashanywherebasa",
+      "title": "Bank & Stash Anywhere (BASA)",
+      "desc": "Use the bank and stash from anywhere with a hotkey. Can cause some visual texture issues"
+    },
+    {
+      "slug": "bankmanager",
+      "title": "BankManager",
+      "desc": "Customize the size of your character\u2019s backpack on the fly!"
+    },
+    {
+      "slug": "betterspawnsandbettertravelbsabt",
+      "title": "Better Spawns and Better Travel (BSABT)",
+      "desc": "Ports back some qol features of BL3: open the fast travel from anywhere teleport in your vehicle from the map menu spawn at the last triggered spawn station"
+    },
+    {
+      "slug": "betteruicontrols",
+      "title": "Better UI Controls",
+      "desc": "This mod will let you use your movement keys (in my case WASD) to control a bunch of menus. It also enables your Use key (in my case E) to select items in menus. The mod will automatically adjust to your keys."
+    },
+    {
+      "slug": "coopsavequit",
+      "title": "Co-op Save Quit",
+      "desc": "press f5 to reload the map. chests, vendors and enemies reset the same as a save quit would, but nobody gets kicked out of your game. only the host presses the key. everyone gets pulled along and lands back where they were stood, not at the fast travel point."
+    },
+    {
+      "slug": "controllerbinds",
+      "title": "Controller Binds",
+      "desc": "Adds controller combo binds for any mod keybinds, plus a menu button for the mod menu. All controller binds are set in this mod's keybind options."
+    },
+    {
+      "slug": "cooppause",
+      "title": "Coop Pause",
+      "desc": "Allow all players in a coop session to open the pause menu to fully pause the game until someone closes the menu."
+    },
+    {
+      "slug": "customscopedsensitivity",
+      "title": "Custom Scoped Sensitivity",
+      "desc": "Adds custom ADS sensitivity multiplier sliders for each sniper sight."
+    },
+    {
+      "slug": "decent-console",
+      "title": "Decent Console",
+      "desc": "My attempt at improving the ingame console by adding: - ctrl+backspace to delete the last word - ctrl+delete to delete the next word - ctrl+left/right to move the cursor by word - auto-completion for commands by pressing tab - switch between suggestions or history with up/down - suggestions will show..."
+    },
+    {
+      "slug": "dialog-skipper",
+      "title": "Dialog Skipper",
+      "desc": "Skips dialog automatically."
+    },
+    {
+      "slug": "dualbinds",
+      "title": "Dual Binds",
+      "desc": "This mod will allow you to have keys do multiple things. I highly suggest you read the readme and check out the example ini on github."
+    },
+    {
+      "slug": "easyreadonly",
+      "title": "Easy Read Only",
+      "desc": "Toggle Read Only on a button press"
+    },
+    {
+      "slug": "emotes",
+      "title": "Emotes",
+      "desc": "Adds a list of different emotes. Check Modded Keybinds to configure the mod."
+    },
+    {
+      "slug": "endactionskillkey",
+      "title": "End Action Skill Key",
+      "desc": "Adds a hotkey to force end your action skill. Most useful on Krieg and Sal."
+    },
+    {
+      "slug": "equip-locker",
+      "title": "Equip Locker",
+      "desc": "Adds various options that prevent you from equipping certain types of items/weapons."
+    },
+    {
+      "slug": "fpsslider",
+      "title": "FPS Slider",
+      "desc": "Adds custom sliders to the game that allows you to easily change the games target min and max FPS values."
+    },
+    {
+      "slug": "farmcounter",
+      "title": "Farm Counter",
+      "desc": "Adds a customiseable farm counter to keep track of your runs."
+    },
+    {
+      "slug": "grenadejumpkey",
+      "title": "Grenade Jump Key",
+      "desc": "Hotkey to throw a default grenade. Temporarily unequips your grenade mod and then automatically reequips it."
+    },
+    {
+      "slug": "grenademodquickswitcher",
+      "title": "Grenade Mod Quick Switcher",
+      "desc": "Adds a keybind that cycles through grenade mods marked as favourite. Cycles in the order that items were added to the backpack, or unequipped."
+    },
+    {
+      "slug": "hide-undiscovered-missions",
+      "title": "Hide Undiscovered Missions",
+      "desc": "Hides undiscoved missions in the mission log."
+    },
+    {
+      "slug": "keyboardchange",
+      "title": "Keyboard Change",
+      "desc": "BL2 and TPS do not handle certain keys (such as Esc and Tab) properly when some keyboard layouts are in use (for example, the Japanese IME). This mod changes the keyboard to English (United States) at start-up so you don\u2019t have to remember to change it yourself every time."
+    },
+    {
+      "slug": "mapreloader",
+      "title": "Map Reloader",
+      "desc": "Quickly farm items and save quit at a button press!"
+    },
+    {
+      "slug": "missionselector",
+      "title": "Mission Selector",
+      "desc": "Lets you switch through missions with configurable hotkeys like in Borderlands 3."
+    },
+    {
+      "slug": "missionquickswitcher",
+      "title": "MissionQuickswitcher",
+      "desc": "Adds two keybinds to the game that allow you to quickly switch between missions without having to open the mission menu."
+    },
+    {
+      "slug": "myfavorite",
+      "title": "My Favorite Mod",
+      "desc": "Block dropping starred items in Borderlands 2, TPS, and Attack on Dragon Keep."
+    },
+    {
+      "slug": "no-ads",
+      "title": "No Ads",
+      "desc": "Prevents ads from showing. Includes both the obnoxious banner ads as well as the small MoTD DLC ads."
+    },
+    {
+      "slug": "nocap",
+      "title": "NoCap",
+      "desc": "Extends team limits and functionality for 5+ player lobbies. Only required on host, clients can join with or without mod installed."
+    },
+    {
+      "slug": "offline-helpers",
+      "title": "Offline Helpers",
+      "desc": "Adds a few small features useful when playing offline."
+    },
+    {
+      "slug": "opensanctuarydoors",
+      "title": "Open Sanctuary Doors",
+      "desc": "Automatically opens the doors in Sanctuary, so you don't have to."
+    },
+    {
+      "slug": "photomode",
+      "title": "Photo Mode",
+      "desc": "Simple Photo Mode. 'Mousewheel Up/Down' to change the active modifier. Hold 'Shift' while scrolling to change the camera movement speed. Hold 'R' while scrolling to change the camera rotation. Hold 'F' while scrolling to change the camera FOV."
+    },
+    {
+      "slug": "ping",
+      "title": "Ping!",
+      "desc": "Ping the world! Allows you to ping various objects and locations to communicate with other players. Every player needs to have this mod installed to be able to receive pings."
+    },
+    {
+      "slug": "pythonpartnotifier",
+      "title": "Python Part Notifier",
+      "desc": "Shows the parts making up all of your items and weapons on their cards. Yes this even includes Grenades, COMs, and Relics/Oz Kits. Has full mod support, so if a mod adds extra parts to a weapon or changes a part\u2019s mesh it will properly update. Unique part support is limited, they may just show the same as the base part with the same mesh."
+    },
+    {
+      "slug": "quick-startup",
+      "title": "Quick Startup",
+      "desc": "Instantly jump to the main menu, skips all intro and loading screens. Optionally allows you to immediately load into a character after startup. This can be configured in the mod's options, or via a launch argument: -Character=\"\" -Character=\"\" -Character=\"\" Offline Helpers mod is recommended if using the safe mode option..."
+    },
+    {
+      "slug": "quietconsole",
+      "title": "Quiet Console",
+      "desc": "Disables most things printed to console by Gearbox, leaving a nice clean console for logging."
+    },
+    {
+      "slug": "respechotkeyrhk",
+      "title": "Respec HotKey (RHK)",
+      "desc": "Respec skills from anywhere with a hotkey, still costs cash"
+    },
+    {
+      "slug": "save-file-organizer",
+      "title": "Save File Organizer",
+      "desc": "Users can name their BL2/TPS files anything they want that ends in the .sav extension. In addition, several utility features are included."
+    },
+    {
+      "slug": "savesbackuper",
+      "title": "Saves Backuper",
+      "desc": "Back up the contents of your saves folder each time you launch the game. You can set the number of backups that will be kept, to keep them below a certain threshold. You can set which folder to back up and where to back up to."
+    },
+    {
+      "slug": "skillsaver",
+      "title": "Skill Saver",
+      "desc": "This mod gives you the ability to save your current skill build, then restore right back to it later. When in game, hit your Manage Skill Layouts bind (Default: F3) Then choose whether or not you want to save your current skill build, then type in your skill build\u2019s name! From here, you can then restore back to that build for your current character class"
+    },
+    {
+      "slug": "skilltoggles",
+      "title": "Skill Toggles",
+      "desc": "Lets you deactivate Action Skills by holding a configurable hotkey."
+    },
+    {
+      "slug": "skilltreeloadouts",
+      "title": "Skill Tree Loadouts",
+      "desc": "Save and Load skill tree Loadouts to quickly change builds. Access this by clicking the respec button at a New U Station. Builds are saved in json files in the settings folder of the sdk_mods. You can easily share them and install Loadouts there."
+    },
+    {
+      "slug": "sniperbutton",
+      "title": "SniperButton",
+      "desc": "Automatically modifies ADS speed"
+    },
+    {
+      "slug": "superscreenshots",
+      "title": "Super Screenshots",
+      "desc": "High resolution screenshots independent of game resolution, 1440p - 16k"
+    },
+    {
+      "slug": "text-mod-loader",
+      "title": "Text Mod Loader",
+      "desc": "Automatically executes Text Mods stored in binaries."
+    },
+    {
+      "slug": "throwweaponthenpickup",
+      "title": "Throw Weapon Then Pickup",
+      "desc": "Adds a keybind option to the game that allows you to throw your current weapon and then pick up it immediately. The benefit of doing this is: 1.Switch weapon immediately. 2.Reloading magazine immediately. By default the key is binded to H."
+    },
+    {
+      "slug": "true-damage-logger",
+      "title": "True Damage Logger",
+      "desc": "Prints the actual amount of damage you deal to console, bypassing visual damage cap."
+    },
+    {
+      "slug": "unspecskills",
+      "title": "Unspec Skills",
+      "desc": "Allows you to right click on skills to remove points from them. Removing points does get restricted by having points further up in the tree meaning you cannot go unlock a later skill and then just remove points from early skills."
+    },
+    {
+      "slug": "weaponquickswitcher",
+      "title": "Weapon Quick Switcher",
+      "desc": "Adds a keybind option to the game that allows you to switch to the last used weapon quickly. By default the key is binded to Q."
+    },
+    {
+      "slug": "modthatclosesthegamewhenitopens",
+      "title": "modthatclosesthegamewhenitopens",
+      "desc": "mod that closes the game when it opens"
+    }
+  ],
+  "lib": [
+    {
+      "slug": "bpdusefulcommands",
+      "title": "BPD Useful Commands",
+      "desc": "Utility library for BPDs. - Run custom BPD events from python with custom outputs. - Converts VariableData's variable to another type, like a BVAR_Object to a BVAR_Vector using the new convert_bpd_variable command. - Debug a BPD's VariableData using the new log_bpd / log_path_bpd commands on a live object to log..."
+    },
+    {
+      "slug": "canvaslib",
+      "title": "CanvasLIB",
+      "desc": "A library for easy writing to the screen with different fonts and alignments."
+    },
+    {
+      "slug": "changeutil",
+      "title": "Change Util",
+      "desc": "Simplifies the process of modifying Unreal Engine objects, and tracks changes so that they can be reverted later."
+    },
+    {
+      "slug": "command-extensions",
+      "title": "Command Extensions",
+      "desc": "Adds a few new console commands, and provides functionality for other mods to do the same. All these commands are fully compatible with blcmm files, you can just put them in your mod and have users merge it with other files and enable/disable various categories and it all just keeps working fine."
+    },
+    {
+      "slug": "constructor",
+      "title": "Constructor",
+      "desc": "PythonSDK Mod/Resource that allows the easy creation and use of new non replacing Objects."
+    },
+    {
+      "slug": "enums",
+      "title": "Enums",
+      "desc": "Imports all Unrealscript enums into Python."
+    },
+    {
+      "slug": "eridiumlib",
+      "title": "EridiumLib",
+      "desc": "Holds utility functions for some mods."
+    },
+    {
+      "slug": "livefeed",
+      "title": "Live Feed",
+      "desc": "Provides access to continuously up-to-date information about the current game, for chatbots and other applications."
+    },
+    {
+      "slug": "sanitysaver",
+      "title": "Sanity Saver",
+      "desc": "Disables sanity check, and also saves items which don\u2019t serialize, which would have parts deleted even with it off."
+    },
+    {
+      "slug": "structs",
+      "title": "Structs",
+      "desc": "Imports all Unrealscript structs into Python as named tuples."
+    },
+    {
+      "slug": "tpsskinfix",
+      "title": "TPS SkinFix",
+      "desc": "Allows the exec and set command for MaterialInstanceConstant Objects. This allows the editing of Skins in TPS. Simply place this mod inside your TPS Mods folder, no enabling of this mod needed."
+    },
+    {
+      "slug": "ue-timers",
+      "title": "UE Timers",
+      "desc": "Library to add timers using the unreal timer functionality. Huge thanks to RedxYeti for the original information on how to make this work."
+    },
+    {
+      "slug": "userfeedback",
+      "title": "UserFeedback",
+      "desc": "Adds several functions/classes to let you show various types of feedback to and get input from your users."
+    },
+    {
+      "slug": "blimgui",
+      "title": "blimgui",
+      "desc": "A library that allows modders to easily create and manage a separate window to develope GUI mods."
+    },
+    {
+      "slug": "coroutines",
+      "title": "coroutines",
+      "desc": "A library that adds simple tick and draw coroutines."
+    },
+    {
+      "slug": "maploader",
+      "title": "maploader",
+      "desc": "Allows the use of custom map files created by the MapEditor."
+    },
+    {
+      "slug": "texloader",
+      "title": "texloader",
+      "desc": "Runtime texture loading for Borderlands 2: load arbitrary PNG/JPEG images as real Texture2D objects."
+    },
+    {
+      "slug": "tracelib",
+      "title": "tracelib",
+      "desc": "A library that allows devs to easily trace ingame objects."
+    },
+    {
+      "slug": "tweens",
+      "title": "tweens",
+      "desc": "A tweening library with various easing functions."
+    },
+    {
+      "slug": "uemath",
+      "title": "uemath",
+      "desc": "A math library with support for UEVectors and UERotators."
+    }
+  ],
+  "dialog": [
+    {
+      "slug": "audiocontrol",
+      "title": "Audio Control",
+      "desc": "Stop certain sounds from playing, more sounds can be added in the future"
+    },
+    {
+      "slug": "dialograndomizer",
+      "title": "Dialog Randomizer",
+      "desc": "If it talks, it gets randomized. DLC dialogs are only loaded while in the DLC, therefore they can only be played/randomized inside the DLC."
+    },
+    {
+      "slug": "dialog-skipper",
+      "title": "Dialog Skipper",
+      "desc": "Skips dialog automatically."
+    },
+    {
+      "slug": "hitsounds",
+      "title": "HitSounds",
+      "desc": "Plays a sound on hit. Spawns confetti on critical hit."
+    },
+    {
+      "slug": "lessdotscreams",
+      "title": "Less DOT Screams",
+      "desc": "Options to disable DOT (status effect) screams, or only to play when shield is broken."
+    },
+    {
+      "slug": "lootnotificator",
+      "title": "LootNotificator",
+      "desc": "Plays special Particles and sounds depending on the loot rarity. Supports Reborn and Exodus (non SDK version)."
+    }
+  ],
+  "vehicle": [
+    {
+      "slug": "afterburntweaks",
+      "title": "Afterburn Tweaks",
+      "desc": "Using this mod you can change: Minimum start speed for afterburner Afterburn speed Afterburn duration Afterburn regen rate Afterburn regen delay For the runner, technical and hovercraft. I mostly made this so I could afterburn right away like borderlands 1."
+    },
+    {
+      "slug": "altusecatcharide",
+      "title": "Alt Use Catch-a-Ride",
+      "desc": "Adds alt use binds to Catch-a-Ride stations, to instantly deploy a vehicle. Options to teleport to vehicle on spawn, choose a vehicle family (including DLC vehicles), and choose the vehicle weapon to use for each family."
+    },
+    {
+      "slug": "alwaysteleportvehicles",
+      "title": "Always Teleport Vehicles",
+      "desc": "Choose whether to always teleport into and-or out of vehicles."
+    },
+    {
+      "slug": "firstpersondriver",
+      "title": "FirstPersonDriver",
+      "desc": "Drive the Vehicles from first person perspective. Adds a keybind to toggle between 1st and 3rd person. You can change the keybinds in Modded Keybinds menu."
+    },
+    {
+      "slug": "instavehicles",
+      "title": "Insta Vehicles",
+      "desc": "Allows you to instantly spawn a vehicle like bl4. Only works in maps where vehicles are supported and based on mission progress. Vehicle customisation is still handled through the vehicle station. Slot 1 is used for spawning vehicles and selecting the customisation."
+    }
+  ],
+  "gameplay": [
+    {
+      "slug": "ambientspawns",
+      "title": "Ambient Spawns",
+      "desc": "Periodically spawns random groups of enemies. The idea is to make the game more unpredictable."
+    },
+    {
+      "slug": "backpackmanager",
+      "title": "Backpack Manager",
+      "desc": "Customize the size of your character\u2019s backpack on the fly!"
+    },
+    {
+      "slug": "badassbounties",
+      "title": "Badass Bounties",
+      "desc": "Adds many randomly generated bounties to the game. Each bounty will reward you with XP, Money and a random item upon completion. The rarity of the reward items scale with your level. To open the bounty board menu check your modded keybinds menu."
+    },
+    {
+      "slug": "betterboostedsaves",
+      "title": "Better Boosted Saves",
+      "desc": "Adds a few options for boosted save characters including TVHM/UVHM starts and randomized gear."
+    },
+    {
+      "slug": "betterspawnsandbettertravelbsabt",
+      "title": "Better Spawns and Better Travel (BSABT)",
+      "desc": "Ports back some qol features of BL3: open the fast travel from anywhere teleport in your vehicle from the map menu spawn at the last triggered spawn station"
+    },
+    {
+      "slug": "boostedtpscharacters",
+      "title": "Boosted TPS Characters",
+      "desc": "Adds boosted characters to the character select screen. Characters start a the beginning of TVHM. Everyone spawns with the same loot and theres also 2 chests were added to where you wake up."
+    },
+    {
+      "slug": "borderlandsrewind",
+      "title": "Borderlands Rewind",
+      "desc": "Provides options to enable: Weapon merging Weapon skill stacking (e.g. infinite ammo, Evil Smasher buffs) Full amp damage on every pellet"
+    },
+    {
+      "slug": "combocounter",
+      "title": "ComboCounter",
+      "desc": "Kills are now counted towards a killstreak on screen, awarding more XP the higher your kill count goes ! XP multiplication currently capped after 15 kills to prevent ridiculous XP gains"
+    },
+    {
+      "slug": "difficultymodes",
+      "title": "Difficulty Modes",
+      "desc": "Replaces BAR with a difficulty mode that can be changed in the options."
+    },
+    {
+      "slug": "earlyskillpoints",
+      "title": "Early Skill Points",
+      "desc": "Allow you to set the level at which you start gaining skills point. Additionally, you can set the maximum level where you stop gaining them to offset early skill points gain. Note: skill points are generated when your character spawn, there is no risk of permanently losing them."
+    },
+    {
+      "slug": "emotes",
+      "title": "Emotes",
+      "desc": "Adds a list of different emotes. Check Modded Keybinds to configure the mod."
+    },
+    {
+      "slug": "enemyitemscaling",
+      "title": "Enemy and Item Scaling",
+      "desc": "For Borderlands 2 and Borderlands: The Pre-Sequel (the Pre-Sequel side should work but is untested so far). Scales enemies, loot and missions to your level. I wanted to make the gameplay loop somewhat resemble the more modern Borderlands entries. Each bound is its own setting: raise under-levelled enemies, loot or..."
+    },
+    {
+      "slug": "expadjuster",
+      "title": "Exp Adjuster",
+      "desc": "Adds sliders to adjust XP amounts: baserates for each mode, as well as multipliers based on level difference from killed enemies."
+    },
+    {
+      "slug": "gamescaler",
+      "title": "Game Scaler",
+      "desc": "Scales all zones in Normal Mode and True Vault Hunter Mode to your level, and removes the level cap for TVHM scaling in BL2 and TPS. In BL2 and TPS, Normal Mode level cap is 35, TVHM minimum level is 30. In AoDK, Normal Mode level cap is 18 and TVHM minimum level is 17."
+    },
+    {
+      "slug": "lengyucopydevice",
+      "title": "Lengyu Copy Device",
+      "desc": "Allows you to spend money to copy the selected equipment. Press the keybind \u2018UseSecondary\u2019 on the Equipment page or Backpack page to throw and copy the selected equipment. It costs the selling price of the equipment. It works in multiplayer game when both the server player and the client player have enabled this mod."
+    },
+    {
+      "slug": "lilithpatch",
+      "title": "Lilith Patch",
+      "desc": "Modifies the action skill of 55tumbl\u2019s excellent Lilith mod to work more like BL1 Lilith\u2019s Phasewalk. You no longer need a target in the crosshairs."
+    },
+    {
+      "slug": "mapreloader",
+      "title": "Map Reloader",
+      "desc": "Quickly farm items and save quit at a button press!"
+    },
+    {
+      "slug": "mario",
+      "title": "Mario Mode",
+      "desc": "Jump on enemies to kill them."
+    },
+    {
+      "slug": "meleeenhancement",
+      "title": "Melee Enhancement",
+      "desc": "A few tweaks to Zer0 and Krieg to enhance their melee gameplay"
+    },
+    {
+      "slug": "npcrevives",
+      "title": "NPCRevives",
+      "desc": "Friendly NPCs will attempt to revive you."
+    },
+    {
+      "slug": "nocap",
+      "title": "NoCap",
+      "desc": "Extends team limits and functionality for 5+ player lobbies. Only required on host, clients can join with or without mod installed."
+    },
+    {
+      "slug": "ohko",
+      "title": "One-Hit KO",
+      "desc": "Makes you die in one hit."
+    },
+    {
+      "slug": "opensesame",
+      "title": "Open Sesame",
+      "desc": "Make containers open automatically when damaged."
+    },
+    {
+      "slug": "optionalobjectivesreward",
+      "title": "Optional Objectives Rewards",
+      "desc": "Automatically rewards ALL optional objectives in Borderlands 2 and The Pre-Sequel with configurable rewards that scale by playthrough difficulty."
+    },
+    {
+      "slug": "paytoloot",
+      "title": "Pay To Loot",
+      "desc": "Picking up ground loot is no longer free. They now cost as much as they would in a vendor."
+    },
+    {
+      "slug": "reignofgiants",
+      "title": "Reign Of Giants",
+      "desc": "It\u2019s a concept we all know and love: Rare enemy variants, like Loot Midgets and Tubbies. Reign Of Giants extends this to every enemy in the game."
+    },
+    {
+      "slug": "revivetimemodifier",
+      "title": "Revive Time Modifier",
+      "desc": "Using the scroller in the options, choose your time in seconds for how long it takes to revive teammates. The options range from 0 to 10 seconds in 0.5 second increments."
+    },
+    {
+      "slug": "scaledtvhm",
+      "title": "ScaledTVHM",
+      "desc": "Fixes the TVHM scaling for TTAoDK One Shot Adventure. Now everything will scale with the player level in TVHM."
+    },
+    {
+      "slug": "scaling-adjuster",
+      "title": "Scaling Adjuster",
+      "desc": "Adds an option to let you easily adjust the game's base scaling constant."
+    },
+    {
+      "slug": "spareparts",
+      "title": "Spare Parts",
+      "desc": "Allows you to salvage parts from items and attach them to other items. Just select an item from your backpack, hover over another item and press the \u2018salvage\u2019 hotkey. Default is [C] Note: the item you salvage parts from will be destroyed in the process."
+    },
+    {
+      "slug": "spawn-multiplier",
+      "title": "Spawn Multiplier",
+      "desc": "Adds an option to let you easily multiply the amount of spawns you\u2019re getting, updating live."
+    },
+    {
+      "slug": "speedrun-practice",
+      "title": "Speedrun Practice",
+      "desc": "Borderlands 2 mod with various utilities to help in practicing speedruns. All speedruns are currently supported on some level, although many runs (e.g. current patch) don\u2019t need much help other than an easy way to make practice saves."
+    },
+    {
+      "slug": "trivia",
+      "title": "Trivia",
+      "desc": "Trivia minigame for BL2, With easy and hard difficulties. Requires MapLoader and UserFeedback"
+    },
+    {
+      "slug": "ultimatescavengermod",
+      "title": "Ultimate Scavenger Mod",
+      "desc": "This mod automaically equips items when they spawn as long as your character can equip them, showing a message when it\u2019s equipped. Excluded examples are items higher level than your character or classmods not for your character. Options include: Font Size sliders for the messages, more informative messages and a few gunzerker options. If you plan on playing gunzerker, make sure to check the known issues on github. Single player only. Nexus Mods: https://www.nexusmods.com/borderlands2/mods/412"
+    },
+    {
+      "slug": "weaponprof",
+      "title": "Weapon Proficiencies",
+      "desc": "This mod ports weapon proficiencies from Borderlands 1 without any changes."
+    }
+  ]
+}
