@@ -3,7 +3,7 @@
 Next minor after the shipped Pre-Sequel package 3.61.2. The same file runs in Borderlands 2 and Borderlands: The Pre-Sequel. Double Jump, Dash, Mantle, Slide, Holster, and Sprint Surge ship in both games. Borderlands 2 also gets Slam. The Pre-Sequel keeps native Oz slam. Pre-release work stays on 3.62.0.
 
 **Package:** `dist/Modern_Movement.sdkmod`  
-**SHA-256:** `ec3927d7f0a25eb3c51b1537276a3d49c6658a1c3c2f257fdd2041bb3ffa62fc`
+**SHA-256:** `43f8bf6324954ec28f7989576da88babd31f123195f229a81674e752a3462902`
 
 Install this exact file on every peer who wants the abilities, in that game's `sdk_mods` folder. Confirm the hash against `dist/Modern_Movement.sdkmod.sha256` before enabling it. Use the same file on Borderlands 2 and on The Pre-Sequel.
 
@@ -65,6 +65,13 @@ These notes are the whole 3.62.0 delta from the shipped 3.61.2 package.
 - Joiner dashes keep the fall they already have. The host hold no longer rewrites Z every tick.
 - Surface dust uses particles the game already has loaded. The slide coast does not stop to search the particle list or fire a trace.
 - Holding crouch through a slide jump slides again on landing, once the jump has actually been in the air. A hop that touches down immediately does not start another slide. A new crouch press in the air still slams, and holding crouch through that slam slides away when you land.
+- Other players can move again. The host no longer runs slide-cancel input on a joiner's server pawn, which was blocking their crouch and cancelling their dash. Each player slide-cancels from their own held crouch. The host still coasts the slide it was told about.
+- A joiner dash that lands during the short hold is put back into falling without rewriting vertical speed, so the burst is not clamped to run speed.
+- A joiner slide jump stays up. The host holds that launch for a moment, and a rising jump keeps its own vertical speed.
+- Sliding down a ramp or stairs lasts longer. One height bump does not stretch the slide.
+- `Modern_Movement.log.txt` is written next to the installed sdkmod. It records enable, handshake, and dash or slide starts and refusals for that player.
+- Other players get dash, slide, and jumps. A joining client was treated as the host, so those moves never reached the listen host and only the weapon holster showed up.
+- Slide cancel continues only while you hold crouch. Landing from a slide jump without the crouch key does not start another slide.
 
 ## Install
 

@@ -42,6 +42,13 @@ The last shipped Pre-Sequel package is **3.61.2**. The next minor is **3.62.0**.
 - Surface effects use the game's own dust, impact, and smoke systems. A slide does not scan every particle or spawn a trace weapon, which was hitching the coast.
 - Holding crouch through a slide jump lands in another slide, so a sprint-slide-jump can keep going. That held key is no longer a slam. A new crouch press in the air still slams, and holding crouch through the impact slides out of it.
 - A slide cancel has to stay in the air for a moment. Jumping and touching ground again immediately no longer starts another slide, so the chain cannot be tapped as fast as the button allows.
+- Other players can move again. The host was running the slide-cancel keyboard on each joiner's server pawn, which blocked their crouch and cancelled their dash. Slide cancel stays on the player who is holding crouch. The host still coasts their slide from the slide message.
+- A joiner dash that touches the ground during the short hold is put back into falling, so the burst is not cut down to run speed. Vertical speed is still left alone.
+- A joiner slide jump stays in the air. The host holds the same launch the joiner used, so the jump is no longer pulled back to the ground. Once they are rising, vertical speed is left to gravity.
+- Sliding down a ramp or a run of stairs lasts longer. A single height bump does not.
+- The game writes `Modern_Movement.log.txt` in the same folder as the installed mod. It records enable, handshake, dash and slide starts, and refused moves, so two players can compare sessions.
+- Other players get dash, slide, and jump, not only the weapon holster. A joining client was treated as the host because the game reports Role Authority, so movement never reached the listen host. Weapon changes still showed up because the game replicates those itself.
+- A slide jump lands in another slide only while crouch is held. Releasing crouch before landing, or a crouch pose left over from the slide, does not start another slide.
 
 ## [3.61.2] — shipped Pre-Sequel baseline
 

@@ -216,7 +216,11 @@ class SlideState:
     crouch_owned: bool = False
     suppress_crouch_until_release: bool = False
     # Slide jump while crouch is held: land in another slide instead of a slam.
+    # chain_hold is True only after the crouch key itself was down. A forced
+    # crouch pose, or a key that cannot be read, is not a request to chain.
     chain: dict | None = None
+    chain_hold: bool = False
+    slide_jump: dict | None = None
     # Horizontal speed saved when a real in-air crouch starts a slam.
     slam_bank: tuple[float, float] | None = None
     crouch_lease: SlideCrouchLease = field(default_factory=SlideCrouchLease)
@@ -338,19 +342,47 @@ _ENTRY_KEEP = 1.0  # keep full sprint speed into the slide
 _JUSO_DOWNHILL = 0.0012  # CrouchedPct gain per unit dropped
 _JUSO_UPHILL = 0.005  # extra loss per unit climbed
 _HOST_SLIDES: dict[int, dict] = {}
+# Slide-jump launches. One write loses to the server move, same as a double jump.
+_HOST_JUMPS: dict[int, dict] = {}
 
 
-def _decay_juso_pct(cp: float, z_diff: float, dt: float) -> float:
-    """Drain on a clock. A real climb shortens it. Height noise must not refill it.
+def _decay_juso_pct(cp: float, z_diff: float, dt: float, drop_run: float = 0.0) -> float:
+    """Drain on a clock. A real climb shortens it. A sustained drop slows the drain.
 
-    Co-op Z replication jitters by a few units. Treating every drop as downhill
-    skipped the timer and added CrouchedPct back, so the meter froze, climbed,
-    or jittered and the slide ran long.
+    One noisy Z sample must not add CrouchedPct back. `drop_run` is how long the
+    body has actually been descending (ramps and stairs), and it only changes the
+    rate. The meter still falls.
     """
     loss = dt * _JUSO_DECAY
     if z_diff > 12.0:
         loss += z_diff * _JUSO_UPHILL
+    elif drop_run > 0.12:
+        loss *= 0.40
+    elif drop_run < -0.12:
+        loss *= 1.35
     return cp - loss
+
+
+def _track_drop(store: dict, z_diff: float, dt: float) -> float:
+    """Build up while Z keeps falling (a ramp or a run of stairs). One spike fades."""
+    run = float(store.get("drop_run", 0.0))
+    if z_diff <= -3.0:
+        run = min(0.60, run + dt + min(0.08, (-float(z_diff) - 3.0) / 250.0))
+    elif z_diff >= 8.0:
+        run = max(-0.60, run - dt)
+    else:
+        run *= max(0.0, 1.0 - dt * 2.5)
+    store["drop_run"] = run
+    return run
+
+
+def _vertical_slope(pc, drop_run: float) -> float:
+    """Positive when a sustained drop should stretch the slide. Independent of Floor."""
+    if not slope_slider.value or abs(drop_run) < 0.12:
+        return 0.0
+    share = min(abs(drop_run) / 0.45, 1.0) * 0.45
+    signed = share if drop_run > 0.0 else -share
+    return _gravity(pc) * signed * float(slope_slider.value) / 100.0
 
 
 def _slope_along(pc, pawn, dx: float, dy: float) -> float:
@@ -388,8 +420,10 @@ def release_player(player_id: int | None) -> None:
     """Drop host slide holds. None clears every joiner (level change)."""
     if player_id is None:
         _HOST_SLIDES.clear()
+        _HOST_JUMPS.clear()
         return
     _HOST_SLIDES.pop(int(player_id), None)
+    _HOST_JUMPS.pop(int(player_id), None)
 
 
 def _unit_dir(dx: float, dy: float) -> tuple[float, float]:
@@ -442,6 +476,7 @@ def host_enter_juso(
             dx, dy = _unit_dir(float(ctx.pawn.Velocity.X), float(ctx.pawn.Velocity.Y))
         except Exception:  # noqa: BLE001
             dx, dy = 0.0, 0.0
+    _HOST_JUMPS.pop(ctx.key.player_id, None)
     _HOST_SLIDES[ctx.key.player_id] = {
         "pawn": ctx.pawn,
         "cp": pct,
@@ -466,21 +501,21 @@ def host_enter_juso(
     core.execute(ctx, apply)
 
 
-def host_exit_juso(ctx) -> None:
-    """Listen-host: juso server_exit_slide — restore CrouchedPct."""
-    _HOST_SLIDES.pop(ctx.key.player_id, None)
-    if ctx.pawn is None:
+def _stand_host_pawn(ctx) -> None:
+    """Drop the server crouch latch. Does not touch a slide-jump hold."""
+    if ctx.pawn is None and ctx.controller is None:
         return
 
     def apply() -> None:
-        try:
-            ctx.pawn.CrouchedPct = _JUSO_CROUCH_PCT
-        except Exception:  # noqa: BLE001
-            pass
-        try:
-            ctx.pawn.ShouldCrouch(False)
-        except Exception:  # noqa: BLE001
-            pass
+        if ctx.pawn is not None:
+            try:
+                ctx.pawn.CrouchedPct = _JUSO_CROUCH_PCT
+            except Exception:  # noqa: BLE001
+                pass
+            try:
+                ctx.pawn.ShouldCrouch(False)
+            except Exception:  # noqa: BLE001
+                pass
         try:
             if ctx.controller is not None:
                 ctx.controller.bDuck = 0
@@ -488,6 +523,69 @@ def host_exit_juso(ctx) -> None:
             pass
 
     core.execute(ctx, apply)
+
+
+def host_exit_juso(ctx) -> None:
+    """Listen-host: juso server_exit_slide — restore CrouchedPct."""
+    _HOST_SLIDES.pop(ctx.key.player_id, None)
+    _stand_host_pawn(ctx)
+
+
+def _push_slide_jump(pawn, vx: float, vy: float, vz: float, *, force_z: bool) -> None:
+    """Write the slide-jump launch. A rising pawn keeps its Z so gravity can work."""
+    try:
+        if int(pawn.Physics) == core.PHYS_WALKING:
+            pawn.Physics = core.PHYS_FALLING
+    except Exception:  # noqa: BLE001
+        pass
+    rising = False
+    if not force_z:
+        try:
+            rising = int(pawn.Physics) == core.PHYS_FALLING and float(pawn.Velocity.Z) > 0.0
+        except Exception:  # noqa: BLE001
+            rising = False
+    core.set_velocity(pawn, float(vx), float(vy), None if rising else float(vz))
+
+
+def host_apply_slide_jump(ctx, vx: float, vy: float, vz: float) -> None:
+    """Listen-host: stop the slide coast and hold the joiner's launch."""
+    if ctx.pawn is None:
+        return
+    _HOST_SLIDES.pop(ctx.key.player_id, None)
+    _HOST_JUMPS[ctx.key.player_id] = {
+        "pawn": ctx.pawn,
+        "vx": float(vx),
+        "vy": float(vy),
+        "vz": float(vz),
+        "left": _LAUNCH_HOLD,
+    }
+    _stand_host_pawn(ctx)
+
+    def apply() -> None:
+        if ctx.pawn is None:
+            return
+        _push_slide_jump(ctx.pawn, vx, vy, vz, force_z=True)
+
+    core.execute(ctx, apply)
+
+
+def _service_host_jumps(dt: float) -> None:
+    """Re-apply a joiner slide jump until the launch has stuck."""
+    if not _HOST_JUMPS:
+        return
+    done: list[int] = []
+    for pid, d in _HOST_JUMPS.items():
+        d["left"] = float(d["left"]) - dt
+        pawn = d["pawn"]
+        try:
+            if d["left"] <= 0.0 or pawn is None:
+                done.append(pid)
+                continue
+            _push_slide_jump(pawn, d["vx"], d["vy"], d["vz"], force_z=False)
+        except Exception:  # noqa: BLE001
+            done.append(pid)
+    for pid in done:
+        _HOST_JUMPS.pop(pid, None)
 
 
 def _service_host_slides(dt: float) -> None:
@@ -505,7 +603,10 @@ def _service_host_slides(dt: float) -> None:
             z_diff = z - float(old_z)
             d["elapsed"] = float(d.get("elapsed", 0.0)) + dt
             scale = _distance_scale(float(d.get("distance", 80.0)))
-            cp = _decay_juso_pct(float(d["cp"]), z_diff, dt / scale)
+            drop_run = _track_drop(d, z_diff, dt)
+            if not slope_slider.value:
+                drop_run = 0.0
+            cp = _decay_juso_pct(float(d["cp"]), z_diff, dt / scale, drop_run)
             d["old_z"] = z
             d["cp"] = cp
             speed_percent = float(d.get("speed_percent", 100.0))
@@ -515,8 +616,8 @@ def _service_host_slides(dt: float) -> None:
                 pawn.ShouldCrouch(True)
             except Exception:  # noqa: BLE001
                 pass
-            # One noisy drop must not switch the joiner onto the long downhill cap.
-            cap = _MAX_FLAT_S * scale
+            # A sustained ramp or stair run uses the long cap. One Z spike does not.
+            cap = (_MAX_DOWNHILL_S if drop_run > 0.12 else _MAX_FLAT_S) * scale
             if cp < _JUSO_CROUCH_PCT or d["elapsed"] > cap:
                 pawn.CrouchedPct = _JUSO_CROUCH_PCT
                 done.append(pid)
@@ -656,6 +757,18 @@ def _start(pc, pawn, reason: str) -> None:
             pass
     _begin_slide_pose(pc, pawn)
     _log(f"start ({reason}): {speed:.0f} -> {start_speed:.0f} u/s, walk {walk:.0f}")
+    try:
+        from .. import diagnostics
+
+        diagnostics.event(
+            "mm.slide.start",
+            reason=reason,
+            role=ctx.role.value if ctx is not None else "",
+            speed=round(start_speed, 1),
+            timed=bool(state.slide.get("timed")),
+        )
+    except Exception:  # noqa: BLE001
+        pass
     # Joiner sets CrouchedPct locally and sends entry direction. Host coasts the same vector.
     try:
         from .. import coop_rpc
@@ -777,6 +890,16 @@ def _end(pawn, reason: str, pc=None) -> None:
     except Exception:  # noqa: BLE001
         pass
     _log(f"end ({reason})")
+    try:
+        from .. import diagnostics
+
+        diagnostics.event(
+            "mm.slide.end",
+            reason=reason,
+            role=ctx.role.value if ctx is not None else "",
+        )
+    except Exception:  # noqa: BLE001
+        pass
 
 
 def _cancel() -> None:
@@ -865,9 +988,8 @@ def _launch_now(pc, pawn, vx, vy, vz) -> bool:
                 return False
         except Exception:  # noqa: BLE001
             pass
-    pawn.Velocity.X = vx
-    pawn.Velocity.Y = vy
-    pawn.Velocity.Z = vz
+    # Component writes often no-op. The full vector is what the host holds too.
+    core.set_velocity(pawn, vx, vy, vz)
     return True
 
 
@@ -908,9 +1030,21 @@ def _ground_jump(pc, pawn) -> None:
         return
     if ok:
         state.launch = {"v": v, "until": core.clock + _LAUNCH_HOLD}
-        # Holding crouch through this jump is a slide cancel, not a slam.
-        state.chain = {"dir": (dx, dy), "speed": max(float(speed), 1.0), "at": core.clock}
+        # Only a crouch key that is down right now continues into another slide.
+        _remember_slide_jump(state, pc, dx, dy, speed)
         state.slam_bank = None
+        try:
+            from .. import coop_rpc
+
+            if coop_rpc.is_requester(ctx):
+                coop_rpc.call_host(
+                    coop_rpc.server_slide_jump,
+                    float(v[0]),
+                    float(v[1]),
+                    float(v[2]),
+                )
+        except Exception:  # noqa: BLE001
+            pass
         core.emit("slide_jump")
         if indicator_option.value and ctx.presentation:
             hudfx.slide_launch()
@@ -1379,7 +1513,10 @@ def _run(pc, pawn, dt) -> None:
         old_z = s.get("old_z", z)
         z_diff = float(z) - float(old_z)
         scale = _distance_scale(float(s.get("distance", distance_slider.value)))
-        cp = _decay_juso_pct(cp, z_diff, dt / scale)
+        drop_run = _track_drop(s, z_diff, dt)
+        if not slope_slider.value:
+            drop_run = 0.0
+        cp = _decay_juso_pct(cp, z_diff, dt / scale, drop_run)
         s["old_z"] = z
         s["cp"] = cp
         speed_percent = float(s.get("speed_percent", speed_slider.value))
@@ -1393,8 +1530,8 @@ def _run(pc, pawn, dt) -> None:
         except Exception:  # noqa: BLE001
             pass
         # Holding crouch must not keep a flat slide alive past the hard cap.
-        # A single downhill sample must not stretch a joiner slide either.
-        cap = _MAX_FLAT_S * scale
+        # A ramp or a run of stairs, once it has been dropping for a moment, may.
+        cap = (_MAX_DOWNHILL_S if drop_run > 0.12 else _MAX_FLAT_S) * scale
         if cp < _JUSO_CROUCH_PCT or s["elapsed"] > cap:
             _end(pawn, "slowed" if cp < _JUSO_CROUCH_PCT else "timed out", pc)
             return
@@ -1430,7 +1567,18 @@ def _run(pc, pawn, dt) -> None:
     # Flat coasts; downhill stretches; still always ends.
     dist = max(50.0, min(140.0, float(distance_slider.value)))
     flat_drag = max(_MIN_FLAT_DRAG, float(friction_slider.value) * 100.0 / dist) / _LENGTH
+    try:
+        z_now = float(pawn.Location.Z)
+    except Exception:  # noqa: BLE001
+        z_now = float(s.get("old_z", 0.0))
+    z_prev = float(s.get("old_z", z_now))
+    drop_run = _track_drop(s, z_now - z_prev, dt)
+    s["old_z"] = z_now
     slope = _slope_along(pc, pawn, dx, dy)
+    vertical = _vertical_slope(pc, drop_run)
+    # Stairs keep a flat floor normal on each tread. The drop is what stretches them.
+    if abs(vertical) > abs(slope):
+        slope = vertical
     if slope > 0.0:
         accel = -flat_drag + min(slope, flat_drag * 0.88)
     else:
@@ -1468,6 +1616,7 @@ def _tick(pc, pawn, dt) -> None:
     # from PlayerMove — double service made CrouchedPct fall at 2×).
     if ctx.local and ctx.role != ExecutionRole.LOCAL_REQUESTER:
         _service_host_slides(dt)
+        _service_host_jumps(dt)
     if ctx.presentation:
         _update_push(dt)
     if state.arms is not None:
@@ -1488,8 +1637,7 @@ def _tick(pc, pawn, dt) -> None:
 
     crouch = _crouching(pc, pawn)
     held = _crouch_held(pc)
-    if state.chain is not None and held is False:
-        state.chain = None
+    _update_chain_hold(state, held)
     # Crouch state drops the moment a slide jump stands you up. The key can still
     # be held. Clearing the block there let that hold become a slam press.
     if state.chain is None and not crouch:
@@ -1543,6 +1691,7 @@ def _tick(pc, pawn, dt) -> None:
         and ctx.authority
         and phys == core.PHYS_WALKING
         and state.prev_phys == core.PHYS_FALLING
+        and state.chain_hold
         and held is not False
     ):
         link = state.chain
@@ -1570,6 +1719,7 @@ def _tick(pc, pawn, dt) -> None:
         elif (
             landing_option.value
             and effective_crouch
+            and not _slide_jump_blocks_landing(state)
             and not state.crouch_pressed_while_airborne
             and state.prev_phys == core.PHYS_FALLING
             and core.clock - state.crouch_pressed_at <= landing_window_slider.value / 1000.0 + dt
@@ -1583,6 +1733,9 @@ def _tick(pc, pawn, dt) -> None:
                 fwd = 0.0
             if fwd >= _FORWARD_DOT:
                 _start(pc, pawn, "landing")
+
+    if phys == core.PHYS_WALKING and state.prev_phys == core.PHYS_FALLING:
+        state.slide_jump = None
 
     state.prev_crouch = effective_crouch
     state.prev_sprint = sprint
@@ -1598,6 +1751,41 @@ def _tick(pc, pawn, dt) -> None:
             _hide_crouch_icon(pc)
         else:
             _show_crouch_icon(pc)
+
+
+def _remember_slide_jump(state, pc, dx: float, dy: float, speed: float) -> None:
+    """Save the jump. Arm a landing slide only when the crouch key is down."""
+    link = {"dir": (float(dx), float(dy)), "speed": max(float(speed), 1.0), "at": core.clock}
+    state.slide_jump = link
+    if _crouch_held(pc) is True:
+        state.chain = dict(link)
+        state.chain_hold = True
+    else:
+        state.chain = None
+        state.chain_hold = False
+
+
+def _update_chain_hold(state, held) -> None:
+    """A release cancels the chain. An unreadable key does not count as a hold."""
+    if not state.chain_hold:
+        state.chain = None
+        return
+    if held is False:
+        state.chain = None
+        state.chain_hold = False
+    elif held is True and state.chain is None and state.slide_jump is not None:
+        state.chain = dict(state.slide_jump)
+
+
+def _slide_jump_blocks_landing(state) -> bool:
+    """The crouch pose left over from a slide is not a request to slide again on landing."""
+    link = state.slide_jump
+    if link is None or state.chain_hold:
+        return False
+    try:
+        return core.clock - float(link.get("at", -100.0)) < 3.0
+    except Exception:  # noqa: BLE001
+        return False
 
 
 def _chain_air_ok(link) -> bool:
@@ -1708,9 +1896,14 @@ def _authority_input(ctx, payload):
 
 
 def _authority_tick(ctx, frame) -> None:
-    if ctx.local:
-        return
-    core.execute(ctx, _tick, ctx.controller, ctx.pawn, frame.dt)
+    """Joiner slides are already coasted from `_HOST_SLIDES` on the host's own tick.
+
+    Running `_tick` here treated the joiner's server pawn like a local keyboard.
+    That copy has no crouch keys, so the slide-cancel block stuck on, `DuckPressed`
+    was swallowed, and `core.begin("slide")` cancelled their dash. `frame` is unused
+    because this tick must not run the input machine.
+    """
+    del ctx, frame
 
 
 def _authority_cancel(ctx, reason: str) -> None:
@@ -1781,7 +1974,10 @@ def _pre_do_jump(obj, _args, _ret, _func):
 def _pre_duck_pressed(obj, _args, _ret, _func):
     """While crouch is suppressed after off-cliff/jump exit, block native Slam re-arm."""
     ctx = REGISTRY.resolve_controller(obj)
-    if ctx is None:
+    # The listen server also receives the joiner's crouch. Blocking it from the
+    # server-side chain (which never sees their keyboard) made every later move
+    # get corrected back to vanilla. The owning client still blocks its own press.
+    if ctx is None or not ctx.local:
         return None
     state = _state(ctx)
     if state.suppress_crouch_until_release or state.chain is not None:
@@ -1853,11 +2049,22 @@ def _post_player_move(obj, args, _ret, _func):
         return
     state = _state(ctx)
     hosted = _HOST_SLIDES.get(ctx.key.player_id)
-    if state.slide is None and hosted is None:
+    jump = _HOST_JUMPS.get(ctx.key.player_id)
+    if state.slide is None and hosted is None and jump is None:
         return
 
     def assert_crouch() -> None:
         slide = state.slide
+        launched = _HOST_JUMPS.get(ctx.key.player_id)
+        if slide is None and launched is not None:
+            _push_slide_jump(
+                ctx.pawn,
+                launched["vx"],
+                launched["vy"],
+                launched["vz"],
+                force_z=False,
+            )
+            return
         if slide is not None:
             if slide.get("timed") and "cp" in slide:
                 speed_percent = float(slide.get("speed_percent", 100.0))

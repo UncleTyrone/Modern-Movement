@@ -32,6 +32,7 @@ When a known TPS-capable texloader fork is **not** detected, the mod skips exter
 1. Every player who wants the abilities installs **and enables** the same `Modern_Movement.sdkmod`.
 2. Players without the mod join fine and stay vanilla.
 3. Restart the game after copying the sdkmod so hooks/keybinds load.
+4. After a session, `Modern_Movement.log.txt` sits in the same folder as the sdkmod. Each player gets their own file. Send both when a joiner's dash or slide does nothing.
 
 ## Verification before play
 

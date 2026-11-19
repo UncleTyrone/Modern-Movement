@@ -1,6 +1,6 @@
 # Modern Movement 3.62.0 (Borderlands 2 and The Pre-Sequel)
 
-Next minor after the shipped Pre-Sequel package 3.61.2. Double Jump, Dash, Mantle, Slide, Holster, and Sprint Surge, with host-authoritative co-op. Borderlands 2 also gets Slam. The Pre-Sequel keeps its own Oz slam. Pre-release edits stay on 3.62.0.
+Double Jump, Dash, Mantle, Slide, Holster, and Sprint Surge, with host-authoritative co-op. Borderlands 2 also gets Slam.
 
 ## Install
 

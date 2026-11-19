@@ -313,6 +313,13 @@ def _from_peer(raw: str) -> None:
         return
     peer = _host_peer(sender)
     if peer is None or not peer.allow():
+        diagnostics.event(
+            "mm.net.drop",
+            interval=2.0,
+            direction="c2h",
+            reason="no_peer" if peer is None else "rate_limit",
+            kind=message.kind.value if hasattr(message.kind, "value") else str(message.kind),
+        )
         return
     peer.last_seen = time.monotonic()
     if message.session != _session or message.peer != peer.token:
@@ -443,6 +450,12 @@ def _from_host(raw: str) -> None:
         _dispatch_result("accept", message.payload)
     elif message.kind == Kind.REJECT:
         reason = message.payload.get("reason")
+        diagnostics.event(
+            "mm.net.rejected",
+            reason=reason,
+            feature=message.payload.get("feature", ""),
+            operation=message.payload.get("operation", ""),
+        )
         if reason in (Reason.STALE_PAWN.value, Reason.STALE_RULES.value, Reason.BAD_TOKEN.value):
             # Force a fresh HELLO rather than sitting forever in DESYNC_SAFE.
             _reset_client_handshake()
@@ -461,6 +474,7 @@ def _handle_hello(sender: Any, message: Envelope) -> None:
         return
     peer = _host_peer(sender)
     if peer is None:
+        diagnostics.event("mm.net.hello", interval=2.0, result="no_peer")
         return
     # Welcome immediately authorizes intents so clients are not soft-locked waiting on BIND.
     peer.ready = True
@@ -481,6 +495,7 @@ def _handle_hello(sender: Any, message: Envelope) -> None:
         },
         request_sequence=message.sequence,
     )
+    diagnostics.note(f"welcome sent to player {getattr(peer, 'player_id', '?')}")
 
 
 def _handle_welcome(message: Envelope) -> None:
@@ -507,6 +522,10 @@ def _handle_welcome(message: Envelope) -> None:
     _client.ready = True
     _client.desync_safe = False
     _send_client(Kind.READY, {"rules_hash": _rules.hash})
+    diagnostics.note(
+        f"welcome received package={message.payload.get('package', '?')} "
+        f"rules={message.payload.get('rules_hash', '')}"
+    )
 
 
 def _context_for_sender(pri: Any) -> PlayerContext | None:
@@ -561,6 +580,12 @@ def _to_peer(pri: Any, raw: str) -> None:
 
 
 def _send_host_reject(pri: Any, peer: Peer, request: int, reason: Reason) -> None:
+    diagnostics.event(
+        "mm.net.reject",
+        reason=reason.value,
+        player=peer.player_id,
+        ready=peer.ready,
+    )
     _send_to_peer(
         pri,
         peer,
@@ -596,14 +621,28 @@ def _send_client(kind: Kind, payload: dict[str, Any]) -> int | None:
 def mirror_intent(feature: str, operation: str, data: dict[str, Any]) -> None:
     """Wire-only client → host mirror. Caller already applied the action locally."""
     if not _NETWORKING_AVAILABLE or not _enabled or not _is_client():
+        diagnostics.event(
+            "mm.net.mirror_skip",
+            interval=2.0,
+            feature=feature,
+            operation=operation,
+            networking=_NETWORKING_AVAILABLE,
+            enabled=_enabled,
+            client=_is_client(),
+        )
         return
     try:
         _send_client(
             Kind.INTENT,
             {"feature": feature, "operation": operation, "data": data},
         )
-    except Exception:  # noqa: BLE001
-        pass
+    except Exception as exc:  # noqa: BLE001
+        diagnostics.event(
+            "mm.net.mirror_failed",
+            feature=feature,
+            operation=operation,
+            error=repr(exc),
+        )
 
 
 def send_intent(feature: str, operation: str, data: dict[str, Any]) -> tuple[Reason, dict[str, Any]]:
@@ -612,14 +651,38 @@ def send_intent(feature: str, operation: str, data: dict[str, Any]) -> tuple[Rea
 
     ctx = REGISTRY.resolve_controller(get_pc(possibly_loading=True))
     if ctx is None:
+        diagnostics.event("mm.net.intent", feature=feature, operation=operation, result="no_pawn")
         return Reason.NO_PAWN, {}
     if ctx.role in (ExecutionRole.LOCAL_STANDALONE, ExecutionRole.LOCAL_HOST):
-        return authority.dispatch_intent(ctx, feature, operation, data)
+        reason, response = authority.dispatch_intent(ctx, feature, operation, data)
+        diagnostics.event(
+            "mm.net.intent",
+            feature=feature,
+            operation=operation,
+            result=reason.value,
+            role=ctx.role.value,
+        )
+        return reason, response
     if ctx.role == ExecutionRole.LOCAL_REQUESTER:
         # Local write = HUD + immediate feel; host mirror = server pawn matches (no rubber-band).
         reason, response = authority.dispatch_intent(ctx, feature, operation, data)
         mirror_intent(feature, operation, data)
+        diagnostics.event(
+            "mm.net.intent",
+            feature=feature,
+            operation=operation,
+            result=reason.value,
+            role=ctx.role.value,
+            mirrored=True,
+        )
         return reason, response
+    diagnostics.event(
+        "mm.net.intent",
+        feature=feature,
+        operation=operation,
+        result=Reason.NOT_AUTHORITY.value,
+        role=ctx.role.value,
+    )
     return Reason.NOT_AUTHORITY, {}
 
 
@@ -652,6 +715,7 @@ def _enter_desync(reason: str) -> None:
     """A gap or a dead token cannot be patched mid-travel. HELLO again instead."""
     _dispatch_presentation("desync", {})
     diagnostics.event("mm.net.desync", reason=reason)
+    diagnostics.note(f"desync: {reason}")
     _reset_client_handshake()
 
 

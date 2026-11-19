@@ -98,12 +98,14 @@ def _enable_features(monkeypatch):
     dash._HOST_DASHES.clear()
     dash._CLIENT_DASH = None
     slide._HOST_SLIDES.clear()
+    slide._HOST_JUMPS.clear()
     mantle._HOST_MANTLES.clear()
     yield
     core.busy = None
     dash._HOST_DASHES.clear()
     dash._CLIENT_DASH = None
     slide._HOST_SLIDES.clear()
+    slide._HOST_JUMPS.clear()
     mantle._HOST_MANTLES.clear()
 
 
@@ -134,6 +136,28 @@ def test_host_dash_eternal_hold_writes_velocity_every_local_tick(monkeypatch):
     speed = math.hypot(pawn.Velocity.X, pawn.Velocity.Y)
     assert speed > 1000.0, f"host dash must drive Velocity (got {speed})"
     assert pawn.Velocity.Z == 0.0
+
+
+def test_host_dash_hold_returns_to_falling_without_rewriting_z(monkeypatch):
+    """Touching the ground mid-hold must not clamp the burst. Z stays whatever it was."""
+    pawn = _Pawn(physics=core.PHYS_FALLING)
+    pawn.Velocity.Z = 40.0
+    ctx = _remote(pawn)
+
+    def _write(p, x, y, z=None):
+        p.Velocity.X = float(x)
+        p.Velocity.Y = float(y)
+        if z is not None:
+            p.Velocity.Z = float(z)
+
+    monkeypatch.setattr(core, "set_velocity", _write)
+    dash.host_apply_dash(ctx, 4000.0, 0.0, 0.0)
+    pawn.Physics = core.PHYS_WALKING
+    pawn.Velocity.Z = 40.0
+    dash._service_host_dashes(1.0 / 60.0)
+    assert pawn.Physics == core.PHYS_FALLING
+    assert pawn.Velocity.Z == pytest.approx(40.0)
+    assert pawn.Velocity.X > 1000.0
 
 
 def test_joiner_dash_local_predict_matches_host_duration(monkeypatch):
@@ -228,6 +252,39 @@ def test_host_mantle_replays_plan_without_location_stall(monkeypatch):
         assert (pawn.Location.X, pawn.Location.Y, pawn.Location.Z) == frozen
         assert mantle._state(ctx).mantle is not None, f"host mantle died at tick {i}"
         assert abs(pawn.Velocity.Z) + abs(pawn.Velocity.X) > 1.0
+
+
+def test_remote_slide_tick_does_not_start_or_block_crouch():
+    """The host must not run slide-cancel input on a joiner. That ate their crouch and dash."""
+    from Modern_Movement.features import slam
+
+    pawn = _Pawn(physics=core.PHYS_WALKING)
+    pawn.Velocity = _Vec(900.0, 0.0, 0.0)
+    pawn.bIsSprinting = True
+    pc = _PC()
+    pc.bDuck = 1
+    ctx = REGISTRY.observe(pc, ExecutionRole.REMOTE_AUTHORITY, 10.0, pawn)
+    saved_keys = slam._crouch_keys
+    saved_at = slam._keys_at
+    try:
+        slam._crouch_keys = ("LeftControl",)
+        slam._keys_at = 10.0
+        state = slide._state(ctx)
+        state.chain = {"dir": (1.0, 0.0), "speed": 800.0, "at": 0.0}
+        state.suppress_crouch_until_release = True
+        assert slide._pre_duck_pressed(pc, None, None, None) is None
+        frame = TickFrame(now=10.0, dt=1.0 / 60.0, phys_at_start=core.PHYS_WALKING, world_epoch=0)
+        slide._authority_tick(ctx, frame)
+        assert state.slide is None
+        assert core.busy is None
+        assert slam._crouch_keys == ("LeftControl",)
+        slide.host_enter_juso(ctx, 2.2, 100.0, 1.0, 0.0)
+        slide._authority_tick(ctx, frame)
+        assert ctx.key.player_id in slide._HOST_SLIDES
+    finally:
+        slam._crouch_keys = saved_keys
+        slam._keys_at = saved_at
+        REGISTRY.retire(ctx, "test")
 
 
 def test_host_slide_coasts_without_move_input():
@@ -539,6 +596,87 @@ def test_requester_slide_uses_timed_path(monkeypatch):
         assert slide._state(ctx).slide is not None, f"joiner slide died at tick {i}"
 
 
+def test_host_slide_jump_holds_launch_without_freezing_z(monkeypatch):
+    """A joiner slide jump must stay on the server pawn. Rising Z is left alone."""
+    pawn = _Pawn(physics=core.PHYS_WALKING)
+    ctx = _remote(pawn)
+
+    def _write(p, x, y, z=None):
+        p.Velocity.X = float(x)
+        p.Velocity.Y = float(y)
+        if z is not None:
+            p.Velocity.Z = float(z)
+
+    monkeypatch.setattr(core, "set_velocity", _write)
+    slide.host_enter_juso(ctx, 2.2, 100.0, 1.0, 0.0)
+    slide.host_apply_slide_jump(ctx, 800.0, 0.0, 600.0)
+    assert ctx.key.player_id not in slide._HOST_SLIDES
+    assert ctx.key.player_id in slide._HOST_JUMPS
+    assert pawn.Physics == core.PHYS_FALLING
+    assert pawn.bWantsToCrouch is False
+    assert pawn.Velocity.X == pytest.approx(800.0)
+    assert pawn.Velocity.Z == pytest.approx(600.0)
+    pawn.Velocity.Z = 420.0
+    slide._service_host_jumps(1.0 / 60.0)
+    assert pawn.Velocity.Z == pytest.approx(420.0)
+    assert pawn.Velocity.X == pytest.approx(800.0)
+    pawn.Physics = core.PHYS_WALKING
+    pawn.Velocity.Z = 0.0
+    slide._service_host_jumps(1.0 / 60.0)
+    assert pawn.Physics == core.PHYS_FALLING
+    assert pawn.Velocity.Z == pytest.approx(600.0)
+
+
+def test_requester_slide_jump_sends_launch(monkeypatch):
+    """The joiner tells the host the slide-jump vector. A local-only launch rubber-bands."""
+    pawn = _Pawn(physics=core.PHYS_WALKING)
+    pawn.JumpZ = 600.0
+    pc = _PC()
+    ctx = PlayerContext(
+        key=PlayerKey(1, 31),
+        role=ExecutionRole.LOCAL_REQUESTER,
+        controller=pc,
+        pawn=pawn,
+        clock=10.0,
+        pawn_generation=1,
+    )
+    calls = []
+    monkeypatch.setattr(slide, "jump_momentum_slider", SimpleNamespace(value=100))
+    monkeypatch.setattr(slide, "jump_height_slider", SimpleNamespace(value=100))
+    monkeypatch.setattr(slide.core, "phys", core.PHYS_WALKING)
+    monkeypatch.setattr(slide.core, "clock", 10.0)
+    monkeypatch.setattr(
+        "Modern_Movement.coop_rpc.call_host",
+        lambda fn, *args: calls.append((getattr(fn, "__name__", ""), args)),
+    )
+
+    def _write(p, x, y, z=None):
+        p.Velocity.X = float(x)
+        p.Velocity.Y = float(y)
+        if z is not None:
+            p.Velocity.Z = float(z)
+
+    monkeypatch.setattr(core, "set_velocity", _write)
+
+    def arm():
+        slide._state().slide = {
+            "dir": (1.0, 0.0),
+            "speed": 800.0,
+            "entry": 800.0,
+            "start": 800.0,
+            "timed": False,
+        }
+        slide._ground_jump(pc, pawn)
+
+    core.execute(ctx, arm)
+    jumps = [item for item in calls if item[0] == "server_slide_jump"]
+    assert jumps
+    assert jumps[0][1][0] == pytest.approx(800.0)
+    assert jumps[0][1][1] == pytest.approx(0.0)
+    assert jumps[0][1][2] == pytest.approx(600.0)
+    assert any(item[0] == "server_slide_exit" for item in calls)
+
+
 def test_requester_slide_ends_when_crouch_released(monkeypatch):
     """Releasing crouch cancels a joiner slide. It must not only run out on the timer."""
     pawn = _Pawn(physics=core.PHYS_WALKING)
@@ -645,7 +783,7 @@ def test_slide_end_always_uncrouches():
 
 
 def test_joiner_slide_meter_ignores_height_noise():
-    """A dropping Z used to refill CrouchedPct. The meter only drains."""
+    """A single dropping sample used to refill CrouchedPct. One spike still only drains."""
     cp = 2.25
     for _ in range(30):
         nxt = slide._decay_juso_pct(cp, -4.0, 1.0 / 60.0)
@@ -654,6 +792,23 @@ def test_joiner_slide_meter_ignores_height_noise():
     climbed = slide._decay_juso_pct(2.25, 40.0, 1.0 / 60.0)
     flat = slide._decay_juso_pct(2.25, 0.0, 1.0 / 60.0)
     assert climbed < flat < 2.25
+
+
+def test_sustained_drop_stretches_the_slide_meter():
+    """A ramp or a run of stairs slows the drain and opens the long cap. One spike does not."""
+    store = {}
+    for _ in range(10):
+        run = slide._track_drop(store, -6.0, 1.0 / 60.0)
+    assert run > 0.12
+    flat = slide._decay_juso_pct(2.25, 0.0, 1.0 / 60.0)
+    down = slide._decay_juso_pct(2.25, -6.0, 1.0 / 60.0, run)
+    assert down > flat
+    assert down < 2.25
+    noise = {}
+    for _ in range(10):
+        slide._track_drop(noise, -1.0, 1.0 / 60.0)
+        slide._track_drop(noise, 1.0, 1.0 / 60.0)
+    assert noise["drop_run"] < 0.12
 
 
 def test_slide_meter_never_refills_and_clears():
@@ -771,3 +926,47 @@ def test_joiner_dash_cooldown_fills_ready_hex(monkeypatch):
         core.clock = previous_clock
         dash._CLIENT_DASH = None
         hudfx.pip_clear()
+
+
+def test_joining_client_with_authority_role_is_a_requester():
+    """Willow clients report Role Authority. They still have to send movement to the listen host."""
+    world = SimpleNamespace(NetMode=3)
+    pc = SimpleNamespace(Role=3, WorldInfo=world)
+    assert core._role_for(pc, pc) == ExecutionRole.LOCAL_REQUESTER
+
+    host_world = SimpleNamespace(NetMode=2)
+    host = SimpleNamespace(Role=3, WorldInfo=host_world)
+    assert core._role_for(host, host) == ExecutionRole.LOCAL_HOST
+
+    alone = SimpleNamespace(Role=3, WorldInfo=SimpleNamespace(NetMode=0))
+    assert core._role_for(alone, alone) == ExecutionRole.LOCAL_STANDALONE
+
+
+def test_slide_jump_chains_only_while_crouch_is_held(monkeypatch):
+    """Landing from a slide jump does not slide again unless crouch was held."""
+    state = slide.SlideState()
+    previous = core.clock
+    core.clock = 10.0
+    try:
+        monkeypatch.setattr(slide, "_crouch_held", lambda _pc: False)
+        slide._remember_slide_jump(state, None, 1.0, 0.0, 800.0)
+        assert state.chain is None
+        assert state.chain_hold is False
+        assert slide._slide_jump_blocks_landing(state) is True
+
+        monkeypatch.setattr(slide, "_crouch_held", lambda _pc: None)
+        slide._remember_slide_jump(state, None, 1.0, 0.0, 800.0)
+        assert state.chain is None
+        slide._update_chain_hold(state, None)
+        assert state.chain is None
+
+        monkeypatch.setattr(slide, "_crouch_held", lambda _pc: True)
+        slide._remember_slide_jump(state, None, 1.0, 0.0, 800.0)
+        assert state.chain_hold is True
+        assert state.chain is not None
+        slide._update_chain_hold(state, False)
+        assert state.chain is None
+        assert state.chain_hold is False
+        assert slide._slide_jump_blocks_landing(state) is True
+    finally:
+        core.clock = previous

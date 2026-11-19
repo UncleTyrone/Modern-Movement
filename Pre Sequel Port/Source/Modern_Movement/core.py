@@ -210,9 +210,21 @@ def begin(name, ctx: PlayerContext | None = None) -> None:
                 cancel()
             except Exception as e:  # noqa: BLE001
                 logging.warning(f"[Modern Movement] cancel of '{owner}' failed: {e!r}")
+                try:
+                    from . import diagnostics
+
+                    diagnostics.event("mm.action", op="cancel_failed", name=owner, error=repr(e))
+                except Exception:  # noqa: BLE001
+                    pass
     if ctx is not None:
         ctx.busy = name
     busy = name
+    try:
+        from . import diagnostics
+
+        diagnostics.event("mm.action", op="begin", name=name, previous=owner or "")
+    except Exception:  # noqa: BLE001
+        pass
 
 
 def end(name, ctx: PlayerContext | None = None) -> None:
@@ -222,6 +234,12 @@ def end(name, ctx: PlayerContext | None = None) -> None:
         ctx.busy = None
     if busy == name:
         busy = None
+    try:
+        from . import diagnostics
+
+        diagnostics.event("mm.action", op="end", name=name)
+    except Exception:  # noqa: BLE001
+        pass
 
 
 def _safe(name, fn, *args):
@@ -232,6 +250,19 @@ def _safe(name, fn, *args):
         if name not in _warned:
             _warned.add(name)
             logging.warning(f"[Modern Movement] {name} raised {e!r} (further errors from it are hidden)")
+        try:
+            import traceback
+
+            from . import diagnostics
+
+            diagnostics.event(
+                "mm.feature_error",
+                name=name,
+                error=repr(e),
+                trace=traceback.format_exc(limit=8),
+            )
+        except Exception:  # noqa: BLE001
+            pass
         return False
 
 
@@ -380,6 +411,20 @@ def restore_speed(ctx: PlayerContext | None = None) -> None:
 # ---------------------------------------------------------------------------------------------
 
 
+def _net_mode(world) -> int | None:
+    try:
+        return int(world.NetMode)
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def _unreal_role(pc) -> int | None:
+    try:
+        return int(pc.Role)
+    except Exception:  # noqa: BLE001
+        return None
+
+
 def _world_info(pc):
     try:
         return pc.WorldInfo
@@ -396,14 +441,21 @@ def _role_for(pc, local_pc) -> ExecutionRole | None:
         local = pc == local_pc
     except Exception:  # noqa: BLE001
         pass
+    net = None
+    try:
+        net = int(_world_info(pc).NetMode)
+    except Exception:  # noqa: BLE001
+        pass
+    # Willow reports Role Authority on the owning client. NetMode is the split:
+    # 0 standalone, 2 listen host, 3 joining client. A client classified as the
+    # host writes movement only locally, the real host corrects it, and the only
+    # change that sticks is a weapon holster.
+    if local and net == 3:
+        return ExecutionRole.LOCAL_REQUESTER
     authority = is_authority(pc)
     if local and authority:
-        world = _world_info(pc)
-        try:
-            if int(world.NetMode) == 0:
-                return ExecutionRole.LOCAL_STANDALONE
-        except Exception:  # noqa: BLE001
-            pass
+        if net == 0:
+            return ExecutionRole.LOCAL_STANDALONE
         return ExecutionRole.LOCAL_HOST
     if local:
         return ExecutionRole.LOCAL_REQUESTER
@@ -428,7 +480,7 @@ def _now(world, dt: float, local: bool) -> float:
 
 @hook("WillowGame.WillowPlayerController:PlayerTick", Type.POST_UNCONDITIONAL)
 def _tick(obj, args, _ret, _func) -> None:
-    global _local_context, _world_frame
+    global _local_context, _world_frame, busy
 
     local_pc = get_pc()
     if local_pc is None:
@@ -459,6 +511,12 @@ def _tick(obj, args, _ret, _func) -> None:
         pawn = None
     ctx = REGISTRY.observe(obj, role, now, pawn)
     if ctx is None:
+        try:
+            from . import diagnostics
+
+            diagnostics.event("mm.tick.no_player", interval=2.0, role=role.value)
+        except Exception:  # noqa: BLE001
+            pass
         return
     if role.local:
         _local_context = ctx
@@ -503,15 +561,39 @@ def _tick(obj, args, _ret, _func) -> None:
                 if "speed" not in ctx.warned:
                     ctx.warned.add("speed")
                     logging.warning(f"[Modern Movement] could not set GroundSpeed: {e!r}")
+        duck = sprinting = ground = None
+        try:
+            duck = int(bool(obj.bDuck))
+        except Exception:  # noqa: BLE001
+            pass
+        try:
+            sprinting = int(bool(pawn.bIsSprinting)) if pawn is not None else None
+        except Exception:  # noqa: BLE001
+            pass
+        try:
+            ground = round(float(pawn.GroundSpeed), 1) if pawn is not None else None
+        except Exception:  # noqa: BLE001
+            pass
         diagnostics.event(
             "mm.tick",
             interval=5.0,
             player=ctx.key.player_id,
             role=ctx.role.value,
             pawn=ctx.pawn_generation,
+            phys=frame_phys,
+            busy=ctx.busy or "",
+            local=bool(role.local),
+            duck=duck,
+            sprinting=sprinting,
+            ground_speed=ground,
+            net=_net_mode(world),
+            unreal_role=_unreal_role(obj),
         )
     finally:
         _deactivate(ctx)
+        # A joiner tick must not leave the host's keybinds looking at the joiner's action.
+        if not role.local and _local_context is not None:
+            busy = _local_context.busy
 
 
 # ---------------------------------------------------------------------------------------------
@@ -572,6 +654,14 @@ def _jump_logic() -> None:
     """Decide what a jump press means: slide exit, ground jump, mantle, or double jump."""
     global _last_ground_press, _last_jump_edge
 
+    def _jump_note(result: str, **fields) -> None:
+        try:
+            from . import diagnostics
+
+            diagnostics.event("mm.jump", result=result, **fields)
+        except Exception:  # noqa: BLE001
+            pass
+
     now_edge = time.monotonic()
     if now_edge - _last_jump_edge < _JUMP_EDGE_S:
         return
@@ -587,16 +677,20 @@ def _jump_logic() -> None:
         # Still allow a best-effort path from get_pc when context has not ticked yet.
         if pc is None:
             diagnostics.event("mm.input.no_context", interval=2.0)
+            _jump_note("no_context")
             return
         try:
             pawn = pc.Pawn
         except Exception:  # noqa: BLE001
+            _jump_note("no_pawn")
             return
         if pawn is None or unusable(pawn):
+            _jump_note("unusable")
             return
         try:
             p = int(pawn.Physics)
         except Exception:  # noqa: BLE001
+            _jump_note("physics_unreadable")
             return
         if p == PHYS_WALKING:
             _last_ground_press = clock
@@ -604,24 +698,33 @@ def _jump_logic() -> None:
                 if name == "slide":
                     continue
                 _safe(name, fn, pc, pawn)
+            _jump_note("ground_fallback", phys=p)
             return
         if p != PHYS_FALLING:
+            _jump_note("physics", phys=p)
             return
         if busy == "mantle":
+            _jump_note("mantle_busy")
             return
         if clock - _last_ground_press < _GROUND_GUARD:
+            _jump_note("ground_guard")
             return
         for name, fn in _air_handlers:
             if _safe(name, fn, pc, pawn):
+                _jump_note("air_fallback", feature=name, phys=p)
                 break
+        else:
+            _jump_note("air_fallback_unused", phys=p)
         return
 
     pc, pawn = ctx.controller, ctx.pawn
     if pawn is None or unusable(pawn):
+        _jump_note("unusable", role=ctx.role.value)
         return
     try:
         p = int(pawn.Physics)
     except Exception:  # noqa: BLE001
+        _jump_note("physics_unreadable", role=ctx.role.value)
         return
 
     # Keybinds / input hooks fire outside PlayerTick. Activate context so handlers can write.
@@ -635,27 +738,35 @@ def _jump_logic() -> None:
             _last_ground_press = clock
             ctx.last_ground_press = clock
             if _slide_owns_jump(pc, pawn):
+                _jump_note("slide", phys=p)
                 return
             for name, fn in _ground_handlers:
                 if name == "slide":
                     continue
                 _safe(name, fn, pc, pawn)
+            _jump_note("ground", phys=p)
 
         _with_ctx(_ground)
         return
     if p != PHYS_FALLING and p != PHYS_FLYING:
+        _jump_note("physics", phys=p, role=ctx.role.value)
         return  # ladders / swimming / etc.
 
     def _air() -> bool:
         if busy == "mantle":
+            _jump_note("mantle_busy", phys=p)
             return False
         if clock - _last_ground_press < _GROUND_GUARD:
+            _jump_note("ground_guard", phys=p)
             return False
         if _slide_owns_jump(pc, pawn):
+            _jump_note("slide", phys=p)
             return True
         for name, fn in _air_handlers:
             if _safe(name, fn, pc, pawn):
+                _jump_note("air", feature=name, phys=p)
                 return True
+        _jump_note("air_unused", phys=p)
         return False
 
     _with_ctx(_air)
@@ -700,8 +811,13 @@ def set_velocity(pawn, x: float, y: float, z: float | None = None) -> None:
         pawn.Velocity.X = float(x)
         pawn.Velocity.Y = float(y)
         pawn.Velocity.Z = float(z)
-    except Exception:  # noqa: BLE001
-        pass
+    except Exception as exc:  # noqa: BLE001
+        try:
+            from . import diagnostics
+
+            diagnostics.event("mm.velocity_failed", interval=1.0, error=repr(exc))
+        except Exception:  # noqa: BLE001
+            pass
 
 
 def jump_held(pc):

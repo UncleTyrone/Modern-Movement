@@ -394,11 +394,21 @@ def host_apply_dash(ctx, vx: float, vy: float, vz: float = 0.0) -> None:
     _surface_burst(ctx.controller, ctx.pawn, float(vx), float(vy), abs(float(vz)) < 1.0)
 
 
+def _keep_dash_airborne(pawn) -> None:
+    """If the burst touches walking, run speed clamps it. Leave Z alone."""
+    try:
+        if int(pawn.Physics) == core.PHYS_WALKING:
+            pawn.Physics = core.PHYS_FALLING
+    except Exception:  # noqa: BLE001
+        pass
+
+
 def _service_one_dash(d: dict, dt: float) -> bool:
     """Apply one Eternal hold step. Returns True when finished."""
     d["left"] -= dt
     pawn = d["pawn"]
     try:
+        _keep_dash_airborne(pawn)
         if d["left"] <= 0.0:
             mag = math.hypot(d["vx"], d["vy"])
             if mag > 1.0:
@@ -934,15 +944,26 @@ def _dash_pressed_pad() -> None:
     _dash_request()
 
 
+def _dash_refuse(reason: str, **fields) -> None:
+    try:
+        from .. import diagnostics
+
+        diagnostics.event("mm.dash.refuse", interval=1.0, reason=reason, **fields)
+    except Exception:  # noqa: BLE001
+        pass
+
+
 def _dash_request() -> None:
     from .. import coop_rpc
 
     local = core.local_context()
     ctx = local or REGISTRY.resolve_controller(core.get_pc_pawn()[0])
     if ctx is None:
+        _dash_refuse("no_context")
         return
     pc, pawn = ctx.controller, ctx.pawn
     if pawn is None:
+        _dash_refuse("no_pawn", role=getattr(ctx.role, "value", ""))
         return
     direction = _direction_code(pc, pawn)
     # Eternal host hold + DJ local predict: same Velocity/duration on both sides.
@@ -950,19 +971,24 @@ def _dash_request() -> None:
     if coop_rpc.is_requester(ctx):
         global _CLIENT_DASH
         if not enabled_option.value:
+            _dash_refuse("disabled", role=ctx.role.value)
             return
         state = _state(ctx)
         cool = float(int(cooldown_slider.value))
         # The local dash refuses inside _dash_pressed_impl. This path skipped that,
         # so a joiner could tap dash again with no wait and no ready hex.
         if _CLIENT_DASH is not None:
+            _dash_refuse("already_dashing", role=ctx.role.value)
             return
         if cool > 0.0 and core.clock - state.last_end < cool:
+            _dash_refuse("cooldown", role=ctx.role.value)
             return
         phys = int(pawn.Physics)
         if phys == core.PHYS_WALKING and air_only_option.value:
+            _dash_refuse("air_only", role=ctx.role.value, phys=phys)
             return
         if phys not in (core.PHYS_FALLING, core.PHYS_WALKING):
+            _dash_refuse("physics", role=ctx.role.value, phys=phys)
             return
         dx, dy = _direction(pc, pawn)
         if abs(dx) + abs(dy) < 1e-3:
@@ -990,7 +1016,21 @@ def _dash_request() -> None:
         if audio_option.value:
             fx.play_sound(pc, pawn)
         _CLIENT_DASH = _hold_dash(pawn, vx, vy, _HOST_DASH_S, vz)
-        coop_rpc.call_host(coop_rpc.server_dash, vx, vy, vz)
+        sent = coop_rpc.call_host(coop_rpc.server_dash, vx, vy, vz)
+        try:
+            from .. import diagnostics
+
+            diagnostics.event(
+                "mm.dash.start",
+                role=ctx.role.value,
+                phys=phys,
+                sent=bool(sent),
+                vx=round(vx, 1),
+                vy=round(vy, 1),
+                vz=round(float(vz), 1),
+            )
+        except Exception:  # noqa: BLE001
+            pass
         return
     network.send_intent("dash", "start", {"direction": direction})
 

@@ -775,17 +775,24 @@ def _duplicate_install() -> bool:
 
 def _on_enable() -> None:
     global _ENABLED_STACK
+    from . import diagnostics as _diagnostics
+
+    _diagnostics.file_log = True
+    _diagnostics.note(f"log file: {_diagnostics.log_path()}")
     if _BLOCKED:
         _log("enable blocked: unsupported game (Borderlands 2 and The Pre-Sequel)")
+        _diagnostics.note("enable blocked: unsupported game")
         return
     if _duplicate_install():
         _log(
             "enable blocked: another Modern Movement package is already loaded. "
             "Remove the older sdkmod/folder and restart before enabling this co-op build."
         )
+        _diagnostics.note("enable blocked: another Modern Movement package is already loaded")
         return
     if not _FEATURES:
         _log("enable blocked: no features loaded")
+        _diagnostics.note("enable blocked: no features loaded")
         return
     _ENABLED_STACK = []
     try:
@@ -806,8 +813,10 @@ def _on_enable() -> None:
             _log(f"network rules skipped ({net_exc!r}) — local movement still active")
         net_note = "with Networking" if _NETWORKING_OK else "local-only (Networking optional)"
         _log(f"enabled (own-pawn movement for every player who has the mod; {net_note})")
+        _diagnostics.note(f"enabled {net_note}")
     except Exception as exc:  # noqa: BLE001
         _log(f"enable failed ({exc!r}); rolling back")
+        _diagnostics.note(f"enable failed: {exc!r}")
         _rollback_enable()
 
 

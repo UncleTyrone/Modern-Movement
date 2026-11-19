@@ -149,6 +149,23 @@ def server_slide_exit() -> None:
 
 
 @host.json_message
+def server_slide_jump(vx: float, vy: float, vz: float) -> None:
+    """Host holds the joiner's slide-jump launch so the server does not pull them down."""
+    pc = _sender_pc(server_slide_jump)
+    ctx = _host_context(pc)
+    if ctx is None or ctx.pawn is None:
+        diagnostics.event("mm.rpc.slide_jump", result="no_pawn")
+        return
+    from .features import slide
+
+    try:
+        slide.host_apply_slide_jump(ctx, float(vx), float(vy), float(vz))
+        diagnostics.event("mm.rpc.slide_jump", result="ok", player=ctx.key.player_id)
+    except Exception as exc:  # noqa: BLE001
+        diagnostics.event("mm.rpc.slide_jump", result=repr(exc))
+
+
+@host.json_message
 def server_speed_mult(mult: float) -> None:
     """Host writes GroundSpeed multiplier for surge on the sender's server pawn."""
     pc = _sender_pc(server_speed_mult)
@@ -260,17 +277,20 @@ def call_host(fn, *args) -> bool:
     """
     if not _NETWORKING:
         _log(f"skip {getattr(fn, '__name__', fn)} — Networking missing")
+        diagnostics.event("mm.rpc.no_networking", interval=2.0, fn=getattr(fn, "__name__", "?"))
         return False
     if not hasattr(fn, "_encode_message"):
         _log(f"skip {getattr(fn, '__name__', fn)} — not a live NetworkFunction")
         diagnostics.event("mm.rpc.not_network_function", fn=getattr(fn, "__name__", "?"))
         return False
+    name = getattr(fn, "__name__", "?")
     try:
         fn(*args)
+        diagnostics.event("mm.rpc", fn=name, ok=True)
         return True
     except Exception as exc:  # noqa: BLE001
-        _log(f"{getattr(fn, '__name__', fn)} failed: {exc!r}")
-        diagnostics.event("mm.rpc.call_failed", fn=getattr(fn, "__name__", "?"), error=repr(exc))
+        _log(f"{name} failed: {exc!r}")
+        diagnostics.event("mm.rpc.call_failed", fn=name, error=repr(exc))
         return False
 
 
@@ -283,6 +303,7 @@ server_dash.network_identifier = "ModernMovement:Dash"
 server_double_jump.network_identifier = "ModernMovement:DoubleJump"
 server_slide_enter.network_identifier = "ModernMovement:SlideEnter"
 server_slide_exit.network_identifier = "ModernMovement:SlideExit"
+server_slide_jump.network_identifier = "ModernMovement:SlideJump"
 server_speed_mult.network_identifier = "ModernMovement:Speed"
 server_holster.network_identifier = "ModernMovement:Holster"
 server_mantle_start.network_identifier = "ModernMovement:MantleStart"
@@ -296,6 +317,7 @@ NETWORK_FUNCTIONS = [
     server_double_jump,
     server_slide_enter,
     server_slide_exit,
+    server_slide_jump,
     server_speed_mult,
     server_holster,
     server_mantle_start,

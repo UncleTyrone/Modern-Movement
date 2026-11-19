@@ -85,16 +85,48 @@ def dispatch_intent(
     payload: dict[str, Any],
 ) -> tuple[Reason, dict[str, Any]]:
     if not ctx.authority:
+        diagnostics.event(
+            "mm.authority.intent",
+            player=ctx.key.player_id,
+            feature=feature,
+            operation=operation,
+            result=Reason.NOT_AUTHORITY.value,
+            role=ctx.role.value,
+        )
         return Reason.NOT_AUTHORITY, {}
     controller = _features.get(feature)
     if controller is None:
+        diagnostics.event(
+            "mm.authority.intent",
+            player=ctx.key.player_id,
+            feature=feature,
+            operation=operation,
+            result=Reason.UNSUPPORTED.value,
+            detail="no_controller",
+        )
         return Reason.UNSUPPORTED, {}
     handler = controller.start if operation == "start" else controller.input
     if handler is None:
+        diagnostics.event(
+            "mm.authority.intent",
+            player=ctx.key.player_id,
+            feature=feature,
+            operation=operation,
+            result=Reason.UNSUPPORTED.value,
+            detail="no_handler",
+        )
         return Reason.UNSUPPORTED, {}
     try:
         reason, response = handler(ctx, payload)
     except PermissionError:
+        diagnostics.event(
+            "mm.authority.intent",
+            player=ctx.key.player_id,
+            feature=feature,
+            operation=operation,
+            result=Reason.NOT_AUTHORITY.value,
+            detail="permission",
+        )
         return Reason.NOT_AUTHORITY, {}
     except Exception as exc:  # noqa: BLE001
         diagnostics.event(
