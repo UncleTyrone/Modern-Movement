@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from typing import Any
 
+from mods_base import ENGINE
 from unrealsdk import logging
 
 from . import authority, core, diagnostics
@@ -42,27 +43,104 @@ def _log(msg: str) -> None:
     logging.info(f"[Modern Movement] coop_rpc: {msg}")
 
 
-def _sender_pc(fn) -> Any:
+def _pri_id(pri: Any) -> int | None:
     try:
-        return fn.sender.Owner
+        return int(pri.PlayerID)
     except Exception:
         return None
+
+
+def _pawn_of(obj: Any) -> Any:
+    try:
+        pawn = obj.Pawn
+    except Exception:
+        return None
+    return pawn
+
+
+def _walk_pawns(player_id: int | None) -> Any:
+    """Find the live pawn for a player when Controller.Pawn is empty during the RPC."""
+    if player_id is None:
+        return None
+    try:
+        pawn = ENGINE.GetCurrentWorldInfo().PawnList
+    except Exception:
+        return None
+    for _ in range(64):
+        if pawn is None:
+            return None
+        try:
+            pri = pawn.PlayerReplicationInfo
+            if _pri_id(pri) == player_id:
+                return pawn
+        except Exception:
+            pass
+        try:
+            pawn = pawn.NextPawn
+        except Exception:
+            return None
+    return None
+
+
+def _sender_pc(fn) -> Any:
+    """PlayerController for a @host callback.
+
+    `sender` is the caller's PlayerReplicationInfo. `Owner` is their controller, but on a
+    listen host that controller's Pawn is often empty while the pawn is still in the world
+    list. Every movement RPC was then dropped as no_pawn, and only a local weapon change
+    (holster) still showed up.
+    """
+    try:
+        sender = fn.sender
+    except Exception:
+        sender = None
+    if sender is None:
+        return None
+    owner = None
+    try:
+        owner = sender.Owner
+    except Exception:
+        owner = None
+    if _pawn_of(owner) is not None:
+        return owner
+    pawn = _walk_pawns(_pri_id(sender))
+    if pawn is not None:
+        try:
+            ctrl = pawn.Controller
+            if ctrl is not None:
+                return ctrl
+        except Exception:
+            pass
+    return owner
 
 
 def _host_context(pc) -> Any:
     if pc is None:
+        diagnostics.event("mm.rpc.sender", result="no_owner", interval=0.5)
         return None
-    ctx = REGISTRY.resolve_controller(pc)
-    if ctx is not None:
-        return ctx
+    pawn = _pawn_of(pc)
+    pri = None
     try:
-        pawn = pc.Pawn
+        pri = pc.PlayerReplicationInfo
     except Exception:
-        pawn = None
+        pri = None
+    if pawn is None:
+        pawn = _walk_pawns(_pri_id(pri))
+    ctx = REGISTRY.resolve_controller(pc)
+    if ctx is not None and ctx.pawn is not None:
+        return ctx
     try:
         now = float(pc.WorldInfo.TimeSeconds)
     except Exception:
         now = 0.0
+    if pawn is None:
+        diagnostics.event(
+            "mm.rpc.sender",
+            result="no_pawn",
+            interval=0.5,
+            pri=_pri_id(pri),
+        )
+        return ctx
     return REGISTRY.observe(pc, ExecutionRole.REMOTE_AUTHORITY, now, pawn)
 
 

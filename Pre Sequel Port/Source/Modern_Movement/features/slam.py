@@ -210,33 +210,63 @@ _keys_at = -100.0
 _prev_key = False
 
 
+def _key_token(value) -> str:
+    """Binding names and PressedKeys do not always stringify the same way."""
+    try:
+        value = getattr(value, "Name", value)
+    except Exception:  # noqa: BLE001
+        pass
+    text = str(value).strip().strip("'\"")
+    lower = text.lower()
+    if lower.startswith("name'") and text.endswith("'"):
+        text = text[5:-1]
+    return text.strip().lower()
+
+
 def _find_crouch_keys(pc) -> tuple:
     """Keys bound to crouch (names only), following one level of named commands (GBA_...)."""
     try:
-        binds = [(str(b.Name), str(b.Command)) for b in pc.PlayerInput.Bindings]
+        binds = list(pc.PlayerInput.Bindings)
     except Exception:  # noqa: BLE001
         return ()
-    words = ("duck", "crouch")
-    targets = {n for n, c in binds if any(w in c.lower() for w in words)}
-    keys = set()
-    for n, c in binds:
-        if n in targets and not n.upper().startswith("GBA_"):
-            keys.add(n)                                 # a key bound straight to crouch
-        if c.strip() in targets:
-            keys.add(n)                                 # a key bound to a crouch command
-    return tuple(sorted(k for k in keys if not k.upper().startswith("GBA_")))
+    keys: set[str] = set()
+    commands: set[str] = set()
+    parsed: list[tuple[str, str]] = []
+    for binding in binds:
+        try:
+            name = _key_token(binding.Name)
+            command = str(binding.Command).lower()
+        except Exception:  # noqa: BLE001
+            continue
+        parsed.append((name, command))
+        if "duck" in command or "crouch" in command:
+            commands.add(name)
+            if not name.startswith("gba_"):
+                keys.add(name)
+    for name, command in parsed:
+        if name.startswith("gba_"):
+            continue
+        if _key_token(command) in commands:
+            keys.add(name)
+    return tuple(sorted(keys))
 
 
 def _crouch_key_down(pc):
-    """True / False for the crouch key, or None if it can't be read."""
+    """True while a crouch key is down, False if it is up, None if the binding cannot be read.
+
+    An empty lookup is not cached. Caching that miss made every later check look unknown,
+    and an unknown key was then treated as still held.
+    """
     global _crouch_keys, _keys_at
-    if core.clock - _keys_at >= _KEYS_REFRESH or core.clock < _keys_at:
-        _crouch_keys = _find_crouch_keys(pc)
+    if not _crouch_keys or core.clock - _keys_at >= _KEYS_REFRESH or core.clock < _keys_at:
+        found = _find_crouch_keys(pc)
         _keys_at = core.clock
+        if found:
+            _crouch_keys = found
     if not _crouch_keys:
         return None
     try:
-        held = {str(k) for k in pc.PlayerInput.PressedKeys}
+        held = {_key_token(k) for k in pc.PlayerInput.PressedKeys}
     except Exception:  # noqa: BLE001
         return None
     return any(k in held for k in _crouch_keys)
@@ -442,15 +472,29 @@ def _impact(pc, pawn) -> None:
     _stop(push, mirror=False)
     _hit = {"t0": core.clock, "t": 0.0, "p": power}
     core.emit("slam_impact")        # the slide module keeps the crouch icon hidden for a moment
-    held = _crouch_key_down(pc) is not False
-    chained = False
-    if held and carry is not None and math.hypot(carry[0], carry[1]) > 1.0:
+    held = _crouch_key_down(pc) is True
+    if not held:
         try:
             from . import slide
 
-            chained = slide.offer_landing(
-                pc, pawn, carry[0], carry[1], math.hypot(*carry), "slam landing"
-            )
+            held = bool(slide._state().crouch_down)
+        except Exception:  # noqa: BLE001
+            held = False
+    chained = False
+    if held:
+        try:
+            from . import slide
+
+            dx, dy, speed = 0.0, 0.0, 0.0
+            if carry is not None:
+                dx, dy = float(carry[0]), float(carry[1])
+                speed = math.hypot(dx, dy)
+            saved = slide.take_air_slide()
+            if saved is not None and float(saved["speed"]) > speed:
+                dx, dy = saved["dir"]
+                speed = float(saved["speed"])
+            if speed > 1.0:
+                chained = slide.offer_landing(pc, pawn, dx, dy, speed, "slam landing")
         except Exception:  # noqa: BLE001
             chained = False
     if chained:

@@ -17,7 +17,7 @@ See [docs/INSTALL.md](docs/INSTALL.md). Short version:
 | Double Jump | Mid-air boost with optional jump-counter HUD |
 | Dash | Ground/air dash with ready pip and perfect-dodge feedback |
 | Mantle / Vault | Jump-to-ledge climbs and low obstacle vaults |
-| Slide | Sprint-crouch slides. Hold crouch through a real slide jump to slide on landing. On co-op, releasing forward keeps the coast |
+| Slide | Sprint-crouch slides. Hold crouch through a slide jump, or through a sprint jump with no slide before it, to slide on landing. On co-op, releasing forward keeps the coast |
 | Holster | Manual + sprint holster |
 | Sprint Surge | Second sprint press for a ramping speed boost |
 | Slam | Borderlands 2 only. Crouch in the air to slam. The Pre-Sequel uses native Oz slam |

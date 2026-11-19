@@ -3,7 +3,7 @@
 Next minor after the shipped Pre-Sequel package 3.61.2. The same file runs in Borderlands 2 and Borderlands: The Pre-Sequel. Double Jump, Dash, Mantle, Slide, Holster, and Sprint Surge ship in both games. Borderlands 2 also gets Slam. The Pre-Sequel keeps native Oz slam. Pre-release work stays on 3.62.0.
 
 **Package:** `dist/Modern_Movement.sdkmod`  
-**SHA-256:** `43f8bf6324954ec28f7989576da88babd31f123195f229a81674e752a3462902`
+**SHA-256:** `cdbcbf3b51ca09de434fae10678fc3f03708c4f40949b3ab48177858757b2e33`
 
 Install this exact file on every peer who wants the abilities, in that game's `sdk_mods` folder. Confirm the hash against `dist/Modern_Movement.sdkmod.sha256` before enabling it. Use the same file on Borderlands 2 and on The Pre-Sequel.
 
@@ -72,6 +72,11 @@ These notes are the whole 3.62.0 delta from the shipped 3.61.2 package.
 - `Modern_Movement.log.txt` is written next to the installed sdkmod. It records enable, handshake, and dash or slide starts and refusals for that player.
 - Other players get dash, slide, and jumps. A joining client was treated as the host, so those moves never reached the listen host and only the weapon holster showed up.
 - Slide cancel continues only while you hold crouch. Landing from a slide jump without the crouch key does not start another slide.
+- Other players' dash, slide, and jump are applied on the listen host. Those messages were arriving and then being dropped because the joiner's pawn could not be found, so only holstering showed up.
+- Slide cancel happens only while the crouch key is down at landing. Letting go before you land does not start another slide.
+- Sprint, jump, and hold crouch. You slide when you land or slam, with no slide before that jump. The crouch key has to still be down. Letting go does not slide.
+- A landing slide, including a slide cancel and a slam exit, goes the way you are facing and keeps going. Turning around does not cancel the landing or send you backward. You keep the speed from before the landing.
+- Slide cancel works while you hold crouch. The landing was skipped because a held crouch button was read as up. Releasing crouch still does not slide.
 
 ## Install
 

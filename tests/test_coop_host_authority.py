@@ -705,10 +705,19 @@ def test_requester_slide_ends_when_crouch_released(monkeypatch):
 
     core.execute(ctx, start)
     assert slide._state(ctx).slide is not None
+    # The server crouch flag can drop before the host applies the slide. That is not a release.
     pc.bDuck = 0
     pawn.bWantsToCrouch = False
     pawn.bIsCrouched = False
     core.execute(ctx, slide._run, ctx.controller, pawn, 1.0 / 60.0)
+    assert slide._state(ctx).slide is not None
+    assert exits == []
+
+    def release():
+        slide._state().crouch_down = False
+        slide._run(ctx.controller, pawn, 1.0 / 60.0)
+
+    core.execute(ctx, release)
     assert slide._state(ctx).slide is None
     assert exits == ["server_slide_exit"]
 
@@ -943,30 +952,194 @@ def test_joining_client_with_authority_role_is_a_requester():
 
 
 def test_slide_jump_chains_only_while_crouch_is_held(monkeypatch):
-    """Landing from a slide jump does not slide again unless crouch was held."""
+    """A crouch release cancels the landing slide. A missed PressedKeys read does not."""
     state = slide.SlideState()
     previous = core.clock
     core.clock = 10.0
     try:
         monkeypatch.setattr(slide, "_crouch_held", lambda _pc: False)
-        slide._remember_slide_jump(state, None, 1.0, 0.0, 800.0)
+        state.crouch_down = True
+        assert slide._wants_chain(state, None) is True
+        slide._remember_slide_jump(state, True, 1.0, 0.0, 800.0)
+        assert state.chain is not None
+        slide._update_chain_hold(state, False)
+        assert state.chain is not None
+        assert state.chain_hold is True
+
+        state.crouch_down = False
+        slide._update_chain_hold(state, False)
         assert state.chain is None
         assert state.chain_hold is False
         assert slide._slide_jump_blocks_landing(state) is True
 
         monkeypatch.setattr(slide, "_crouch_held", lambda _pc: None)
-        slide._remember_slide_jump(state, None, 1.0, 0.0, 800.0)
-        assert state.chain is None
-        slide._update_chain_hold(state, None)
+        state.crouch_down = False
+        assert slide._wants_chain(state, None) is False
+        slide._remember_slide_jump(state, False, 1.0, 0.0, 800.0)
         assert state.chain is None
 
         monkeypatch.setattr(slide, "_crouch_held", lambda _pc: True)
-        slide._remember_slide_jump(state, None, 1.0, 0.0, 800.0)
-        assert state.chain_hold is True
+        assert slide._wants_chain(state, None) is True
+        slide._update_chain_hold(state, True)
         assert state.chain is not None
-        slide._update_chain_hold(state, False)
-        assert state.chain is None
-        assert state.chain_hold is False
-        assert slide._slide_jump_blocks_landing(state) is True
+        assert state.crouch_down is True
     finally:
         core.clock = previous
+
+
+def test_sprint_jump_held_crouch_slides_on_landing(monkeypatch):
+    """Sprint, jump, hold crouch, land: slide. No slide before the jump, and the landing option stays off."""
+    pawn = _Pawn(physics=core.PHYS_FALLING)
+    pawn.Velocity = _Vec(900.0, 0.0, 400.0)
+    pc = _PC()
+    pc.bDuck = 0
+    held = {"down": True}
+    monkeypatch.setattr(slide, "_crouch_held", lambda _pc: held["down"])
+    monkeypatch.setattr(slide, "landing_option", SimpleNamespace(value=False))
+    ctx = REGISTRY.observe(pc, ExecutionRole.LOCAL_STANDALONE, 10.0, pawn)
+    try:
+        core.execute(ctx, slide._tick, pc, pawn, 1.0 / 60.0)
+        assert slide._state(ctx).air_slide is not None
+        assert slide._state(ctx).slide is None
+        assert slide._state(ctx).slide_jump is None
+        pawn.Physics = core.PHYS_WALKING
+        pawn.bWantsToCrouch = False
+        pawn.bIsCrouched = False
+        core.execute(ctx, slide._tick, pc, pawn, 1.0 / 60.0)
+        assert slide._state(ctx).slide is not None
+        pawn.bWantsToCrouch = False
+        pawn.bIsCrouched = False
+        pc.bDuck = 0
+        core.execute(ctx, slide._tick, pc, pawn, 1.0 / 60.0)
+        assert slide._state(ctx).slide is not None
+    finally:
+        REGISTRY.retire(ctx, "test")
+        core.busy = None
+
+
+def test_landing_slide_follows_facing_not_the_old_slide(monkeypatch):
+    """Turning around in the air slides the way you are looking, and the old momentum does not cancel it."""
+    pawn = _Pawn(physics=core.PHYS_WALKING)
+    pawn.Velocity = _Vec(0.0, 0.0, 40.0)
+    pawn.Acceleration = _Vec(2000.0, 0.0, 0.0)
+    pc = _PC()
+    pc.Rotation.Yaw = 32768
+    monkeypatch.setattr(slide, "_crouch_held", lambda _pc: True)
+    monkeypatch.setattr(slide, "back_cancel_option", SimpleNamespace(value=True))
+    ctx = REGISTRY.observe(pc, ExecutionRole.LOCAL_STANDALONE, 12.0, pawn)
+    try:
+        started = core.execute(ctx, slide.offer_landing, pc, pawn, 1.0, 0.0, 900.0, "slide cancel")
+        assert started is True
+        direction = slide._state(ctx).slide["dir"]
+        assert direction[0] < -0.9
+        assert abs(direction[1]) < 0.1
+        assert pawn.Velocity.X < -100.0
+        assert pawn.Velocity.Z <= 0.0
+        for _ in range(5):
+            pawn.Location.X += 40.0
+            pawn.Physics = core.PHYS_FALLING
+            pawn.Acceleration = _Vec(2000.0, 0.0, 0.0)
+            core.execute(ctx, slide._run, pc, pawn, 1.0 / 60.0)
+            assert slide._state(ctx).slide is not None
+            assert slide._state(ctx).slide["dir"][0] < -0.9
+    finally:
+        REGISTRY.retire(ctx, "test")
+        core.busy = None
+
+
+def test_air_crouch_does_not_slide_when_the_key_is_up(monkeypatch):
+    """Letting go before a sprint jump lands does not slide. A slide jump stays on its own chain."""
+    pawn = _Pawn(physics=core.PHYS_FALLING)
+    pawn.Velocity = _Vec(900.0, 0.0, 400.0)
+    pc = _PC()
+    pc.bDuck = 0
+    held = {"down": True}
+    monkeypatch.setattr(slide, "_crouch_held", lambda _pc: held["down"])
+    monkeypatch.setattr(slide, "landing_option", SimpleNamespace(value=False))
+    ctx = REGISTRY.observe(pc, ExecutionRole.LOCAL_STANDALONE, 10.0, pawn)
+    try:
+        core.execute(ctx, slide._tick, pc, pawn, 1.0 / 60.0)
+        assert slide._state(ctx).air_slide is not None
+        held["down"] = False
+        slide._state(ctx).crouch_down = False
+        core.execute(ctx, slide._tick, pc, pawn, 1.0 / 60.0)
+        assert slide._state(ctx).air_slide is None
+        pawn.Physics = core.PHYS_WALKING
+        core.execute(ctx, slide._tick, pc, pawn, 1.0 / 60.0)
+        assert slide._state(ctx).slide is None
+
+        pawn.Physics = core.PHYS_WALKING
+        state = slide._state(ctx)
+        state.prev_phys = core.PHYS_FALLING
+        state.slide_jump = {"dir": (1.0, 0.0), "speed": 800.0, "at": 0.0}
+        state.air_slide = {"dir": (1.0, 0.0), "speed": 900.0}
+        core.execute(ctx, slide._tick, pc, pawn, 1.0 / 60.0)
+        assert state.slide is None
+        assert state.air_slide is None
+    finally:
+        REGISTRY.retire(ctx, "test")
+        core.busy = None
+
+
+def test_slide_cancel_lands_when_pressed_keys_misses_the_hold(monkeypatch):
+    """The live log: PressedKeys says crouch is up while the button is still down."""
+    pawn = _Pawn(physics=core.PHYS_WALKING)
+    pawn.Velocity = _Vec(900.0, 0.0, 0.0)
+    pc = _PC()
+    monkeypatch.setattr(slide, "_crouch_held", lambda _pc: False)
+    monkeypatch.setattr(slide, "landing_option", SimpleNamespace(value=False))
+    ctx = REGISTRY.observe(pc, ExecutionRole.LOCAL_STANDALONE, 10.0, pawn)
+    try:
+        state = slide._state(ctx)
+        state.crouch_down = True
+        state.slide_jump = {"dir": (1.0, 0.0), "speed": 800.0, "at": 9.0}
+        state.prev_phys = core.PHYS_FALLING
+        core.execute(ctx, slide._tick, pc, pawn, 1.0 / 60.0)
+        assert slide._state(ctx).slide is not None
+    finally:
+        REGISTRY.retire(ctx, "test")
+        core.busy = None
+
+
+def test_crouch_key_reads_down_and_up():
+    from Modern_Movement.features import slam
+
+    binding = SimpleNamespace(Name="C", Command="Duck")
+    pc = SimpleNamespace(PlayerInput=SimpleNamespace(Bindings=[binding], PressedKeys=["C"]))
+    saved = (slam._crouch_keys, slam._keys_at)
+    slam._crouch_keys = ()
+    slam._keys_at = -100.0
+    try:
+        assert slam._crouch_key_down(pc) is True
+        pc.PlayerInput.PressedKeys = []
+        assert slam._crouch_key_down(pc) is False
+        pc.PlayerInput.Bindings = []
+        slam._crouch_keys = ()
+        assert slam._crouch_key_down(pc) is None
+        pc.PlayerInput.Bindings = [binding]
+        pc.PlayerInput.PressedKeys = [SimpleNamespace(Name="C")]
+        assert slam._crouch_key_down(pc) is True
+    finally:
+        slam._crouch_keys, slam._keys_at = saved
+
+
+def test_host_rpc_finds_pawn_when_controller_pawn_is_empty(monkeypatch):
+    """Listen-host Controller.Pawn is often empty. The world pawn list still has them."""
+    from Modern_Movement import coop_rpc
+
+    pawn = _Pawn(physics=core.PHYS_WALKING)
+    pc = _PC()
+    pc.PlayerReplicationInfo = SimpleNamespace(PlayerID=9)
+    pri = SimpleNamespace(PlayerID=9, Owner=pc)
+    fn = SimpleNamespace(sender=pri)
+    pawn.Controller = pc
+    monkeypatch.setattr(coop_rpc, "_walk_pawns", lambda pid: pawn if pid == 9 else None)
+    assert coop_rpc._sender_pc(fn) is pc
+    ctx = coop_rpc._host_context(pc)
+    try:
+        assert ctx is not None
+        assert ctx.pawn is pawn
+        assert ctx.key.player_id == 9
+    finally:
+        if ctx is not None:
+            REGISTRY.retire(ctx, "test")

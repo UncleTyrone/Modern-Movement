@@ -216,13 +216,19 @@ class SlideState:
     crouch_owned: bool = False
     suppress_crouch_until_release: bool = False
     # Slide jump while crouch is held: land in another slide instead of a slam.
-    # chain_hold is True only after the crouch key itself was down. A forced
-    # crouch pose, or a key that cannot be read, is not a request to chain.
+    # chain_hold follows the crouch press, not the crouched pose. The pose stays
+    # down because the slide forces it. crouch_down is set on the press and cleared
+    # on DuckReleased. An unreadable key list must not cancel a hold or invent one.
     chain: dict | None = None
     chain_hold: bool = False
+    crouch_down: bool = False
+    ignore_release_until: float = -100.0
     slide_jump: dict | None = None
     # Horizontal speed saved when a real in-air crouch starts a slam.
     slam_bank: tuple[float, float] | None = None
+    # Fastest horizontal speed while crouch is held in the air with no slide
+    # before it. A sprint jump uses this to slide on landing.
+    air_slide: dict | None = None
     crouch_lease: SlideCrouchLease = field(default_factory=SlideCrouchLease)
     action_id: int = 0
     # First-person arms pose only (juso-style). Never offset Mesh.Translation — that fights the
@@ -684,12 +690,42 @@ def _show_crouch_icon(pc) -> None:
 # ---- start / end -------------------------------------------------------------------------
 
 
-def _start(pc, pawn, reason: str) -> None:
+def _slide_fresh(slide) -> bool:
+    """True for a moment after a landing slide. The old momentum must not cancel it."""
+    if not slide:
+        return False
+    try:
+        return core.clock < float(slide.get("fresh_until", -100.0))
+    except Exception:  # noqa: BLE001
+        return False
+
+
+def _start(
+    pc,
+    pawn,
+    reason: str,
+    face_x: float | None = None,
+    face_y: float | None = None,
+    carry: float | None = None,
+) -> None:
     _require_authority("slide start")
     state = _state()
     ctx = core.current_context()
-    vx, vy = float(pawn.Velocity.X), float(pawn.Velocity.Y)
+    try:
+        vx, vy = float(pawn.Velocity.X), float(pawn.Velocity.Y)
+    except Exception:  # noqa: BLE001
+        vx, vy = 0.0, 0.0
     speed = math.hypot(vx, vy)
+    # A landing slide aims where the player is looking. Velocity is still the
+    # previous slide, and reading it back after a write often still is.
+    forced = False
+    if face_x is not None and face_y is not None:
+        fdx, fdy = _unit_dir(float(face_x), float(face_y))
+        if fdx != 0.0 or fdy != 0.0:
+            vx, vy = fdx, fdy
+            forced = True
+            if carry is not None:
+                speed = max(speed, float(carry))
     if speed < 1.0:
         return
     walk = _walk_speed(pawn)
@@ -704,8 +740,11 @@ def _start(pc, pawn, reason: str) -> None:
     core.begin("slide", ctx=ctx)
     loc = (float(pawn.Location.X), float(pawn.Location.Y))
     _stop_carry()                                # a new slide replaces any carry still running
+    state.crouch_down = True
+    dir_x, dir_y = (vx, vy) if forced else (vx / speed, vy / speed)
     state.slide = {
-        "dir": (vx / speed, vy / speed),
+        "dir": (dir_x, dir_y),
+        "fresh_until": core.clock + _LAND_GRACE if forced else -100.0,
         "speed": start_speed,
         "start": start_speed,
         "entry": speed,
@@ -735,6 +774,15 @@ def _start(pc, pawn, reason: str) -> None:
         except Exception:  # noqa: BLE001
             pass
     _set_crouch_limit(pawn, start_speed)
+    # Write the coast after the crouch cap. A landing that turned around has to
+    # replace the old velocity, and a slam may have zeroed it already.
+    z_write = None
+    if forced:
+        try:
+            z_write = min(0.0, float(pawn.Velocity.Z))
+        except Exception:  # noqa: BLE001
+            z_write = 0.0
+    core.set_velocity(pawn, dir_x * start_speed, dir_y * start_speed, z_write)
     if ctx is None or ctx.presentation:
         _hide_crouch_icon(pc)                        # straight away, so it never flashes up
     state.scrape_next = 0.0  # the scrape starts with the slide
@@ -962,6 +1010,7 @@ def _update_carry(pawn) -> None:
 
 
 _LAUNCH_HOLD = 0.15           # seconds the launch is re-applied if the game pulls you back down
+_LAND_GRACE = 0.35            # a landing slide ignores stall, back-cancel, and a one-frame hop
 # A slide cancel has to actually leave the ground. Anything shorter is a tap
 # that refreshes the slide the moment you jump, which can be repeated forever.
 _CHAIN_MIN_AIR = 0.40
@@ -1015,6 +1064,8 @@ def _ground_jump(pc, pawn) -> None:
     if core.unusable(pawn):
         return
     speed *= jump_momentum_slider.value / 100.0
+    # Sample the hold before uncrouch. Uncrouch can emit DuckReleased while C is still down.
+    holding = _wants_chain(state, pc)
     try:
         pc.bDuck = 0                           # crouch toggle off: you land standing
     except Exception:  # noqa: BLE001
@@ -1030,8 +1081,9 @@ def _ground_jump(pc, pawn) -> None:
         return
     if ok:
         state.launch = {"v": v, "until": core.clock + _LAUNCH_HOLD}
-        # Only a crouch key that is down right now continues into another slide.
-        _remember_slide_jump(state, pc, dx, dy, speed)
+        _remember_slide_jump(state, holding, dx, dy, speed)
+        if holding:
+            state.ignore_release_until = core.clock + 0.15
         state.slam_bank = None
         try:
             from .. import coop_rpc
@@ -1464,9 +1516,22 @@ def _run(pc, pawn, dt) -> None:
         return
     ctx = core.current_context()
     timed = bool(s.get("timed")) or (ctx is not None and not ctx.local)
+    fresh = _slide_fresh(s)
 
     if core.phys != core.PHYS_WALKING:
-        if timed:
+        if fresh and core.phys == core.PHYS_FALLING:
+            # Turning the landing slide can hop for a frame. Stay on the floor.
+            try:
+                z_now = min(0.0, float(pawn.Velocity.Z))
+            except Exception:  # noqa: BLE001
+                z_now = 0.0
+            try:
+                core.set_velocity(pawn, s["dir"][0] * s["speed"], s["dir"][1] * s["speed"], z_now)
+                core.set_physics(pawn, core.PHYS_WALKING)
+            except Exception:  # noqa: BLE001
+                _end(pawn, "off_cliff", pc)
+                return
+        elif timed:
             # Network slides: brief falling blips must not kill the slide into a stuck crouch.
             pass
         elif (core.phys == core.PHYS_FALLING and _hit_recently() and state.launch is None
@@ -1488,9 +1553,13 @@ def _run(pc, pawn, dt) -> None:
     # the joiner's exit RPC. Re-latching the owner hid that release and the slide
     # only ran out on the timer.
     owns_crouch = ctx is None or ctx.local
-    if owns_crouch and not _hit_recently() and not _crouching(pc, pawn):
-        _end(pawn, "stood up", pc)
-        return
+    if owns_crouch and not _hit_recently():
+        key = _crouch_held(pc)
+        # PressedKeys does not list a held crouch key. DuckReleased clears the latch.
+        released = not state.crouch_down and key is not True
+        if released and (timed or not _crouching(pc, pawn)):
+            _end(pawn, "stood up", pc)
+            return
     if not _crouching(pc, pawn):
         try:
             if pc is not None:
@@ -1547,7 +1616,9 @@ def _run(pc, pawn, dt) -> None:
             _scrape(pc, pawn, max(0.0, min(1.0, cp / _JUSO_SLIDE_PCT)))
         return
 
-    if s["elapsed"] > 0.0 and s["commanded"] > 0.0:
+    if fresh:
+        s["stalled"] = 0
+    elif s["elapsed"] > 0.0 and s["commanded"] > 0.0:
         moved = (x - s["last"][0]) * dx + (y - s["last"][1]) * dy
         if _hit_recently():
             s["stalled"] = 0                         # a hit's push isn't a wall
@@ -1558,7 +1629,7 @@ def _run(pc, pawn, dt) -> None:
         _end(pawn, "blocked", pc)
         return
 
-    if back_cancel_option.value and _pressing_back(pc, pawn):
+    if not fresh and back_cancel_option.value and _pressing_back(pc, pawn):
         _end(pawn, "back_cancel", pc)
         return
     _steer(pc, pawn, dt)
@@ -1647,6 +1718,12 @@ def _tick(pc, pawn, dt) -> None:
         state.crouch_pressed_while_airborne = False
     effective_crouch = crouch and not state.suppress_crouch_until_release
     phys = core.phys
+    if held is True:
+        state.crouch_down = True
+    if phys == core.PHYS_FALLING and (held is True or state.crouch_down):
+        _note_air_speed(state, pawn)
+    elif phys == core.PHYS_FALLING and not state.crouch_down:
+        state.air_slide = None
     if effective_crouch and not state.prev_crouch:
         state.crouch_pressed_at = core.clock
         state.crouch_pressed_while_airborne = phys == core.PHYS_FALLING
@@ -1661,6 +1738,7 @@ def _tick(pc, pawn, dt) -> None:
     if (
         ctx.authority
         and state.slide is not None
+        and not _slide_fresh(state.slide)
         and sprint
         and not state.prev_sprint
         and try_consume_sprint(pc, pawn)
@@ -1692,7 +1770,7 @@ def _tick(pc, pawn, dt) -> None:
         and phys == core.PHYS_WALKING
         and state.prev_phys == core.PHYS_FALLING
         and state.chain_hold
-        and held is not False
+        and (held is True or state.crouch_down)
     ):
         link = state.chain
         state.chain = None
@@ -1700,6 +1778,17 @@ def _tick(pc, pawn, dt) -> None:
             state.need_sprint = False
             state.suppress_crouch_until_release = False
             offer_landing(pc, pawn, link["dir"][0], link["dir"][1], link["speed"], "slide cancel")
+
+    # Sprint, jump, hold crouch, land. No slide before the jump. Slide From Landing
+    # stays off; that option is a separate ground-crouch landing.
+    if (
+        state.slide is None
+        and enabled_option.value
+        and ctx.authority
+        and phys == core.PHYS_WALKING
+        and state.prev_phys == core.PHYS_FALLING
+    ):
+        _air_crouch_landing(state, pc, pawn)
 
     if (
         state.slide is None
@@ -1753,34 +1842,119 @@ def _tick(pc, pawn, dt) -> None:
             _show_crouch_icon(pc)
 
 
-def _remember_slide_jump(state, pc, dx: float, dy: float, speed: float) -> None:
-    """Save the jump. Arm a landing slide only when the crouch key is down."""
+def _note_air_speed(state, pawn) -> None:
+    """Remember the fastest horizontal speed while crouch is held with no prior slide."""
+    if state.slide is not None or state.slide_jump is not None:
+        state.air_slide = None
+        return
+    try:
+        vx, vy = float(pawn.Velocity.X), float(pawn.Velocity.Y)
+    except Exception:  # noqa: BLE001
+        return
+    speed = math.hypot(vx, vy)
+    if speed < 1.0:
+        return
+    prev = state.air_slide
+    if prev is not None and float(prev["speed"]) >= speed:
+        return
+    state.air_slide = {"dir": (vx / speed, vy / speed), "speed": speed}
+
+
+def take_air_slide():
+    """Hand the saved air speed to a slam landing, then clear it."""
+    state = _state()
+    link = state.air_slide
+    state.air_slide = None
+    return link
+
+
+def _air_crouch_landing(state, pc, pawn) -> None:
+    """Slide out of a sprint jump when crouch is held at the landing. A slide jump uses its own chain."""
+    if state.slide is not None or state.slide_jump is not None:
+        if state.slide_jump is not None:
+            state.air_slide = None
+        return
+    if _crouch_held(pc) is True:
+        state.crouch_down = True
+    if not state.crouch_down:
+        state.air_slide = None
+        state.slam_bank = None
+        return
+    try:
+        from . import slam as slam_mod
+
+        if slam_mod._slam is not None:
+            return
+    except Exception:  # noqa: BLE001
+        pass
+    link = state.air_slide
+    if link is None and state.slam_bank is not None:
+        bx, by = float(state.slam_bank[0]), float(state.slam_bank[1])
+        speed = math.hypot(bx, by)
+        if speed > 1.0:
+            link = {"dir": (bx / speed, by / speed), "speed": speed}
+    state.air_slide = None
+    state.slam_bank = None
+    if link is None:
+        return
+    try:
+        need = _walk_speed(pawn) * float(min_speed_slider.value) / 100.0
+    except Exception:  # noqa: BLE001
+        need = 1.0
+    if float(link["speed"]) < need:
+        return
+    offer_landing(pc, pawn, link["dir"][0], link["dir"][1], float(link["speed"]), "air crouch")
+
+
+def _wants_chain(state, pc) -> bool:
+    """True after crouch was pressed and has not been released. PressedKeys misses a held key."""
+    if _crouch_held(pc) is True:
+        return True
+    return bool(state.crouch_down)
+
+
+def _remember_slide_jump(state, holding: bool, dx: float, dy: float, speed: float) -> None:
+    """Save the jump. Arm a landing slide only when the crouch key is down right now."""
     link = {"dir": (float(dx), float(dy)), "speed": max(float(speed), 1.0), "at": core.clock}
     state.slide_jump = link
-    if _crouch_held(pc) is True:
-        state.chain = dict(link)
-        state.chain_hold = True
-    else:
-        state.chain = None
-        state.chain_hold = False
+    state.chain_hold = bool(holding)
+    state.chain = dict(link) if holding else None
+    try:
+        from .. import diagnostics
+
+        diagnostics.event(
+            "mm.slide.chain",
+            holding=bool(holding),
+            key=bool(holding),
+            latch=bool(state.crouch_down),
+        )
+    except Exception:  # noqa: BLE001
+        pass
 
 
 def _update_chain_hold(state, held) -> None:
-    """A release cancels the chain. An unreadable key does not count as a hold."""
-    if not state.chain_hold:
-        state.chain = None
+    """Keep the landing slide until crouch is released.
+
+    PressedKeys does not list a crouch key that is still held, so a False read
+    is not a release. DuckReleased clears crouch_down.
+    """
+    if held is True:
+        state.crouch_down = True
+    if state.slide_jump is None:
         return
-    if held is False:
-        state.chain = None
-        state.chain_hold = False
-    elif held is True and state.chain is None and state.slide_jump is not None:
-        state.chain = dict(state.slide_jump)
+    if state.crouch_down or held is True:
+        state.chain_hold = True
+        if state.chain is None:
+            state.chain = dict(state.slide_jump)
+        return
+    state.chain = None
+    state.chain_hold = False
 
 
 def _slide_jump_blocks_landing(state) -> bool:
-    """The crouch pose left over from a slide is not a request to slide again on landing."""
+    """A slide jump does not use the normal landing slide. Only a held crouch key continues it."""
     link = state.slide_jump
-    if link is None or state.chain_hold:
+    if link is None:
         return False
     try:
         return core.clock - float(link.get("at", -100.0)) < 3.0
@@ -1802,10 +1976,16 @@ def chain_blocks_slam() -> bool:
 
 
 def offer_landing(pc, pawn, dx: float, dy: float, speed: float, reason: str) -> bool:
-    """Start a slide along a saved direction. Used for a slide-cancel landing and a slam exit."""
+    """Start a landing slide. Speed is the saved carry. Direction is where you are facing now."""
     state = _state()
     if not enabled_option.value or pawn is None or state.slide is not None:
         return False
+    try:
+        fx, fy = core.facing(pc)
+        if fx != 0.0 or fy != 0.0:
+            dx, dy = fx, fy
+    except Exception:  # noqa: BLE001
+        pass
     dx, dy = _unit_dir(float(dx), float(dy))
     if dx == 0.0 and dy == 0.0:
         return False
@@ -1813,9 +1993,10 @@ def offer_landing(pc, pawn, dx: float, dy: float, speed: float, reason: str) -> 
     state.need_sprint = False
     state.suppress_crouch_until_release = False
     state.chain = None
+    state.launch = None
     state.slam_bank = None
-    core.set_velocity(pawn, dx * speed, dy * speed)
-    _start(pc, pawn, reason)
+    state.air_slide = None
+    _start(pc, pawn, reason, dx, dy, speed)
     return state.slide is not None
 
 
@@ -1980,6 +2161,7 @@ def _pre_duck_pressed(obj, _args, _ret, _func):
     if ctx is None or not ctx.local:
         return None
     state = _state(ctx)
+    state.crouch_down = True
     if state.suppress_crouch_until_release or state.chain is not None:
         return Block
     # A new crouch press in the air is a slam. Keep the speed so the landing can
@@ -1988,8 +2170,25 @@ def _pre_duck_pressed(obj, _args, _ret, _func):
         pawn = ctx.pawn
         if pawn is not None and int(pawn.Physics) == core.PHYS_FALLING:
             state.slam_bank = (float(pawn.Velocity.X), float(pawn.Velocity.Y))
+            _note_air_speed(state, pawn)
     except Exception:  # noqa: BLE001
         pass
+    return None
+
+
+@hook("WillowGame.WillowPlayerController:DuckReleased", Type.PRE)
+def _pre_duck_released(obj, _args, _ret, _func):
+    """Key up. The crouched pose stays during a slide, so this is the release signal."""
+    ctx = REGISTRY.resolve_controller(obj)
+    if ctx is None or not ctx.local:
+        return None
+    state = _state(ctx)
+    if core.clock < state.ignore_release_until:
+        return None
+    state.crouch_down = False
+    if state.chain_hold:
+        state.chain = None
+        state.chain_hold = False
     return None
 
 
@@ -1999,24 +2198,8 @@ def _post_landed(obj, _args, _ret, _func):
     ctx = REGISTRY.resolve_pawn(obj)
     if ctx is None or not ctx.authority or not ctx.local:
         return
-    state = _state(ctx)
-    bank = state.slam_bank
-    state.slam_bank = None
-    if bank is None or state.slide is not None or state.chain is not None:
-        return
-    try:
-        from . import slam
-
-        if slam._slam is not None:
-            return
-    except Exception:  # noqa: BLE001
-        pass
-    if _crouch_held(ctx.controller) is False:
-        return
-    vx, vy = bank
-
     def go() -> None:
-        offer_landing(ctx.controller, ctx.pawn, vx, vy, math.hypot(vx, vy), "slam landing")
+        _air_crouch_landing(_state(ctx), ctx.controller, ctx.pawn)
 
     core.execute(ctx, go)
 
@@ -2032,6 +2215,8 @@ def _pre_begin_sprint(obj, _args, _ret, _func):
     state = _state(ctx)
     if state.slide is None:
         return None
+    if _slide_fresh(state.slide):
+        return Block
     if not ctx.authority:
         return None
     if core.execute(ctx, try_consume_sprint, ctx.controller, ctx.pawn):
@@ -2074,6 +2259,10 @@ def _post_player_move(obj, args, _ret, _func):
                 _coast_slide(ctx.pawn, dx, dy, float(slide.get("speed", 0.0)))
             else:
                 _set_crouch_limit(ctx.pawn, slide["speed"])
+                # PlayerMove already braked along the old momentum. Put the new facing back.
+                if _slide_fresh(slide):
+                    dx, dy = slide.get("dir", (0.0, 0.0))
+                    _coast_slide(ctx.pawn, dx, dy, float(slide.get("speed", 0.0)))
             return
         # Host replay of that same move brakes the server pawn and would correct
         # the joiner to a stop. The slide lives in _HOST_SLIDES, not slide state.
@@ -2157,4 +2346,11 @@ OPTIONS = [
     ),
 ]
 KEYBINDS = []
-HOOKS = [_pre_do_jump, _pre_duck_pressed, _pre_begin_sprint, _post_player_move, _post_landed]
+HOOKS = [
+    _pre_do_jump,
+    _pre_duck_pressed,
+    _pre_duck_released,
+    _pre_begin_sprint,
+    _post_player_move,
+    _post_landed,
+]

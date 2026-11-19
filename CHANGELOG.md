@@ -49,6 +49,11 @@ The last shipped Pre-Sequel package is **3.61.2**. The next minor is **3.62.0**.
 - The game writes `Modern_Movement.log.txt` in the same folder as the installed mod. It records enable, handshake, dash and slide starts, and refused moves, so two players can compare sessions.
 - Other players get dash, slide, and jump, not only the weapon holster. A joining client was treated as the host because the game reports Role Authority, so movement never reached the listen host. Weapon changes still showed up because the game replicates those itself.
 - A slide jump lands in another slide only while crouch is held. Releasing crouch before landing, or a crouch pose left over from the slide, does not start another slide.
+- Other players' dash, slide, and jump reach the listen host again. The host was dropping every one of those messages because the joiner's pawn was missing on their controller, so only a local weapon holster showed up.
+- A slide jump lands in another slide only while the crouch key is still down. Letting go before landing does not slide, and the crouched pose from the slide does not count as holding the key.
+- Sprint, jump, and hold crouch: you slide when you land or slam, even if you never slid before that jump. The crouch key has to be down when you hit the ground. Letting go does not slide.
+- A landing slide goes the way you are facing when you touch down, and it stays down. Turning around no longer cancels it or slides you backward. You keep the speed you had.
+- Slide cancel works again while crouch is held. The game's pressed-key list was reporting that held button as up, so the landing slide never started. Releasing crouch still cancels it.
 
 ## [3.61.2] — shipped Pre-Sequel baseline
 
