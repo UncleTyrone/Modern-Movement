@@ -165,6 +165,11 @@ def _on_player_hit(**_kw) -> None:
 _FLOOR_NEAR = 60.0          # units: a floor this close below still counts as "on the ground" after a hit
 
 
+def _falling_is_crouch_dip(vz: float, floor: bool) -> bool:
+    """A crouch shrinks the capsule and reports falling for a frame. A jump climbs. A cliff has no floor."""
+    return bool(floor) and float(vz) < 250.0
+
+
 def _floor_below(pawn) -> bool:
     """A floor just under your feet (one short trace down)."""
     try:
@@ -276,17 +281,28 @@ def _flag(obj, name) -> bool:
 
 
 def _bl2_key_up(state, pc) -> bool:
-    """Borderlands 2 leaves crouch toggled on after a tap. The physical key is the hold.
+    """The crouch key came up. Both games use this, not the crouched pose.
 
-    The Pre-Sequel's key list omits a held crouch, so a False read there is not a release.
+    PressedKeys omits a held crouch, and that read is None rather than a release.
+    The input hook or the keyboard saying up ends the slide and drops a landing chain.
     """
-    from .. import game
-
-    if not game.is_bl2():
-        return False
     if core.clock < state.ignore_release_until:
         return False
     return _crouch_held(pc) is False
+
+
+def _crouch_blip_on_ground(state, pawn, phys: int) -> bool:
+    """The crouch frame where the capsule dips and the pawn reports falling.
+
+    They are still on the ground. Starting the slide here is what keeps that
+    frame from becoming a slam.
+    """
+    if phys != core.PHYS_FALLING or state.prev_phys != core.PHYS_WALKING or state.slide is not None:
+        return False
+    try:
+        return abs(float(pawn.Velocity.Z)) < 180.0
+    except Exception:  # noqa: BLE001
+        return False
 
 
 def _bl2_slide_ready(state, pawn, sprint, speed: float) -> bool:
@@ -877,15 +893,14 @@ def _start(
     start_speed = max(start_speed, walk * min_speed_slider.value / 100.0)
     speed_percent = float(speed_slider.value)
     start_speed *= _speed_scale(speed_percent)
-    from .. import game
 
     core.begin("slide", ctx=ctx)
     loc = (float(pawn.Location.X), float(pawn.Location.Y))
     _stop_carry()                                # a new slide replaces any carry still running
     state.crouch_down = True
-    # Borderlands 2 ends the slide the moment the crouch key comes up, so a short hold
-    # only needs a frame of grace. A longer window made a quick let-go keep sliding.
-    state.ignore_release_until = core.clock + (0.05 if game.is_bl2() else 0.20)
+    # Both games end the slide when the crouch key comes up. A longer Pre-Sequel
+    # window kept the slide going after a let-go and forced the landing slide.
+    state.ignore_release_until = core.clock + 0.05
     dir_x, dir_y = (vx, vy) if forced else (vx / speed, vy / speed)
     state.slide = {
         "dir": (dir_x, dir_y),
@@ -1217,7 +1232,9 @@ def _ground_jump(pc, pawn) -> None:
         holding = _wants_chain(state, pc)
         if holding:
             state.crouch_down = True
-            state.ignore_release_until = core.clock + 0.30
+            # Long enough to ignore the uncrouch's release, short enough that a
+            # let-go during the jump is seen before landing.
+            state.ignore_release_until = core.clock + 0.12
     if state.slide is not None:
         dx, dy = state.slide["dir"]
         speed = state.slide["speed"]
@@ -1252,8 +1269,8 @@ def _ground_jump(pc, pawn) -> None:
         _remember_slide_jump(state, holding, dx, dy, speed)
         if holding:
             state.crouch_down = True
-            if state.ignore_release_until < core.clock + 0.15:
-                state.ignore_release_until = core.clock + 0.15
+            if state.ignore_release_until < core.clock + 0.12:
+                state.ignore_release_until = core.clock + 0.12
         state.slam_bank = None
         try:
             from .. import coop_rpc
@@ -1749,6 +1766,28 @@ def _run(pc, pawn, dt) -> None:
             except Exception:  # noqa: BLE001
                 _end(pawn, "off_cliff", pc)
                 return
+        elif core.phys == core.PHYS_FALLING and state.launch is None:
+            # The crouch at the start of a slide dips the capsule. Ending there
+            # cleared the bar and the next frame started a second slide.
+            try:
+                vz = float(pawn.Velocity.Z)
+            except Exception:  # noqa: BLE001
+                vz = 0.0
+            if _falling_is_crouch_dip(vz, _floor_below(pawn)):
+                try:
+                    core.set_velocity(
+                        pawn,
+                        s["dir"][0] * s["speed"],
+                        s["dir"][1] * s["speed"],
+                        min(0.0, vz),
+                    )
+                    core.set_physics(pawn, core.PHYS_WALKING)
+                except Exception:  # noqa: BLE001
+                    _end(pawn, "off_cliff", pc)
+                    return
+            else:
+                _end(pawn, "off_cliff", pc)
+                return
         else:
             _end(pawn, "off_cliff", pc)
             return
@@ -1988,7 +2027,7 @@ def _tick(pc, pawn, dt) -> None:
         and phys == core.PHYS_WALKING
         and (state.prev_phys == core.PHYS_FALLING or state.chain_was_air)
         and state.chain_hold
-        and (held is True or state.crouch_down)
+        and held is True
         and not slam_coming_down
     ):
         link = state.chain
@@ -2013,12 +2052,13 @@ def _tick(pc, pawn, dt) -> None:
     ):
         _air_crouch_landing(state, pc, pawn)
 
+    on_ground = phys == core.PHYS_WALKING or _crouch_blip_on_ground(state, pawn, phys)
     if (
         state.slide is None
         and enabled_option.value
         and core.busy is None
         and ctx.authority
-        and phys == core.PHYS_WALKING
+        and on_ground
         and not slam_coming_down
     ):
         need = _walk_speed(pawn) * min_speed_slider.value / 100.0
@@ -2028,9 +2068,19 @@ def _tick(pc, pawn, dt) -> None:
         from .. import game
 
         if game.is_bl2() and held is True and _bl2_slide_ready(state, pawn, sprint, speed):
+            if phys != core.PHYS_WALKING:
+                try:
+                    pawn.Physics = core.PHYS_WALKING
+                except Exception:  # noqa: BLE001
+                    pass
             _start(pc, pawn, "crouch held while sprinting")
         # Crouch while sprinting starts a slide, including the one after the last slide.
         elif crouch_edge and (sprint or state.prev_sprint or max(speed, state.prev_speed) >= need) and max(speed, state.prev_speed) >= need:
+            if phys != core.PHYS_WALKING:
+                try:
+                    pawn.Physics = core.PHYS_WALKING
+                except Exception:  # noqa: BLE001
+                    pass
             _start(pc, pawn, "crouch while sprinting")
         # 2) landed with crouch on, moving forward fast enough — never from a crouch that
         # began while airborne (that press belongs to native Slam, not a landing slide).
@@ -2149,10 +2199,13 @@ def _air_crouch_landing(state, pc, pawn) -> None:
 
 
 def _wants_chain(state, pc) -> bool:
-    """True after crouch was pressed and has not been released. PressedKeys misses a held key."""
-    if _crouch_held(pc) is True:
-        return True
-    return bool(state.crouch_down)
+    """True only while the crouch key is down. The slide's pose is not a hold.
+
+    The Pre-Sequel used to keep that pose after a let-go, so every slide jump
+    landed in another slide. A missed key read is not a hold either.
+    """
+    del state
+    return _crouch_held(pc) is True
 
 
 def _remember_slide_jump(state, holding: bool, dx: float, dy: float, speed: float) -> None:
@@ -2175,23 +2228,27 @@ def _remember_slide_jump(state, holding: bool, dx: float, dy: float, speed: floa
 
 
 def _update_chain_hold(state, held) -> None:
-    """Keep the landing slide until crouch is released.
+    """Keep the landing slide only while the crouch key is down.
 
-    PressedKeys does not list a crouch key that is still held, so a False read
-    is not a release. DuckReleased clears crouch_down.
+    A missed key read (None) leaves the chain alone. A real release clears it,
+    including a pose left over from the slide. Both games use that rule.
     """
     if held is True:
         state.crouch_down = True
     if state.slide_jump is None:
         return
-    if state.crouch_down or held is True:
+    if held is True:
         state.chain_hold = True
         if state.chain is None:
             state.chain = dict(state.slide_jump)
         return
+    if held is None and state.crouch_down and state.chain_hold:
+        return
     state.chain = None
     state.chain_hold = False
     state.chain_was_air = False
+    if held is False:
+        state.crouch_down = False
 
 
 def _slide_jump_blocks_landing(state) -> bool:

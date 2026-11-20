@@ -52,75 +52,62 @@ _COLOR = {
     "snow": (1.55, 1.75, 1.95),
     "air": (0.62, 0.92, 1.45),
 }
-# Always-loaded Borderlands particle systems (BLCM ParticleSystem list). The old
-# guessed paths were not in the game, so every spawn returned nothing.
+# Short names from both games' decompressed Startup.upk name tables. The old paths
+# ended in "FX" and are not cooked into either install, so every lookup missed.
 _CANDIDATES = {
     "dirt": (
-        "FX_VEH_Shared.Particles.Part_VEHDirtKickupFX",
-        "FX_ENV_Dust.Particles.Dynamic.Part_GenericGroundImpactFX",
-        "FX_CREA_Skag.Particles.Shared.Part_Skag_FeetDustFX",
-        "FX_ENV_Smoke.Particles.Part_SkagFootStepFX",
-        "FX_ENV_Dust.Particles.Part_AmbientDustFX",
+        "Part_Skag_FeetDust",
+        "Part_Impact_Metal_LargeCal",
+        "Part_Impact_Cardboard_LargeCal",
     ),
     "metal": (
-        "FX_BulletImpacts_Metal.Particles.Part_Impact_Metal_SmallCalFX",
-        "FX_env_sparks.Particles.Part_SparkShowerGenericFX",
+        "Part_Impact_Metal_LargeCal",
+        "Part_Skag_FeetDust",
     ),
-    "water": (
-        "FX_ENV_Water.Particles.Part_Water_Step_SplashFX",
-        "FX_BulletImpacts_Water.Particles.Part_Impact_Water_ReduxFX",
-        "FX_VEH_Shared.Particles.Part_VEH_WaterKickupFX",
-    ),
-    "snow": (
-        "FX_ENV_InteractiveObjects.Particles.SnowChest.Part_IcePuffGenericFX",
-        "FX_VEH_Shared.Particles.Part_Snow_Kickup_ClaptrapFX",
-    ),
-    "wood": ("FX_BulletImpacts_Wood.Particles.Impact_Wood_LargeCal_PartFX",),
-    "stone": ("FX_BulletImpacts_Rock.Particles.Part_Impact_Rock_LargeCalFX",),
+    "water": ("Part_Impact_Metal_LargeCal",),
+    "snow": ("Part_Skag_FeetDust", "Part_Impact_Metal_LargeCal"),
+    "wood": ("Part_Impact_Cardboard_LargeCal",),
+    "stone": ("Part_Impact_Metal_LargeCal", "Part_Skag_FeetDust"),
     "grass": (
-        "FX_VEH_Shared.Particles.Part_VEHGrassKickupFX",
-        "FX_BulletImpacts_Vegetation.Particles.Part_Impact_Grass_LargeCalFX",
-        "FX_CREA_Skag.Particles.Shared.Part_Skag_FeetDustFX",
+        "Part_Skag_FeetDust",
+        "Part_Impact_Metal_LargeCal",
     ),
     "air": (
-        "FX_ENV_Smoke.Particles.Part_WhispySmokeFX",
-        "FX_ENV_InteractiveObjects.Particles.SnowChest.Part_SnowChest_AirFX",
-        "FX_ENV_Dust.Particles.Part_AmbientDustFX",
+        "Part_Skag_FeetDust",
+        "Part_Impact_Metal_LargeCal",
+        "Part_Impact_Cardboard_LargeCal",
     ),
     "sprint": (
-        "FX_ENV_Smoke.Particles.Part_WhispySmokeFX",
-        "FX_ENV_Dust.Particles.Part_AmbientDustFX",
-        "FX_ENV_InteractiveObjects.Particles.SnowChest.Part_SnowChest_AirFX",
+        "Part_Skag_FeetDust",
+        "Part_Impact_Metal_LargeCal",
     ),
     "ring": (
-        "FX_CHAR_Shared_Shield.Particles.Novas.Part_Explosive_Nova_Shield_ExplosionFX",
-        "FX_ENV_Dust.Particles.Dynamic.Part_GenericGroundImpactFX",
-        "FX_ENV_Dust.Particles.Part_AmbientDustFX",
+        "Part_Explosive_Nova_Shield_Explosion",
+        "Part_Impact_Metal_LargeCal",
     ),
 }
-# PhysX copies that ship with The Pre-Sequel. The names are on the always-loaded list.
+# Pre-Sequel startup has these PhysX twins. Borderlands 2 does not.
 _TPS_EXTRA = {
-    "air": (
-        "FX_ENV_Smoke.Particles.Part_WhispySmokeFX",
-    ),
-    "sprint": (
-        "FX_ENV_Smoke.Particles.Part_WhispySmokeFX",
-    ),
+    "air": ("Part_Impact_Rock_LargeCal", "Part_Skag_FeetDust"),
+    "sprint": ("Part_Impact_Rock_LargeCal", "Part_Skag_FeetDust"),
     "ring": (
-        "FX_ENV_Dust_Px.Particles.Dynamic.Part_GenericGroundImpact_PxFX",
-        "FX_CHAR_Shared_Shield.Particles.Novas.Part_Explosive_Nova_Shield_ExplosionFX",
+        "Part_Explosive_Nova_Shield_Explosion_Px",
+        "Part_Explosive_Nova_Shield_Explosion",
     ),
     "dirt": (
-        "FX_ENV_Dust_Px.Particles.Dynamic.Part_GenericGroundImpact_PxFX",
-        "FX_VEH_Shared.Particles.Part_VEHDirtKickupFX",
+        "Part_Impact_Rock_LargeCal",
+        "Part_Skag_FeetDust",
     ),
+    "stone": ("Part_Impact_Rock_LargeCal",),
 }
 _loaded_packages: set[str] = set()
 _FALLBACK = (
-    "FX_ENV_Dust.Particles.Dynamic.Part_GenericGroundImpactFX",
-    "FX_ENV_Dust.Particles.Part_AmbientDustFX",
-    "FX_CREA_Skag.Particles.Shared.Part_Skag_FeetDustFX",
+    "Part_Skag_FeetDust",
+    "Part_Impact_Metal_LargeCal",
+    "Part_Explosive_Nova_Shield_Explosion",
 )
+# The nova reads bright. A dark multiplier keeps the shape and drops it toward the dust.
+_RING_COLOR = (0.22, 0.16, 0.12)
 _resolved: dict[str, object] = {}
 _slots: dict[int, dict] = {}
 
@@ -205,8 +192,58 @@ def _paths_for(kind: str) -> list[str]:
     return paths
 
 
+_missing: set[str] = set()
+_catalog: dict[str, object] | None = None
+_catalog_at = -100.0
+_spawn_note: set[str] = set()
+
+
+def _note_once(kind: str, message: str) -> None:
+    if kind in _spawn_note:
+        return
+    _spawn_note.add(kind)
+    try:
+        from unrealsdk import logging
+
+        logging.info(f"[Modern Movement] Particles: {message}")
+    except Exception:  # noqa: BLE001
+        pass
+
+
+def _catalog_match(short: str):
+    """Loaded particle systems, by the name the package actually cooked.
+
+    An empty scan is not kept. The first tick can run before the world has
+    streamed the startup systems, and a saved empty list would hide them.
+    """
+    global _catalog, _catalog_at
+    key = short.lower()
+    now = core.clock
+    if _catalog is None or (key not in _catalog and now - _catalog_at > 1.0):
+        found: dict[str, object] = {}
+        try:
+            import unrealsdk
+
+            for obj in unrealsdk.find_all("ParticleSystem", False):
+                try:
+                    found[str(obj.Name).lower()] = obj
+                except Exception:  # noqa: BLE001
+                    continue
+        except Exception:  # noqa: BLE001
+            found = {}
+        if not found and _catalog:
+            return _catalog.get(key)
+        _catalog = found
+        _catalog_at = now
+    if not _catalog:
+        return None
+    return _catalog.get(key)
+
+
 def _find_system(path: str):
     """Load that effect's package once, then look it up. A missing path is skipped."""
+    if not path or path in _missing:
+        return None
     import unrealsdk
 
     package = path.split(".", 1)[0]
@@ -216,10 +253,16 @@ def _find_system(path: str):
             unrealsdk.load_package(package)
         except Exception:  # noqa: BLE001
             pass
+    system = None
     try:
-        return unrealsdk.find_object("ParticleSystem", path)
+        system = unrealsdk.find_object("ParticleSystem", path)
     except Exception:  # noqa: BLE001
-        return None
+        system = None
+    if system is None:
+        system = _catalog_match(path.rsplit(".", 1)[-1])
+    if system is None and _catalog:
+        _missing.add(path)
+    return system
 
 
 def _system(kind: str):
@@ -263,45 +306,129 @@ def _rotator():
         return unrealsdk.make_struct("Core.Object.Rotator", True, Pitch=0, Yaw=0, Roll=0)
 
 
-def _emit(pawn, kind: str, loc: tuple[float, float, float], scale: float) -> None:
-    system = _system(kind)
-    if system is None or pawn is None:
+def _tint(comp, kind: str) -> None:
+    """Darken the slam nova. A missed parameter is skipped. Scale is left alone."""
+    if comp is None or kind != "ring":
         return
-    pool = _pool(pawn)
-    if pool is None:
-        return
-    # SpawnEmitter wants a template, a location, and a rotator. A missing rotator
-    # makes this SDK reject the call, which is why a found particle still showed nothing.
-    vec = tracing.make_vec(*loc)
-    rot = _rotator()
-    comp = None
     try:
-        comp = pool.SpawnEmitter(system, vec, rot)
+        import unrealsdk
+
+        color = unrealsdk.make_struct(
+            "LinearColor",
+            R=_RING_COLOR[0],
+            G=_RING_COLOR[1],
+            B=_RING_COLOR[2],
+            A=1.0,
+        )
     except Exception:  # noqa: BLE001
+        return
+    for name in ("Color", "RColor", "InitialColor"):
         try:
-            comp = pool.SpawnEmitter(EmitterTemplate=system, SpawnLocation=vec, SpawnRotation=rot)
+            comp.SetVectorParameter(name, color)
         except Exception:  # noqa: BLE001
-            try:
-                comp = pool.SpawnEmitter(system, vec)
-            except Exception:  # noqa: BLE001
-                return
+            continue
+
+
+def _activate(comp) -> None:
     if comp is None:
         return
     try:
-        comp.ActivateSystem()
+        comp.bAutoActivate = True
     except Exception:  # noqa: BLE001
         pass
     try:
-        comp.SetScale(max(0.85, float(scale)))
+        comp.ActivateSystem(True)
     except Exception:  # noqa: BLE001
-        pass
-    color = _COLOR.get(kind, _COLOR["dirt"])
-    tint = tracing.make_vec(*color)
-    for param in ("RColor", "Color", "Tint"):
         try:
-            comp.SetVectorParameter(param, tint)
+            comp.ActivateSystem()
         except Exception:  # noqa: BLE001
             pass
+    try:
+        comp.SecondsBeforeInactive = 0.0
+    except Exception:  # noqa: BLE001
+        pass
+
+
+def _spawn_actor(pawn, system, loc, rot, kind: str) -> bool:
+    """Put an Emitter in the world. The pool call was returning a component that never drew."""
+    import unrealsdk
+
+    try:
+        world = pawn.WorldInfo
+    except Exception:  # noqa: BLE001
+        return False
+    if world is None:
+        return False
+    try:
+        klass = unrealsdk.find_class("Emitter")
+    except Exception:  # noqa: BLE001
+        return False
+    spawned = None
+    try:
+        spawned = world.Spawn(klass, pawn, "MMFX", loc, rot, None, True)
+    except Exception:  # noqa: BLE001
+        try:
+            spawned = world.Spawn(klass, None, "", loc, rot)
+        except Exception:  # noqa: BLE001
+            return False
+    if spawned is None:
+        return False
+    try:
+        spawned.SetTemplate(system, True)
+    except Exception:  # noqa: BLE001
+        try:
+            spawned.ParticleSystemComponent.SetTemplate(system)
+        except Exception:  # noqa: BLE001
+            return False
+    try:
+        _activate(spawned.ParticleSystemComponent)
+        _tint(spawned.ParticleSystemComponent, kind)
+    except Exception:  # noqa: BLE001
+        pass
+    try:
+        spawned.LifeSpan = 1.8
+        spawned.bDestroyOnSystemFinish = True
+        spawned.bNetTemporary = True
+    except Exception:  # noqa: BLE001
+        pass
+    return True
+
+
+def _spawn_pool(pawn, system, loc, rot, kind: str) -> bool:
+    pool = _pool(pawn)
+    if pool is None:
+        return False
+    comp = None
+    try:
+        comp = pool.SpawnEmitter(system, loc, rot)
+    except Exception:  # noqa: BLE001
+        try:
+            comp = pool.SpawnEmitter(EmitterTemplate=system, SpawnLocation=loc, SpawnRotation=rot)
+        except Exception:  # noqa: BLE001
+            try:
+                comp = pool.SpawnEmitter(system, loc)
+            except Exception:  # noqa: BLE001
+                return False
+    if comp is None:
+        return False
+    _activate(comp)
+    _tint(comp, kind)
+    return True
+
+
+def _emit(pawn, kind: str, loc: tuple[float, float, float], scale: float) -> None:
+    del scale  # the effect's own size is what reads. A float scale was blanking the component.
+    if pawn is None:
+        return
+    system = _system(kind)
+    if system is None:
+        _note_once(kind, f"no particle for {kind}")
+        return
+    vec = tracing.make_vec(*loc)
+    rot = _rotator()
+    if _spawn_actor(pawn, system, vec, rot, kind) or _spawn_pool(pawn, system, vec, rot, kind):
+        return
+    _note_once(kind, f"{kind} did not spawn")
 
 
 def _feet(pawn, back: float = 28.0) -> tuple[float, float, float]:
@@ -333,6 +460,32 @@ def puff(pawn, kind: str, strength: float) -> None:
     if strength > 0.65:
         side = _feet(pawn, 18.0)
         _emit(pawn, kind, (side[0], side[1], side[2] + 8.0), 0.9)
+
+
+def burst(pc, pawn, dx: float = 0.0, dy: float = 0.0, count: int = 5) -> None:
+    """One cloud of the slide dust. Dash and double jump use this instead of sparks."""
+    if not enabled_option.value or pawn is None:
+        return
+    slot = _slot(pawn)
+    now = core.clock
+    if now < slot.get("burst", -100.0):
+        return
+    slot["burst"] = now + 0.1
+    kind = kind_for(pc, pawn) if pc is not None else "dirt"
+    mag = math.hypot(dx, dy)
+    if mag > 1e-3:
+        dx, dy = dx / mag, dy / mag
+    else:
+        dx, dy = 1.0, 0.0
+    origin = _feet(pawn, 8.0)
+    _emit(pawn, kind, origin, 1.0)
+    reach = 56.0
+    extra = max(1, int(count) - 1)
+    for step in range(extra):
+        ang = step * math.tau / extra
+        ox = dx * reach * 0.65 + math.cos(ang) * reach * 0.5
+        oy = dy * reach * 0.65 + math.sin(ang) * reach * 0.5
+        _emit(pawn, kind, (origin[0] + ox, origin[1] + oy, origin[2] + 8.0), 1.0)
 
 
 def slide(pc, pawn, strength: float) -> str:
@@ -374,15 +527,25 @@ def slam_ring(pawn, strength: float = 1.0) -> None:
     slot["ring"] = now + 0.35
     strength = max(0.25, min(1.0, float(strength)))
     center = _feet(pawn, 0.0)
-    _emit(pawn, "ring", (center[0], center[1], center[2] + 6.0), 1.6 + 0.8 * strength)
-    radius = 70.0 + 110.0 * strength
+    _emit(pawn, "ring", (center[0], center[1], center[2] + 4.0), 1.6 + 0.8 * strength)
+    _emit(pawn, "dirt", (center[0], center[1], center[2] + 6.0), 1.0)
+    inner = 32.0 + 18.0 * strength
+    for step in range(6):
+        ang = step * math.tau / 6.0
+        _emit(
+            pawn,
+            "dirt",
+            (center[0] + math.cos(ang) * inner, center[1] + math.sin(ang) * inner, center[2] + 4.0),
+            1.0,
+        )
+    radius = 78.0 + 90.0 * strength
     for step in range(8):
-        ang = step * math.tau / 8.0
+        ang = step * math.tau / 8.0 + 0.3
         _emit(
             pawn,
             "dirt",
             (center[0] + math.cos(ang) * radius, center[1] + math.sin(ang) * radius, center[2] + 4.0),
-            0.85 + 0.25 * strength,
+            1.0,
         )
 
 
@@ -515,8 +678,12 @@ def _tick(pc, pawn, _dt) -> None:
 
 
 def on_enable() -> None:
+    global _catalog, _catalog_at
     _slots.clear()
     _resolved.clear()
+    _missing.clear()
+    _catalog = None
+    _catalog_at = -100.0
     core.register("surfacefx", tick=_tick, priority=80)
 
 

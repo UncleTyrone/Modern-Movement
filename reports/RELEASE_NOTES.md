@@ -3,12 +3,15 @@
 Next minor after the shipped Pre-Sequel package 3.61.2. The same file runs in Borderlands 2 and Borderlands: The Pre-Sequel. Double Jump, Dash, Mantle, Slide, Holster, and Sprint Surge ship in both games. Borderlands 2 also gets Slam. The Pre-Sequel keeps native Oz slam. Pre-release work stays on 3.62.0.
 
 **Package:** `dist/Modern_Movement.sdkmod`  
-**SHA-256:** `2044cb8779a9057a74c90fe1ee12d09913519cd2af1dd75d9fe8bde461c490e5`
+**SHA-256:** `ae8ab0eefea7c8f068e6f13c9a682a9fc97c4fc5fa753fd845d94e5be8251d16`
 
 Install this exact file on every peer who wants the abilities, in that game's `sdk_mods` folder. Confirm the hash against `dist/Modern_Movement.sdkmod.sha256` before enabling it. Use the same file on Borderlands 2 and on The Pre-Sequel.
 
 ## Highlights
 
+- A slide no longer restarts itself at the beginning. A dash and a double jump use the slide dust. The slam ring is that dust, darker.
+- Dust, wind, and the slam ring use effects that are actually in the game. A crouch on the ground stays a slide. The slam landing no longer drops the camera through the floor.
+- Borderlands 2 slam needs real air. A slide does not become a slam. A high jump slams while you are moving, including after a slide jump. The Pre-Sequel slide lets go the same way Borderlands 2 does.
 - The same package loads in Borderlands 2 and The Pre-Sequel. Borderlands 2 includes Slam. The Pre-Sequel leaves Oz slam alone.
 - Releasing crouch cancels a joiner slide. The slide ends when crouch is released.
 - Fast travel re-handshakes co-op. Joiners come back with movement instead of a dead session.
@@ -105,7 +108,7 @@ These notes are the whole 3.62.0 delta from the shipped 3.61.2 package.
 3. Enable the mod and check key bindings at the bottom of the mod options.
 4. Restart the game after copying the file so hooks and keybinds load.
 
-Full steps: [docs/INSTALL.md](../docs/INSTALL.md).
+Full steps: [docs/play.md](../docs/play.md).
 
 HUD images ship in this package. Borderlands 2 and The Pre-Sequel each use their own included texture loader, so a separate texloader install is not required. If an image cannot be created, that indicator draws with lines. Controller Dash and Toggle Holster start unbound; rebind them in the menu if you want them on a pad.
 

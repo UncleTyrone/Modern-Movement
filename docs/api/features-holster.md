@@ -1,5 +1,0 @@
-[← Home](../../README.md)
-
-# `features/holster.py`
-
-Manual and sprint holster, surge start/end via holster authority input, GroundSpeed boost apply/restore. A joiner `surge` message always starts or refreshes the boost. `surge_end` is what stops it. A local surge press starts the boost when one is not already running, then a later press ends it, then the next press starts another. On Borderlands 2 that first press is ignored unless the previous tick was already sprinting, so Shift starts a normal sprint and the next press starts the surge. The Pre-Sequel still treats the surge key as that second press. A joiner sends `server_speed_mult` as the same 1.30–1.70 GroundSpeed boost the host uses. The base is the GroundSpeed already on the pawn, sprint included, taken once so a later boosted sample cannot stack. An existing run is scaled to that same bonus once. A look direction is not a launch. Sending `1.0` clears it. A slide or slide-jump hold is left alone.

@@ -313,16 +313,13 @@ def _cancel() -> None:
 
 
 def _surface_burst(pc, pawn, vx: float, vy: float, airborne: bool) -> None:
-    """Ground dash kicks the surface. An air dash is a cool wind burst. Never affects the dash."""
+    """Dash kicks up the same dust as a slide, on the ground and in the air."""
     try:
         from . import surfacefx
 
         mag = math.hypot(vx, vy) or 1.0
-        if airborne:
-            surfacefx.air(pc, pawn, vx / mag, vy / mag, 1.0)
-        else:
-            surfacefx.slide(pc, pawn, 0.8)
-            surfacefx.air(pc, pawn, vx / mag, vy / mag, 0.5)
+        del airborne
+        surfacefx.burst(pc, pawn, vx / mag, vy / mag, 6)
     except Exception:  # noqa: BLE001
         pass
 

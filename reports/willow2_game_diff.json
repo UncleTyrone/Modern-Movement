@@ -1,0 +1,3310 @@
+{
+  "bl2_files": 14110,
+  "tps_files": 11662,
+  "bl2_bytes": 26549115304,
+  "tps_bytes": 22553366206,
+  "shared_paths": 1519,
+  "only_bl2": 12591,
+  "only_tps": 10143,
+  "shared_same_size": 936,
+  "shared_different_size": 583,
+  "only_bl2_by_top": {
+    "dlc": 9622,
+    "willowgame": 2949,
+    "binaries": 11,
+    "engine": 3,
+    "sdk_mods": 3,
+    "documents": 2,
+    "changelist.txt": 1
+  },
+  "only_tps_by_top": {
+    "willowgame": 6337,
+    "dlc": 3215,
+    "binaries": 352,
+    "engine": 203,
+    "pandoras_leftovers": 25,
+    "sdk_mods": 8,
+    "documents": 3
+  },
+  "size_diff_by_top": {
+    "willowgame": 480,
+    "engine": 49,
+    "sdk_mods": 34,
+    "binaries": 18,
+    "bl2launcherlog.txt": 1,
+    "installscript.vdf": 1
+  },
+  "only_bl2_ext": {
+    "upk": 1981,
+    "esn": 1841,
+    "fra": 1841,
+    "ita": 1841,
+    "deu": 1840,
+    "jpn": 1840,
+    "int": 444,
+    "bik": 270,
+    "kor": 182,
+    "twn": 182,
+    "bin": 86,
+    "tfc": 72,
+    "pck": 68,
+    "txt": 55,
+    "ini": 34,
+    "mdmp": 4,
+    "exe": 2,
+    "blcm": 1,
+    "lnk": 1,
+    "ico": 1,
+    "xml": 1,
+    "dll": 1,
+    "rtf": 1,
+    "pyd": 1,
+    "gz": 1
+  },
+  "only_tps_ext": {
+    "upk": 1393,
+    "kor": 1221,
+    "rus": 1206,
+    "jpn": 1084,
+    "deu": 1083,
+    "esn": 1083,
+    "fra": 1083,
+    "ita": 1083,
+    "png": 278,
+    "jpg": 152,
+    "int": 150,
+    "pck": 64,
+    "txt": 40,
+    "bik": 25,
+    "bin": 19,
+    "tfc": 17,
+    "json": 14,
+    "chn": 14,
+    "cze": 14,
+    "esm": 14,
+    "hun": 14,
+    "pol": 14,
+    "ptb": 14,
+    "slo": 14,
+    "ini": 10,
+    "mdmp": 9,
+    "uncompressed_size": 7,
+    "js": 7,
+    "usf": 3,
+    "exe": 2
+  },
+  "hashed_compared": 204,
+  "hashed_identical": 126,
+  "hashed_different": 78,
+  "hash_rows": [
+    {
+      "path": "binaries/win32/apex_clothing_legacy_x86.dll",
+      "bl2": 380928,
+      "tps": 380928,
+      "bl2_sha256": "8bab87a21ead9220f99ffd07b32d36296b9844cf97f6a5682d61074dbcb54d1e",
+      "tps_sha256": "8bab87a21ead9220f99ffd07b32d36296b9844cf97f6a5682d61074dbcb54d1e",
+      "identical": true
+    },
+    {
+      "path": "binaries/win32/apex_clothing_x86.dll",
+      "bl2": 989696,
+      "tps": 989696,
+      "bl2_sha256": "00ceabc6c2566970163062debdb7b5c112b4af373a8683c9ae4456a1d3959f0c",
+      "tps_sha256": "00ceabc6c2566970163062debdb7b5c112b4af373a8683c9ae4456a1d3959f0c",
+      "identical": true
+    },
+    {
+      "path": "binaries/win32/apex_destructible_legacy_x86.dll",
+      "bl2": 297984,
+      "tps": 297984,
+      "bl2_sha256": "4a917f99daa6c80c4b52ea69594723ac9155372a697b23d11700b9ab18140d60",
+      "tps_sha256": "4a917f99daa6c80c4b52ea69594723ac9155372a697b23d11700b9ab18140d60",
+      "identical": true
+    },
+    {
+      "path": "binaries/win32/apex_destructible_x86.dll",
+      "bl2": 1001472,
+      "tps": 1001472,
+      "bl2_sha256": "67d6170901a1ff7f88b27248d304523baec542c0ee10537c82d53dea9d928888",
+      "tps_sha256": "67d6170901a1ff7f88b27248d304523baec542c0ee10537c82d53dea9d928888",
+      "identical": true
+    },
+    {
+      "path": "binaries/win32/apexframework_x86.dll",
+      "bl2": 962560,
+      "tps": 962560,
+      "bl2_sha256": "1b5972dc039285ee9256af7e0c320aceae2205cff203033a071e064f516df88d",
+      "tps_sha256": "1b5972dc039285ee9256af7e0c320aceae2205cff203033a071e064f516df88d",
+      "identical": true
+    },
+    {
+      "path": "binaries/win32/bifrost.dll",
+      "bl2": 8488448,
+      "tps": 8488448,
+      "bl2_sha256": "83be32e90b54b8e49adcac04f9a8cdcae3653b6ef445cb47a8ebf6906d0dff85",
+      "tps_sha256": "83be32e90b54b8e49adcac04f9a8cdcae3653b6ef445cb47a8ebf6906d0dff85",
+      "identical": true
+    },
+    {
+      "path": "binaries/win32/bink2w32.dll",
+      "bl2": 304128,
+      "tps": 304128,
+      "bl2_sha256": "140397399714b7b281cc76c1ea56e3f02f28d2b39fe00ea143b315a303997a17",
+      "tps_sha256": "140397399714b7b281cc76c1ea56e3f02f28d2b39fe00ea143b315a303997a17",
+      "identical": true
+    },
+    {
+      "path": "binaries/win32/binkw32.dll",
+      "bl2": 226816,
+      "tps": 226816,
+      "bl2_sha256": "6ab83cf92e67020d8571656d3776e6e3747cc787f7894e6907afc4e233c98cd8",
+      "tps_sha256": "6ab83cf92e67020d8571656d3776e6e3747cc787f7894e6907afc4e233c98cd8",
+      "identical": true
+    },
+    {
+      "path": "binaries/win32/cudart.dll",
+      "bl2": 199200,
+      "tps": 199200,
+      "bl2_sha256": "d231f1aa9841dd5d7c33540a70a596f992b25c21d22692532a67138f7fa267f4",
+      "tps_sha256": "d231f1aa9841dd5d7c33540a70a596f992b25c21d22692532a67138f7fa267f4",
+      "identical": true
+    },
+    {
+      "path": "binaries/win32/cudart32_30_9.dll",
+      "bl2": 290408,
+      "tps": 290408,
+      "bl2_sha256": "b35f4df507041d38984c796627a93ed378bd7be5631ac9a7046fdeb84ab689d6",
+      "tps_sha256": "b35f4df507041d38984c796627a93ed378bd7be5631ac9a7046fdeb84ab689d6",
+      "identical": true
+    },
+    {
+      "path": "binaries/win32/cudart32_41_22.dll",
+      "bl2": 431616,
+      "tps": 431616,
+      "bl2_sha256": "174e9c53d5d4a0e6d368eebf63280ad949d954131597d33b2be9687c069c598f",
+      "tps_sha256": "174e9c53d5d4a0e6d368eebf63280ad949d954131597d33b2be9687c069c598f",
+      "identical": true
+    },
+    {
+      "path": "binaries/win32/dbghelp.dll",
+      "bl2": 1069584,
+      "tps": 1069584,
+      "bl2_sha256": "cbc2285624088f24550bac9e5c56624ca72f1c3cba3bd51e55f50aafa409581c",
+      "tps_sha256": "cbc2285624088f24550bac9e5c56624ca72f1c3cba3bd51e55f50aafa409581c",
+      "identical": true
+    },
+    {
+      "path": "binaries/win32/ddraw.dll",
+      "bl2": 53248,
+      "tps": 53248,
+      "bl2_sha256": "8700509ac7b502d3680dd47897e6c5af90ddb48eb607f4c3322d787d096c0c64",
+      "tps_sha256": "8700509ac7b502d3680dd47897e6c5af90ddb48eb607f4c3322d787d096c0c64",
+      "identical": true
+    },
+    {
+      "path": "binaries/win32/de-de/launcher.resources.dll",
+      "bl2": 106496,
+      "tps": 217088,
+      "bl2_sha256": "f8f7e5b10280cec18f02c9d689d0b7cdbb43ca327e006cedf3f3683a11283646",
+      "tps_sha256": "a7688e2fc36aeca13fc63bb91d226e2a47fae7b5794e2f17d0266d34c7002db8",
+      "identical": false
+    },
+    {
+      "path": "binaries/win32/easyhook32.dll",
+      "bl2": 79360,
+      "tps": 79360,
+      "bl2_sha256": "f665573313fba87556e225e7d933dec0368d44fbfa601ffff59eda8917729d61",
+      "tps_sha256": "f665573313fba87556e225e7d933dec0368d44fbfa601ffff59eda8917729d61",
+      "identical": true
+    },
+    {
+      "path": "binaries/win32/en-us/launcher.resources.dll",
+      "bl2": 96768,
+      "tps": 205312,
+      "bl2_sha256": "211ed05cc5eea26ddd60def23b0af19d1b7a53c7cbde483b1235409b05efa84f",
+      "tps_sha256": "dd5a832252b6fe3bb5a34edc35a30263b82e4d862cc8f5b5670032ade9384fa4",
+      "identical": false
+    },
+    {
+      "path": "binaries/win32/es-es/launcher.resources.dll",
+      "bl2": 106496,
+      "tps": 217088,
+      "bl2_sha256": "bf8506b96f270d53bbf4894081fb4d8d3ac16602989392d4b7931bdcbde8ba80",
+      "tps_sha256": "01ae02e51f20c935b6718c516bb53fcd1a01e60dcea46096c6e2f0990a4c5f7a",
+      "identical": false
+    },
+    {
+      "path": "binaries/win32/fbxsdk_20113_1.dll",
+      "bl2": 5743616,
+      "tps": 5743616,
+      "bl2_sha256": "c92b8d6077d8b40a8e7940a6399b15c7061c156b8f168d051b9cce20964b8ef8",
+      "tps_sha256": "c92b8d6077d8b40a8e7940a6399b15c7061c156b8f168d051b9cce20964b8ef8",
+      "identical": true
+    },
+    {
+      "path": "binaries/win32/fbxsdk_20113_1d.dll",
+      "bl2": 12736000,
+      "tps": 12736000,
+      "bl2_sha256": "163d55cc8d4e847e1d78c3e06e31709ed05ce6d7737a8b579fb2d0e69100a1a0",
+      "tps_sha256": "163d55cc8d4e847e1d78c3e06e31709ed05ce6d7737a8b579fb2d0e69100a1a0",
+      "identical": true
+    },
+    {
+      "path": "binaries/win32/fr-fr/launcher.resources.dll",
+      "bl2": 106496,
+      "tps": 217088,
+      "bl2_sha256": "e0dcf847a0640afab63129327b25b84aa7b8ca7f8086a6ecb6b3de76d0819abf",
+      "tps_sha256": "90ef1949d0382b5595a153e38879485cc42c1694ab9e2f5cf903b1265d77da27",
+      "identical": false
+    },
+    {
+      "path": "binaries/win32/it-it/launcher.resources.dll",
+      "bl2": 106496,
+      "tps": 217088,
+      "bl2_sha256": "cf542c780c6db80634c8eecf69e6f479d5a89908f7f71e26440e1ed83bf7b465",
+      "tps_sha256": "9981ffdafe983ad159d0d9c1e5a3e2bcd88f88b5cb69bfe5eefdcf7bb261656f",
+      "identical": false
+    },
+    {
+      "path": "binaries/win32/ja-jp/launcher.resources.dll",
+      "bl2": 106496,
+      "tps": 217088,
+      "bl2_sha256": "c693c79ef4aef23f1372e3ce048d46cf19cec554bd3b4e7ac145ab392f7a7e1a",
+      "tps_sha256": "ed373de781dc39dcc767f2f118257d6fd9dc61de723c4c9b579b9ee43d50fa06",
+      "identical": false
+    },
+    {
+      "path": "binaries/win32/ko-kr/launcher.resources.dll",
+      "bl2": 106496,
+      "tps": 217088,
+      "bl2_sha256": "2ba537813b7141f2cbad78c6642fcf17b0da7311a5cf1326c6a9d9dbaad6fa8f",
+      "tps_sha256": "5f9350f6cc1b2552e43f4cea91557585b9956b1f30fea443b8652197deb55605",
+      "identical": false
+    },
+    {
+      "path": "binaries/win32/launcher.content.dll",
+      "bl2": 680960,
+      "tps": 924672,
+      "bl2_sha256": "eb42ec9cc1859c79a3dbed3d51d95fd10f0c88ae67decaad23e7fcf8ada2c972",
+      "tps_sha256": "c6ae84282152d0efcb883f6c47ab0627f4b5ed7128e0fa79f8be6f5c7ce8cfce",
+      "identical": false
+    },
+    {
+      "path": "binaries/win32/launcher.exe",
+      "bl2": 118616,
+      "tps": 227672,
+      "bl2_sha256": "30a8f40539514b56ea22f51ba02867d7fdbca4c1889e56e5423ec6c50f61fcdc",
+      "tps_sha256": "593d8f0429544f0bd7dca39b0ec3e7ee32badcf4162844c4a81394fd7859539c",
+      "identical": false
+    },
+    {
+      "path": "binaries/win32/microsoft.xna.framework.dll",
+      "bl2": 679424,
+      "tps": 679424,
+      "bl2_sha256": "38e7093f52d7474bbc6256906519781a1210d7da50a1c667b52716fcf49ca130",
+      "tps_sha256": "38e7093f52d7474bbc6256906519781a1210d7da50a1c667b52716fcf49ca130",
+      "identical": true
+    },
+    {
+      "path": "binaries/win32/mmoverlay/fonts/license_ofl.txt",
+      "bl2": 4393,
+      "tps": 4393,
+      "bl2_sha256": "88f117575237307bdd86a17ef15e21790fc9a662fe4dfb103ca1ca077f0d9982",
+      "tps_sha256": "88f117575237307bdd86a17ef15e21790fc9a662fe4dfb103ca1ca077f0d9982",
+      "identical": true
+    },
+    {
+      "path": "binaries/win32/mmoverlay/fonts/ofl.txt",
+      "bl2": 4498,
+      "tps": 4498,
+      "bl2_sha256": "befc3894e43954cea768dab03df0be09aef36d861c8fd5759b1d36272b749ad4",
+      "tps_sha256": "befc3894e43954cea768dab03df0be09aef36d861c8fd5759b1d36272b749ad4",
+      "identical": true
+    },
+    {
+      "path": "binaries/win32/nvtt.dll",
+      "bl2": 103424,
+      "tps": 103424,
+      "bl2_sha256": "3d67a245abed98628da7091c1bd2f57403f00058bc5857752d316cb65fdede4b",
+      "tps_sha256": "3d67a245abed98628da7091c1bd2f57403f00058bc5857752d316cb65fdede4b",
+      "identical": true
+    },
+    {
+      "path": "binaries/win32/nxcharacter.dll",
+      "bl2": 102400,
+      "tps": 102400,
+      "bl2_sha256": "fea108710ae4a8b98ab12f3a1bf1dd6084818dafd6dbb7ca002c924950e6a0d2",
+      "tps_sha256": "3d6364d8456850df0e64685ec6763b9857e02bc51c8048e44f6059f7b44b48a1",
+      "identical": false
+    },
+    {
+      "path": "binaries/win32/overlaylocs.txt",
+      "bl2": 33034,
+      "tps": 33538,
+      "bl2_sha256": "7880abc5d895c694bac3d04fa43b859815a6fb4b4405f1882b4a2e85ab71f25f",
+      "tps_sha256": "a785da6ef4ea93d57ed95d5d7a9c46bfd740296e5b6aa08307a907b794023374",
+      "identical": false
+    },
+    {
+      "path": "binaries/win32/physxcooking.dll",
+      "bl2": 377856,
+      "tps": 378880,
+      "bl2_sha256": "aa707ef61bc18160d5ffcc9b265088884a4f44d2596a75452c6129dabee4ee77",
+      "tps_sha256": "0abb348730218f4bff20fb0b3bfb65bb38968d8fd741c45148d035a9342c6e8a",
+      "identical": false
+    },
+    {
+      "path": "binaries/win32/physxcore.dll",
+      "bl2": 4318208,
+      "tps": 4029440,
+      "bl2_sha256": "0a3cbcbd17febd22c354510e5bfcd24fe2660e8b86601406ed229cb4f4e7b164",
+      "tps_sha256": "2b84f8c89fb688ae9313681e8c04bcc652d45a0d316972ed7d92b7cbd77f2914",
+      "identical": false
+    },
+    {
+      "path": "binaries/win32/physxdevice.dll",
+      "bl2": 65536,
+      "tps": 65536,
+      "bl2_sha256": "6b9f40f2da693b935163935c7ab56847bf11f7160f5b268c4e4881d2973d9cb7",
+      "tps_sha256": "6b9f40f2da693b935163935c7ab56847bf11f7160f5b268c4e4881d2973d9cb7",
+      "identical": true
+    },
+    {
+      "path": "binaries/win32/physxextensions.dll",
+      "bl2": 147968,
+      "tps": 148480,
+      "bl2_sha256": "b04c6adac65712eb9a7be470ccbfb5ed96e7f6a1369e5dfcbe79e9825e627ee5",
+      "tps_sha256": "1a0340ce2fec52612107a2943525bfaf53efa19269492641484432b964a552ed",
+      "identical": false
+    },
+    {
+      "path": "binaries/win32/physxloader.dll",
+      "bl2": 58880,
+      "tps": 58880,
+      "bl2_sha256": "cadd014e68d2edae4e9285594fd7ae1ba7254d7994509854c1fabfbf7535746c",
+      "tps_sha256": "1c880b04f69fe7ec4c1db9ddd56a8cb019a42dd70475e41e42539a2c25a84ccf",
+      "identical": false
+    },
+    {
+      "path": "binaries/win32/plugins/dlls/libcrypto-3.dll",
+      "bl2": 4215544,
+      "tps": 4215544,
+      "bl2_sha256": "8d7a4fa1cf74d57d61ae20f1f4e2f80113b26c1215c685deaff7a5ce94a2dfbb",
+      "tps_sha256": "8d7a4fa1cf74d57d61ae20f1f4e2f80113b26c1215c685deaff7a5ce94a2dfbb",
+      "identical": true
+    },
+    {
+      "path": "binaries/win32/plugins/dlls/libffi-8.dll",
+      "bl2": 35088,
+      "tps": 35088,
+      "bl2_sha256": "b982741576a050860c3f3608c7b269dbd35ab296429192b8afa53f1f190069c0",
+      "tps_sha256": "b982741576a050860c3f3608c7b269dbd35ab296429192b8afa53f1f190069c0",
+      "identical": true
+    },
+    {
+      "path": "binaries/win32/plugins/dlls/libssl-3.dll",
+      "bl2": 1075448,
+      "tps": 1075448,
+      "bl2_sha256": "96e50d4afbf750bdddcc00eed995da9cbf09125248dbccf1eda17c4844950600",
+      "tps_sha256": "96e50d4afbf750bdddcc00eed995da9cbf09125248dbccf1eda17c4844950600",
+      "identical": true
+    },
+    {
+      "path": "binaries/win32/plugins/dlls/sqlite3.dll",
+      "bl2": 1297120,
+      "tps": 1297120,
+      "bl2_sha256": "a11f7edcfdcbf67ecccdbf6bd6776229a608ae7cd6d3d53f891c609cf69ee024",
+      "tps_sha256": "a11f7edcfdcbf67ecccdbf6bd6776229a608ae7cd6d3d53f891c609cf69ee024",
+      "identical": true
+    },
+    {
+      "path": "binaries/win32/plugins/dlls/tcl86t.dll",
+      "bl2": 1439968,
+      "tps": 1439968,
+      "bl2_sha256": "6a3e21f838f33fda382ddb35b809bc6c0281dc51ec323373acb95f05639f534e",
+      "tps_sha256": "6a3e21f838f33fda382ddb35b809bc6c0281dc51ec323373acb95f05639f534e",
+      "identical": true
+    },
+    {
+      "path": "binaries/win32/plugins/dlls/tk86t.dll",
+      "bl2": 1282784,
+      "tps": 1282784,
+      "bl2_sha256": "a5c90e2d4dd8410e579b8a96120b7bc42cebcaceb00f80fad097d62632c8b32e",
+      "tps_sha256": "a5c90e2d4dd8410e579b8a96120b7bc42cebcaceb00f80fad097d62632c8b32e",
+      "identical": true
+    },
+    {
+      "path": "binaries/win32/plugins/dlls/zlib1.dll",
+      "bl2": 136928,
+      "tps": 136928,
+      "bl2_sha256": "301bfdab987bd21dca3066cea3ae554341816bbb35d48789fee03562c8b4cf1b",
+      "tps_sha256": "301bfdab987bd21dca3066cea3ae554341816bbb35d48789fee03562c8b4cf1b",
+      "identical": true
+    },
+    {
+      "path": "binaries/win32/plugins/python3.dll",
+      "bl2": 73440,
+      "tps": 73440,
+      "bl2_sha256": "a8dca7db879ada486d5d14c8c783c9d063f6caca2ef8376b3f6423593d8b1654",
+      "tps_sha256": "a8dca7db879ada486d5d14c8c783c9d063f6caca2ef8376b3f6423593d8b1654",
+      "identical": true
+    },
+    {
+      "path": "binaries/win32/plugins/python314.dll",
+      "bl2": 5892320,
+      "tps": 5892320,
+      "bl2_sha256": "a91196b90f3e2b9b1e5bea226f3a2f904705d67085fabe5a3655300ceea06ea0",
+      "tps_sha256": "a91196b90f3e2b9b1e5bea226f3a2f904705d67085fabe5a3655300ceea06ea0",
+      "identical": true
+    },
+    {
+      "path": "binaries/win32/plugins/pyunrealsdk.dll",
+      "bl2": 1212416,
+      "tps": 1212416,
+      "bl2_sha256": "a1c4647367dd4828d6e3b87e9c8fad131d8c1fd6179512105c9631033aad652a",
+      "tps_sha256": "a1c4647367dd4828d6e3b87e9c8fad131d8c1fd6179512105c9631033aad652a",
+      "identical": true
+    },
+    {
+      "path": "binaries/win32/plugins/unrealsdk.dll",
+      "bl2": 708096,
+      "tps": 708096,
+      "bl2_sha256": "7921eca8e44d30db08d9741b70cfe8a19904cd52049f4a5ff98b0b0a88e2c05c",
+      "tps_sha256": "7921eca8e44d30db08d9741b70cfe8a19904cd52049f4a5ff98b0b0a88e2c05c",
+      "identical": true
+    },
+    {
+      "path": "binaries/win32/protobuf-net.dll",
+      "bl2": 159232,
+      "tps": 159232,
+      "bl2_sha256": "d5471dd3ffdc51b5e149a51ec14e48ccb3567a6003747831c6847edb99da1f05",
+      "tps_sha256": "d5471dd3ffdc51b5e149a51ec14e48ccb3567a6003747831c6847edb99da1f05",
+      "identical": true
+    },
+    {
+      "path": "binaries/win32/steam_api.dll",
+      "bl2": 105808,
+      "tps": 105808,
+      "bl2_sha256": "b55054a9d9287c704b8e0ad3acfef1ea5c3fa6982b20b7e36466dc76a6ad8925",
+      "tps_sha256": "b55054a9d9287c704b8e0ad3acfef1ea5c3fa6982b20b7e36466dc76a6ad8925",
+      "identical": true
+    },
+    {
+      "path": "binaries/win32/steam_appid.txt",
+      "bl2": 5,
+      "tps": 7,
+      "bl2_sha256": "6bc5527ae753e8db34945ff7eedf727dfbe5a5e47471d42cbbb41a18aa36c5f0",
+      "tps_sha256": "16cc708184f0593cf49f2ee4e94af95b88311cbab32be7caee221e956aa2a11a",
+      "identical": false
+    },
+    {
+      "path": "binaries/win32/steamwrapper.dll",
+      "bl2": 88576,
+      "tps": 88576,
+      "bl2_sha256": "009f640264b41ddabf6379c1d68e59c16aef3753adf74f06f7bf403e76aa237b",
+      "tps_sha256": "f77d439cdcf9dc4b8da4b8e4289917119f2ee16cc7ec04d7e3ce46480ee34ebe",
+      "identical": false
+    },
+    {
+      "path": "engine/config/basecompat.ini",
+      "bl2": 20028,
+      "tps": 21806,
+      "bl2_sha256": "82efb35bba00f08d9cbfd86f66031822910e08b9b641741fb62585c16191f3c0",
+      "tps_sha256": "3bfa01547619f2d5fc56db722615991f49d2afbbb1202691f3340ab6429827a8",
+      "identical": false
+    },
+    {
+      "path": "engine/config/baseeditorkeybindings.ini",
+      "bl2": 5372,
+      "tps": 5372,
+      "bl2_sha256": "76691f1eb40832f7b5ec00509ac4e1817d6f450c106b98ad8fd1f4ce5ad43a40",
+      "tps_sha256": "3ee876ebab8800f9a57036ace86ad17a66df4c5c878a6c6dfdac1fe494b157ec",
+      "identical": false
+    },
+    {
+      "path": "engine/config/baseeditorusersettings.ini",
+      "bl2": 10918,
+      "tps": 10918,
+      "bl2_sha256": "43c9b6ca10abc1457f8e423988761fc91b3389858d39fa2cb6ee9f45c18acd35",
+      "tps_sha256": "5a270c0651d55eec9be4f794fea4ca9ed43c81853f2a29dce519fd59600512c3",
+      "identical": false
+    },
+    {
+      "path": "engine/config/baseengine.ini",
+      "bl2": 42937,
+      "tps": 43057,
+      "bl2_sha256": "b9dec7d305d17609b53ee6a3d2ddad7c116a621b6e8538f0b0eef9b8a26c9f86",
+      "tps_sha256": "ee4a24f91c73bc75fffa898ce76c7f8cf4e7f7e297469148443510a732033bfa",
+      "identical": false
+    },
+    {
+      "path": "engine/config/basegame.ini",
+      "bl2": 2327,
+      "tps": 2355,
+      "bl2_sha256": "14600507a3864f032c51cdf706e41c99c1b74db0ef7c1c1c583fdfdbd4d9c6f5",
+      "tps_sha256": "1fc576b4c3f8ed6cebb4d67730a61aa07e8a0b791ae4eeb0920685d40d996d9d",
+      "identical": false
+    },
+    {
+      "path": "engine/config/baseinput.ini",
+      "bl2": 26863,
+      "tps": 27038,
+      "bl2_sha256": "e2cefa77557909a9fdb5ea8dc9defb3c883eea8365edb85474bca9cf7671b025",
+      "tps_sha256": "ffb945bf98591e2a9fb45dfbc7aa48db8f55294271bbc3cc00b37820ae97724f",
+      "identical": false
+    },
+    {
+      "path": "sdk_mods/.stubs/license",
+      "bl2": 7817,
+      "tps": 7817,
+      "bl2_sha256": "7d3a95e5e06978064ed3f8e2b7c8f845e7fd8a405294727cc708f94cb83b8059",
+      "tps_sha256": "7d3a95e5e06978064ed3f8e2b7c8f845e7fd8a405294727cc708f94cb83b8059",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/.stubs/pyunrealsdk/__init__.pyi",
+      "bl2": 282,
+      "tps": 282,
+      "bl2_sha256": "f06c67799a516538913e712296a1684665b17b42c624f357776fa7c468ce4dda",
+      "tps_sha256": "f06c67799a516538913e712296a1684665b17b42c624f357776fa7c468ce4dda",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/.stubs/unrealsdk/__init__.pyi",
+      "bl2": 4029,
+      "tps": 4029,
+      "bl2_sha256": "bb9b5b3ce51426d9f230bb4d12ca82c400be6923105183dea1dc3bbe3442196d",
+      "tps_sha256": "bb9b5b3ce51426d9f230bb4d12ca82c400be6923105183dea1dc3bbe3442196d",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/.stubs/unrealsdk/commands/__init__.pyi",
+      "bl2": 2145,
+      "tps": 2145,
+      "bl2_sha256": "321a941aa1ab69d2753d183fd77ba70428ff18441ecc49b767a0bcac3e5ee27d",
+      "tps_sha256": "321a941aa1ab69d2753d183fd77ba70428ff18441ecc49b767a0bcac3e5ee27d",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/.stubs/unrealsdk/hooks/__init__.pyi",
+      "bl2": 6284,
+      "tps": 6284,
+      "bl2_sha256": "21589d306dc34fe61ce5f7b0b47b62167a6e8f767d3c84283c4757fc27312ab7",
+      "tps_sha256": "21589d306dc34fe61ce5f7b0b47b62167a6e8f767d3c84283c4757fc27312ab7",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/.stubs/unrealsdk/logging/__init__.pyi",
+      "bl2": 3949,
+      "tps": 3949,
+      "bl2_sha256": "e23dc517428b1707412a85cc4ac11c804f3bbae35122e79863e9a0a4e9a51895",
+      "tps_sha256": "e23dc517428b1707412a85cc4ac11c804f3bbae35122e79863e9a0a4e9a51895",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/.stubs/unrealsdk/unreal/__init__.pyi",
+      "bl2": 4643,
+      "tps": 4643,
+      "bl2_sha256": "e5695ad50c14b0cf6f79fa1a74eb8ffd7d0630321f2b53e9f31ac64088c856ed",
+      "tps_sha256": "e5695ad50c14b0cf6f79fa1a74eb8ffd7d0630321f2b53e9f31ac64088c856ed",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/.stubs/unrealsdk/unreal/_bound_function.pyi",
+      "bl2": 1635,
+      "tps": 1635,
+      "bl2_sha256": "aede5345048c0b32b7e0bc0ccd57fca5fa29c1227113f0a4ee7f30d469d64546",
+      "tps_sha256": "aede5345048c0b32b7e0bc0ccd57fca5fa29c1227113f0a4ee7f30d469d64546",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/.stubs/unrealsdk/unreal/_experimental.pyi",
+      "bl2": 7965,
+      "tps": 7965,
+      "bl2_sha256": "1f1fb96773e851a3f27e59caa3acc940e95219ffbffe0830dc43125a99f8ba2d",
+      "tps_sha256": "1f1fb96773e851a3f27e59caa3acc940e95219ffbffe0830dc43125a99f8ba2d",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/.stubs/unrealsdk/unreal/_uenum.pyi",
+      "bl2": 1242,
+      "tps": 1242,
+      "bl2_sha256": "3eb834d2e1cc50b50a246e1898d8a40eed7006482c6fe095e5acc069fc074736",
+      "tps_sha256": "3eb834d2e1cc50b50a246e1898d8a40eed7006482c6fe095e5acc069fc074736",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/.stubs/unrealsdk/unreal/_uobject.pyi",
+      "bl2": 4546,
+      "tps": 4546,
+      "bl2_sha256": "a73e55d17aa605ee20540d542a68b817d84614aaeb4c47aa5804e435f58b12b3",
+      "tps_sha256": "a73e55d17aa605ee20540d542a68b817d84614aaeb4c47aa5804e435f58b12b3",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/.stubs/unrealsdk/unreal/_uobject_children.pyi",
+      "bl2": 9904,
+      "tps": 9904,
+      "bl2_sha256": "c868cda153981b5d779d7873572db131edc3990696d719c8646f114cd56f1887",
+      "tps_sha256": "c868cda153981b5d779d7873572db131edc3990696d719c8646f114cd56f1887",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/.stubs/unrealsdk/unreal/_uobject_children_deprecated.pyi",
+      "bl2": 6327,
+      "tps": 6327,
+      "bl2_sha256": "9738d979fcebcb4a785ceed1d82c88bd143c97bc751d78fcdca17a97ba7e8dd8",
+      "tps_sha256": "9738d979fcebcb4a785ceed1d82c88bd143c97bc751d78fcdca17a97ba7e8dd8",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/.stubs/unrealsdk/unreal/_weak_pointer.pyi",
+      "bl2": 1925,
+      "tps": 1925,
+      "bl2_sha256": "c62b7163d66d6b571cfbea0c2c66a0b32e6ebb7e4b3981e1409ce719872e2b9c",
+      "tps_sha256": "c62b7163d66d6b571cfbea0c2c66a0b32e6ebb7e4b3981e1409ce719872e2b9c",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/.stubs/unrealsdk/unreal/_wrapped_array.pyi",
+      "bl2": 8118,
+      "tps": 8118,
+      "bl2_sha256": "978bd8d9e3af88834e283f52a5d1f57e821645ba26271ee97becd3e3fd638a5f",
+      "tps_sha256": "978bd8d9e3af88834e283f52a5d1f57e821645ba26271ee97becd3e3fd638a5f",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/.stubs/unrealsdk/unreal/_wrapped_multicast_delegate.pyi",
+      "bl2": 2798,
+      "tps": 2798,
+      "bl2_sha256": "5430597e7d4e28c734080fb4a72f9a7b1e418575245f353c6ad37a738dce0993",
+      "tps_sha256": "5430597e7d4e28c734080fb4a72f9a7b1e418575245f353c6ad37a738dce0993",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/.stubs/unrealsdk/unreal/_wrapped_struct.pyi",
+      "bl2": 3742,
+      "tps": 3742,
+      "bl2_sha256": "0e3e36ee151d8c656df37a082bd3797faf6f68c35664b0819304924a6eee7718",
+      "tps_sha256": "0e3e36ee151d8c656df37a082bd3797faf6f68c35664b0819304924a6eee7718",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/__main__.py",
+      "bl2": 25481,
+      "tps": 25481,
+      "bl2_sha256": "137f78389b7c8b8e73334856666a3e1d8b044dc92efa35a61292c1f138af4b47",
+      "tps_sha256": "137f78389b7c8b8e73334856666a3e1d8b044dc92efa35a61292c1f138af4b47",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/autopickuptweaks.sdkmod",
+      "bl2": 3133,
+      "tps": 3133,
+      "bl2_sha256": "6938dc08abbcbc916f76bcc17137216151db94f1082efd9b6bd202de3652dceb",
+      "tps_sha256": "6938dc08abbcbc916f76bcc17137216151db94f1082efd9b6bd202de3652dceb",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/command_extensions/__init__.py",
+      "bl2": 11389,
+      "tps": 11389,
+      "bl2_sha256": "c1bd10b58720cecd3c48f667691ca50948c91f08f27f1cf91304b41157321655",
+      "tps_sha256": "c1bd10b58720cecd3c48f667691ca50948c91f08f27f1cf91304b41157321655",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/command_extensions/__pycache__/__init__.cpython-314.pyc",
+      "bl2": 16498,
+      "tps": 16505,
+      "bl2_sha256": "913ff87596c86d7e981b0ecc8747281ee0d475d761cc2978c645a4093e0bcb39",
+      "tps_sha256": "3d8bcff5bad3c05fa5cf37da4b3627116404a753d90aed8042d1b2e7953737d4",
+      "identical": false
+    },
+    {
+      "path": "sdk_mods/command_extensions/__pycache__/ce_legacy_compat.cpython-314.pyc",
+      "bl2": 2922,
+      "tps": 2929,
+      "bl2_sha256": "eddb0de72b5b58991e8368852045d75bf6c219345d094e60b3c6b6e2eb3cf751",
+      "tps_sha256": "a82aa76a8ee8e72e106aa2847a23aa1b5c9c31c9730dc6fd5de6a47711fc70af",
+      "identical": false
+    },
+    {
+      "path": "sdk_mods/command_extensions/__pycache__/ce_legacy_compat_builtins.cpython-314.pyc",
+      "bl2": 1241,
+      "tps": 1248,
+      "bl2_sha256": "bc6015ca167e1cbb1755e8d3e0bc3b91a5f69687c57b4c9e1e1db4a65bc9c07e",
+      "tps_sha256": "a69e16e42c2ab50ef896960cb6d5823ae7928575baf4ddcb8ed9df4ab594fb9c",
+      "identical": false
+    },
+    {
+      "path": "sdk_mods/command_extensions/builtins/__init__.py",
+      "bl2": 1985,
+      "tps": 1985,
+      "bl2_sha256": "f3e8829200b2cc3bc125c2bbf7716046eb833f781addc31e99a487b3d252c551",
+      "tps_sha256": "f3e8829200b2cc3bc125c2bbf7716046eb833f781addc31e99a487b3d252c551",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/command_extensions/builtins/__pycache__/__init__.cpython-314.pyc",
+      "bl2": 3029,
+      "tps": 3036,
+      "bl2_sha256": "4813ad90213c2b5a47176de0131ed597482c511a5227c1e0630b950b2da055f3",
+      "tps_sha256": "aa8cddd23f6fd1521f90a9ecce419d3367676ea2379f5c999874f255cc6be3bc",
+      "identical": false
+    },
+    {
+      "path": "sdk_mods/command_extensions/builtins/__pycache__/chat.cpython-314.pyc",
+      "bl2": 1960,
+      "tps": 1967,
+      "bl2_sha256": "63740e99cf4dae0a7825956bf624634de73fc47a3d403401a3499256877dd9dc",
+      "tps_sha256": "a17cedfc01bd638cc4601d6c21d77087d371fda581c70c85a1a7056cb3032d4c",
+      "identical": false
+    },
+    {
+      "path": "sdk_mods/command_extensions/builtins/__pycache__/clone.cpython-314.pyc",
+      "bl2": 6308,
+      "tps": 6315,
+      "bl2_sha256": "d742953d0da5a9a0f21146176eeb9550d6ab09f87e09f78c7f11625d9fd418df",
+      "tps_sha256": "290d38a92542f276308921727883eb0d0f1c868b2ba20bee5cc836f3ec189091",
+      "identical": false
+    },
+    {
+      "path": "sdk_mods/command_extensions/builtins/__pycache__/clone_bpd.cpython-314.pyc",
+      "bl2": 6632,
+      "tps": 6639,
+      "bl2_sha256": "6463caff3f6b9562eff3bd2ec283763ceb8317acd074650884ff567c4160f725",
+      "tps_sha256": "388e0c420e7c6cf723eefeebce01d66f370eeb73fc58963f23dac01d9f6f7207",
+      "identical": false
+    },
+    {
+      "path": "sdk_mods/command_extensions/builtins/__pycache__/exec_raw.cpython-314.pyc",
+      "bl2": 1454,
+      "tps": 1461,
+      "bl2_sha256": "47cb8f0078aabc0a9513c4d4b8cd03044844cb619707c9bf85135e16e9380bfd",
+      "tps_sha256": "7355e4998b914df2c9b1dcfd158fc7def0cc102798508f62cfdbccc23991e317",
+      "identical": false
+    },
+    {
+      "path": "sdk_mods/command_extensions/builtins/__pycache__/keep_alive.cpython-314.pyc",
+      "bl2": 1459,
+      "tps": 1466,
+      "bl2_sha256": "799377d9cdf62df81a4c902f76047a2bb92f5d58fc521ad560593b27fc108d2e",
+      "tps_sha256": "dcaff520fb8ef67afdb978998496e5aabb21063170f9b908feeb49a4ba77488e",
+      "identical": false
+    },
+    {
+      "path": "sdk_mods/command_extensions/builtins/__pycache__/load_package.cpython-314.pyc",
+      "bl2": 3301,
+      "tps": 3308,
+      "bl2_sha256": "82b871522b93864a6b148e490d3a8c4e3c506e7fdd0d734404a8cc374d77efec",
+      "tps_sha256": "7bc65bb6669c4071bd97b0b28da9d1a7dd50bf988aa0073752e35c66b360e66a",
+      "identical": false
+    },
+    {
+      "path": "sdk_mods/command_extensions/builtins/__pycache__/pyb.cpython-314.pyc",
+      "bl2": 6725,
+      "tps": 6732,
+      "bl2_sha256": "8c31ad46632a7b044f3f91f4262559f00d3365c73357fa93eac2f54c6a8410e8",
+      "tps_sha256": "e4270feb9fc1f47c138eebdc622bc2869894f4dc8600ad05a616b25bb6ae6e40",
+      "identical": false
+    },
+    {
+      "path": "sdk_mods/command_extensions/builtins/__pycache__/regen_balance.cpython-314.pyc",
+      "bl2": 12369,
+      "tps": 12376,
+      "bl2_sha256": "517b230c36202838deb1010406792b1909fbbdd02d7698a4bc58460a20e1eb51",
+      "tps_sha256": "75dca966338a4bdc0c06996318c483daf620916bba1b47b2a9ae08e22cde33d0",
+      "identical": false
+    },
+    {
+      "path": "sdk_mods/command_extensions/builtins/__pycache__/set_early.cpython-314.pyc",
+      "bl2": 1301,
+      "tps": 1308,
+      "bl2_sha256": "ba06a047a975e91c9cc54a330b03f5273a196a1614f035f87b79a0c911b3e364",
+      "tps_sha256": "b6caad7f7a877a3e6ba46171f5d0dc2fb48ad7b0cd79d0c968a21c4b6998ac10",
+      "identical": false
+    },
+    {
+      "path": "sdk_mods/command_extensions/builtins/__pycache__/suppress_chat.cpython-314.pyc",
+      "bl2": 3161,
+      "tps": 3168,
+      "bl2_sha256": "03c732b2fdee379aafa68447232f0b87711be426bffc85bb049d9954916b1791",
+      "tps_sha256": "512a9ca653f54fcfc0aa932eae4ffb9bf99c50e6ae9d4669cba46c9e4fdc5120",
+      "identical": false
+    },
+    {
+      "path": "sdk_mods/command_extensions/builtins/__pycache__/unlock_package.cpython-314.pyc",
+      "bl2": 1419,
+      "tps": 1426,
+      "bl2_sha256": "4888ff54c0b9a0c166776f971b58e5e6b0263eb194ce804f0276d915a330952b",
+      "tps_sha256": "2a9f3801c1d4c4ebbceab6a30df248419044f4bccfe7fc93f456a6c2c5f0d2c4",
+      "identical": false
+    },
+    {
+      "path": "sdk_mods/command_extensions/builtins/chat.py",
+      "bl2": 1167,
+      "tps": 1167,
+      "bl2_sha256": "3d676ed56078032f9c6b84bff39399dd803a8bf07c93f6c0b40d7ab0be3dc0cf",
+      "tps_sha256": "3d676ed56078032f9c6b84bff39399dd803a8bf07c93f6c0b40d7ab0be3dc0cf",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/command_extensions/builtins/clone.py",
+      "bl2": 4002,
+      "tps": 4002,
+      "bl2_sha256": "4b47b314197b062b8549903c0a031865ef7d96e20375c38f36e0493b9677a75a",
+      "tps_sha256": "4b47b314197b062b8549903c0a031865ef7d96e20375c38f36e0493b9677a75a",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/command_extensions/builtins/clone_bpd.py",
+      "bl2": 5359,
+      "tps": 5359,
+      "bl2_sha256": "b5c3ad8c075673f76b8f1a668ca075aa46985e879503d4a4d500d32846fa9812",
+      "tps_sha256": "b5c3ad8c075673f76b8f1a668ca075aa46985e879503d4a4d500d32846fa9812",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/command_extensions/builtins/exec_raw.py",
+      "bl2": 657,
+      "tps": 657,
+      "bl2_sha256": "cd408da927655abfd9330aeedb548d93b039ce014037f642b92ccccd97e1051d",
+      "tps_sha256": "cd408da927655abfd9330aeedb548d93b039ce014037f642b92ccccd97e1051d",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/command_extensions/builtins/keep_alive.py",
+      "bl2": 804,
+      "tps": 804,
+      "bl2_sha256": "ec315d32fff96ace6bdf84027cae3eceb5a01c47ae831e34469a7f14eb70d5f0",
+      "tps_sha256": "ec315d32fff96ace6bdf84027cae3eceb5a01c47ae831e34469a7f14eb70d5f0",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/command_extensions/builtins/load_package.py",
+      "bl2": 1899,
+      "tps": 1899,
+      "bl2_sha256": "d4438a54483cae1ea5fd441de87a3960057e8215d6eb504327692abb1dd5c948",
+      "tps_sha256": "d4438a54483cae1ea5fd441de87a3960057e8215d6eb504327692abb1dd5c948",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/command_extensions/builtins/pyb.py",
+      "bl2": 4068,
+      "tps": 4068,
+      "bl2_sha256": "958345703448fa55fa50b5d4dc98c3ef9e723c04da5cc9595a55d24bb3324352",
+      "tps_sha256": "958345703448fa55fa50b5d4dc98c3ef9e723c04da5cc9595a55d24bb3324352",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/command_extensions/builtins/regen_balance.py",
+      "bl2": 9956,
+      "tps": 9956,
+      "bl2_sha256": "4063a1a8fba2b6d9914a017dc8cc52789b414b160d79e87f7cdfcd0b46c4b136",
+      "tps_sha256": "4063a1a8fba2b6d9914a017dc8cc52789b414b160d79e87f7cdfcd0b46c4b136",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/command_extensions/builtins/set_early.py",
+      "bl2": 631,
+      "tps": 631,
+      "bl2_sha256": "f99b7560ae744cc6b9fedb42070136ed97ca5cf4263f61d79ddaf8366a33456e",
+      "tps_sha256": "f99b7560ae744cc6b9fedb42070136ed97ca5cf4263f61d79ddaf8366a33456e",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/command_extensions/builtins/suppress_chat.py",
+      "bl2": 1840,
+      "tps": 1840,
+      "bl2_sha256": "c1432291fc25e9bb5fc5b6726089f432dac81c035cf937b477f6e19df910f774",
+      "tps_sha256": "c1432291fc25e9bb5fc5b6726089f432dac81c035cf937b477f6e19df910f774",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/command_extensions/builtins/unlock_package.py",
+      "bl2": 735,
+      "tps": 735,
+      "bl2_sha256": "33e4525577018f97a6ec4cf2076b116d6592b7dc4581c13a21caa709a611c105",
+      "tps_sha256": "33e4525577018f97a6ec4cf2076b116d6592b7dc4581c13a21caa709a611c105",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/command_extensions/ce_legacy_compat.py",
+      "bl2": 1493,
+      "tps": 1493,
+      "bl2_sha256": "ba3a0f645877c5885fe79a7fee559def2810ae0baaac16903cedea5aa74b834f",
+      "tps_sha256": "ba3a0f645877c5885fe79a7fee559def2810ae0baaac16903cedea5aa74b834f",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/command_extensions/ce_legacy_compat_builtins.py",
+      "bl2": 417,
+      "tps": 417,
+      "bl2_sha256": "60087ed68c172b51f8bfb3b848515c4f61d8e8cb0b47dfdc38ed0b8e5e7557bc",
+      "tps_sha256": "60087ed68c172b51f8bfb3b848515c4f61d8e8cb0b47dfdc38ed0b8e5e7557bc",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/command_extensions/file_parser.pyd",
+      "bl2": 523264,
+      "tps": 523264,
+      "bl2_sha256": "16a4f21eac5f3de3ec5632de922abbda81eea6b603c785dba802138413f32700",
+      "tps_sha256": "16a4f21eac5f3de3ec5632de922abbda81eea6b603c785dba802138413f32700",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/command_extensions/file_parser.pyi",
+      "bl2": 1077,
+      "tps": 1077,
+      "bl2_sha256": "44c62f29f1dd7b48e3eb17f010f6b35cd378f9e8174e085318d3f4c179714a90",
+      "tps_sha256": "44c62f29f1dd7b48e3eb17f010f6b35cd378f9e8174e085318d3f4c179714a90",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/command_extensions/license",
+      "bl2": 35803,
+      "tps": 35803,
+      "bl2_sha256": "a0ee746064b06d09cab0768116ec265fd0d45261d4087c9ad2c698a07c7aac0e",
+      "tps_sha256": "a0ee746064b06d09cab0768116ec265fd0d45261d4087c9ad2c698a07c7aac0e",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/command_extensions/pyproject.toml",
+      "bl2": 757,
+      "tps": 757,
+      "bl2_sha256": "90c80de9f641047e08b983d261c0dab737c0826f1840630d190984a9f6f782ec",
+      "tps_sha256": "90c80de9f641047e08b983d261c0dab737c0826f1840630d190984a9f6f782ec",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/command_extensions/readme.md",
+      "bl2": 4499,
+      "tps": 4499,
+      "bl2_sha256": "d9ed0b9e62508101120943fcd04f148f1a4f673a355b1ee78e4dcb9391150991",
+      "tps_sha256": "d9ed0b9e62508101120943fcd04f148f1a4f673a355b1ee78e4dcb9391150991",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/command_extensions/sanic.blcm",
+      "bl2": 11829,
+      "tps": 11829,
+      "bl2_sha256": "08682efe135f55cdd4118d22cd4430c6fb1aec66d71ff6809cb27ac2349e2ca1",
+      "tps_sha256": "08682efe135f55cdd4118d22cd4430c6fb1aec66d71ff6809cb27ac2349e2ca1",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/command_extensions/writing-mods.md",
+      "bl2": 15517,
+      "tps": 15517,
+      "bl2_sha256": "d2e705aa77e7b819f8cfbeea3c4a71821791923b6399933c8077d11c4213e2be",
+      "tps_sha256": "d2e705aa77e7b819f8cfbeea3c4a71821791923b6399933c8077d11c4213e2be",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/console_mod_menu.sdkmod",
+      "bl2": 15163,
+      "tps": 15163,
+      "bl2_sha256": "3646ec4e4d96d4ca2d0a5d46c8b38c9576789e1e6751e046683dd17524d6418e",
+      "tps_sha256": "3646ec4e4d96d4ca2d0a5d46c8b38c9576789e1e6751e046683dd17524d6418e",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/keybinds.sdkmod",
+      "bl2": 3974,
+      "tps": 3974,
+      "bl2_sha256": "fd2dddd1c3083a88e80491244ce74e28f9c57524770e827b9dd7a14393f23046",
+      "tps_sha256": "fd2dddd1c3083a88e80491244ce74e28f9c57524770e827b9dd7a14393f23046",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/legacy_compat.sdkmod",
+      "bl2": 33317,
+      "tps": 33317,
+      "bl2_sha256": "1ac2f700f386bb087f13af9e717248d3bed4ccfafa30692dd38ba80cb7d7b4f2",
+      "tps_sha256": "1ac2f700f386bb087f13af9e717248d3bed4ccfafa30692dd38ba80cb7d7b4f2",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/modern_movement.sdkmod",
+      "bl2": 5343550,
+      "tps": 5343550,
+      "bl2_sha256": "5de320648d1e02703569f959edf8be92f40a0a6ade62ac1484c6be8d770c3060",
+      "tps_sha256": "5de320648d1e02703569f959edf8be92f40a0a6ade62ac1484c6be8d770c3060",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/mods_base.sdkmod",
+      "bl2": 35841,
+      "tps": 35841,
+      "bl2_sha256": "d673fcdc3acd19609cf2d48eb621c31af833378eb9901a616e3ba275700ff8f6",
+      "tps_sha256": "d673fcdc3acd19609cf2d48eb621c31af833378eb9901a616e3ba275700ff8f6",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/networking.sdkmod",
+      "bl2": 14287,
+      "tps": 14287,
+      "bl2_sha256": "fcbd53fd5c387f1eab34aa5a098589055ebd0697bb16e73e66693ab3021f10f1",
+      "tps_sha256": "fcbd53fd5c387f1eab34aa5a098589055ebd0697bb16e73e66693ab3021f10f1",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/pythonpartnotifier/__init__.py",
+      "bl2": 24878,
+      "tps": 24878,
+      "bl2_sha256": "532089bdd50fd43229bbc6698e60c8cf6d3dec97d8ceb99a9857f558f9085604",
+      "tps_sha256": "532089bdd50fd43229bbc6698e60c8cf6d3dec97d8ceb99a9857f558f9085604",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/pythonpartnotifier/__pycache__/__init__.cpython-314.pyc",
+      "bl2": 31369,
+      "tps": 31376,
+      "bl2_sha256": "272b3fae3f89b8655667f56691c606f5cf711bf2f1348b370e8e341770b4a9af",
+      "tps_sha256": "3a9ebb950a14bd7c7092ee9775643b1db287d99bbd68eee6cba82a9a53fb5a23",
+      "identical": false
+    },
+    {
+      "path": "sdk_mods/pythonpartnotifier/__pycache__/partnamer.cpython-314.pyc",
+      "bl2": 48692,
+      "tps": 48699,
+      "bl2_sha256": "6725083cbd9ae2fb2ab03aad7eb8f86945c06b604864929f257a7a668cdb7d7b",
+      "tps_sha256": "8b528c5323d4c1b64535beb5c58f691bac9b05dc2a290c3775e5899f8a2fba13",
+      "identical": false
+    },
+    {
+      "path": "sdk_mods/pythonpartnotifier/license",
+      "bl2": 35803,
+      "tps": 35803,
+      "bl2_sha256": "a0ee746064b06d09cab0768116ec265fd0d45261d4087c9ad2c698a07c7aac0e",
+      "tps_sha256": "a0ee746064b06d09cab0768116ec265fd0d45261d4087c9ad2c698a07c7aac0e",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/pythonpartnotifier/part_names.json.gz",
+      "bl2": 12299,
+      "tps": 12299,
+      "bl2_sha256": "f8cda20d721655389f21b55a5ac27db7940eb2fdb177b51902452b490bfe685d",
+      "tps_sha256": "f8cda20d721655389f21b55a5ac27db7940eb2fdb177b51902452b490bfe685d",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/pythonpartnotifier/partnamer.py",
+      "bl2": 44886,
+      "tps": 44886,
+      "bl2_sha256": "51574dbef02ac0c19bc1110a3c0f4c66a7398a70eb3ab4da290beb7ec8104510",
+      "tps_sha256": "51574dbef02ac0c19bc1110a3c0f4c66a7398a70eb3ab4da290beb7ec8104510",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/pythonpartnotifier/readme.md",
+      "bl2": 4409,
+      "tps": 4409,
+      "bl2_sha256": "846593ee345b796b4cc6b549d649f065183ae27d67a37b6650f75e7ed284e0ba",
+      "tps_sha256": "846593ee345b796b4cc6b549d649f065183ae27d67a37b6650f75e7ed284e0ba",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/sanitysaver/__init__.py",
+      "bl2": 4060,
+      "tps": 4060,
+      "bl2_sha256": "24a3bb5d38bfb35507eb062333749e1deb95a3c840d111dcc1fdb63cb68bb4c0",
+      "tps_sha256": "24a3bb5d38bfb35507eb062333749e1deb95a3c840d111dcc1fdb63cb68bb4c0",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/sanitysaver/__pycache__/__init__.cpython-314.pyc",
+      "bl2": 7827,
+      "tps": 7834,
+      "bl2_sha256": "e136d7fcebc686f6049cdfa2855884567800b5ef684370f92528b30308972372",
+      "tps_sha256": "f7c8d596268a876b4db75f1a331eebeb5776b14b37100341d2c00ff9d02b28a5",
+      "identical": false
+    },
+    {
+      "path": "sdk_mods/sanitysaver/__pycache__/compression_handler.cpython-314.pyc",
+      "bl2": 7119,
+      "tps": 7126,
+      "bl2_sha256": "e0b42b68c342fd83dee8125e7150073735a5bd9a9ce31e8caa1cc33742dcbe02",
+      "tps_sha256": "dbf771c03f57c33c47217b631846a31d79766a9445afa5bca23e0435efd45ba0",
+      "identical": false
+    },
+    {
+      "path": "sdk_mods/sanitysaver/__pycache__/console.cpython-314.pyc",
+      "bl2": 4623,
+      "tps": 4630,
+      "bl2_sha256": "50b122d1beba4a41a08cb6887d7c830065c768ab12d41fd6750ba9e77974b3b8",
+      "tps_sha256": "26627f2ae94425f90408cd562f90f1688b6ec3d6504612e48ee56c94d89e071f",
+      "identical": false
+    },
+    {
+      "path": "sdk_mods/sanitysaver/__pycache__/helpers.cpython-314.pyc",
+      "bl2": 13244,
+      "tps": 13251,
+      "bl2_sha256": "49fcbdb2bb5f252229bf9972ed376d1d271f2f357856faf748beec08e4647256",
+      "tps_sha256": "c4e1671795acab8bbeae08f5b7efc69ceb7a19ad88e176932d731f6162f5b782",
+      "identical": false
+    },
+    {
+      "path": "sdk_mods/sanitysaver/__pycache__/hooks.cpython-314.pyc",
+      "bl2": 27870,
+      "tps": 27877,
+      "bl2_sha256": "74c111349fbeb3b1af60dd89f6e67104f475b1ef3a21a6cec638f5e157632c9c",
+      "tps_sha256": "d74e5620a463735f7f87e417e0b8e5bbfc5cd71d9c74595bc441ab998ba20e93",
+      "identical": false
+    },
+    {
+      "path": "sdk_mods/sanitysaver/__pycache__/migrations.cpython-314.pyc",
+      "bl2": 4007,
+      "tps": 4014,
+      "bl2_sha256": "b3f299c170f09253247aeb00ba78f726e4b50381d4698cb1c651cf7c56b33769",
+      "tps_sha256": "6f5484eba472334e82c9b5008bf20f5c35ce8261fcddc749bf796d0b01552eb7",
+      "identical": false
+    },
+    {
+      "path": "sdk_mods/sanitysaver/__pycache__/save_manager.cpython-314.pyc",
+      "bl2": 11482,
+      "tps": 11489,
+      "bl2_sha256": "92c90d5ebf7eec32dbc18a8632a0365d8a54b22aa5fd5e514eb593a142e6d522",
+      "tps_sha256": "f5e3781d6ee2356bad4cb4d8016b030f12b92a6751a49e093c87392c76ea9a0f",
+      "identical": false
+    },
+    {
+      "path": "sdk_mods/sanitysaver/compression_handler.py",
+      "bl2": 3826,
+      "tps": 3826,
+      "bl2_sha256": "659d85b573fc9aa302a5e98a65b73e52162a0e9ee885dfa6acff28ecbc872352",
+      "tps_sha256": "659d85b573fc9aa302a5e98a65b73e52162a0e9ee885dfa6acff28ecbc872352",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/sanitysaver/console.py",
+      "bl2": 2843,
+      "tps": 2843,
+      "bl2_sha256": "a5312156761ed5ca4cbd7e6d46c771089639efd25ffcdebccfee7cba1be09c81",
+      "tps_sha256": "a5312156761ed5ca4cbd7e6d46c771089639efd25ffcdebccfee7cba1be09c81",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/sanitysaver/helpers.py",
+      "bl2": 9661,
+      "tps": 9661,
+      "bl2_sha256": "bd148a0a2756107df8eb995b5c1a6515527f78c9c675cfbc728d4307256ad9c3",
+      "tps_sha256": "bd148a0a2756107df8eb995b5c1a6515527f78c9c675cfbc728d4307256ad9c3",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/sanitysaver/hooks.py",
+      "bl2": 22593,
+      "tps": 22593,
+      "bl2_sha256": "a53e3316b623da3b10d84059dd16dd198d9c857e8fdd6994c9f13d6ff3e80d5d",
+      "tps_sha256": "a53e3316b623da3b10d84059dd16dd198d9c857e8fdd6994c9f13d6ff3e80d5d",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/sanitysaver/license",
+      "bl2": 35803,
+      "tps": 35803,
+      "bl2_sha256": "a0ee746064b06d09cab0768116ec265fd0d45261d4087c9ad2c698a07c7aac0e",
+      "tps_sha256": "a0ee746064b06d09cab0768116ec265fd0d45261d4087c9ad2c698a07c7aac0e",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/sanitysaver/migrations.py",
+      "bl2": 2543,
+      "tps": 2543,
+      "bl2_sha256": "54927e9b6a987344fa1d11796f4a12210af3111ec81ec9579c90ddc332750d0e",
+      "tps_sha256": "54927e9b6a987344fa1d11796f4a12210af3111ec81ec9579c90ddc332750d0e",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/sanitysaver/readme.md",
+      "bl2": 6477,
+      "tps": 6477,
+      "bl2_sha256": "bbcb41fe8e7a8514ca1ff16a739ed1d2929d997c73911af5297cd5673d780165",
+      "tps_sha256": "bbcb41fe8e7a8514ca1ff16a739ed1d2929d997c73911af5297cd5673d780165",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/sanitysaver/save_manager.py",
+      "bl2": 8038,
+      "tps": 8038,
+      "bl2_sha256": "ff68ca401cf338fe973ac0a8ce1ec504cb4ce37d319f33babb374d547487b614",
+      "tps_sha256": "ff68ca401cf338fe973ac0a8ce1ec504cb4ce37d319f33babb374d547487b614",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/save_options.sdkmod",
+      "bl2": 12414,
+      "tps": 12414,
+      "bl2_sha256": "34b50be2d9206f5919a02b989b5a2c4a83ab5ce9cdcf0cdd7a96f9b4f2ca24bc",
+      "tps_sha256": "34b50be2d9206f5919a02b989b5a2c4a83ab5ce9cdcf0cdd7a96f9b4f2ca24bc",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/settings/.gitignore",
+      "bl2": 16,
+      "tps": 16,
+      "bl2_sha256": "4bb38be6d6d9ef0d2f9bcc339850ff48d821eccfa739369402b354c9ba946ea2",
+      "tps_sha256": "4bb38be6d6d9ef0d2f9bcc339850ff48d821eccfa739369402b354c9ba946ea2",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/settings/autopickuptweaks.json",
+      "bl2": 784,
+      "tps": 779,
+      "bl2_sha256": "88e747c9261e856e07c3f198c1356dba9dc66332a8cf332ca2383b0a5550e5c6",
+      "tps_sha256": "c144f26718b67f24a51d9b1a6958b8e9d9f7861e86113f706b4df082fa83e11b",
+      "identical": false
+    },
+    {
+      "path": "sdk_mods/settings/modern_movement.json",
+      "bl2": 3146,
+      "tps": 2828,
+      "bl2_sha256": "59aa24b3304f636e3f84da195a7c47fcf0c94e7e17fe645f4b092fefb6452cf8",
+      "tps_sha256": "2c78fc9a9bf363581eb1a860189efe8db90e22d054265100aba342dd00755d41",
+      "identical": false
+    },
+    {
+      "path": "sdk_mods/settings/python-sdk.json",
+      "bl2": 240,
+      "tps": 240,
+      "bl2_sha256": "2a0c6f29f4b2447c3ba848bf289a1b9a0ba782a2442068d8182eb7e56012b723",
+      "tps_sha256": "0c958669705221a3e65d9d14fef1c680b0f0426e46b145a7429b658bc333dd86",
+      "identical": false
+    },
+    {
+      "path": "sdk_mods/settings/pythonpartnotifier.json",
+      "bl2": 2047,
+      "tps": 2047,
+      "bl2_sha256": "58cd24d893eb38b9056836b4e1f378fd498c78a15dcb349ead72e62d3350d7c5",
+      "tps_sha256": "58cd24d893eb38b9056836b4e1f378fd498c78a15dcb349ead72e62d3350d7c5",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/settings/sanitysaver.json",
+      "bl2": 162,
+      "tps": 162,
+      "bl2_sha256": "cbbb764a02ae0082cd31f5708f0a2528cb62bfb540580a19033c9e8fe7dda8a7",
+      "tps_sha256": "cbbb764a02ae0082cd31f5708f0a2528cb62bfb540580a19033c9e8fe7dda8a7",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/settings/text_mod_loader.json",
+      "bl2": 1539,
+      "tps": 1220,
+      "bl2_sha256": "428eb4d1c9513a58b2635346cecf014d67ef38302e1f1a3310756c8f3cee6dbc",
+      "tps_sha256": "f8aa3fd715efddc0d67cd5a791e1bb78c32b11f3124a67dc76a540567bd186b7",
+      "identical": false
+    },
+    {
+      "path": "sdk_mods/text_mod_loader/__init__.py",
+      "bl2": 1539,
+      "tps": 1539,
+      "bl2_sha256": "301e5b5b4d04765d098b5ab5f939bb8c8f7360d1e23f2eb05a0835662478ff78",
+      "tps_sha256": "301e5b5b4d04765d098b5ab5f939bb8c8f7360d1e23f2eb05a0835662478ff78",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/text_mod_loader/__pycache__/__init__.cpython-314.pyc",
+      "bl2": 2708,
+      "tps": 2715,
+      "bl2_sha256": "dccb8dc9e2be8160cfa7e8daab6fe095ec72d975a5bb9b25638ad9aaab00f325",
+      "tps_sha256": "48d1871fdc33b65efbbad3bb791d6698b4f799d9f944c002b212215cdbad43e6",
+      "identical": false
+    },
+    {
+      "path": "sdk_mods/text_mod_loader/__pycache__/anti_circular_import.cpython-314.pyc",
+      "bl2": 1632,
+      "tps": 1639,
+      "bl2_sha256": "5135d649b6965500dc5c44866f3d0f9c0fe87f2392acbd0b9f85cedfe81d777c",
+      "tps_sha256": "87b4b7dca40e2a97989be8e069338a8d3f427945860bdb7b375612b9b418e6c3",
+      "identical": false
+    },
+    {
+      "path": "sdk_mods/text_mod_loader/__pycache__/hotfixes.cpython-314.pyc",
+      "bl2": 2187,
+      "tps": 2194,
+      "bl2_sha256": "16abd59b24ecc6d40d35a408533a08c5ec8ad3a2a922ff047b74fb1cab44217a",
+      "tps_sha256": "7f3180449ad63a03b40a01dde21d772c96a36ab7e594519bed5b73435acfb47a",
+      "identical": false
+    },
+    {
+      "path": "sdk_mods/text_mod_loader/__pycache__/legacy_compat.cpython-314.pyc",
+      "bl2": 4245,
+      "tps": 4252,
+      "bl2_sha256": "ff0a5b71b3ff58ea35769191e755feb62da36a7944856a7a31d9bc9f46c7d16a",
+      "tps_sha256": "fe5fb1b744f8e9396601b6c56ee08b729fc49f9691c552e44e7a7ab6b720a6d0",
+      "identical": false
+    },
+    {
+      "path": "sdk_mods/text_mod_loader/__pycache__/loader.cpython-314.pyc",
+      "bl2": 10639,
+      "tps": 10646,
+      "bl2_sha256": "20c7da067bd72d19bf9f3abc8dd5a9c555262a5bea2950112f132349bab3cbbd",
+      "tps_sha256": "a19cdb9af98b8c926b97fc4ddadbfdd409b3298ab1dd01b04485ead442c8c27e",
+      "identical": false
+    },
+    {
+      "path": "sdk_mods/text_mod_loader/__pycache__/settings.cpython-314.pyc",
+      "bl2": 7636,
+      "tps": 7643,
+      "bl2_sha256": "e9191e3a3820aca93ced63e356e2cfa62db166d7d23867eda42d3c42595d053c",
+      "tps_sha256": "9edc1bb95c299915a5c2cceb9ef0821b1ab7d66c69feafa9a3a7c398f43e978a",
+      "identical": false
+    },
+    {
+      "path": "sdk_mods/text_mod_loader/__pycache__/text_mod.cpython-314.pyc",
+      "bl2": 11108,
+      "tps": 11115,
+      "bl2_sha256": "7f3bbd77f5b19a3d07fd14179d30dc8c5ec1c00226517d51a2d98884b28b8a80",
+      "tps_sha256": "a05dedc7114678b269c6134977418254ea4b38fef831365d25307e1c9a0efc9f",
+      "identical": false
+    },
+    {
+      "path": "sdk_mods/text_mod_loader/anti_circular_import.py",
+      "bl2": 1240,
+      "tps": 1240,
+      "bl2_sha256": "47a8938b9895f1b74a48600c859c5bfc5b0bcf8242740a6a3909339b22ec4b03",
+      "tps_sha256": "47a8938b9895f1b74a48600c859c5bfc5b0bcf8242740a6a3909339b22ec4b03",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/text_mod_loader/blimp.py",
+      "bl2": 519,
+      "tps": 519,
+      "bl2_sha256": "f85311f2a81a5e602b6ac56cf27a92ae5d9bb72b91c509c2d4d6a9ec4efe308e",
+      "tps_sha256": "f85311f2a81a5e602b6ac56cf27a92ae5d9bb72b91c509c2d4d6a9ec4efe308e",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/text_mod_loader/file_parser.pyd",
+      "bl2": 484352,
+      "tps": 484352,
+      "bl2_sha256": "0b44a2fe93c9684d97f29b42a3aae825035694077d108d57710a2d91cd9e22ba",
+      "tps_sha256": "0b44a2fe93c9684d97f29b42a3aae825035694077d108d57710a2d91cd9e22ba",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/text_mod_loader/file_parser.pyi",
+      "bl2": 648,
+      "tps": 648,
+      "bl2_sha256": "8d28fa17308cfba3e537e65f34f298e5375df511a7c82fa648bf74c19b189b52",
+      "tps_sha256": "8d28fa17308cfba3e537e65f34f298e5375df511a7c82fa648bf74c19b189b52",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/text_mod_loader/hotfixes.py",
+      "bl2": 1300,
+      "tps": 1300,
+      "bl2_sha256": "dee657da4075048c3362e0ffb5ac6f36e5a22028c858bc7c12a43e8f0fa4376b",
+      "tps_sha256": "dee657da4075048c3362e0ffb5ac6f36e5a22028c858bc7c12a43e8f0fa4376b",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/text_mod_loader/legacy_compat.py",
+      "bl2": 2464,
+      "tps": 2464,
+      "bl2_sha256": "c65466e7aec056d591151aa5fa4bde1e623af6c70f81fa0f5a753626b7de052d",
+      "tps_sha256": "c65466e7aec056d591151aa5fa4bde1e623af6c70f81fa0f5a753626b7de052d",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/text_mod_loader/license",
+      "bl2": 35803,
+      "tps": 35803,
+      "bl2_sha256": "a0ee746064b06d09cab0768116ec265fd0d45261d4087c9ad2c698a07c7aac0e",
+      "tps_sha256": "a0ee746064b06d09cab0768116ec265fd0d45261d4087c9ad2c698a07c7aac0e",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/text_mod_loader/loader.py",
+      "bl2": 7007,
+      "tps": 7007,
+      "bl2_sha256": "71cf4b2ea03b58d1fdbbed64ffc68b4a9cdad6eef088b948359f8b7d89e8b017",
+      "tps_sha256": "71cf4b2ea03b58d1fdbbed64ffc68b4a9cdad6eef088b948359f8b7d89e8b017",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/text_mod_loader/pyproject.toml",
+      "bl2": 670,
+      "tps": 670,
+      "bl2_sha256": "b56aa0e67a4653170429b6f316250c8bc90b57e42b7578e62c8998a329c6ebb4",
+      "tps_sha256": "b56aa0e67a4653170429b6f316250c8bc90b57e42b7578e62c8998a329c6ebb4",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/text_mod_loader/readme.md",
+      "bl2": 4035,
+      "tps": 4035,
+      "bl2_sha256": "ec65e751041c953a0cc3a89b70231b904dd052c89e118d26a408dbf4ed582913",
+      "tps_sha256": "ec65e751041c953a0cc3a89b70231b904dd052c89e118d26a408dbf4ed582913",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/text_mod_loader/settings.py",
+      "bl2": 4924,
+      "tps": 4924,
+      "bl2_sha256": "536457172d362e60d409487dc57cb490715328574982bf9529942c176d0c2c63",
+      "tps_sha256": "536457172d362e60d409487dc57cb490715328574982bf9529942c176d0c2c63",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/text_mod_loader/text_mod.py",
+      "bl2": 7532,
+      "tps": 7532,
+      "bl2_sha256": "620c6d9a6bb6b84f9f43352baf54ad0b0fd520d24ad4d52128529bbcf63d9418",
+      "tps_sha256": "620c6d9a6bb6b84f9f43352baf54ad0b0fd520d24ad4d52128529bbcf63d9418",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/ui_utils.sdkmod",
+      "bl2": 16164,
+      "tps": 16164,
+      "bl2_sha256": "363eb026cf73df6295e7bfc7c245d5c56865db0679882e24b42ae0b08b757993",
+      "tps_sha256": "363eb026cf73df6295e7bfc7c245d5c56865db0679882e24b42ae0b08b757993",
+      "identical": true
+    },
+    {
+      "path": "sdk_mods/willow2_mod_menu.sdkmod",
+      "bl2": 20141,
+      "tps": 20141,
+      "bl2_sha256": "e888c4d7b8ae6d58c17064559129a800abe28e2405db6544514a785217576ccb",
+      "tps_sha256": "e888c4d7b8ae6d58c17064559129a800abe28e2405db6544514a785217576ccb",
+      "identical": true
+    },
+    {
+      "path": "willowgame/config/defaultbuildinfo.ini",
+      "bl2": 170,
+      "tps": 170,
+      "bl2_sha256": "fcced70dbdc2e7b7ea95c20fae37424236b900b21a0f3c04d8dc3a7923d0c3b9",
+      "tps_sha256": "edbeb8422f6781058dd4b273c61354a9c8cbbab9f1eea677361edec8b52524ca",
+      "identical": false
+    },
+    {
+      "path": "willowgame/config/defaultcompat.ini",
+      "bl2": 1650,
+      "tps": 1854,
+      "bl2_sha256": "7f347cb00009719051c2a1b654b2c4462d16017408486d313d9bcafdc1a57358",
+      "tps_sha256": "d4cfbd6d83268fe9b1f5c85bfbc9d7a395b0df4be713b03069206bc59222ea63",
+      "identical": false
+    },
+    {
+      "path": "willowgame/config/defaultdlcmanager.ini",
+      "bl2": 6338,
+      "tps": 656,
+      "bl2_sha256": "d5eede202bc78a294b1bb309e4af72fc9d8ae90de265d5979dfcb4aad1ea8ab5",
+      "tps_sha256": "45444fc1082f5c6282a826d5cbab16b52a22065dcd5d6fa27d8be0a70f11121a",
+      "identical": false
+    },
+    {
+      "path": "willowgame/config/defaulteditor.ini",
+      "bl2": 10466,
+      "tps": 12023,
+      "bl2_sha256": "b69147a5984cf156d714fc36faa9a4c8153055823c93468435b2863da8fa2912",
+      "tps_sha256": "c4e6b76c1783477d009fa617c2e6e3d5af367ffe48a6b687d23ed7569e8adc5d",
+      "identical": false
+    },
+    {
+      "path": "willowgame/config/defaulteditorusersettings.ini",
+      "bl2": 1103,
+      "tps": 1236,
+      "bl2_sha256": "e277171accf2512057752ffe17b8fd5f26e7842db8037527581ae676149d4d81",
+      "tps_sha256": "0c27d631ca06fb84fc7fb0b329f6b3be31630254613da7ac4d01eafe901e291d",
+      "identical": false
+    },
+    {
+      "path": "willowgame/config/defaultengine.ini",
+      "bl2": 52917,
+      "tps": 86613,
+      "bl2_sha256": "c97a8c941fbf32c58ec431b26ee40fc98f3dde314071002200ef3d7b4445bf28",
+      "tps_sha256": "a775f3ceb2a8e8926c4755b6be69829aae2e5ed46a6ee3188ca99ac1d22aaced",
+      "identical": false
+    },
+    {
+      "path": "willowgame/config/defaultgame.ini",
+      "bl2": 92573,
+      "tps": 98227,
+      "bl2_sha256": "e7915d8d2e243aa58a57f26b814b3fac964b618e3c665f6f8f3864112257033c",
+      "tps_sha256": "2e60a6e1f2bc1e59e39b704af76688595e04fac6001d8fd78b83a26126da72d6",
+      "identical": false
+    },
+    {
+      "path": "willowgame/config/defaultinput.ini",
+      "bl2": 28476,
+      "tps": 28658,
+      "bl2_sha256": "05d91411ec590e5a1a3ded82902dcad963f8d0791eb9469ba2a0351f27029870",
+      "tps_sha256": "945ce28bd6f9708671fa8907c233b4fe5207ac2e2d4542e037ec141731929b54",
+      "identical": false
+    },
+    {
+      "path": "willowgame/config/defaultspark.ini",
+      "bl2": 290,
+      "tps": 372,
+      "bl2_sha256": "a3e9073959db7ca7ae4b1ba3a22786b888f5e0dae1f7b608db7da549fb4efb66",
+      "tps_sha256": "3d3d2c67cb30bffcf5156bd534cfcf2f579d8e4eb210a5bf693e1163f1a05455",
+      "identical": false
+    },
+    {
+      "path": "willowgame/config/defaultui.ini",
+      "bl2": 1128,
+      "tps": 26367,
+      "bl2_sha256": "154d2a6f559d7a0c587bd8d92d3fba34287af93be8437a8fa7082024089280a9",
+      "tps_sha256": "5c566969a61e5c3eb1be2458171d091a2d2ccb3b3858a862101156ccb70bcf26",
+      "identical": false
+    },
+    {
+      "path": "willowgame/cookedpcconsole/akaudio.upk",
+      "bl2": 10781,
+      "tps": 18708,
+      "bl2_sha256": "c92773e02af4cfc74a8f73100c10927ca27ae56ad5ad1a9f4ed56ed5e91a66eb",
+      "tps_sha256": "a6a9a7222b3462dffa8dc22498709015c1edbf851edcdda31d6368b4e88724b0",
+      "identical": false
+    },
+    {
+      "path": "willowgame/cookedpcconsole/core.upk",
+      "bl2": 63165,
+      "tps": 63825,
+      "bl2_sha256": "4dbae50274ac24e0aed8edbfdbb3197e1ca85b1f75ce744d0a77f94c6a52df51",
+      "tps_sha256": "d81b123748edcda383a7fa29568151d2f51ebdb0d728a600c3f5e8aa9c6113cb",
+      "identical": false
+    },
+    {
+      "path": "willowgame/cookedpcconsole/engine.upk",
+      "bl2": 1573828,
+      "tps": 1686424,
+      "bl2_sha256": "d3debcd4236dfe4084fd3d1950651f32aed4aeebf486f38f7434af3fdecb1253",
+      "tps_sha256": "7e4a391d089fcf8d52636519da8e1c8d220d00ffca7203c86ecf35a83c078797",
+      "identical": false
+    },
+    {
+      "path": "willowgame/cookedpcconsole/fakeentry.upk",
+      "bl2": 6782,
+      "tps": 6629,
+      "bl2_sha256": "6d9dbcb1f4fecb3282f1a4743639d1402d1d7989bf6bcc825f480eb0683a2da6",
+      "tps_sha256": "8399f544fc489127e34e0e900460c4b9cabf28f4094cd7ae291195ce55834ec0",
+      "identical": false
+    },
+    {
+      "path": "willowgame/cookedpcconsole/gfxui.upk",
+      "bl2": 38444,
+      "tps": 45207,
+      "bl2_sha256": "fadfa8fc651b7e903801a1ab0af1ff6eefba0195b344f62b93ceeaef84977864",
+      "tps_sha256": "bd2d09af2eba614ead2b3a8970904264e399be58777cf08c382cddb79255cc64",
+      "identical": false
+    },
+    {
+      "path": "willowgame/cookedpcconsole/ipdrv.upk",
+      "bl2": 61975,
+      "tps": 69084,
+      "bl2_sha256": "889be70f6c67709fff3d3038e5c47f77b2f000bbc6bbef8d27336c3435adf307",
+      "tps_sha256": "6ed7533daddaef1cbad397d0503c5f3ac67a37549e596b18cc48cb3eca8137a6",
+      "identical": false
+    },
+    {
+      "path": "willowgame/cookedpcconsole/startup.upk",
+      "bl2": 17800929,
+      "tps": 21359341,
+      "bl2_sha256": "d714e65f3ab4a21b685804dd8294662088d109868f9399392b37a017cd4d1124",
+      "tps_sha256": "a2eb726d8cec228c4c619aa89fc1630fe7d9f5cd355f1f3c663cffb54f573e3b",
+      "identical": false
+    },
+    {
+      "path": "willowgame/cookedpcconsole/startup_loc_int.upk",
+      "bl2": 2407939,
+      "tps": 85172,
+      "bl2_sha256": "76ef4d52ba242e307e5f285d90e0755cd1009525d0766ca2268c9421e3ed8751",
+      "tps_sha256": "f01b3237a3757536ac6ca7b4adeb11a777969b5aeb90cfd28ab99b594cf5efd5",
+      "identical": false
+    },
+    {
+      "path": "willowgame/cookedpcconsole/willowgame.upk",
+      "bl2": 4104253,
+      "tps": 4732034,
+      "bl2_sha256": "67b7d72892275b5e95a150f4ec581c8efbc84c8cda7da82338de07cd9fef4e6d",
+      "tps_sha256": "ab7eaa4bb960b0b5e1bd311460e2d946ce2453268414ff0c5575e514c66be8f0",
+      "identical": false
+    },
+    {
+      "path": "willowgame/localization/facefxhinttext.ini",
+      "bl2": 864523,
+      "tps": 1755948,
+      "bl2_sha256": "60f26633eca1d2e674b568e50e2be0e70b1af7d2b5fda6ea3d77749c04b11977",
+      "tps_sha256": "e0e70b7d9b19cca0323fbc4f7625cbca19e2f642804645d18d57c82c40736d91",
+      "identical": false
+    }
+  ],
+  "size_diff_interest": [
+    {
+      "path": "binaries/win32/physxcore.dll",
+      "bl2": 4318208,
+      "tps": 4029440
+    },
+    {
+      "path": "binaries/win32/plugins/unrealsdk.log",
+      "bl2": 15563,
+      "tps": 4901156
+    },
+    {
+      "path": "engine/config/baseengine.ini",
+      "bl2": 42937,
+      "tps": 43057
+    },
+    {
+      "path": "sdk_mods/command_extensions/__pycache__/__init__.cpython-314.pyc",
+      "bl2": 16498,
+      "tps": 16505
+    },
+    {
+      "path": "sdk_mods/command_extensions/__pycache__/ce_legacy_compat.cpython-314.pyc",
+      "bl2": 2922,
+      "tps": 2929
+    },
+    {
+      "path": "sdk_mods/command_extensions/__pycache__/ce_legacy_compat_builtins.cpython-314.pyc",
+      "bl2": 1241,
+      "tps": 1248
+    },
+    {
+      "path": "sdk_mods/command_extensions/builtins/__pycache__/__init__.cpython-314.pyc",
+      "bl2": 3029,
+      "tps": 3036
+    },
+    {
+      "path": "sdk_mods/command_extensions/builtins/__pycache__/chat.cpython-314.pyc",
+      "bl2": 1960,
+      "tps": 1967
+    },
+    {
+      "path": "sdk_mods/command_extensions/builtins/__pycache__/clone.cpython-314.pyc",
+      "bl2": 6308,
+      "tps": 6315
+    },
+    {
+      "path": "sdk_mods/command_extensions/builtins/__pycache__/clone_bpd.cpython-314.pyc",
+      "bl2": 6632,
+      "tps": 6639
+    },
+    {
+      "path": "sdk_mods/command_extensions/builtins/__pycache__/exec_raw.cpython-314.pyc",
+      "bl2": 1454,
+      "tps": 1461
+    },
+    {
+      "path": "sdk_mods/command_extensions/builtins/__pycache__/keep_alive.cpython-314.pyc",
+      "bl2": 1459,
+      "tps": 1466
+    },
+    {
+      "path": "sdk_mods/command_extensions/builtins/__pycache__/load_package.cpython-314.pyc",
+      "bl2": 3301,
+      "tps": 3308
+    },
+    {
+      "path": "sdk_mods/command_extensions/builtins/__pycache__/pyb.cpython-314.pyc",
+      "bl2": 6725,
+      "tps": 6732
+    },
+    {
+      "path": "sdk_mods/command_extensions/builtins/__pycache__/regen_balance.cpython-314.pyc",
+      "bl2": 12369,
+      "tps": 12376
+    },
+    {
+      "path": "sdk_mods/command_extensions/builtins/__pycache__/set_early.cpython-314.pyc",
+      "bl2": 1301,
+      "tps": 1308
+    },
+    {
+      "path": "sdk_mods/command_extensions/builtins/__pycache__/suppress_chat.cpython-314.pyc",
+      "bl2": 3161,
+      "tps": 3168
+    },
+    {
+      "path": "sdk_mods/command_extensions/builtins/__pycache__/unlock_package.cpython-314.pyc",
+      "bl2": 1419,
+      "tps": 1426
+    },
+    {
+      "path": "sdk_mods/pythonpartnotifier/__pycache__/__init__.cpython-314.pyc",
+      "bl2": 31369,
+      "tps": 31376
+    },
+    {
+      "path": "sdk_mods/pythonpartnotifier/__pycache__/partnamer.cpython-314.pyc",
+      "bl2": 48692,
+      "tps": 48699
+    },
+    {
+      "path": "sdk_mods/sanitysaver/__pycache__/__init__.cpython-314.pyc",
+      "bl2": 7827,
+      "tps": 7834
+    },
+    {
+      "path": "sdk_mods/sanitysaver/__pycache__/compression_handler.cpython-314.pyc",
+      "bl2": 7119,
+      "tps": 7126
+    },
+    {
+      "path": "sdk_mods/sanitysaver/__pycache__/console.cpython-314.pyc",
+      "bl2": 4623,
+      "tps": 4630
+    },
+    {
+      "path": "sdk_mods/sanitysaver/__pycache__/helpers.cpython-314.pyc",
+      "bl2": 13244,
+      "tps": 13251
+    },
+    {
+      "path": "sdk_mods/sanitysaver/__pycache__/hooks.cpython-314.pyc",
+      "bl2": 27870,
+      "tps": 27877
+    },
+    {
+      "path": "sdk_mods/sanitysaver/__pycache__/migrations.cpython-314.pyc",
+      "bl2": 4007,
+      "tps": 4014
+    },
+    {
+      "path": "sdk_mods/sanitysaver/__pycache__/save_manager.cpython-314.pyc",
+      "bl2": 11482,
+      "tps": 11489
+    },
+    {
+      "path": "sdk_mods/settings/autopickuptweaks.json",
+      "bl2": 784,
+      "tps": 779
+    },
+    {
+      "path": "sdk_mods/text_mod_loader/__pycache__/__init__.cpython-314.pyc",
+      "bl2": 2708,
+      "tps": 2715
+    },
+    {
+      "path": "sdk_mods/text_mod_loader/__pycache__/anti_circular_import.cpython-314.pyc",
+      "bl2": 1632,
+      "tps": 1639
+    },
+    {
+      "path": "sdk_mods/text_mod_loader/__pycache__/hotfixes.cpython-314.pyc",
+      "bl2": 2187,
+      "tps": 2194
+    },
+    {
+      "path": "sdk_mods/text_mod_loader/__pycache__/legacy_compat.cpython-314.pyc",
+      "bl2": 4245,
+      "tps": 4252
+    },
+    {
+      "path": "sdk_mods/text_mod_loader/__pycache__/loader.cpython-314.pyc",
+      "bl2": 10639,
+      "tps": 10646
+    },
+    {
+      "path": "sdk_mods/text_mod_loader/__pycache__/settings.cpython-314.pyc",
+      "bl2": 7636,
+      "tps": 7643
+    },
+    {
+      "path": "sdk_mods/text_mod_loader/__pycache__/text_mod.cpython-314.pyc",
+      "bl2": 11108,
+      "tps": 11115
+    },
+    {
+      "path": "willowgame/config/defaultengine.ini",
+      "bl2": 52917,
+      "tps": 86613
+    },
+    {
+      "path": "willowgame/cookedpcconsole/akaudio.upk",
+      "bl2": 10781,
+      "tps": 18708
+    },
+    {
+      "path": "willowgame/cookedpcconsole/core.upk",
+      "bl2": 63165,
+      "tps": 63825
+    },
+    {
+      "path": "willowgame/cookedpcconsole/engine.upk",
+      "bl2": 1573828,
+      "tps": 1686424
+    },
+    {
+      "path": "willowgame/cookedpcconsole/fakeentry.upk",
+      "bl2": 6782,
+      "tps": 6629
+    },
+    {
+      "path": "willowgame/cookedpcconsole/gfxui.upk",
+      "bl2": 38444,
+      "tps": 45207
+    },
+    {
+      "path": "willowgame/cookedpcconsole/ipdrv.upk",
+      "bl2": 61975,
+      "tps": 69084
+    },
+    {
+      "path": "willowgame/cookedpcconsole/startup.upk",
+      "bl2": 17800929,
+      "tps": 21359341
+    },
+    {
+      "path": "willowgame/cookedpcconsole/startup_loc_int.upk",
+      "bl2": 2407939,
+      "tps": 85172
+    },
+    {
+      "path": "willowgame/cookedpcconsole/startup_loc_int.upk.uncompressed_size",
+      "bl2": 9,
+      "tps": 8
+    },
+    {
+      "path": "willowgame/cookedpcconsole/willowgame.upk",
+      "bl2": 4104253,
+      "tps": 4732034
+    },
+    {
+      "path": "willowgame/localization/deu/ake_voct_contextual.deu",
+      "bl2": 1119192,
+      "tps": 41016
+    },
+    {
+      "path": "willowgame/localization/deu/engine.deu",
+      "bl2": 24658,
+      "tps": 25060
+    },
+    {
+      "path": "willowgame/localization/deu/gd_engineer_foreman_turret.deu",
+      "bl2": 630,
+      "tps": 640
+    },
+    {
+      "path": "willowgame/localization/deu/gd_population_engineer.deu",
+      "bl2": 3914,
+      "tps": 2686
+    },
+    {
+      "path": "willowgame/localization/deu/gfxui.deu",
+      "bl2": 1588,
+      "tps": 1650
+    },
+    {
+      "path": "willowgame/localization/deu/willowgame.deu",
+      "bl2": 162378,
+      "tps": 179196
+    },
+    {
+      "path": "willowgame/localization/esn/ake_voct_contextual.esn",
+      "bl2": 1085150,
+      "tps": 40156
+    },
+    {
+      "path": "willowgame/localization/esn/engine.esn",
+      "bl2": 24684,
+      "tps": 24820
+    },
+    {
+      "path": "willowgame/localization/esn/gd_engineer_foreman_turret.esn",
+      "bl2": 634,
+      "tps": 644
+    },
+    {
+      "path": "willowgame/localization/esn/gd_population_engineer.esn",
+      "bl2": 3986,
+      "tps": 2794
+    },
+    {
+      "path": "willowgame/localization/esn/gfxui.esn",
+      "bl2": 1618,
+      "tps": 1610
+    },
+    {
+      "path": "willowgame/localization/esn/willowgame.esn",
+      "bl2": 160474,
+      "tps": 177454
+    },
+    {
+      "path": "willowgame/localization/facefxhinttext.ini",
+      "bl2": 864523,
+      "tps": 1755948
+    },
+    {
+      "path": "willowgame/localization/fra/ake_voct_contextual.fra",
+      "bl2": 1115068,
+      "tps": 39242
+    },
+    {
+      "path": "willowgame/localization/fra/engine.fra",
+      "bl2": 24730,
+      "tps": 25010
+    },
+    {
+      "path": "willowgame/localization/fra/gd_engineer_foreman_turret.fra",
+      "bl2": 644,
+      "tps": 654
+    },
+    {
+      "path": "willowgame/localization/fra/gd_population_engineer.fra",
+      "bl2": 3998,
+      "tps": 2740
+    },
+    {
+      "path": "willowgame/localization/fra/willowgame.fra",
+      "bl2": 164100,
+      "tps": 181420
+    },
+    {
+      "path": "willowgame/localization/int/ake_voct_contextual.int",
+      "bl2": 1086954,
+      "tps": 38152
+    },
+    {
+      "path": "willowgame/localization/int/willowgame.int",
+      "bl2": 152742,
+      "tps": 168922
+    },
+    {
+      "path": "willowgame/localization/ita/ake_voct_contextual.ita",
+      "bl2": 1081728,
+      "tps": 39964
+    },
+    {
+      "path": "willowgame/localization/ita/engine.ita",
+      "bl2": 23968,
+      "tps": 24232
+    },
+    {
+      "path": "willowgame/localization/ita/gd_engineer_foreman_turret.ita",
+      "bl2": 630,
+      "tps": 638
+    },
+    {
+      "path": "willowgame/localization/ita/gd_population_engineer.ita",
+      "bl2": 4010,
+      "tps": 2756
+    },
+    {
+      "path": "willowgame/localization/ita/gfxui.ita",
+      "bl2": 1646,
+      "tps": 1658
+    },
+    {
+      "path": "willowgame/localization/ita/willowgame.ita",
+      "bl2": 159870,
+      "tps": 176856
+    },
+    {
+      "path": "willowgame/localization/jpn/ake_voct_contextual.jpn",
+      "bl2": 893732,
+      "tps": 33322
+    },
+    {
+      "path": "willowgame/localization/jpn/engine.jpn",
+      "bl2": 20202,
+      "tps": 20436
+    },
+    {
+      "path": "willowgame/localization/jpn/gd_engineer_foreman_turret.jpn",
+      "bl2": 608,
+      "tps": 616
+    },
+    {
+      "path": "willowgame/localization/jpn/gd_population_engineer.jpn",
+      "bl2": 3894,
+      "tps": 2654
+    },
+    {
+      "path": "willowgame/localization/jpn/willowgame.jpn",
+      "bl2": 126434,
+      "tps": 139546
+    }
+  ],
+  "only_bl2_interest": [
+    "dlc/allium/compat/content/allium_startup_sf.upk",
+    "dlc/allium/compat/localization/deu/ake_allium_vo.deu",
+    "dlc/allium/compat/localization/deu/gd_engineefemale.deu",
+    "dlc/allium/compat/localization/deu/gd_engineermale.deu",
+    "dlc/allium/compat/localization/deu/willowgame.deu",
+    "dlc/allium/compat/localization/esn/ake_allium_vo.esn",
+    "dlc/allium/compat/localization/esn/gd_engineefemale.esn",
+    "dlc/allium/compat/localization/esn/gd_engineermale.esn",
+    "dlc/allium/compat/localization/esn/willowgame.esn",
+    "dlc/allium/compat/localization/fra/ake_allium_vo.fra",
+    "dlc/allium/compat/localization/fra/gd_engineefemale.fra",
+    "dlc/allium/compat/localization/fra/gd_engineermale.fra",
+    "dlc/allium/compat/localization/fra/willowgame.fra",
+    "dlc/allium/compat/localization/int/ake_allium_vo.int",
+    "dlc/allium/compat/localization/ita/ake_allium_vo.ita",
+    "dlc/allium/compat/localization/ita/gd_engineefemale.ita",
+    "dlc/allium/compat/localization/ita/gd_engineermale.ita",
+    "dlc/allium/compat/localization/ita/willowgame.ita",
+    "dlc/allium/compat/localization/jpn/ake_allium_vo.jpn",
+    "dlc/allium/compat/localization/jpn/gd_engineefemale.jpn",
+    "dlc/allium/compat/localization/jpn/gd_engineermale.jpn",
+    "dlc/allium/compat/localization/jpn/willowgame.jpn",
+    "dlc/anecana/compat/content/anecana_startup_sf.upk",
+    "dlc/anemone/compat/content/anemone_startup_sf.upk",
+    "dlc/anemone/compat/localization/deu/ake_anemone_cin.deu",
+    "dlc/anemone/compat/localization/deu/ake_anemone_vo.deu",
+    "dlc/anemone/compat/localization/deu/fx_env_gas.deu",
+    "dlc/anemone/compat/localization/deu/willowgame.deu",
+    "dlc/anemone/compat/localization/esn/ake_anemone_cin.esn",
+    "dlc/anemone/compat/localization/esn/ake_anemone_vo.esn",
+    "dlc/anemone/compat/localization/esn/fx_env_gas.esn",
+    "dlc/anemone/compat/localization/esn/willowgame.esn",
+    "dlc/anemone/compat/localization/fra/ake_anemone_cin.fra",
+    "dlc/anemone/compat/localization/fra/ake_anemone_vo.fra",
+    "dlc/anemone/compat/localization/fra/fx_env_gas.fra",
+    "dlc/anemone/compat/localization/fra/willowgame.fra",
+    "dlc/anemone/compat/localization/int/ake_anemone_vo.int",
+    "dlc/anemone/compat/localization/int/willowgame.int",
+    "dlc/anemone/compat/localization/ita/ake_anemone_cin.ita",
+    "dlc/anemone/compat/localization/ita/ake_anemone_vo.ita",
+    "dlc/anemone/compat/localization/ita/fx_env_gas.ita",
+    "dlc/anemone/compat/localization/ita/willowgame.ita",
+    "dlc/anemone/compat/localization/jpn/ake_anemone_cin.jpn",
+    "dlc/anemone/compat/localization/jpn/ake_anemone_vo.jpn",
+    "dlc/anemone/compat/localization/jpn/fx_env_gas.jpn",
+    "dlc/anemone/compat/localization/jpn/willowgame.jpn",
+    "dlc/anemone/compat/localization/kor/ake_anemone_cin.kor",
+    "dlc/anemone/compat/localization/kor/ake_anemone_vo.kor",
+    "dlc/anemone/compat/localization/kor/fx_env_gas.kor",
+    "dlc/anemone/compat/localization/kor/willowgame.kor",
+    "dlc/anemone/compat/localization/twn/ake_anemone_cin.twn",
+    "dlc/anemone/compat/localization/twn/ake_anemone_vo.twn",
+    "dlc/anemone/compat/localization/twn/fx_env_gas.twn",
+    "dlc/anemone/compat/localization/twn/willowgame.twn",
+    "dlc/anemone/lic/content/backburner_vfx.upk",
+    "dlc/anemone/lic/content/gaiussanctuary_vfx.upk",
+    "dlc/anemone/lic/content/helios_vfx.upk",
+    "dlc/anemone/lic/content/olddust_vfx.upk",
+    "dlc/anemone/lic/content/researchcenter_vfx.upk",
+    "dlc/anemone/lic/content/sanctintro_vfx.upk",
+    "dlc/anemone/lic/content/sandworm_vfx.upk",
+    "dlc/anemone/lic/content/sandwormlair_vfx.upk",
+    "dlc/aster/compat/content/aster_startup_sf.upk",
+    "dlc/aster/compat/localization/deu/ake_aster_cinematics.deu",
+    "dlc/aster/compat/localization/deu/ake_aster_vo.deu",
+    "dlc/aster/compat/localization/deu/gd_aster_fakegeekguy.deu",
+    "dlc/aster/compat/localization/deu/gd_aster_fakegeekguydata.deu",
+    "dlc/aster/compat/localization/deu/gd_aster_fakegeeknpc.deu",
+    "dlc/aster/compat/localization/deu/gd_spatulakahn.deu",
+    "dlc/aster/compat/localization/deu/willowgame.deu",
+    "dlc/aster/compat/localization/esn/ake_aster_cinematics.esn",
+    "dlc/aster/compat/localization/esn/ake_aster_vo.esn",
+    "dlc/aster/compat/localization/esn/gd_aster_fakegeekguy.esn",
+    "dlc/aster/compat/localization/esn/gd_aster_fakegeekguydata.esn",
+    "dlc/aster/compat/localization/esn/gd_aster_fakegeeknpc.esn",
+    "dlc/aster/compat/localization/esn/gd_spatulakahn.esn",
+    "dlc/aster/compat/localization/esn/willowgame.esn",
+    "dlc/aster/compat/localization/fra/ake_aster_cinematics.fra",
+    "dlc/aster/compat/localization/fra/ake_aster_vo.fra",
+    "dlc/aster/compat/localization/fra/gd_aster_fakegeekguy.fra",
+    "dlc/aster/compat/localization/fra/gd_aster_fakegeekguydata.fra",
+    "dlc/aster/compat/localization/fra/gd_aster_fakegeeknpc.fra",
+    "dlc/aster/compat/localization/fra/gd_spatulakahn.fra",
+    "dlc/aster/compat/localization/fra/willowgame.fra",
+    "dlc/aster/compat/localization/int/ake_aster_vo.int",
+    "dlc/aster/compat/localization/int/fx_aster_crystal.int",
+    "dlc/aster/compat/localization/int/gd_aster_fakegeekguy.int",
+    "dlc/aster/compat/localization/int/willowgame.int",
+    "dlc/aster/compat/localization/ita/ake_aster_cinematics.ita",
+    "dlc/aster/compat/localization/ita/ake_aster_vo.ita",
+    "dlc/aster/compat/localization/ita/gd_aster_fakegeekguy.ita",
+    "dlc/aster/compat/localization/ita/gd_aster_fakegeekguydata.ita",
+    "dlc/aster/compat/localization/ita/gd_aster_fakegeeknpc.ita",
+    "dlc/aster/compat/localization/ita/gd_spatulakahn.ita",
+    "dlc/aster/compat/localization/ita/willowgame.ita",
+    "dlc/aster/compat/localization/jpn/ake_aster_cinematics.jpn",
+    "dlc/aster/compat/localization/jpn/ake_aster_vo.jpn",
+    "dlc/aster/compat/localization/jpn/gd_aster_fakegeekguy.jpn",
+    "dlc/aster/compat/localization/jpn/gd_aster_fakegeekguydata.jpn",
+    "dlc/aster/compat/localization/jpn/gd_aster_fakegeeknpc.jpn",
+    "dlc/aster/compat/localization/jpn/gd_spatulakahn.jpn",
+    "dlc/aster/compat/localization/jpn/willowgame.jpn",
+    "dlc/aster/lic/content/castleexterior_fx.upk",
+    "dlc/aster/lic/content/castlekeep_fx.upk",
+    "dlc/aster/lic/content/dark_forest_fx.upk",
+    "dlc/aster/lic/content/dead_forest_fx.upk",
+    "dlc/aster/lic/content/docks_fx.upk",
+    "dlc/aster/lic/content/dungeon_fx.upk",
+    "dlc/aster/lic/content/dungeonraid_fx.upk",
+    "dlc/aster/lic/content/mines_fx.upk",
+    "dlc/aster/lic/content/village_fx.upk",
+    "dlc/commday2013/compat/content/commday2013_startup_sf.upk",
+    "dlc/flax/compat/content/flax_startup_sf.upk",
+    "dlc/flax/compat/localization/deu/ake_flax_vo.deu",
+    "dlc/flax/compat/localization/deu/gd_demonicskrakk.deu",
+    "dlc/flax/compat/localization/deu/willowgame.deu",
+    "dlc/flax/compat/localization/esn/ake_flax_vo.esn",
+    "dlc/flax/compat/localization/esn/gd_demonicskrakk.esn",
+    "dlc/flax/compat/localization/esn/willowgame.esn",
+    "dlc/flax/compat/localization/fra/ake_flax_vo.fra",
+    "dlc/flax/compat/localization/fra/gd_demonicskrakk.fra",
+    "dlc/flax/compat/localization/fra/willowgame.fra",
+    "dlc/flax/compat/localization/int/ake_flax_vo.int",
+    "dlc/flax/compat/localization/ita/ake_flax_vo.ita",
+    "dlc/flax/compat/localization/ita/gd_demonicskrakk.ita",
+    "dlc/flax/compat/localization/ita/willowgame.ita",
+    "dlc/flax/compat/localization/jpn/ake_flax_vo.jpn",
+    "dlc/flax/compat/localization/jpn/gd_demonicskrakk.jpn",
+    "dlc/flax/compat/localization/jpn/willowgame.jpn",
+    "dlc/flax/lic/content/pumpkin_patch_fx.upk",
+    "dlc/gardenia01/compat/content/gardenia01_startup_sf.upk",
+    "dlc/gardenia04/compat/content/gardenia04_startup_sf.upk",
+    "dlc/gardenia05/compat/content/gardenia05_startup_sf.upk",
+    "dlc/gladiolus/compat/content/gladiolus_startup_sf.upk",
+    "dlc/gladiolus/compat/localization/deu/willowgame.deu",
+    "dlc/gladiolus/compat/localization/esn/willowgame.esn",
+    "dlc/gladiolus/compat/localization/fra/willowgame.fra",
+    "dlc/gladiolus/compat/localization/int/willowgame.int",
+    "dlc/gladiolus/compat/localization/ita/willowgame.ita",
+    "dlc/gladiolus/compat/localization/jpn/willowgame.jpn",
+    "dlc/iris/compat/content/iris_startup_sf.upk",
+    "dlc/iris/compat/localization/deu/ake_iris_cinematics.deu",
+    "dlc/iris/compat/localization/deu/ake_iris_vo.deu",
+    "dlc/iris/compat/localization/deu/ake_iris_vo_epilogue.deu",
+    "dlc/iris/compat/localization/deu/ake_iris_vo_episode_01.deu",
+    "dlc/iris/compat/localization/deu/ake_iris_vo_episode_02.deu",
+    "dlc/iris/compat/localization/deu/ake_iris_vo_episode_03.deu",
+    "dlc/iris/compat/localization/deu/ake_iris_vo_episode_04.deu",
+    "dlc/iris/compat/localization/deu/ake_iris_vo_episode_05.deu",
+    "dlc/iris/compat/localization/deu/ake_iris_vo_episode_06.deu",
+    "dlc/iris/compat/localization/deu/ake_iris_vo_episode_07.deu",
+    "dlc/iris/compat/localization/deu/ake_iris_vo_prologue.deu",
+    "dlc/iris/compat/localization/deu/gd_iris_engineerarms.deu",
+    "dlc/iris/compat/localization/deu/gd_iris_population_engineer.deu",
+    "dlc/iris/compat/localization/deu/gd_iris_population_rakk.deu",
+    "dlc/iris/compat/localization/deu/willowgame.deu",
+    "dlc/iris/compat/localization/esn/ake_iris_cinematics.esn",
+    "dlc/iris/compat/localization/esn/ake_iris_vo.esn",
+    "dlc/iris/compat/localization/esn/ake_iris_vo_epilogue.esn",
+    "dlc/iris/compat/localization/esn/ake_iris_vo_episode_01.esn",
+    "dlc/iris/compat/localization/esn/ake_iris_vo_episode_02.esn",
+    "dlc/iris/compat/localization/esn/ake_iris_vo_episode_03.esn",
+    "dlc/iris/compat/localization/esn/ake_iris_vo_episode_04.esn",
+    "dlc/iris/compat/localization/esn/ake_iris_vo_episode_05.esn",
+    "dlc/iris/compat/localization/esn/ake_iris_vo_episode_06.esn",
+    "dlc/iris/compat/localization/esn/ake_iris_vo_episode_07.esn",
+    "dlc/iris/compat/localization/esn/ake_iris_vo_prologue.esn",
+    "dlc/iris/compat/localization/esn/gd_iris_engineerarms.esn",
+    "dlc/iris/compat/localization/esn/gd_iris_population_engineer.esn",
+    "dlc/iris/compat/localization/esn/gd_iris_population_rakk.esn",
+    "dlc/iris/compat/localization/esn/willowgame.esn",
+    "dlc/iris/compat/localization/fra/ake_iris_cinematics.fra",
+    "dlc/iris/compat/localization/fra/ake_iris_vo.fra",
+    "dlc/iris/compat/localization/fra/ake_iris_vo_epilogue.fra",
+    "dlc/iris/compat/localization/fra/ake_iris_vo_episode_01.fra",
+    "dlc/iris/compat/localization/fra/ake_iris_vo_episode_02.fra",
+    "dlc/iris/compat/localization/fra/ake_iris_vo_episode_03.fra",
+    "dlc/iris/compat/localization/fra/ake_iris_vo_episode_04.fra",
+    "dlc/iris/compat/localization/fra/ake_iris_vo_episode_05.fra",
+    "dlc/iris/compat/localization/fra/ake_iris_vo_episode_06.fra",
+    "dlc/iris/compat/localization/fra/ake_iris_vo_episode_07.fra",
+    "dlc/iris/compat/localization/fra/ake_iris_vo_prologue.fra",
+    "dlc/iris/compat/localization/fra/gd_iris_engineerarms.fra",
+    "dlc/iris/compat/localization/fra/gd_iris_population_engineer.fra",
+    "dlc/iris/compat/localization/fra/gd_iris_population_rakk.fra",
+    "dlc/iris/compat/localization/fra/willowgame.fra",
+    "dlc/iris/compat/localization/int/ake_iris_vo.int",
+    "dlc/iris/compat/localization/int/ake_iris_vo_epilogue.int",
+    "dlc/iris/compat/localization/int/ake_iris_vo_episode_01.int",
+    "dlc/iris/compat/localization/int/ake_iris_vo_episode_02.int",
+    "dlc/iris/compat/localization/int/ake_iris_vo_episode_03.int",
+    "dlc/iris/compat/localization/int/ake_iris_vo_episode_04.int",
+    "dlc/iris/compat/localization/int/ake_iris_vo_episode_05.int",
+    "dlc/iris/compat/localization/int/ake_iris_vo_episode_06.int",
+    "dlc/iris/compat/localization/int/ake_iris_vo_episode_07.int",
+    "dlc/iris/compat/localization/int/ake_iris_vo_prologue.int",
+    "dlc/iris/compat/localization/int/ake_iris_voct_contextuals.int",
+    "dlc/iris/compat/localization/int/ake_iris_vosq_sidequests.int",
+    "dlc/iris/compat/localization/int/willowgame.int",
+    "dlc/iris/compat/localization/ita/ake_iris_cinematics.ita",
+    "dlc/iris/compat/localization/ita/ake_iris_vo.ita",
+    "dlc/iris/compat/localization/ita/ake_iris_vo_epilogue.ita",
+    "dlc/iris/compat/localization/ita/ake_iris_vo_episode_01.ita",
+    "dlc/iris/compat/localization/ita/ake_iris_vo_episode_02.ita",
+    "dlc/iris/compat/localization/ita/ake_iris_vo_episode_03.ita",
+    "dlc/iris/compat/localization/ita/ake_iris_vo_episode_04.ita",
+    "dlc/iris/compat/localization/ita/ake_iris_vo_episode_05.ita",
+    "dlc/iris/compat/localization/ita/ake_iris_vo_episode_06.ita",
+    "dlc/iris/compat/localization/ita/ake_iris_vo_episode_07.ita",
+    "dlc/iris/compat/localization/ita/ake_iris_vo_prologue.ita",
+    "dlc/iris/compat/localization/ita/gd_iris_engineerarms.ita",
+    "dlc/iris/compat/localization/ita/gd_iris_population_engineer.ita",
+    "dlc/iris/compat/localization/ita/gd_iris_population_rakk.ita",
+    "dlc/iris/compat/localization/ita/willowgame.ita",
+    "dlc/iris/compat/localization/jpn/ake_iris_cinematics.jpn",
+    "dlc/iris/compat/localization/jpn/ake_iris_vo.jpn",
+    "dlc/iris/compat/localization/jpn/ake_iris_vo_epilogue.jpn",
+    "dlc/iris/compat/localization/jpn/ake_iris_vo_episode_01.jpn",
+    "dlc/iris/compat/localization/jpn/ake_iris_vo_episode_02.jpn",
+    "dlc/iris/compat/localization/jpn/ake_iris_vo_episode_03.jpn",
+    "dlc/iris/compat/localization/jpn/ake_iris_vo_episode_04.jpn",
+    "dlc/iris/compat/localization/jpn/ake_iris_vo_episode_05.jpn",
+    "dlc/iris/compat/localization/jpn/ake_iris_vo_episode_06.jpn",
+    "dlc/iris/compat/localization/jpn/ake_iris_vo_episode_07.jpn",
+    "dlc/iris/compat/localization/jpn/ake_iris_vo_prologue.jpn",
+    "dlc/iris/compat/localization/jpn/gd_iris_engineerarms.jpn",
+    "dlc/iris/compat/localization/jpn/gd_iris_population_engineer.jpn",
+    "dlc/iris/compat/localization/jpn/gd_iris_population_rakk.jpn",
+    "dlc/iris/compat/localization/jpn/willowgame.jpn",
+    "dlc/iris/lic/content/iris_dl1_fx.upk",
+    "dlc/iris/lic/content/iris_dl1_tas_fx.upk",
+    "dlc/iris/lic/content/iris_dl2_fx.upk",
+    "dlc/iris/lic/content/iris_dl3_fx.upk",
+    "dlc/iris/lic/content/iris_hub2_fx.upk",
+    "dlc/iris/lic/content/iris_hub_fx.upk",
+    "dlc/lilac/compat/content/cd_psycho_skin_jakobsa_sf.upk",
+    "dlc/lilac/compat/content/cd_psycho_skin_jakobsb_sf.upk",
+    "dlc/lilac/compat/content/cd_psycho_skin_jakobsc_sf.upk",
+    "dlc/lilac/compat/content/lilac_startup_sf.upk",
+    "dlc/lilac/compat/localization/deu/willowgame.deu",
+    "dlc/lilac/compat/localization/esn/willowgame.esn",
+    "dlc/lilac/compat/localization/fra/willowgame.fra",
+    "dlc/lilac/compat/localization/int/willowgame.int",
+    "dlc/lilac/compat/localization/ita/willowgame.ita",
+    "dlc/lilac/compat/localization/jpn/willowgame.jpn",
+    "dlc/lobelia/compat/content/lobelia_startup_sf.upk",
+    "dlc/lobelia/compat/localization/deu/ake_lobelia_vo.deu",
+    "dlc/lobelia/compat/localization/deu/willowgame.deu",
+    "dlc/lobelia/compat/localization/esn/ake_lobelia_vo.esn",
+    "dlc/lobelia/compat/localization/esn/willowgame.esn",
+    "dlc/lobelia/compat/localization/fra/ake_lobelia_vo.fra",
+    "dlc/lobelia/compat/localization/fra/willowgame.fra",
+    "dlc/lobelia/compat/localization/int/ake_lobelia_vo.int",
+    "dlc/lobelia/compat/localization/int/willowgame.int",
+    "dlc/lobelia/compat/localization/ita/ake_lobelia_vo.ita",
+    "dlc/lobelia/compat/localization/ita/willowgame.ita",
+    "dlc/lobelia/compat/localization/jpn/ake_lobelia_vo.jpn",
+    "dlc/lobelia/compat/localization/jpn/willowgame.jpn",
+    "dlc/lootchest2/compat/content/lootchest2_startup_sf.upk",
+    "dlc/mancana/compat/content/mancana_startup_sf.upk",
+    "dlc/mancana/compat/content/patch/mancana_startupremaster_patch0.upk",
+    "dlc/mancana/compat/content/patch/startup_patch0_mancana.tfc",
+    "dlc/mancana/lic/content/remaster/mancana_startupremaster.upk",
+    "dlc/nasturtium/compat/content/nasturtium_startup_sf.upk",
+    "dlc/nasturtium/compat/localization/deu/ake_nasturtium_cinematics.deu",
+    "dlc/nasturtium/compat/localization/deu/ake_nasturtium_vo.deu",
+    "dlc/nasturtium/compat/localization/deu/willowgame.deu",
+    "dlc/nasturtium/compat/localization/esn/ake_nasturtium_cinematics.esn",
+    "dlc/nasturtium/compat/localization/esn/ake_nasturtium_vo.esn",
+    "dlc/nasturtium/compat/localization/esn/willowgame.esn",
+    "dlc/nasturtium/compat/localization/fra/ake_nasturtium_cinematics.fra",
+    "dlc/nasturtium/compat/localization/fra/ake_nasturtium_vo.fra",
+    "dlc/nasturtium/compat/localization/fra/willowgame.fra",
+    "dlc/nasturtium/compat/localization/int/ake_nasturtium_vo.int",
+    "dlc/nasturtium/compat/localization/ita/ake_nasturtium_cinematics.ita",
+    "dlc/nasturtium/compat/localization/ita/ake_nasturtium_vo.ita",
+    "dlc/nasturtium/compat/localization/ita/willowgame.ita",
+    "dlc/nasturtium/compat/localization/jpn/ake_nasturtium_cinematics.jpn",
+    "dlc/nasturtium/compat/localization/jpn/ake_nasturtium_vo.jpn",
+    "dlc/nasturtium/compat/localization/jpn/willowgame.jpn",
+    "dlc/nasturtium/lic/content/distillery_fx.upk",
+    "dlc/nasturtium/lic/content/easter_fx.upk",
+    "dlc/orchid/compat/content/orchid_startup_sf.upk",
+    "dlc/orchid/compat/localization/deu/ake_orchid_cinematics.deu",
+    "dlc/orchid/compat/localization/deu/ake_orchid_vo_chapter_01.deu",
+    "dlc/orchid/compat/localization/deu/ake_orchid_vo_chapter_02.deu",
+    "dlc/orchid/compat/localization/deu/ake_orchid_vo_chapter_03.deu",
+    "dlc/orchid/compat/localization/deu/ake_orchid_vo_chapter_04.deu",
+    "dlc/orchid/compat/localization/deu/ake_orchid_vo_chapter_05.deu",
+    "dlc/orchid/compat/localization/deu/ake_orchid_vo_chapter_06.deu",
+    "dlc/orchid/compat/localization/deu/ake_orchid_vo_chapter_07.deu",
+    "dlc/orchid/compat/localization/deu/ake_orchid_vo_chapter_08.deu",
+    "dlc/orchid/compat/localization/deu/ake_orchid_vo_chapter_09.deu",
+    "dlc/orchid/compat/localization/deu/ake_orchid_vo_endcutscene.deu",
+    "dlc/orchid/compat/localization/deu/ake_orchid_vo_epilogue.deu",
+    "dlc/orchid/compat/localization/deu/ake_orchid_vo_prologue.deu",
+    "dlc/orchid/compat/localization/deu/ake_orchid_voct_contextuals.deu",
+    "dlc/orchid/compat/localization/deu/ake_orchid_vosq_sidequests.deu",
+    "dlc/orchid/compat/localization/deu/gd_orchid_pop_raidengineer.deu",
+    "dlc/orchid/compat/localization/deu/gd_orchid_pop_raidengineeraid.deu",
+    "dlc/orchid/compat/localization/deu/gd_orchid_pop_rakk.deu",
+    "dlc/orchid/compat/localization/deu/gd_orchid_pop_rakkhive.deu",
+    "dlc/orchid/compat/localization/deu/gd_orchid_raidengineer.deu",
+    "dlc/orchid/compat/localization/deu/gd_orchid_raidengineeraid.deu",
+    "dlc/orchid/compat/localization/deu/gd_orchid_rakkhive.deu",
+    "dlc/orchid/compat/localization/deu/willowgame.deu",
+    "dlc/orchid/compat/localization/esn/ake_orchid_cinematics.esn",
+    "dlc/orchid/compat/localization/esn/ake_orchid_vo_chapter_01.esn",
+    "dlc/orchid/compat/localization/esn/ake_orchid_vo_chapter_02.esn",
+    "dlc/orchid/compat/localization/esn/ake_orchid_vo_chapter_03.esn",
+    "dlc/orchid/compat/localization/esn/ake_orchid_vo_chapter_04.esn",
+    "dlc/orchid/compat/localization/esn/ake_orchid_vo_chapter_05.esn",
+    "dlc/orchid/compat/localization/esn/ake_orchid_vo_chapter_06.esn",
+    "dlc/orchid/compat/localization/esn/ake_orchid_vo_chapter_07.esn",
+    "dlc/orchid/compat/localization/esn/ake_orchid_vo_chapter_08.esn",
+    "dlc/orchid/compat/localization/esn/ake_orchid_vo_chapter_09.esn",
+    "dlc/orchid/compat/localization/esn/ake_orchid_vo_endcutscene.esn",
+    "dlc/orchid/compat/localization/esn/ake_orchid_vo_epilogue.esn",
+    "dlc/orchid/compat/localization/esn/ake_orchid_vo_prologue.esn",
+    "dlc/orchid/compat/localization/esn/ake_orchid_voct_contextuals.esn",
+    "dlc/orchid/compat/localization/esn/ake_orchid_vosq_sidequests.esn",
+    "dlc/orchid/compat/localization/esn/gd_orchid_pop_raidengineer.esn",
+    "dlc/orchid/compat/localization/esn/gd_orchid_pop_raidengineeraid.esn",
+    "dlc/orchid/compat/localization/esn/gd_orchid_pop_rakk.esn",
+    "dlc/orchid/compat/localization/esn/gd_orchid_pop_rakkhive.esn",
+    "dlc/orchid/compat/localization/esn/gd_orchid_raidengineer.esn",
+    "dlc/orchid/compat/localization/esn/gd_orchid_raidengineeraid.esn",
+    "dlc/orchid/compat/localization/esn/gd_orchid_rakkhive.esn",
+    "dlc/orchid/compat/localization/esn/willowgame.esn",
+    "dlc/orchid/compat/localization/fra/ake_orchid_cinematics.fra",
+    "dlc/orchid/compat/localization/fra/ake_orchid_vo_chapter_01.fra",
+    "dlc/orchid/compat/localization/fra/ake_orchid_vo_chapter_02.fra",
+    "dlc/orchid/compat/localization/fra/ake_orchid_vo_chapter_03.fra",
+    "dlc/orchid/compat/localization/fra/ake_orchid_vo_chapter_04.fra",
+    "dlc/orchid/compat/localization/fra/ake_orchid_vo_chapter_05.fra",
+    "dlc/orchid/compat/localization/fra/ake_orchid_vo_chapter_06.fra",
+    "dlc/orchid/compat/localization/fra/ake_orchid_vo_chapter_07.fra",
+    "dlc/orchid/compat/localization/fra/ake_orchid_vo_chapter_08.fra",
+    "dlc/orchid/compat/localization/fra/ake_orchid_vo_chapter_09.fra",
+    "dlc/orchid/compat/localization/fra/ake_orchid_vo_endcutscene.fra",
+    "dlc/orchid/compat/localization/fra/ake_orchid_vo_epilogue.fra",
+    "dlc/orchid/compat/localization/fra/ake_orchid_vo_prologue.fra",
+    "dlc/orchid/compat/localization/fra/ake_orchid_voct_contextuals.fra",
+    "dlc/orchid/compat/localization/fra/ake_orchid_vosq_sidequests.fra",
+    "dlc/orchid/compat/localization/fra/gd_orchid_pop_raidengineer.fra",
+    "dlc/orchid/compat/localization/fra/gd_orchid_pop_raidengineeraid.fra",
+    "dlc/orchid/compat/localization/fra/gd_orchid_pop_rakk.fra",
+    "dlc/orchid/compat/localization/fra/gd_orchid_pop_rakkhive.fra",
+    "dlc/orchid/compat/localization/fra/gd_orchid_raidengineer.fra",
+    "dlc/orchid/compat/localization/fra/gd_orchid_raidengineeraid.fra",
+    "dlc/orchid/compat/localization/fra/gd_orchid_rakkhive.fra",
+    "dlc/orchid/compat/localization/fra/willowgame.fra",
+    "dlc/orchid/compat/localization/int/ake_orchid_vo_chapter_01.int",
+    "dlc/orchid/compat/localization/int/ake_orchid_vo_chapter_02.int",
+    "dlc/orchid/compat/localization/int/ake_orchid_vo_chapter_03.int",
+    "dlc/orchid/compat/localization/int/ake_orchid_vo_chapter_04.int",
+    "dlc/orchid/compat/localization/int/ake_orchid_vo_chapter_05.int",
+    "dlc/orchid/compat/localization/int/ake_orchid_vo_chapter_06.int",
+    "dlc/orchid/compat/localization/int/ake_orchid_vo_chapter_07.int",
+    "dlc/orchid/compat/localization/int/ake_orchid_vo_chapter_08.int",
+    "dlc/orchid/compat/localization/int/ake_orchid_vo_chapter_09.int",
+    "dlc/orchid/compat/localization/int/ake_orchid_vo_endcutscene.int",
+    "dlc/orchid/compat/localization/int/ake_orchid_vo_epilogue.int",
+    "dlc/orchid/compat/localization/int/ake_orchid_vo_prologue.int",
+    "dlc/orchid/compat/localization/int/ake_orchid_voct_contextuals.int",
+    "dlc/orchid/compat/localization/int/ake_orchid_vosq_sidequests.int",
+    "dlc/orchid/compat/localization/int/willowgame.int",
+    "dlc/orchid/compat/localization/ita/ake_orchid_cinematics.ita",
+    "dlc/orchid/compat/localization/ita/ake_orchid_vo_chapter_01.ita",
+    "dlc/orchid/compat/localization/ita/ake_orchid_vo_chapter_02.ita",
+    "dlc/orchid/compat/localization/ita/ake_orchid_vo_chapter_03.ita",
+    "dlc/orchid/compat/localization/ita/ake_orchid_vo_chapter_04.ita",
+    "dlc/orchid/compat/localization/ita/ake_orchid_vo_chapter_05.ita",
+    "dlc/orchid/compat/localization/ita/ake_orchid_vo_chapter_06.ita",
+    "dlc/orchid/compat/localization/ita/ake_orchid_vo_chapter_07.ita",
+    "dlc/orchid/compat/localization/ita/ake_orchid_vo_chapter_08.ita",
+    "dlc/orchid/compat/localization/ita/ake_orchid_vo_chapter_09.ita",
+    "dlc/orchid/compat/localization/ita/ake_orchid_vo_endcutscene.ita",
+    "dlc/orchid/compat/localization/ita/ake_orchid_vo_epilogue.ita",
+    "dlc/orchid/compat/localization/ita/ake_orchid_vo_prologue.ita",
+    "dlc/orchid/compat/localization/ita/ake_orchid_voct_contextuals.ita",
+    "dlc/orchid/compat/localization/ita/ake_orchid_vosq_sidequests.ita",
+    "dlc/orchid/compat/localization/ita/gd_orchid_pop_raidengineer.ita",
+    "dlc/orchid/compat/localization/ita/gd_orchid_pop_raidengineeraid.ita",
+    "dlc/orchid/compat/localization/ita/gd_orchid_pop_rakk.ita",
+    "dlc/orchid/compat/localization/ita/gd_orchid_pop_rakkhive.ita",
+    "dlc/orchid/compat/localization/ita/gd_orchid_raidengineer.ita",
+    "dlc/orchid/compat/localization/ita/gd_orchid_raidengineeraid.ita",
+    "dlc/orchid/compat/localization/ita/gd_orchid_rakkhive.ita",
+    "dlc/orchid/compat/localization/ita/willowgame.ita",
+    "dlc/orchid/compat/localization/jpn/ake_orchid_cinematics.jpn",
+    "dlc/orchid/compat/localization/jpn/ake_orchid_vo_chapter_01.jpn",
+    "dlc/orchid/compat/localization/jpn/ake_orchid_vo_chapter_02.jpn",
+    "dlc/orchid/compat/localization/jpn/ake_orchid_vo_chapter_03.jpn",
+    "dlc/orchid/compat/localization/jpn/ake_orchid_vo_chapter_04.jpn",
+    "dlc/orchid/compat/localization/jpn/ake_orchid_vo_chapter_05.jpn",
+    "dlc/orchid/compat/localization/jpn/ake_orchid_vo_chapter_06.jpn",
+    "dlc/orchid/compat/localization/jpn/ake_orchid_vo_chapter_07.jpn",
+    "dlc/orchid/compat/localization/jpn/ake_orchid_vo_chapter_08.jpn",
+    "dlc/orchid/compat/localization/jpn/ake_orchid_vo_chapter_09.jpn"
+  ],
+  "only_tps_interest": [
+    "binaries/win32/mmoverlay/achievements/cork360_achvmnt_51.png",
+    "binaries/win32/mmoverlay/achievements/cork360_achvmnt_51g.png",
+    "binaries/win32/mmoverlay/achievements/cork360_achvmnt_52.png",
+    "binaries/win32/mmoverlay/achievements/cork360_achvmnt_52g.png",
+    "binaries/win32/mmoverlay/achievements/cork360_achvmnt_53.png",
+    "binaries/win32/mmoverlay/achievements/cork360_achvmnt_53g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_01.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_01g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_02.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_02g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_03.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_03g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_04.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_04g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_05.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_05g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_06.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_06g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_07.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_07g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_08.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_08g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_09.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_09g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_10.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_10g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_11.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_11g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_12.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_12g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_13.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_13g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_14.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_14g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_15.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_15g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_16.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_16g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_17.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_17g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_18.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_18g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_19.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_19g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_20.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_20g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_21.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_21g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_22.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_22g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_23.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_23g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_24.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_24g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_25.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_25g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_26.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_26g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_27.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_27g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_28.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_28g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_29.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_29g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_30.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_30g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_31.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_31g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_32.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_32g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_33.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_33g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_34.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_34g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_35.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_35g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_36.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_36g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_37.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_37g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_38.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_38g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_39.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_39g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_40.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_40g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_41.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_41g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_42.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_42g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_43.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_43g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_44.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_44g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_45.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_45g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_46.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_46g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_47.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_47g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_48.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_48g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_49.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_49g.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_50.png",
+    "binaries/win32/mmoverlay/achievements/gbx_cork360_achvmnt_50g.png",
+    "dlc/ailanthus/compat/content/ailanthus_startup_sf.upk",
+    "dlc/ailanthus/lic/content/remaster/ailanthus_startupremaster.upk",
+    "dlc/ailanthus/lic/movies/loading_innercore_p_4k.bik",
+    "dlc/crocus/compat/content/cd_baroness_skin_jakobsa_sf.upk",
+    "dlc/crocus/compat/content/cd_baroness_skin_jakobsb_sf.upk",
+    "dlc/crocus/compat/content/cd_baroness_skin_jakobsc_sf.upk",
+    "dlc/crocus/compat/content/crocus_startup_sf.upk",
+    "dlc/crocus/compat/localization/deu/ake_crocus_vo_episode_01.deu",
+    "dlc/crocus/compat/localization/deu/ake_crocus_vo_episode_02.deu",
+    "dlc/crocus/compat/localization/deu/ake_crocus_vo_episode_03.deu",
+    "dlc/crocus/compat/localization/deu/ake_crocus_vo_episode_04.deu",
+    "dlc/crocus/compat/localization/deu/ake_crocus_vo_episode_05.deu",
+    "dlc/crocus/compat/localization/deu/ake_crocus_vo_episode_06.deu",
+    "dlc/crocus/compat/localization/deu/ake_crocus_vo_episode_07.deu",
+    "dlc/crocus/compat/localization/deu/ake_crocus_vo_episode_08.deu",
+    "dlc/crocus/compat/localization/deu/ake_crocus_vo_episode_09.deu",
+    "dlc/crocus/compat/localization/deu/ake_crocus_voct_contextuals.deu",
+    "dlc/crocus/compat/localization/deu/ake_crocus_vosq_sidequests.deu",
+    "dlc/crocus/compat/localization/deu/willowgame.deu",
+    "dlc/crocus/compat/localization/esn/ake_crocus_vo_episode_01.esn",
+    "dlc/crocus/compat/localization/esn/ake_crocus_vo_episode_02.esn",
+    "dlc/crocus/compat/localization/esn/ake_crocus_vo_episode_03.esn",
+    "dlc/crocus/compat/localization/esn/ake_crocus_vo_episode_04.esn",
+    "dlc/crocus/compat/localization/esn/ake_crocus_vo_episode_05.esn",
+    "dlc/crocus/compat/localization/esn/ake_crocus_vo_episode_06.esn",
+    "dlc/crocus/compat/localization/esn/ake_crocus_vo_episode_07.esn",
+    "dlc/crocus/compat/localization/esn/ake_crocus_vo_episode_08.esn",
+    "dlc/crocus/compat/localization/esn/ake_crocus_vo_episode_09.esn",
+    "dlc/crocus/compat/localization/esn/ake_crocus_voct_contextuals.esn",
+    "dlc/crocus/compat/localization/esn/ake_crocus_vosq_sidequests.esn",
+    "dlc/crocus/compat/localization/esn/willowgame.esn",
+    "dlc/crocus/compat/localization/fra/ake_crocus_vo_episode_01.fra",
+    "dlc/crocus/compat/localization/fra/ake_crocus_vo_episode_02.fra",
+    "dlc/crocus/compat/localization/fra/ake_crocus_vo_episode_03.fra",
+    "dlc/crocus/compat/localization/fra/ake_crocus_vo_episode_04.fra",
+    "dlc/crocus/compat/localization/fra/ake_crocus_vo_episode_05.fra",
+    "dlc/crocus/compat/localization/fra/ake_crocus_vo_episode_06.fra",
+    "dlc/crocus/compat/localization/fra/ake_crocus_vo_episode_07.fra",
+    "dlc/crocus/compat/localization/fra/ake_crocus_vo_episode_08.fra",
+    "dlc/crocus/compat/localization/fra/ake_crocus_vo_episode_09.fra",
+    "dlc/crocus/compat/localization/fra/ake_crocus_voct_contextuals.fra",
+    "dlc/crocus/compat/localization/fra/ake_crocus_vosq_sidequests.fra",
+    "dlc/crocus/compat/localization/fra/willowgame.fra",
+    "dlc/crocus/compat/localization/int/ake_crocus_vo_episode_01.int",
+    "dlc/crocus/compat/localization/int/ake_crocus_vo_episode_02.int",
+    "dlc/crocus/compat/localization/int/ake_crocus_vo_episode_03.int",
+    "dlc/crocus/compat/localization/int/ake_crocus_vo_episode_04.int",
+    "dlc/crocus/compat/localization/int/ake_crocus_vo_episode_05.int",
+    "dlc/crocus/compat/localization/int/ake_crocus_vo_episode_06.int",
+    "dlc/crocus/compat/localization/int/ake_crocus_vo_episode_07.int",
+    "dlc/crocus/compat/localization/int/ake_crocus_vo_episode_08.int",
+    "dlc/crocus/compat/localization/int/ake_crocus_vo_episode_09.int",
+    "dlc/crocus/compat/localization/int/ake_crocus_voct_contextuals.int",
+    "dlc/crocus/compat/localization/int/ake_crocus_vosq_sidequests.int",
+    "dlc/crocus/compat/localization/int/willowgame.int",
+    "dlc/crocus/compat/localization/ita/ake_crocus_vo_episode_01.ita",
+    "dlc/crocus/compat/localization/ita/ake_crocus_vo_episode_02.ita",
+    "dlc/crocus/compat/localization/ita/ake_crocus_vo_episode_03.ita",
+    "dlc/crocus/compat/localization/ita/ake_crocus_vo_episode_04.ita",
+    "dlc/crocus/compat/localization/ita/ake_crocus_vo_episode_05.ita",
+    "dlc/crocus/compat/localization/ita/ake_crocus_vo_episode_06.ita",
+    "dlc/crocus/compat/localization/ita/ake_crocus_vo_episode_07.ita",
+    "dlc/crocus/compat/localization/ita/ake_crocus_vo_episode_08.ita",
+    "dlc/crocus/compat/localization/ita/ake_crocus_vo_episode_09.ita",
+    "dlc/crocus/compat/localization/ita/ake_crocus_voct_contextuals.ita",
+    "dlc/crocus/compat/localization/ita/ake_crocus_vosq_sidequests.ita",
+    "dlc/crocus/compat/localization/ita/willowgame.ita",
+    "dlc/crocus/compat/localization/jpn/ake_crocus_vo_episode_01.jpn",
+    "dlc/crocus/compat/localization/jpn/ake_crocus_vo_episode_02.jpn",
+    "dlc/crocus/compat/localization/jpn/ake_crocus_vo_episode_03.jpn",
+    "dlc/crocus/compat/localization/jpn/ake_crocus_vo_episode_04.jpn",
+    "dlc/crocus/compat/localization/jpn/ake_crocus_vo_episode_05.jpn",
+    "dlc/crocus/compat/localization/jpn/ake_crocus_vo_episode_06.jpn",
+    "dlc/crocus/compat/localization/jpn/ake_crocus_vo_episode_07.jpn",
+    "dlc/crocus/compat/localization/jpn/ake_crocus_vo_episode_08.jpn",
+    "dlc/crocus/compat/localization/jpn/ake_crocus_vo_episode_09.jpn",
+    "dlc/crocus/compat/localization/jpn/ake_crocus_voct_contextuals.jpn",
+    "dlc/crocus/compat/localization/jpn/ake_crocus_vosq_sidequests.jpn",
+    "dlc/crocus/compat/localization/jpn/willowgame.jpn",
+    "dlc/crocus/compat/localization/kor/ake_crocus_vo_episode_01.kor",
+    "dlc/crocus/compat/localization/kor/ake_crocus_vo_episode_02.kor",
+    "dlc/crocus/compat/localization/kor/ake_crocus_vo_episode_03.kor",
+    "dlc/crocus/compat/localization/kor/ake_crocus_vo_episode_04.kor",
+    "dlc/crocus/compat/localization/kor/ake_crocus_vo_episode_05.kor",
+    "dlc/crocus/compat/localization/kor/ake_crocus_vo_episode_06.kor",
+    "dlc/crocus/compat/localization/kor/ake_crocus_vo_episode_07.kor",
+    "dlc/crocus/compat/localization/kor/ake_crocus_vo_episode_08.kor",
+    "dlc/crocus/compat/localization/kor/ake_crocus_vo_episode_09.kor",
+    "dlc/crocus/compat/localization/kor/ake_crocus_voct_contextuals.kor",
+    "dlc/crocus/compat/localization/kor/ake_crocus_vosq_sidequests.kor",
+    "dlc/crocus/compat/localization/kor/willowgame.kor",
+    "dlc/crocus/compat/localization/rus/ake_crocus_vo_episode_01.rus",
+    "dlc/crocus/compat/localization/rus/ake_crocus_vo_episode_02.rus",
+    "dlc/crocus/compat/localization/rus/ake_crocus_vo_episode_03.rus",
+    "dlc/crocus/compat/localization/rus/ake_crocus_vo_episode_04.rus",
+    "dlc/crocus/compat/localization/rus/ake_crocus_vo_episode_05.rus",
+    "dlc/crocus/compat/localization/rus/ake_crocus_vo_episode_06.rus",
+    "dlc/crocus/compat/localization/rus/ake_crocus_vo_episode_07.rus",
+    "dlc/crocus/compat/localization/rus/ake_crocus_vo_episode_08.rus",
+    "dlc/crocus/compat/localization/rus/ake_crocus_vo_episode_09.rus",
+    "dlc/crocus/compat/localization/rus/ake_crocus_voct_contextuals.rus",
+    "dlc/crocus/compat/localization/rus/ake_crocus_vosq_sidequests.rus",
+    "dlc/crocus/compat/localization/rus/willowgame.rus",
+    "dlc/marigold/compat/content/marigold_startup_sf.upk",
+    "dlc/marigold/compat/localization/deu/ake_marigold_cinemtatics.deu",
+    "dlc/marigold/compat/localization/deu/ake_marigold_vo_episode_01.deu",
+    "dlc/marigold/compat/localization/deu/ake_marigold_vo_episode_02.deu",
+    "dlc/marigold/compat/localization/deu/ake_marigold_vo_episode_03.deu",
+    "dlc/marigold/compat/localization/deu/ake_marigold_vo_episode_04.deu",
+    "dlc/marigold/compat/localization/deu/ake_marigold_vo_episode_05.deu",
+    "dlc/marigold/compat/localization/deu/ake_marigold_vo_episode_intro.deu",
+    "dlc/marigold/compat/localization/deu/ake_marigold_voct_contextuals.deu",
+    "dlc/marigold/compat/localization/deu/ake_marigold_vosq_sidequests.deu",
+    "dlc/marigold/compat/localization/deu/gd_ma_engineerarms.deu",
+    "dlc/marigold/compat/localization/deu/gd_ma_engineerrifle.deu",
+    "dlc/marigold/compat/localization/deu/gd_ma_pop_engineer.deu",
+    "dlc/marigold/compat/localization/deu/willowgame.deu",
+    "dlc/marigold/compat/localization/esn/ake_marigold_cinemtatics.esn",
+    "dlc/marigold/compat/localization/esn/ake_marigold_vo_episode_01.esn",
+    "dlc/marigold/compat/localization/esn/ake_marigold_vo_episode_02.esn",
+    "dlc/marigold/compat/localization/esn/ake_marigold_vo_episode_03.esn",
+    "dlc/marigold/compat/localization/esn/ake_marigold_vo_episode_04.esn",
+    "dlc/marigold/compat/localization/esn/ake_marigold_vo_episode_05.esn",
+    "dlc/marigold/compat/localization/esn/ake_marigold_vo_episode_intro.esn",
+    "dlc/marigold/compat/localization/esn/ake_marigold_voct_contextuals.esn",
+    "dlc/marigold/compat/localization/esn/ake_marigold_vosq_sidequests.esn",
+    "dlc/marigold/compat/localization/esn/gd_ma_engineerarms.esn",
+    "dlc/marigold/compat/localization/esn/gd_ma_engineerrifle.esn",
+    "dlc/marigold/compat/localization/esn/gd_ma_pop_engineer.esn",
+    "dlc/marigold/compat/localization/esn/willowgame.esn",
+    "dlc/marigold/compat/localization/fra/ake_marigold_cinemtatics.fra",
+    "dlc/marigold/compat/localization/fra/ake_marigold_vo_episode_01.fra",
+    "dlc/marigold/compat/localization/fra/ake_marigold_vo_episode_02.fra",
+    "dlc/marigold/compat/localization/fra/ake_marigold_vo_episode_03.fra",
+    "dlc/marigold/compat/localization/fra/ake_marigold_vo_episode_04.fra",
+    "dlc/marigold/compat/localization/fra/ake_marigold_vo_episode_05.fra",
+    "dlc/marigold/compat/localization/fra/ake_marigold_vo_episode_intro.fra",
+    "dlc/marigold/compat/localization/fra/ake_marigold_voct_contextuals.fra",
+    "dlc/marigold/compat/localization/fra/ake_marigold_vosq_sidequests.fra",
+    "dlc/marigold/compat/localization/fra/gd_ma_engineerarms.fra",
+    "dlc/marigold/compat/localization/fra/gd_ma_engineerrifle.fra",
+    "dlc/marigold/compat/localization/fra/gd_ma_pop_engineer.fra",
+    "dlc/marigold/compat/localization/fra/willowgame.fra",
+    "dlc/marigold/compat/localization/int/ake_marigold_vo_episode_01.int",
+    "dlc/marigold/compat/localization/int/ake_marigold_vo_episode_02.int",
+    "dlc/marigold/compat/localization/int/ake_marigold_vo_episode_03.int",
+    "dlc/marigold/compat/localization/int/ake_marigold_vo_episode_04.int",
+    "dlc/marigold/compat/localization/int/ake_marigold_vo_episode_05.int",
+    "dlc/marigold/compat/localization/int/ake_marigold_vo_episode_intro.int",
+    "dlc/marigold/compat/localization/int/ake_marigold_voct_contextuals.int",
+    "dlc/marigold/compat/localization/int/ake_marigold_vosq_sidequests.int",
+    "dlc/marigold/compat/localization/int/willowgame.int",
+    "dlc/marigold/compat/localization/ita/ake_marigold_cinemtatics.ita",
+    "dlc/marigold/compat/localization/ita/ake_marigold_vo_episode_01.ita",
+    "dlc/marigold/compat/localization/ita/ake_marigold_vo_episode_02.ita",
+    "dlc/marigold/compat/localization/ita/ake_marigold_vo_episode_03.ita",
+    "dlc/marigold/compat/localization/ita/ake_marigold_vo_episode_04.ita",
+    "dlc/marigold/compat/localization/ita/ake_marigold_vo_episode_05.ita",
+    "dlc/marigold/compat/localization/ita/ake_marigold_vo_episode_intro.ita",
+    "dlc/marigold/compat/localization/ita/ake_marigold_voct_contextuals.ita",
+    "dlc/marigold/compat/localization/ita/ake_marigold_vosq_sidequests.ita",
+    "dlc/marigold/compat/localization/ita/gd_ma_engineerarms.ita",
+    "dlc/marigold/compat/localization/ita/gd_ma_engineerrifle.ita",
+    "dlc/marigold/compat/localization/ita/gd_ma_pop_engineer.ita",
+    "dlc/marigold/compat/localization/ita/willowgame.ita",
+    "dlc/marigold/compat/localization/jpn/ake_marigold_cinemtatics.jpn",
+    "dlc/marigold/compat/localization/jpn/ake_marigold_vo_episode_01.jpn",
+    "dlc/marigold/compat/localization/jpn/ake_marigold_vo_episode_02.jpn",
+    "dlc/marigold/compat/localization/jpn/ake_marigold_vo_episode_03.jpn",
+    "dlc/marigold/compat/localization/jpn/ake_marigold_vo_episode_04.jpn",
+    "dlc/marigold/compat/localization/jpn/ake_marigold_vo_episode_05.jpn",
+    "dlc/marigold/compat/localization/jpn/ake_marigold_vo_episode_intro.jpn",
+    "dlc/marigold/compat/localization/jpn/ake_marigold_voct_contextuals.jpn",
+    "dlc/marigold/compat/localization/jpn/ake_marigold_vosq_sidequests.jpn",
+    "dlc/marigold/compat/localization/jpn/gd_ma_engineerarms.jpn",
+    "dlc/marigold/compat/localization/jpn/gd_ma_engineerrifle.jpn",
+    "dlc/marigold/compat/localization/jpn/gd_ma_pop_engineer.jpn",
+    "dlc/marigold/compat/localization/jpn/willowgame.jpn",
+    "dlc/marigold/compat/localization/kor/ake_marigold_cinemtatics.kor",
+    "dlc/marigold/compat/localization/kor/ake_marigold_vo_episode_01.kor",
+    "dlc/marigold/compat/localization/kor/ake_marigold_vo_episode_02.kor",
+    "dlc/marigold/compat/localization/kor/ake_marigold_vo_episode_03.kor",
+    "dlc/marigold/compat/localization/kor/ake_marigold_vo_episode_04.kor",
+    "dlc/marigold/compat/localization/kor/ake_marigold_vo_episode_05.kor",
+    "dlc/marigold/compat/localization/kor/ake_marigold_vo_episode_intro.kor",
+    "dlc/marigold/compat/localization/kor/ake_marigold_voct_contextuals.kor",
+    "dlc/marigold/compat/localization/kor/ake_marigold_vosq_sidequests.kor",
+    "dlc/marigold/compat/localization/kor/gd_ma_engineerarms.kor",
+    "dlc/marigold/compat/localization/kor/gd_ma_engineerrifle.kor",
+    "dlc/marigold/compat/localization/kor/gd_ma_pop_engineer.kor",
+    "dlc/marigold/compat/localization/kor/willowgame.kor",
+    "dlc/marigold/compat/localization/rus/ake_marigold_cinemtatics.rus",
+    "dlc/marigold/compat/localization/rus/ake_marigold_vo_episode_01.rus",
+    "dlc/marigold/compat/localization/rus/ake_marigold_vo_episode_02.rus",
+    "dlc/marigold/compat/localization/rus/ake_marigold_vo_episode_03.rus",
+    "dlc/marigold/compat/localization/rus/ake_marigold_vo_episode_04.rus",
+    "dlc/marigold/compat/localization/rus/ake_marigold_vo_episode_05.rus",
+    "dlc/marigold/compat/localization/rus/ake_marigold_vo_episode_intro.rus",
+    "dlc/marigold/compat/localization/rus/ake_marigold_voct_contextuals.rus",
+    "dlc/marigold/compat/localization/rus/ake_marigold_vosq_sidequests.rus",
+    "dlc/marigold/compat/localization/rus/gd_ma_engineerarms.rus",
+    "dlc/marigold/compat/localization/rus/gd_ma_engineerrifle.rus",
+    "dlc/marigold/compat/localization/rus/gd_ma_pop_engineer.rus",
+    "dlc/marigold/compat/localization/rus/willowgame.rus",
+    "dlc/marigold/lic/content/ma_leftcluster_pc_fx.upk",
+    "dlc/marigold/lic/content/ma_nexus_pcfx.upk",
+    "dlc/petunia/compat/content/petunia_startup_sf.upk",
+    "dlc/petunia/compat/localization/deu/ake_petunia_vo_episode_01.deu",
+    "dlc/petunia/compat/localization/deu/ake_petunia_vo_episode_02.deu",
+    "dlc/petunia/compat/localization/deu/ake_petunia_vo_episode_03.deu",
+    "dlc/petunia/compat/localization/deu/ake_petunia_vo_episode_04.deu",
+    "dlc/petunia/compat/localization/deu/ake_petunia_vo_episode_05.deu",
+    "dlc/petunia/compat/localization/deu/ake_petunia_vo_episode_06.deu",
+    "dlc/petunia/compat/localization/deu/ake_petunia_vo_episode_07.deu",
+    "dlc/petunia/compat/localization/deu/ake_petunia_vo_episode_intro.deu",
+    "dlc/petunia/compat/localization/deu/ake_petunia_voct_contextuals.deu",
+    "dlc/petunia/compat/localization/deu/ake_voct_contextual.deu",
+    "dlc/petunia/compat/localization/deu/willowgame.deu",
+    "dlc/petunia/compat/localization/esn/ake_petunia_vo_episode_01.esn",
+    "dlc/petunia/compat/localization/esn/ake_petunia_vo_episode_02.esn",
+    "dlc/petunia/compat/localization/esn/ake_petunia_vo_episode_03.esn",
+    "dlc/petunia/compat/localization/esn/ake_petunia_vo_episode_04.esn",
+    "dlc/petunia/compat/localization/esn/ake_petunia_vo_episode_05.esn",
+    "dlc/petunia/compat/localization/esn/ake_petunia_vo_episode_06.esn",
+    "dlc/petunia/compat/localization/esn/ake_petunia_vo_episode_07.esn",
+    "dlc/petunia/compat/localization/esn/ake_petunia_vo_episode_intro.esn",
+    "dlc/petunia/compat/localization/esn/ake_petunia_voct_contextuals.esn",
+    "dlc/petunia/compat/localization/esn/ake_voct_contextual.esn",
+    "dlc/petunia/compat/localization/esn/willowgame.esn",
+    "dlc/petunia/compat/localization/fra/ake_petunia_vo_episode_01.fra",
+    "dlc/petunia/compat/localization/fra/ake_petunia_vo_episode_02.fra",
+    "dlc/petunia/compat/localization/fra/ake_petunia_vo_episode_03.fra",
+    "dlc/petunia/compat/localization/fra/ake_petunia_vo_episode_04.fra",
+    "dlc/petunia/compat/localization/fra/ake_petunia_vo_episode_05.fra",
+    "dlc/petunia/compat/localization/fra/ake_petunia_vo_episode_06.fra",
+    "dlc/petunia/compat/localization/fra/ake_petunia_vo_episode_07.fra",
+    "dlc/petunia/compat/localization/fra/ake_petunia_vo_episode_intro.fra",
+    "dlc/petunia/compat/localization/fra/ake_petunia_voct_contextuals.fra",
+    "dlc/petunia/compat/localization/fra/ake_voct_contextual.fra",
+    "dlc/petunia/compat/localization/fra/willowgame.fra",
+    "dlc/petunia/compat/localization/int/ake_petunia_vo_episode_01.int",
+    "dlc/petunia/compat/localization/int/ake_petunia_vo_episode_02.int",
+    "dlc/petunia/compat/localization/int/ake_petunia_vo_episode_03.int",
+    "dlc/petunia/compat/localization/int/ake_petunia_vo_episode_04.int",
+    "dlc/petunia/compat/localization/int/ake_petunia_vo_episode_05.int",
+    "dlc/petunia/compat/localization/int/ake_petunia_vo_episode_06.int",
+    "dlc/petunia/compat/localization/int/ake_petunia_vo_episode_07.int",
+    "dlc/petunia/compat/localization/int/ake_petunia_vo_episode_intro.int",
+    "dlc/petunia/compat/localization/int/ake_petunia_voct_contextuals.int",
+    "dlc/petunia/compat/localization/int/ake_voct_contextual.int",
+    "dlc/petunia/compat/localization/int/willowgame.int",
+    "dlc/petunia/compat/localization/ita/ake_petunia_vo_episode_01.ita",
+    "dlc/petunia/compat/localization/ita/ake_petunia_vo_episode_02.ita",
+    "dlc/petunia/compat/localization/ita/ake_petunia_vo_episode_03.ita",
+    "dlc/petunia/compat/localization/ita/ake_petunia_vo_episode_04.ita",
+    "dlc/petunia/compat/localization/ita/ake_petunia_vo_episode_05.ita",
+    "dlc/petunia/compat/localization/ita/ake_petunia_vo_episode_06.ita",
+    "dlc/petunia/compat/localization/ita/ake_petunia_vo_episode_07.ita",
+    "dlc/petunia/compat/localization/ita/ake_petunia_vo_episode_intro.ita",
+    "dlc/petunia/compat/localization/ita/ake_petunia_voct_contextuals.ita",
+    "dlc/petunia/compat/localization/ita/ake_voct_contextual.ita",
+    "dlc/petunia/compat/localization/ita/willowgame.ita",
+    "dlc/petunia/compat/localization/jpn/ake_petunia_vo_episode_01.jpn",
+    "dlc/petunia/compat/localization/jpn/ake_petunia_vo_episode_02.jpn",
+    "dlc/petunia/compat/localization/jpn/ake_petunia_vo_episode_03.jpn",
+    "dlc/petunia/compat/localization/jpn/ake_petunia_vo_episode_04.jpn",
+    "dlc/petunia/compat/localization/jpn/ake_petunia_vo_episode_05.jpn",
+    "dlc/petunia/compat/localization/jpn/ake_petunia_vo_episode_06.jpn",
+    "dlc/petunia/compat/localization/jpn/ake_petunia_vo_episode_07.jpn",
+    "dlc/petunia/compat/localization/jpn/ake_petunia_vo_episode_intro.jpn",
+    "dlc/petunia/compat/localization/jpn/ake_petunia_voct_contextuals.jpn",
+    "dlc/petunia/compat/localization/jpn/ake_voct_contextual.jpn",
+    "dlc/petunia/compat/localization/jpn/willowgame.jpn",
+    "dlc/petunia/compat/localization/kor/ake_petunia_vo_episode_01.kor",
+    "dlc/petunia/compat/localization/kor/ake_petunia_vo_episode_02.kor",
+    "dlc/petunia/compat/localization/kor/ake_petunia_vo_episode_03.kor",
+    "dlc/petunia/compat/localization/kor/ake_petunia_vo_episode_04.kor",
+    "dlc/petunia/compat/localization/kor/ake_petunia_vo_episode_05.kor",
+    "dlc/petunia/compat/localization/kor/ake_petunia_vo_episode_06.kor",
+    "dlc/petunia/compat/localization/kor/ake_petunia_vo_episode_07.kor",
+    "dlc/petunia/compat/localization/kor/ake_petunia_vo_episode_intro.kor",
+    "dlc/petunia/compat/localization/kor/ake_petunia_voct_contextuals.kor",
+    "dlc/petunia/compat/localization/kor/ake_voct_contextual.kor",
+    "dlc/petunia/compat/localization/kor/willowgame.kor",
+    "dlc/petunia/compat/localization/rus/ake_petunia_vo_episode_01.rus",
+    "dlc/petunia/compat/localization/rus/ake_petunia_vo_episode_02.rus",
+    "dlc/petunia/compat/localization/rus/ake_petunia_vo_episode_03.rus",
+    "dlc/petunia/compat/localization/rus/ake_petunia_vo_episode_04.rus",
+    "dlc/petunia/compat/localization/rus/ake_petunia_vo_episode_05.rus",
+    "dlc/petunia/compat/localization/rus/ake_petunia_vo_episode_06.rus",
+    "dlc/petunia/compat/localization/rus/ake_petunia_vo_episode_07.rus",
+    "dlc/petunia/compat/localization/rus/ake_petunia_vo_episode_intro.rus",
+    "dlc/petunia/compat/localization/rus/ake_petunia_voct_contextuals.rus",
+    "dlc/petunia/compat/localization/rus/ake_voct_contextual.rus"
+  ],
+  "size_diff_largest": [
+    {
+      "path": "willowgame/cookedpcconsole/textures.tfc",
+      "bl2": 1117201534,
+      "tps": 1559470605,
+      "delta": 442269071
+    },
+    {
+      "path": "willowgame/movies/megaintro.bik",
+      "bl2": 451771444,
+      "tps": 651630812,
+      "delta": 199859368
+    },
+    {
+      "path": "willowgame/cookedpcconsole/chartextures.tfc",
+      "bl2": 808594869,
+      "tps": 963540952,
+      "delta": 154946083
+    },
+    {
+      "path": "willowgame/cookedpcconsole/lighting.tfc",
+      "bl2": 161177336,
+      "tps": 104319241,
+      "delta": -56858095
+    },
+    {
+      "path": "binaries/win32/plugins/unrealsdk.log",
+      "bl2": 15563,
+      "tps": 4901156,
+      "delta": 4885593
+    },
+    {
+      "path": "willowgame/cookedpcconsole/globalpersistentcookerdata.upk",
+      "bl2": 30096373,
+      "tps": 34525680,
+      "delta": 4429307
+    },
+    {
+      "path": "willowgame/cookedpcconsole/menumap.upk",
+      "bl2": 6027554,
+      "tps": 1703181,
+      "delta": -4324373
+    },
+    {
+      "path": "willowgame/cookedpcconsole/startup.upk",
+      "bl2": 17800929,
+      "tps": 21359341,
+      "delta": 3558412
+    },
+    {
+      "path": "binaries/patch.txt",
+      "bl2": 4642121,
+      "tps": 2274180,
+      "delta": -2367941
+    },
+    {
+      "path": "willowgame/cookedpcconsole/startup_loc_int.upk",
+      "bl2": 2407939,
+      "tps": 85172,
+      "delta": -2322767
+    },
+    {
+      "path": "willowgame/localization/deu/ake_voct_contextual.deu",
+      "bl2": 1119192,
+      "tps": 41016,
+      "delta": -1078176
+    },
+    {
+      "path": "willowgame/localization/fra/ake_voct_contextual.fra",
+      "bl2": 1115068,
+      "tps": 39242,
+      "delta": -1075826
+    },
+    {
+      "path": "willowgame/localization/int/ake_voct_contextual.int",
+      "bl2": 1086954,
+      "tps": 38152,
+      "delta": -1048802
+    },
+    {
+      "path": "willowgame/localization/esn/ake_voct_contextual.esn",
+      "bl2": 1085150,
+      "tps": 40156,
+      "delta": -1044994
+    },
+    {
+      "path": "willowgame/localization/ita/ake_voct_contextual.ita",
+      "bl2": 1081728,
+      "tps": 39964,
+      "delta": -1041764
+    },
+    {
+      "path": "willowgame/movies/loading_4k.bik",
+      "bl2": 6750540,
+      "tps": 7692716,
+      "delta": 942176
+    },
+    {
+      "path": "binaries/redist/vcredist_x86.exe",
+      "bl2": 1821192,
+      "tps": 2723264,
+      "delta": 902072
+    },
+    {
+      "path": "willowgame/localization/facefxhinttext.ini",
+      "bl2": 864523,
+      "tps": 1755948,
+      "delta": 891425
+    },
+    {
+      "path": "willowgame/localization/jpn/ake_voct_contextual.jpn",
+      "bl2": 893732,
+      "tps": 33322,
+      "delta": -860410
+    },
+    {
+      "path": "willowgame/cookedpcconsole/ui_credits_epilogue_images_sf.upk",
+      "bl2": 406644,
+      "tps": 1037229,
+      "delta": 630585
+    },
+    {
+      "path": "willowgame/cookedpcconsole/willowgame.upk",
+      "bl2": 4104253,
+      "tps": 4732034,
+      "delta": 627781
+    },
+    {
+      "path": "binaries/win32/audio/music.mp3",
+      "bl2": 2009161,
+      "tps": 2306196,
+      "delta": 297035
+    },
+    {
+      "path": "binaries/win32/physxcore.dll",
+      "bl2": 4318208,
+      "tps": 4029440,
+      "delta": -288768
+    },
+    {
+      "path": "binaries/win32/launcher.content.dll",
+      "bl2": 680960,
+      "tps": 924672,
+      "delta": 243712
+    },
+    {
+      "path": "willowgame/movies/loading.bik",
+      "bl2": 263180,
+      "tps": 460188,
+      "delta": 197008
+    },
+    {
+      "path": "willowgame/localization/esn/gd_challenges.esn",
+      "bl2": 279490,
+      "tps": 396700,
+      "delta": 117210
+    },
+    {
+      "path": "willowgame/localization/deu/gd_challenges.deu",
+      "bl2": 278046,
+      "tps": 394618,
+      "delta": 116572
+    },
+    {
+      "path": "willowgame/localization/ita/gd_challenges.ita",
+      "bl2": 276232,
+      "tps": 391012,
+      "delta": 114780
+    },
+    {
+      "path": "willowgame/localization/fra/gd_challenges.fra",
+      "bl2": 278014,
+      "tps": 392262,
+      "delta": 114248
+    },
+    {
+      "path": "willowgame/cookedpcconsole/engine.upk",
+      "bl2": 1573828,
+      "tps": 1686424,
+      "delta": 112596
+    },
+    {
+      "path": "binaries/win32/de-de/launcher.resources.dll",
+      "bl2": 106496,
+      "tps": 217088,
+      "delta": 110592
+    },
+    {
+      "path": "binaries/win32/es-es/launcher.resources.dll",
+      "bl2": 106496,
+      "tps": 217088,
+      "delta": 110592
+    },
+    {
+      "path": "binaries/win32/fr-fr/launcher.resources.dll",
+      "bl2": 106496,
+      "tps": 217088,
+      "delta": 110592
+    },
+    {
+      "path": "binaries/win32/it-it/launcher.resources.dll",
+      "bl2": 106496,
+      "tps": 217088,
+      "delta": 110592
+    },
+    {
+      "path": "binaries/win32/ja-jp/launcher.resources.dll",
+      "bl2": 106496,
+      "tps": 217088,
+      "delta": 110592
+    },
+    {
+      "path": "binaries/win32/ko-kr/launcher.resources.dll",
+      "bl2": 106496,
+      "tps": 217088,
+      "delta": 110592
+    },
+    {
+      "path": "binaries/win32/launcher.exe",
+      "bl2": 118616,
+      "tps": 227672,
+      "delta": 109056
+    },
+    {
+      "path": "binaries/win32/en-us/launcher.resources.dll",
+      "bl2": 96768,
+      "tps": 205312,
+      "delta": 108544
+    },
+    {
+      "path": "willowgame/localization/int/gd_challenges.int",
+      "bl2": 145686,
+      "tps": 42436,
+      "delta": -103250
+    },
+    {
+      "path": "willowgame/localization/jpn/gd_challenges.jpn",
+      "bl2": 233476,
+      "tps": 332020,
+      "delta": 98544
+    },
+    {
+      "path": "willowgame/cookedpcconsole/maingamerefs_sf.upk",
+      "bl2": 166784,
+      "tps": 93409,
+      "delta": -73375
+    },
+    {
+      "path": "willowgame/cookedpcconsole/lt_generic_sf.upk",
+      "bl2": 453786,
+      "tps": 400765,
+      "delta": -53021
+    },
+    {
+      "path": "willowgame/localization/ita/gd_attributepresentation.ita",
+      "bl2": 106972,
+      "tps": 153806,
+      "delta": 46834
+    },
+    {
+      "path": "willowgame/localization/esn/gd_attributepresentation.esn",
+      "bl2": 109934,
+      "tps": 155382,
+      "delta": 45448
+    },
+    {
+      "path": "willowgame/localization/fra/gd_attributepresentation.fra",
+      "bl2": 107138,
+      "tps": 152084,
+      "delta": 44946
+    },
+    {
+      "path": "willowgame/localization/deu/gd_attributepresentation.deu",
+      "bl2": 108594,
+      "tps": 153446,
+      "delta": 44852
+    },
+    {
+      "path": "willowgame/localization/jpn/gd_attributepresentation.jpn",
+      "bl2": 103788,
+      "tps": 145858,
+      "delta": 42070
+    },
+    {
+      "path": "willowgame/cookedpcconsole/guidcache.upk",
+      "bl2": 154148,
+      "tps": 191990,
+      "delta": 37842
+    },
+    {
+      "path": "willowgame/cookedpcconsole/gearboxframework.upk",
+      "bl2": 341501,
+      "tps": 378390,
+      "delta": 36889
+    },
+    {
+      "path": "willowgame/config/defaultengine.ini",
+      "bl2": 52917,
+      "tps": 86613,
+      "delta": 33696
+    },
+    {
+      "path": "willowgame/localization/fra/gd_interactionicons.fra",
+      "bl2": 27010,
+      "tps": 53042,
+      "delta": 26032
+    },
+    {
+      "path": "willowgame/localization/deu/gd_interactionicons.deu",
+      "bl2": 26886,
+      "tps": 52690,
+      "delta": 25804
+    },
+    {
+      "path": "willowgame/localization/ita/gd_interactionicons.ita",
+      "bl2": 26844,
+      "tps": 52624,
+      "delta": 25780
+    },
+    {
+      "path": "willowgame/localization/esn/gd_interactionicons.esn",
+      "bl2": 26618,
+      "tps": 52288,
+      "delta": 25670
+    },
+    {
+      "path": "willowgame/config/defaultui.ini",
+      "bl2": 1128,
+      "tps": 26367,
+      "delta": 25239
+    },
+    {
+      "path": "willowgame/localization/fra/gd_shields.fra",
+      "bl2": 129870,
+      "tps": 154634,
+      "delta": 24764
+    },
+    {
+      "path": "willowgame/localization/deu/gd_shields.deu",
+      "bl2": 130574,
+      "tps": 155254,
+      "delta": 24680
+    },
+    {
+      "path": "willowgame/localization/esn/gd_shields.esn",
+      "bl2": 128026,
+      "tps": 152024,
+      "delta": 23998
+    },
+    {
+      "path": "willowgame/localization/ita/gd_shields.ita",
+      "bl2": 128316,
+      "tps": 152304,
+      "delta": 23988
+    },
+    {
+      "path": "willowgame/localization/jpn/gd_balance_treasure.jpn",
+      "bl2": 58860,
+      "tps": 35034,
+      "delta": -23826
+    },
+    {
+      "path": "willowgame/localization/esn/gd_balance_treasure.esn",
+      "bl2": 58936,
+      "tps": 35116,
+      "delta": -23820
+    },
+    {
+      "path": "willowgame/localization/fra/gd_balance_treasure.fra",
+      "bl2": 58936,
+      "tps": 35118,
+      "delta": -23818
+    },
+    {
+      "path": "willowgame/localization/deu/gd_balance_treasure.deu",
+      "bl2": 58908,
+      "tps": 35096,
+      "delta": -23812
+    },
+    {
+      "path": "willowgame/localization/ita/gd_balance_treasure.ita",
+      "bl2": 58912,
+      "tps": 35108,
+      "delta": -23804
+    },
+    {
+      "path": "willowgame/localization/jpn/gd_interactionicons.jpn",
+      "bl2": 24598,
+      "tps": 48162,
+      "delta": 23564
+    },
+    {
+      "path": "willowgame/localization/jpn/gd_shields.jpn",
+      "bl2": 117914,
+      "tps": 139592,
+      "delta": 21678
+    },
+    {
+      "path": "willowgame/localization/ita/gd_dialog_npc.ita",
+      "bl2": 41252,
+      "tps": 19628,
+      "delta": -21624
+    },
+    {
+      "path": "willowgame/localization/esn/gd_dialog_npc.esn",
+      "bl2": 41304,
+      "tps": 19706,
+      "delta": -21598
+    },
+    {
+      "path": "willowgame/localization/fra/gd_dialog_npc.fra",
+      "bl2": 40778,
+      "tps": 19328,
+      "delta": -21450
+    },
+    {
+      "path": "willowgame/localization/deu/gd_dialog_npc.deu",
+      "bl2": 40826,
+      "tps": 19388,
+      "delta": -21438
+    },
+    {
+      "path": "willowgame/localization/jpn/gd_dialog_npc.jpn",
+      "bl2": 40188,
+      "tps": 19122,
+      "delta": -21066
+    },
+    {
+      "path": "willowgame/localization/deu/gd_levelechochallenges.deu",
+      "bl2": 13606,
+      "tps": 34242,
+      "delta": 20636
+    },
+    {
+      "path": "willowgame/localization/fra/gd_levelechochallenges.fra",
+      "bl2": 13494,
+      "tps": 33354,
+      "delta": 19860
+    },
+    {
+      "path": "willowgame/localization/ita/gd_levelechochallenges.ita",
+      "bl2": 13474,
+      "tps": 32792,
+      "delta": 19318
+    },
+    {
+      "path": "willowgame/localization/esn/gd_levelechochallenges.esn",
+      "bl2": 13398,
+      "tps": 31908,
+      "delta": 18510
+    },
+    {
+      "path": "willowgame/localization/fra/gd_grenademods.fra",
+      "bl2": 31524,
+      "tps": 49848,
+      "delta": 18324
+    },
+    {
+      "path": "willowgame/localization/esn/gd_grenademods.esn",
+      "bl2": 31016,
+      "tps": 48774,
+      "delta": 17758
+    },
+    {
+      "path": "willowgame/localization/deu/gd_grenademods.deu",
+      "bl2": 32012,
+      "tps": 49650,
+      "delta": 17638
+    },
+    {
+      "path": "willowgame/localization/ita/gd_grenademods.ita",
+      "bl2": 31348,
+      "tps": 48938,
+      "delta": 17590
+    },
+    {
+      "path": "willowgame/localization/fra/willowgame.fra",
+      "bl2": 164100,
+      "tps": 181420,
+      "delta": 17320
+    }
+  ]
+}

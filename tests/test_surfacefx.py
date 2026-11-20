@@ -34,9 +34,14 @@ def test_slide_and_air_effects_never_raise():
     surfacefx.puff(pawn, "metal", 0.4)
     surfacefx.sprint_wind(pc, pawn)
     surfacefx.slam_ring(pawn, 0.8)
-    names = " ".join(surfacefx._paths_for("sprint") + surfacefx._paths_for("ring") + surfacefx._paths_for("dirt"))
-    assert "WhispySmoke" in names
-    assert "Nova" in names or "GroundImpact" in names
+    surfacefx.burst(pc, pawn, 1.0, 0.0, 4)
+    names = " ".join(
+        surfacefx._paths_for("air") + surfacefx._paths_for("sprint") + surfacefx._paths_for("ring") + surfacefx._paths_for("dirt")
+    )
+    assert "Part_Skag_FeetDust" in names
+    assert "Part_SparkShowerGeneric" not in names
+    assert "Part_Explosive_Nova_Shield_Explosion" in names
+    assert "GroundImpactFX" not in names
     assert "Moon" not in names
     from Modern_Movement import fx
 

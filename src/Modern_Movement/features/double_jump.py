@@ -232,7 +232,7 @@ def _on_air_press(pc, pawn) -> bool:
     try:
         from . import surfacefx
 
-        surfacefx.air(pc, pawn, vx, vy, 0.5)
+        surfacefx.burst(pc, pawn, vx, vy, 4)
     except Exception:  # noqa: BLE001
         pass
     if coop_rpc.is_requester(ctx):
@@ -246,7 +246,7 @@ def _on_air_press(pc, pawn) -> bool:
     state.shake = {"t0": core.clock, "t": 0.0}
     state.push = {"t0": core.clock}
     if sound_option.value and (ctx is None or ctx.presentation):
-        fx.play_all(pc, pawn, fx.jump_paths())
+        fx.play_first(pc, pawn, fx.jump_paths())
     return True
 
 

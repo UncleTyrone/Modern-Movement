@@ -29,6 +29,12 @@ The last shipped Pre-Sequel package is **3.61.2**. The next minor is **3.62.0**.
 
 ### Fixed
 
+- Dust, wind, and the slam ring use particle names that are actually in both games. The old names were not cooked into either one, so nothing spawned.
+- A crouch at the start of a slide no longer ends it and starts a second one. The bar stays with the slide you are on.
+- A dash and a double jump kick up the same dust as a slide. The slam ring stays the ground burst, darker and easier to see.
+- Borderlands 2: crouching on the ground slides. A trace that hits a floor under your feet is not a slam, and the crouch that dips the capsule for a frame is still a slide.
+- A slam landing no longer drops the camera through the floor. The impact shake stays inside the body.
+
 - Joiner slides keep their entry-direction coast after forward is released. The joiner and the host both re-apply that speed, including after PlayerMove.
 - Releasing crouch cancels a joiner slide and tells the host to stand that body back up. The host copy waits for that exit, because it does not see the joiner's crouch key.
 - Fast travel and level changes re-handshake co-op. An empty loading roster does not drop peers, and a world change or a broken token sends a fresh HELLO. Slide, dash, mantle, and slam holds from the old pawn are dropped.
@@ -77,7 +83,11 @@ The last shipped Pre-Sequel package is **3.61.2**. The next minor is **3.62.0**.
 - Sliding starts with a whoosh and keeps a footstep scrape until you stand up. A dash is a whoosh, a double jump is a jump, a slam dives with a whoosh and lands with an explosion and a footstep. The Pre-Sequel uses its Oz slam and air-boost sounds for those.
 - HUD images load from this package. Borderlands 2 uses its texloader, and The Pre-Sequel uses its own. A separate texloader install is not required.
 - The slide bar follows the slide. It shrinks across the coast and is gone when the slide ends, in both games. The next slide can start as soon as that one ends.
-- Borderlands 2: hold crouch while you are moving and jumping. A high jump slams. A short hop, once it has peaked, pulls you down. The slam plays a hard landing, and that crouch does not turn into a slide.
+- The Pre-Sequel double jump plays that game's Oz air boost. A dash there already tries the same boost before the whoosh. The Oz banks stay in the game. They are not copied into this package.
+- The player guide, the API notes, and the development notes are each one page. The home page links to those three.
+- Borderlands 2: a slam needs real height. A slide, a step, or a missed ground trace does not slam. A high jump slams immediately, including after a slide jump and while you are moving. A shorter hop pulls you down once it is committed, without holding crouch until the top. Letting go still cancels it.
+- The Pre-Sequel slide matches Borderlands 2. Letting go of crouch ends the slide. A slide jump lands in another slide only while crouch is still held. The crouched pose left over from the slide does not force that landing.
+- Dust, wind, and the slam ring spawn as world emitters. A slide, a dash, a sprint, and a slam each show their own effect. A missing effect is skipped.
 - A dash plays a whoosh. The beep is only the ready tone when the cooldown finishes.
 - A slide is only the ground scrape. The high whoosh on slide start is gone. A slam plays the impact only, with no sound on the way down.
 - Borderlands 2: hold crouch to slide and let go to stop. Letting go ends it, including a short hold. A second press is not the cancel. The same hold slams from a high jump and pulls a short hop down after it peaks. A jump with crouch up is left alone.

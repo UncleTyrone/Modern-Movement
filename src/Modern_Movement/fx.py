@@ -64,6 +64,11 @@ def dash_paths() -> tuple[str, ...]:
 
 
 def jump_paths() -> tuple[str, ...]:
+    """A double jump. The Pre-Sequel tries the Oz air boost that game already has."""
+    from . import game
+
+    if game.is_tps():
+        return (WHOOSH_TPS[0],) + JUMP
     return JUMP
 
 

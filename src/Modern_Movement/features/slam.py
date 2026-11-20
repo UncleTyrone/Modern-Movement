@@ -1,9 +1,9 @@
 """Slam: hold crouch in the air to come back down.
 
-  * At slam height you plunge at full speed, even while you are still moving.
-  * Below that, once the jump has peaked, the same hold pulls you to the ground.
-  * A crouch held through a slide jump still belongs to the landing slide.
-  * Crouching on the ground does not slam.
+  * At slam height you plunge at full speed, even while you are still moving or coming out of a slide.
+  * Below that, once the hop is clearly off the ground, the same hold pulls you down. A step does not.
+  * A slide near the ground stays a slide. A missed ground trace is not treated as slam height.
+  * Crouching on the ground does not slam. The feet have to leave the last walking height.
   * Hitting the ground: an impact sound, a camera crunch, and (with Slam Damage) a blast from the
     game itself (like an explosion): enemies within "Knockback Radius" take a share of your
     equipped grenade's damage and are thrown. Walls block it and friendly NPCs are not hit. You come
@@ -71,7 +71,6 @@ _FALLBACK_GRAVITY = 1050.0
 _HORIZONTAL_KEEP = 0.12   # share of your sideways speed kept when a full slam starts
 _PULL_KEEP = 0.55         # a short pull keeps more of the run
 _PULL_SPEED = 1600.0      # downward speed of a pull that is not yet a full slam
-_APEX_Z = 120.0           # still rising faster than this, so wait to see if the jump gets high enough
 _MAX_TIME = 6.0           # safety net, seconds
 _RECHECK = 0.05           # while it waits: one height check per this long
 
@@ -83,11 +82,12 @@ _PUSH = 4.0               # degrees the view tips down at 100% while plunging
 _PUSH_IN = 0.10
 _PUSH_OUT = 0.22
 _DIVE_EYE = 0.6           # rumble while plunging at 100%, units
-_HIT_EYE = 5.0            # impact bob at 100%, units
-_HIT_ROLL = 2.0           # impact tilt at 100%, degrees
-_HIT_DIP = 14.0           # the eye drops this far on impact (a knee bend) and comes back
-_HIT_RISE = 0.03
-_HIT_FALL = 0.45
+_HIT_EYE = 1.5            # impact bob at 100%, units. Kept small so the eye stays in the body.
+_HIT_EYE_LIMIT = 2.0      # the landing shake never drops the camera into the floor
+_HIT_ROLL = 1.0           # impact tilt at 100%, degrees
+_HIT_DIP = 0.0            # a knee-bend here put the camera through the ground
+_HIT_RISE = 0.08
+_HIT_FALL = 0.28
 
 _prev_crouch = False
 _next_check = -100.0
@@ -300,10 +300,14 @@ def _combine_key(
     physical: bool | None,
     pressed: bool | None,
 ) -> bool | None:
-    """Down from the SDK input hook, the keyboard, or the game's key list. Any up after that is a release."""
+    """Down from the SDK input hook, the keyboard, or the game's key list.
+
+    PressedKeys drops a crouch key that is still held, so that list alone is not a release.
+    The input hook or the keyboard saying up is a release, in both games.
+    """
     if willow is True or physical is True or pressed is True:
         return True
-    if willow is False or physical is False or pressed is False:
+    if willow is False or physical is False:
         return False
     return None
 
@@ -352,7 +356,9 @@ def _crouch_key_down(pc):
         if found:
             _crouch_keys = found
     names = _crouch_keys
-    if not names and game.is_bl2():
+    # Both games use C or Left Ctrl when the binding list is empty, so a let-go
+    # is a real key-up. PressedKeys alone was leaving The Pre-Sequel latched down.
+    if not names and (game.is_bl2() or game.is_tps()):
         names = ("c", "leftcontrol")
     willow = None
     try:
@@ -400,16 +406,21 @@ def _min_height(pc, pawn) -> float:
     return jump * jump / (2.0 * _gravity(pc)) * min_height_slider.value / 100.0
 
 
-_EASY_MIN = 40.0          # units of clearance always needed (so a slam is never a step down)
+# A step, a slope, and the start of a slide are not a slam. Clearance under this
+# never pulls and never slams, including when the ground trace misses.
+_SLAM_FLOOR = 120.0
+# Full slam is at least this far off the ground, even if the jump stat is short.
+_FULL_FLOOR = 170.0
+# Still launching harder than this: wait, so a high jump can become a full slam.
+# Lower than the old apex gate, so a committed hop does not need the key held to the top.
+_COMMIT_VZ = 360.0
 _takeoff_feet: float | None = None   # feet height when you were last on the ground
 _slide_jump_at = -100.0              # clock time of the last slide jump
-_easy = False                        # left the ground with a slide jump: only _EASY_MIN needed
 
 
 def _on_slide_jump(**_kw) -> None:
-    global _slide_jump_at, _easy
+    global _slide_jump_at
     _slide_jump_at = core.clock
-    _easy = True
 
 
 _PROBE_MAX = 1600.0      # how far down the indicator looks to judge how hard a slam would hit
@@ -418,11 +429,12 @@ _PROBE_MAX = 1600.0      # how far down the indicator looks to judge how hard a 
 def _probe(pc, pawn):
     """One trace straight down from your feet: (high enough to slam, clearance, clearance needed).
 
-    Slam Min Height is counted from where you left the ground, not from the ground below you:
-    off a ledge (jumping or walking) the ground below is already far enough down, so the slam
-    works straight away. A plain jump on flat ground still has to reach the min height, and a
-    slide jump only needs to be clear of the ground."""
+    The gap is how far your feet are above the ground that was actually hit. A missed trace
+    is not a slam: treating a miss as the far end of the probe slammed a slide with no height.
+    A ledge does not shrink that gap. You still have to be off the ground.
+    """
     need = _min_height(pc, pawn)
+    required = max(_FULL_FLOOR, need)
     try:
         x, y, z = core.position(pawn)
         _radius, half = tracing.body(pawn)
@@ -432,21 +444,33 @@ def _probe(pc, pawn):
             hit = tracing.trace(pawn, (x, y, feet - 2.0), (x, y, feet - 2.0 - reach))
     except Exception as e:  # noqa: BLE001
         _log(f"height check failed ({e!r}): not slamming")
-        return False, 0.0, need
-    if _easy:
-        required = _EASY_MIN
-    else:
-        drop = 0.0 if (_takeoff_feet is None or hit is None) else max(0.0, _takeoff_feet - hit[0][2])
-        required = max(_EASY_MIN, need - drop)
-    clearance = reach + 2.0 if hit is None else feet - hit[0][2]
+        return False, 0.0, required
+    if hit is None:
+        return False, 0.0, required
+    clearance = max(0.0, feet - hit[0][2])
     return clearance >= required, clearance, required
 
 
+def _clear_of_last_ground(feet: float) -> bool:
+    """True once the feet have risen or fallen at least a slam's worth from the last step.
+
+    A crouch shrinks the capsule and the down-trace can hit a floor under the one
+    you are standing on. That used to slam you into the ground instead of sliding.
+    """
+    if _takeoff_feet is None:
+        return False
+    return abs(float(feet) - float(_takeoff_feet)) >= _SLAM_FLOOR
+
+
 def _slam_kind(clearance: float, required: float, vz: float) -> str | None:
-    """'full' at slam height, 'pull' once a short hop has peaked, or None while still rising."""
-    if clearance >= max(_EASY_MIN, required):
+    """'full' at slam height, 'pull' once a real hop has committed, or None near the ground.
+
+    Clearance under `_SLAM_FLOOR` is a slide, a step, or a bump. A missed probe reports 0.
+    """
+    full_at = max(_FULL_FLOOR, float(required))
+    if clearance >= full_at:
         return "full"
-    if clearance >= _EASY_MIN and vz <= _APEX_Z:
+    if clearance >= _SLAM_FLOOR and vz <= _COMMIT_VZ:
         return "pull"
     return None
 
@@ -539,6 +563,16 @@ def _cancel() -> None:
     hudfx.slam_hide()
 
 
+def _impact_eye(bob: float, amount: float) -> float:
+    """Landing shake. It stays inside the body, so the camera does not clip the floor."""
+    eye = float(bob) * _HIT_EYE * float(amount) - _HIT_DIP * float(amount)
+    if eye < -_HIT_EYE_LIMIT:
+        return -_HIT_EYE_LIMIT
+    if eye > _HIT_EYE_LIMIT:
+        return _HIT_EYE_LIMIT
+    return eye
+
+
 def _dive_push() -> float:
     if _slam is None:
         return 0.0
@@ -605,8 +639,9 @@ def _impact(pc, pawn) -> None:
         surfacefx.slam_ring(pawn, _drop_strength(fell))
     except Exception:  # noqa: BLE001
         pass
-    push = _dive_push()
-    _stop(push, mirror=False)
+    # The dive was looking down. Leave that nod on this frame and the camera sits in the floor.
+    _stop(0.0, mirror=False)
+    camera.request("slam_dive", pitch=0.0)
     _hit = {"t0": core.clock, "t": 0.0, "p": power}
     core.emit("slam_impact")        # the slide module keeps the crouch icon hidden for a moment
     _stand = _STAND_TICKS
@@ -964,7 +999,7 @@ def _update_camera(dt) -> None:
             bob, tilt = camera.wave(_hit["t"])
             camera.request(
                 "slam_hit",
-                eye=(bob * _HIT_EYE - _HIT_DIP) * amount,
+                eye=_impact_eye(bob, amount),
                 roll=tilt * _HIT_ROLL * amount,
             )
 
@@ -977,14 +1012,12 @@ def _tick(pc, pawn, dt) -> None:
     if ctx is not None and ctx.local and _HOST_SLAMS:
         _service_host_slams(dt)
     _update_camera(dt)
-    global _takeoff_feet, _easy
+    global _takeoff_feet
     if pawn is not None and core.phys == core.PHYS_WALKING:
         try:
             _takeoff_feet = core.position(pawn)[2] - tracing.body(pawn)[1]
         except Exception:  # noqa: BLE001
             pass
-        if core.clock - _slide_jump_at > 0.25:
-            _easy = False
     if _stand > 0:
         _stand -= 1
         if pawn is not None:
@@ -1044,31 +1077,42 @@ def _tick(pc, pawn, dt) -> None:
     if not enabled_option.value:
         hudfx.slam_hide()
         return
-    # A crouch still held from the slide jump belongs to the landing slide.
-    try:
-        from . import slide
-
-        if slide.chain_blocks_slam():
-            hudfx.slam_hide()
-            _buffer_until = -100.0
-            return
-    except Exception:  # noqa: BLE001
-        pass
+    # A slide-jump chain used to skip this whole tick, so a slam never started
+    # out of a slide or while moving fast. Height still decides. Near the ground
+    # this returns without diving, and the landing slide can still happen.
     _update_indicator(pc, pawn)
     holding = _slam_hold(pc, pressed, key)
-    # The key has to be down on this tick. A saved press was pulling jumps with C up.
+    # A press in the air sticks briefly, so the dive starts when the height is
+    # met without clamping crouch until the top of the jump. Landing clears it,
+    # so the next jump does not dive with crouch already up.
     if holding and core.phys == core.PHYS_FALLING:
-        _buffer_until = core.clock + 0.2
+        _buffer_until = core.clock + 0.28
         _next_check = -100.0
-    else:
+    elif core.phys != core.PHYS_FALLING:
         _buffer_until = -100.0
-    if not holding:
+    armed = holding or (core.phys == core.PHYS_FALLING and core.clock < _buffer_until)
+    if not armed:
         return
     if core.phys != core.PHYS_FALLING:
         _buffer_until = -100.0                    # landed (or swimming...) first: forget the press
         return
     if core.busy not in (None, "dash") or core.unusable(pawn):
         return                                    # a dash is cut short by the slam; a mantle is not
+    # Leaving a slide because the ground dropped is not a slam. A slide jump is.
+    try:
+        from . import slide as slide_mod
+
+        st = slide_mod._state()
+        if st.slide is not None:
+            return
+        if (
+            st.chain is None
+            and st.slide_jump is None
+            and core.clock - float(st.last_end) < 0.25
+        ):
+            return
+    except Exception:  # noqa: BLE001
+        pass
     if core.clock < _next_check:
         return
     _ok, clearance, required = _probe(pc, pawn)
@@ -1076,6 +1120,13 @@ def _tick(pc, pawn, dt) -> None:
         vz = float(pawn.Velocity.Z)
     except Exception:  # noqa: BLE001
         vz = 0.0
+    try:
+        feet = core.position(pawn)[2] - tracing.body(pawn)[1]
+    except Exception:  # noqa: BLE001
+        feet = None
+    if feet is None or not _clear_of_last_ground(feet):
+        _next_check = core.clock + _RECHECK
+        return
     kind = _slam_kind(clearance, required, vz)
     if kind is None:
         _next_check = core.clock + _RECHECK
@@ -1085,7 +1136,7 @@ def _tick(pc, pawn, dt) -> None:
 
 
 def on_enable() -> None:
-    global _keys_at, _prev_key, _takeoff_feet, _slide_jump_at, _easy
+    global _keys_at, _prev_key, _takeoff_feet, _slide_jump_at
     global _prev_crouch, _next_check, _buffer_until, _hold_latch, _hold_up_at, _slam, _hit, _push_out, _stand
     # Pre-Sequel already has Oz slam. This feature is the Borderlands 2 slam.
     if not game.is_bl2():
@@ -1098,7 +1149,7 @@ def on_enable() -> None:
     _stand = 0
     _keys_at = -100.0
     _prev_key = False
-    _takeoff_feet, _slide_jump_at, _easy = None, -100.0, False
+    _takeoff_feet, _slide_jump_at = None, -100.0
     _slam = None
     _hit = None
     _push_out = None

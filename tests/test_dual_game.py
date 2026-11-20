@@ -165,10 +165,49 @@ def test_slam_hold_is_only_the_crouch_key():
     assert slam._slam_hold(None, False, True) is True
 
 
+def test_a_crouch_on_the_ground_is_not_high_enough_to_slam():
+    slam._takeoff_feet = 100.0
+    assert slam._clear_of_last_ground(110.0) is False
+    assert slam._clear_of_last_ground(100.0) is False
+    assert slam._clear_of_last_ground(100.0 + slam._SLAM_FLOOR) is True
+    assert slam._clear_of_last_ground(100.0 - slam._SLAM_FLOOR) is True
+    slam._takeoff_feet = None
+    assert slam._clear_of_last_ground(400.0) is False
+
+
+def test_landing_camera_stays_out_of_the_floor():
+    assert slam._impact_eye(-1.0, 2.0) >= -slam._HIT_EYE_LIMIT
+    assert slam._impact_eye(1.0, 2.0) <= slam._HIT_EYE_LIMIT
+    assert slam._HIT_DIP == 0.0
+
+
+def test_a_crouch_dip_is_not_the_end_of_a_slide():
+    from Modern_Movement.features import slide
+
+    assert slide._falling_is_crouch_dip(0.0, True) is True
+    assert slide._falling_is_crouch_dip(-40.0, True) is True
+    assert slide._falling_is_crouch_dip(800.0, True) is False
+    assert slide._falling_is_crouch_dip(0.0, False) is False
+
+
+def test_a_crouch_dip_on_the_ground_still_counts_as_ground():
+    from types import SimpleNamespace
+
+    from Modern_Movement.features import slide
+
+    pawn = SimpleNamespace(Velocity=SimpleNamespace(Z=0.0))
+    state = SimpleNamespace(prev_phys=slide.core.PHYS_WALKING, slide=None)
+    assert slide._crouch_blip_on_ground(state, pawn, slide.core.PHYS_FALLING) is True
+    pawn.Velocity.Z = 700.0
+    assert slide._crouch_blip_on_ground(state, pawn, slide.core.PHYS_FALLING) is False
+    assert slide._crouch_blip_on_ground(state, pawn, slide.core.PHYS_WALKING) is False
+
+
 def test_short_hop_pulls_and_full_height_slams():
     assert slam._slam_kind(30.0, 300.0, -400.0) is None
     assert slam._slam_kind(80.0, 300.0, 500.0) is None
-    assert slam._slam_kind(80.0, 300.0, -50.0) == "pull"
+    assert slam._slam_kind(80.0, 300.0, -50.0) is None
+    assert slam._slam_kind(140.0, 300.0, 200.0) == "pull"
     assert slam._slam_kind(300.0, 300.0, 400.0) == "full"
     assert slam._slam_kind(900.0, 300.0, -800.0) == "full"
 

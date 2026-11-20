@@ -22,7 +22,7 @@ Implement all items in Phase S in one pass. No mid-sweep scope adds.
 - [x] `.gitignore`
 - [x] `README.md`, `LICENSE`, `CHANGELOG.md`, `CONTRIBUTING.md`, `SECURITY.md`
 - [x] `docs/` index, install, usage/*, api/*, development/*
-- [x] Release process in docs/development/releasing.md
+- [x] Release process in docs/development.md
 
 ## B.3 Ship
 

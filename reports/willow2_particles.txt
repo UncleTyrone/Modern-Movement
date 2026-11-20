@@ -1,0 +1,62 @@
+== Startup.upk Part/FX shared 262 bl2 347 tps 411
+BOTH	Startup.upk	Part_Corrosive_Nova_Maliwan_Explosion
+BOTH	Startup.upk	Part_Corrosive_Nova_Maliwan_Explosion_Px
+BOTH	Startup.upk	Part_Corrosive_Nova_Shield_Explosion
+BOTH	Startup.upk	Part_Explosive_Nova_Shield_Explosion
+BOTH	Startup.upk	Part_Impact_Cardboard_LargeCal
+BOTH	Startup.upk	Part_Impact_Cardboard_LargeCal_px
+BOTH	Startup.upk	Part_Impact_Metal_LargeCal
+BOTH	Startup.upk	Part_Impact_Shield_Impact
+BOTH	Startup.upk	Part_Incendiary_Nova_Maliwan_Explosion
+BOTH	Startup.upk	Part_Incendiary_Nova_Maliwan_Explosion_Px
+BOTH	Startup.upk	Part_Incendiary_Nova_Shield_Explosion
+BOTH	Startup.upk	Part_Shield_NovaCharge
+BOTH	Startup.upk	Part_Shock_Nova_Maliwan_Explosion
+BOTH	Startup.upk	Part_Shock_Nova_Maliwan_Explosion_Px
+BOTH	Startup.upk	Part_Shock_Nova_Shield_Explosion
+BOTH	Startup.upk	Part_Shotgun_Alien_Incediary_Impact
+BOTH	Startup.upk	Part_SparkShowerGeneric
+BOTH	Startup.upk	Part_Wep_Tracer_ImpactShield
+-- BL2 only movement-ish Startup.upk
+BL2	Startup.upk	Part_Alien_SMG_Impact
+BL2	Startup.upk	Part_Pistol_Alien_Corrosive_Impact
+BL2	Startup.upk	Part_Pistol_Alien_Incendiary_Impact
+BL2	Startup.upk	Part_Pistol_Alien_Shock_Impact
+BL2	Startup.upk	Part_Pistol_Alien_Slag_Impact
+BL2	Startup.upk	Part_Shotgun_Alien_Slag_Impact
+BL2	Startup.upk	Part_Slag_Nova_Maliwan_Explosion
+BL2	Startup.upk	Part_Slag_Nova_Maliwan_Explosion_Px
+-- TPS only movement-ish Startup.upk
+TPS	Startup.upk	Part_Corrosive_Nova_Shield_Explosion_Px
+TPS	Startup.upk	Part_Explosive_Nova_Shield_Explosion_Px
+TPS	Startup.upk	Part_Ice_ImpactFX
+TPS	Startup.upk	Part_Ice_Nova_Shield_Explosion
+TPS	Startup.upk	Part_Impact_Rock_Fluidl_Px
+TPS	Startup.upk	Part_Impact_Rock_LargeCal
+TPS	Startup.upk	Part_Impact_Rock_LargeCal_px
+TPS	Startup.upk	Part_Impact_Rock_UFluid_Px
+TPS	Startup.upk	Part_Incendiary_Nova_Shield_Explosion_Px
+TPS	Startup.upk	Part_Laser_Impact_Small
+TPS	Startup.upk	Part_Laser_Impact_Small_Px
+TPS	Startup.upk	Part_Laser_Impact_Small_U_Px
+TPS	Startup.upk	Part_Shock_Nova_Shield_Explosion_Px
+TPS	Startup.upk	Part_Shock_Small_Nosmoke_Loop
+TPS	Startup.upk	Part_SparkShowerGeneric_Px
+== WillowGame.upk Part/FX shared 42 bl2 54 tps 55
+BOTH	WillowGame.upk	Part_Corrosive_ImpactFX
+BOTH	WillowGame.upk	Part_Corrosive_ImpactFX_Nofld
+BOTH	WillowGame.upk	Part_Impact_Metal_LargeCal
+BOTH	WillowGame.upk	Part_Impact_Metal_LargeCal_px
+BOTH	WillowGame.upk	Part_Incendiary_ImpactFX
+BOTH	WillowGame.upk	Part_Incendiary_ImpactFX_Px
+BOTH	WillowGame.upk	Part_Shock_ImpactFX
+BOTH	WillowGame.upk	Part_Shock_ImpactFX_Px
+-- BL2 only movement-ish WillowGame.upk
+BL2	WillowGame.upk	Part_Skag_FeetDust
+BL2	WillowGame.upk	Part_Slag_ImpactFX
+BL2	WillowGame.upk	Part_Slag_ImpactFX_Nofld
+-- TPS only movement-ish WillowGame.upk
+TPS	WillowGame.upk	Part_Corrosive_ImpactFX_U
+TPS	WillowGame.upk	Part_Ice_ImpactFX
+TPS	WillowGame.upk	Part_Impact_Metal_Fluid_Px
+TPS	WillowGame.upk	Part_Impact_Metal_UFluid_Px
