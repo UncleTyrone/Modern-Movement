@@ -65,8 +65,14 @@ def apply(pc, pawn) -> None:
     global _pawn_name
     name = str(pawn)
     if name != _pawn_name:              # a new map or respawn resets the view: nothing of ours is in it
+        if pc is not None and _roll_added:
+            try:
+                pc.Rotation.Roll = (int(pc.Rotation.Roll) - int(_roll_added)) & 0xFFFF
+            except Exception:  # noqa: BLE001
+                pass
         _pawn_name = name
         _roll_added = 0
+        _roll_applied = False
     if pc is not None and (roll or _roll_applied):
         # added on top of the view's roll (so it combines with other mods that tilt the view): the
         # roll added last tick is taken out first

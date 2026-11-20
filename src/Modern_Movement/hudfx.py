@@ -133,6 +133,12 @@ def install_textures() -> None:
     folder (only if texloader is there and they are missing or changed). Never raises."""
     global _installed_note
     try:
+        from . import textures_load
+
+        textures_load.load_packaged(_install_names())
+    except Exception:  # noqa: BLE001
+        pass
+    try:
         root, zpath, inner = _sdk_mods_dir()
         target_root = os.path.join(root, "texloader", "create_textures")
         if not os.path.isdir(target_root):
@@ -172,6 +178,8 @@ def install_textures() -> None:
 
 
 def _image(name):
+    if not _images_ok:
+        return None
     try:
         return unrealsdk.find_object("Texture2D", "Transient." + name)
     except Exception:  # noqa: BLE001
@@ -194,11 +202,16 @@ def _linear(alpha: float):
 
 def _tile(canvas, tex, cx, cy, w, h, flip_x, flip_y, alpha) -> None:
     """Draw the whole image centred at (cx, cy), w x h on screen, mirrored as asked."""
+    global _images_ok
     sx, sy = float(tex.SizeX), float(tex.SizeY)
     canvas.CurX = cx - w / 2.0
     canvas.CurY = cy - h / 2.0
-    canvas.DrawTile(tex, w, h, sx if flip_x else 0.0, sy if flip_y else 0.0,
-                    -sx if flip_x else sx, -sy if flip_y else sy, _linear(alpha), False, BLEND_TRANSLUCENT)
+    try:
+        canvas.DrawTile(tex, w, h, sx if flip_x else 0.0, sy if flip_y else 0.0,
+                        -sx if flip_x else sx, -sy if flip_y else sy, _linear(alpha), False, BLEND_TRANSLUCENT)
+    except Exception as exc:  # noqa: BLE001
+        _images_ok = False
+        _warn("tile", f"HUD images failed ({exc!r}); drawing lines instead")
 
 
 def _seg(canvas, tex, x1, y1, x2, y2, width, rgba) -> None:
@@ -295,13 +308,19 @@ def _draw(canvas) -> None:
                 _chevron(canvas, tex, pts, alpha, 6 * u)
 
 
-# BL2 may run its own viewport subclass's PostRender and/or the engine one: lock onto the
-# first that fires so the arrows are drawn once a frame.
+# The HUD draws after the viewport. Locking onto the viewport first painted the
+# indicators under the game's own HUD, so nothing showed. A later, higher-ranked
+# hook replaces that lock.
 _HOOK_NAMES = (
+    "WillowGame.WillowHUD:PostRender",
+    "Engine.HUD:PostRender",
     "WillowGame.WillowGameViewportClient:PostRender",
     "Engine.GameViewportClient:PostRender",
 )
+_RANK = {name: len(_HOOK_NAMES) - index for index, name in enumerate(_HOOK_NAMES)}
 _source: str | None = None
+_images_ok = True
+_hud_noted = False
 
 
 # ---- dash ready indicator: a small hex below-right of the crosshair that fills from the
@@ -565,7 +584,7 @@ def _draw_slam(canvas) -> None:
 # the air) that shrinks toward the centre as the slide loses speed. A slide jump makes it flash,
 # stretch and lift away; a slide that ends any other way fades it out. ----
 SLIDE_Y = 120.0            # px below the crosshair at 1125 px tall
-SLIDE_HALF = (8.0, 60.0)   # bar half-width: no momentum .. full
+SLIDE_HALF = (0.0, 60.0)   # bar half-width: slide over .. just started
 SLIDE_THICK = 12.0         # drawn height of mm_slide_bar.png (its line is about a fifth of that)
 SLIDE_CAP = 15.0           # drawn height of mm_slide_cap.png
 SLIDE_LAUNCH_S = 0.35
@@ -845,6 +864,39 @@ def _draw_jumps(canvas) -> None:
         chev(i, (1.0 - k) * max(smooth_level, 0.6), rise=8.0 * k, grow=1.0 + 0.3 * k)
 
 
+def _canvas_from(args):
+    try:
+        canvas = getattr(args, "Canvas", None)
+        if canvas is not None:
+            return canvas
+    except Exception:  # noqa: BLE001
+        pass
+    try:
+        canvas = args[0]
+    except Exception:  # noqa: BLE001
+        return None
+    return canvas
+
+
+def _note_hud(name: str, canvas) -> None:
+    global _hud_noted
+    if _hud_noted:
+        return
+    _hud_noted = True
+    try:
+        from . import diagnostics
+
+        diagnostics.event(
+            "mm.hud",
+            result=name,
+            images=bool(_image("mm_slide_bar")),
+            wide=int(getattr(canvas, "ClipX", 0) or 0),
+            tall=int(getattr(canvas, "ClipY", 0) or 0),
+        )
+    except Exception:  # noqa: BLE001
+        pass
+
+
 def _on_post_render(name: str, args) -> None:
     global _source
     if (
@@ -860,20 +912,23 @@ def _on_post_render(name: str, args) -> None:
     ):
         _jump["t"] = None
         return
-    if _source is None:
+    canvas = _canvas_from(args)
+    if canvas is None:
+        return
+    rank = _RANK.get(name, 0)
+    if _source is None or rank > _RANK.get(_source, 0):
         _source = name
+        _note_hud(name, canvas)
     elif _source != name:
         return
     try:
-        canvas = args.Canvas
-        if canvas is not None:
-            _draw(canvas)
-            _draw_pip(canvas)
-            _draw_perfect(canvas)
-            _draw_slam(canvas)
-            _draw_slide(canvas)
-            _draw_surge(canvas)
-            _draw_jumps(canvas)
+        _draw(canvas)
+        _draw_pip(canvas)
+        _draw_perfect(canvas)
+        _draw_slam(canvas)
+        _draw_slide(canvas)
+        _draw_surge(canvas)
+        _draw_jumps(canvas)
     except Exception as e:  # noqa: BLE001
         _warn("draw", f"dash arrows: draw failed ({e!r})")
 
@@ -881,7 +936,8 @@ def _on_post_render(name: str, args) -> None:
 def _make_hook(name: str):
     def _cb(obj, args, ret, func) -> None:
         _on_post_render(name, args)
-    _cb.__name__ = "mm_hudfx_" + name.split(".")[0].lower()
+    safe = "".join(ch.lower() if ch.isalnum() else "_" for ch in name)
+    _cb.__name__ = "mm_hud_" + safe
     _cb.__qualname__ = _cb.__name__
     return hook(name, Type.POST)(_cb)
 

@@ -342,7 +342,10 @@ def trace(pawn, start, end, extent=None):
 
 
 def _trace(sess: TraceSession, pawn, start, end, extent=None):
-    """Trace a line through the level. Returns (hit_location, hit_normal) or None for no hit."""
+    """Trace a line through the level.
+
+    Returns (hit_location, hit_normal, material) or None. `pair` drops the material.
+    """
     weap = sess._spawn_weapon()
     if weap is None:
         raise TraceUnavailable
@@ -445,6 +448,13 @@ def _impact_material(impact) -> str:
     except Exception:  # noqa: BLE001
         pass
     return " ".join(parts)
+
+
+def pair(hit):
+    """Location and normal from a trace. The material name is the third item."""
+    if not hit:
+        return None
+    return hit[0], hit[1]
 
 
 def material_below(pc, pawn) -> str:

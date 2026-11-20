@@ -3,7 +3,7 @@
 Next minor after the shipped Pre-Sequel package 3.61.2. The same file runs in Borderlands 2 and Borderlands: The Pre-Sequel. Double Jump, Dash, Mantle, Slide, Holster, and Sprint Surge ship in both games. Borderlands 2 also gets Slam. The Pre-Sequel keeps native Oz slam. Pre-release work stays on 3.62.0.
 
 **Package:** `dist/Modern_Movement.sdkmod`  
-**SHA-256:** `cdbcbf3b51ca09de434fae10678fc3f03708c4f40949b3ab48177858757b2e33`
+**SHA-256:** `2044cb8779a9057a74c90fe1ee12d09913519cd2af1dd75d9fe8bde461c490e5`
 
 Install this exact file on every peer who wants the abilities, in that game's `sdk_mods` folder. Confirm the hash against `dist/Modern_Movement.sdkmod.sha256` before enabling it. Use the same file on Borderlands 2 and on The Pre-Sequel.
 
@@ -29,7 +29,7 @@ Install this exact file on every peer who wants the abilities, in that game's `s
 | Surface | Dust, sparks, splash, and snow from the ground you slide on, plus a cool wind burst in the air |
 | Holster | Manual holster and sprint holster |
 | Sprint Surge | Second sprint press for a speed boost that ramps up |
-| Slam | Borderlands 2. Crouch in the air to dive, with a landing blast and indicator |
+| Slam | Borderlands 2. Hold crouch in the air to dive, even from a short hop, with a landing blast, a dust ring, and an indicator |
 
 Players who do not install the mod can still join. Their movement stays vanilla.
 
@@ -77,24 +77,44 @@ These notes are the whole 3.62.0 delta from the shipped 3.61.2 package.
 - Sprint, jump, and hold crouch. You slide when you land or slam, with no slide before that jump. The crouch key has to still be down. Letting go does not slide.
 - A landing slide, including a slide cancel and a slam exit, goes the way you are facing and keeps going. Turning around does not cancel the landing or send you backward. You keep the speed from before the landing.
 - Slide cancel works while you hold crouch. The landing was skipped because a held crouch button was read as up. Releasing crouch still does not slide.
+- Pressing crouch while you are already sliding does not start another slide. Leaving the ground no longer starts a slide in the air, and the gun returns upright when the slide ends.
+- Crouch while sprinting starts another slide after the last one. The sprint already held was ending that slide and then blocking the next press.
+- The super sprint key starts another surge after the last one.
+- Running at a low obstacle and pressing jump vaults onto it. The ledge check was crashing as soon as it found a wall.
+- Dash arrows, the slide bar, the ready pip, and the surge arcs draw on the HUD again. They were being painted on a canvas the game covered.
+- A ramp or a run of stairs keeps the slide fast for the whole longer run. It was stretching the time and then leaving you at a crouch walk.
+- Other players with Sprint Surge get the speed boost, not only the arcs. Their ramp slider is how many seconds they take to climb from +30% to +70%. 10 is the longest climb, not ten times speed. The host rewrites that speed on its own tick.
+- Other players slide cancel while they hold crouch. The jump's uncrouch was being read as letting go.
+- The gun comes back up when you are not sliding. A chain of slides was leaving it tilted, and the settle-back was painting that lean on again.
+- Other players' slide jumps stay in the air. A second stand-up after the launch was pulling the landing slide back down.
+- Sprint surge multiplies the run you already have, from +30% to +70%. Other players get that same multiplier, and the host does not push them faster than that.
+- Borderlands 2: super sprint waits until you press sprint again while already sprinting. Hold crouch to slide and let go to stop. The Pre-Sequel hold is unchanged.
+- Borderlands 2: hold crouch while you run and jump. A high jump slams. A short hop pulls you down once it has peaked. That crouch does not turn the slam into a slide. A slide-cancel hold still slides on landing.
+- The slide bar shrinks across the slide and is empty when the slide ends. The next slide can start as soon as that one ends.
+- Dash wind, a light sprint streak, and a circular slam impact. Each game uses its own effects.
+- A dash plays a whoosh. The beep is only the ready tone. A slide is only the ground scrape. A slam plays the impact when you land, and nothing on the way down. Super sprint does not add a whoosh. The Pre-Sequel slam uses the Oz slam sound.
+- Borderlands 2 pulls you down only while crouch is held. Letting go, or jumping without crouch, leaves the jump alone. A slam does not lock sliding, and the next slide can start as soon as the last one ends.
+- Borderlands 2: hold crouch to slide and let go to end it, including a short hold. A second press is not the cancel. The same hold slams a high jump and pulls a short hop down after it peaks.
+- Press sprint again after you let go of sprint and the slide ends then. The time that slide had left is not a wait. The sprint you were already holding does not end it.
+- PythonSDK Willow2 v3.8 (Slammer) is required. Base 1.12, Networking 1.2, Keybinds 1.2, and UI Utils 1.5 are checked on enable. Dash, slide, jump, mantle, surge, and slam use the Networking host calls. Crouch hold follows the same InputKey event as the keybinds module.
 
 ## Install
 
 1. Remove or disable any older Modern Movement package (Borderlands 2 builds, loose folders, or a second copy).
-2. Copy `Modern_Movement.sdkmod` into the game's `sdk_mods` folder (Borderlands 2 or The Pre-Sequel).
+2. Copy `Modern_Movement.sdkmod` into both `sdk_mods` folders: Borderlands 2 and The Pre-Sequel. A build from this tree copies that package only into `D:\SteamLibrary\steamapps\common\Borderlands 2\sdk_mods` and `D:\SteamLibrary\steamapps\common\BorderlandsPreSequel\sdk_mods`. The hash file and the manifest stay in `dist`.
 3. Enable the mod and check key bindings at the bottom of the mod options.
 4. Restart the game after copying the file so hooks and keybinds load.
 
 Full steps: [docs/INSTALL.md](../docs/INSTALL.md).
 
-texloader is optional. Without a TPS-capable texloader fork, indicators draw as lines and gameplay is unchanged. Controller Dash and Toggle Holster start unbound; rebind them in the menu if you want them on a pad.
+HUD images ship in this package. Borderlands 2 and The Pre-Sequel each use their own included texture loader, so a separate texloader install is not required. If an image cannot be created, that indicator draws with lines. Controller Dash and Toggle Holster start unbound; rebind them in the menu if you want them on a pad.
 
 ## Verification
 
-Automated checks in this tree cover protocol, runtime, rules, gravity, input, the package allowlist, travel recovery, dual-player co-op unit tests, and a dual-game boot harness (`pytest`, 64 passed), plus a deterministic sdkmod build. The harness boots the package as Borderlands 2 (Slam loaded) and as The Pre-Sequel (Slam not loaded) and reads every shipped source line.
+Automated checks in this tree cover protocol, runtime, rules, gravity, input, the package allowlist, travel recovery, dual-player co-op unit tests, a dual-game boot harness, and the installed Willow2 helper check (`pytest`, 117 passed), plus a deterministic sdkmod build. The harness boots the package as Borderlands 2 (Slam loaded) and as The Pre-Sequel (Slam not loaded) and reads every shipped source line.
 
 Releasing forward on a joiner slide is covered by those unit tests and remains **LIVE_REQUIRED** in a real two-player session. Track that in [LIVE_VALIDATION.md](LIVE_VALIDATION.md) and [CAPABILITY_MATRIX.md](CAPABILITY_MATRIX.md).
 
 ## Rollback
 
-Keep the supplied `Pre Sequel Port/Modern_Movement.sdkmod` archive unchanged as the known-good pre-co-op rollback artifact. Load either that archive or this co-op package in a session, not both.
+Keep `archive/pre-sequel-3.61.2.sdkmod` unchanged as the known-good 3.61.2 rollback artifact. Load either that archive or this package in a session, not both. Do not overwrite `archive/borderlands-2.sdkmod`.

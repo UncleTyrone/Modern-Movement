@@ -516,7 +516,7 @@ def _dash_pressed_impl(direction_code: str | None = None) -> bool:
     if ctx.presentation:
         _cam_start(pc, dx, dy)
     if audio_option.value and ctx.presentation:
-        fx.play_sound(pc, pawn)
+        fx.play_first(pc, pawn, fx.dash_paths())
     _surface_burst(pc, pawn, dx * _SPEED, dy * _SPEED, air)
     _log(
         f"air dash start: dir=({dx:.2f}, {dy:.2f}) distance={state.dash['distance']:.0f} "
@@ -749,7 +749,7 @@ def _presentation(event: str, payload: dict) -> None:
             if screen_option.value:
                 hudfx.dash_arrows(ctx.controller, (float(direction[0]), float(direction[1])))
             if audio_option.value:
-                fx.play_sound(ctx.controller, ctx.pawn)
+                fx.play_first(ctx.controller, ctx.pawn, fx.dash_paths())
     if state_payload.get("perfect_dodge") and perfect_fx_option.value:
         hudfx.perfect_dodge()
     # Never call pip_ready() from network state digests — that flashed the hex on every
@@ -1014,7 +1014,7 @@ def _dash_request() -> None:
         if screen_option.value:
             hudfx.dash_arrows(pc, (dx, dy))
         if audio_option.value:
-            fx.play_sound(pc, pawn)
+            fx.play_first(pc, pawn, fx.dash_paths())
         _CLIENT_DASH = _hold_dash(pawn, vx, vy, _HOST_DASH_S, vz)
         sent = coop_rpc.call_host(coop_rpc.server_dash, vx, vy, vz)
         try:

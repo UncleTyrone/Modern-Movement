@@ -31,6 +31,7 @@ What's different from earlier versions
 
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -41,7 +42,7 @@ from unrealsdk.hooks import Block, Type, add_hook, remove_hook
 
 from .. import authority, camera, core, hudfx, network
 from ..protocol import Reason
-from ..runtime import REGISTRY, PlayerContext, object_identity
+from ..runtime import REGISTRY, ExecutionRole, PlayerContext, object_identity
 from . import surge
 
 
@@ -123,6 +124,17 @@ class HolsterState:
     sprint_suppressed: bool = False
     mantle_holstered: bool = False
     surge_started: float = -100.0
+    # GroundSpeed captured once when the surge starts, sprint included.
+    # Later samples are the boost itself, and multiplying those stacks.
+    surge_reference: float = 0.0
+    reference_locked: bool = False
+    # Horizontal speed captured once. Later frames scale toward this times the boost,
+    # so the bonus cannot stack and a look direction cannot launch them.
+    run_pin: float = 0.0
+    # Joiner's own GroundSpeed multiplier. The host keeps this instead of its own ramp slider.
+    peer_factor: float | None = None
+    sent_factor: float = 0.0
+    next_speed_send: float = -100.0
     tilt_level: float = 0.0
     sprint_sources: list = field(default_factory=list)
     sprint_source_ok: Any = None
@@ -132,6 +144,9 @@ class HolsterState:
 
 
 _fallback_state = HolsterState()
+# Walk GroundSpeed sits near 440. Anything higher is a sprint or a boost we already wrote.
+_WALK_PIN_MAX = 520.0
+_SURGE_FACTOR_MAX = 1.70
 
 
 def _state(ctx=None) -> HolsterState:
@@ -262,6 +277,12 @@ def _clear_state(ctx: PlayerContext | None = None) -> None:
     state.stow_kind = None
     state.sprint_holstered = False
     state.seen_empty = False
+    state.peer_factor = None
+    state.sent_factor = 0.0
+    state.next_speed_send = -100.0
+    state.surge_reference = 0.0
+    state.reference_locked = False
+    state.run_pin = 0.0
 
 
 def _holster(ctx: PlayerContext, pawn) -> None:
@@ -389,6 +410,20 @@ def _holster_block_auto_equip(obj, *_args):
     return None
 
 
+def _bl2_second_sprint(state: HolsterState, now: float, previous_tap: float) -> bool:
+    """Borderlands 2 toggles sprint. The first Shift press only starts that sprint.
+
+    `sprinting_now` is the previous tick, so this press has not flipped the flag yet.
+    """
+    if state.sprinting_now is True:
+        return True
+    if state.last_sprint_active > -50.0 and now - state.last_sprint_active <= _TAP_WINDOW:
+        return True
+    if state.sprinting_now is None and previous_tap > -50.0 and now - previous_tap <= _TAP_WINDOW:
+        return True
+    return False
+
+
 def _sprint_surge_logic() -> None:
     ctx = core.current_context()
     if ctx is None:
@@ -407,24 +442,30 @@ def _sprint_surge_logic() -> None:
     if _boost_active(ctx) and now - state.surge_started > _SURGE_EXIT_GUARD:
         _log("Sprint Surge pressed again while surging: ending the surge.")
         state.sprint_holstered = False
-        state.sprint_suppressed = True
-        _unholster(ctx, pawn)
+        state.sprint_suppressed = False
+        try:
+            _unholster(ctx, pawn)
+        except Exception:  # noqa: BLE001
+            pass
+        state.holstered = False
+        state.stow_kind = None
+        state.sprint_holstered = False
         return
 
-    window = _TAP_WINDOW
-    if state.sprinting_now is None:
-        again = now - previous_tap <= window
-    else:
-        again = state.sprinting_now or (now - state.last_sprint_active) <= window
-    if not again:
+    from .. import game
+
+    # The Pre-Sequel already treats this key as the second press. Borderlands 2
+    # fires it on the same Shift that starts a normal sprint.
+    if game.is_bl2() and not _bl2_second_sprint(state, now, previous_tap):
         return
 
-    # Gun out: stow it, then boost. Already holstered (H, or holstered by sprinting):
-    # there is nothing left to stow, so the same press just turns the boost on.
+    # The surge key is the request. A sprint flag that dropped after the last surge
+    # must not throw this press away.
     if state.holstered or pawn.Weapon is None:
         state.holstered = True
         state.seen_empty = pawn.Weapon is None
         state.sprint_holstered = True
+        state.sprint_suppressed = False
         state.stow_kind = "surge"
         _mark_surge_start(ctx)
         _log("Sprint pressed again while holstered: Sprint Surge on (boost).")
@@ -433,6 +474,7 @@ def _sprint_surge_logic() -> None:
     _holster(ctx, pawn)
     if state.holstered:
         state.sprint_holstered = True
+        state.sprint_suppressed = False
         state.stow_kind = "surge"
         _mark_surge_start(ctx)
 
@@ -453,24 +495,39 @@ def _sprint_surge_request() -> None:
     ctx = core.local_context() or REGISTRY.resolve_controller(core.get_pc_pawn()[0])
     if ctx is None:
         return
+    # A sprint press ends a slide immediately. BeginSprint misses that press while the
+    # sprint that started the slide is still flagged on, and the slide then sits until
+    # its old timer runs out.
+    if ctx.local and ctx.authority and not coop_rpc.is_requester(ctx):
+        from . import slide
+
+        core.execute(ctx, slide.try_consume_sprint, ctx.controller, ctx.pawn)
     if coop_rpc.is_requester(ctx):
         from . import slide
 
         if core.execute(ctx, slide.try_consume_sprint, ctx.controller, ctx.pawn):
             coop_rpc.call_host(coop_rpc.server_slide_exit)
-            return
         before = _boost_active(ctx)
         core.execute(ctx, _sprint_surge_logic)
         after = _boost_active(ctx)
         if after and not before:
             coop_rpc.call_host(coop_rpc.server_holster, "surge")
+            state = _state(ctx)
+            state.next_speed_send = -100.0
+            _publish_surge_speed(ctx, True)
         elif before and not after:
             coop_rpc.call_host(coop_rpc.server_holster, "surge_end")
+            state = _state(ctx)
+            state.next_speed_send = -100.0
+            if state.sent_factor <= 1.01:
+                state.sent_factor = 1.1
+            _publish_surge_speed(ctx, False)
         return
     network.send_intent("holster", "input", {"kind": "surge"})
 
 
 def _mark_surge_start(ctx: PlayerContext | None = None) -> None:
+    """Super sprint keeps the game's own sprinting sounds. No extra whoosh."""
     _state(ctx).surge_started = core.clock
 
 
@@ -486,12 +543,190 @@ def _update_tilt(ctx: PlayerContext, dt: float, active: bool) -> None:
         camera.request("surge", pitch=-_TILT * amount * e)
 
 
+def _local_surge_factor(ctx: PlayerContext) -> float:
+    """This machine's ramp, as a multiplier on the speed they already had (1.30 .. 1.70)."""
+    state = _state(ctx)
+    return 1.0 + surge.boost(core.clock - state.surge_started) / 100.0
+
+
+def _clamp_factor(value: float) -> float:
+    """1.30..1.70. A larger number is an old absolute speed, and writing that launches them."""
+    return min(_SURGE_FACTOR_MAX, max(1.0, float(value)))
+
+
+def _note_base(ctx: PlayerContext, pawn, factor: float) -> float:
+    """The run this surge multiplies. A sprint counts. Our own boosted write does not."""
+    state = _state(ctx)
+    if state.reference_locked and state.surge_reference >= 200.0:
+        return state.surge_reference
+    try:
+        current = float(pawn.GroundSpeed) if pawn is not None else 440.0
+    except Exception:  # noqa: BLE001
+        current = 440.0
+    factor = _clamp_factor(factor)
+    if state.surge_reference >= 200.0:
+        boosted = state.surge_reference * factor
+        own = abs(current - boosted) <= max(30.0, boosted * 0.08)
+        if own:
+            state.reference_locked = True
+            return state.surge_reference
+        # The game turned a walk sample into the sprint. Take that once.
+        if _WALK_PIN_MAX < current <= 1100.0 and current > state.surge_reference + 40.0:
+            state.surge_reference = current
+            state.reference_locked = True
+            return current
+        if current > 1100.0:
+            state.reference_locked = True
+        return state.surge_reference
+    if 200.0 <= current <= 1100.0:
+        state.surge_reference = current
+    else:
+        state.surge_reference = 440.0
+    if state.surge_reference > _WALK_PIN_MAX:
+        state.reference_locked = True
+    return state.surge_reference
+
+
+def _speed_multiplier(ctx: PlayerContext, pawn) -> float:
+    """Same 30–70% GroundSpeed boost the local player gets. Not a second speed on top."""
+    del pawn
+    state = _state(ctx)
+    if not ctx.local and state.peer_factor is not None and state.peer_factor > 1.001:
+        return _clamp_factor(state.peer_factor)
+    return _clamp_factor(_local_surge_factor(ctx))
+
+
+def _write_surge_speed(ctx: PlayerContext, pawn, factor: float) -> None:
+    """Multiply the GroundSpeed they already have. Do not touch Velocity.
+
+    Forcing the base down to a walk made a sprint slower, so the surge vanished.
+    Writing Velocity made other players run ahead and then snap back.
+    """
+    if pawn is None:
+        return
+    factor = _clamp_factor(factor)
+    base = _note_base(ctx, pawn, factor)
+    core.set_speed_mult("surge", factor, ctx)
+    try:
+        current = float(pawn.GroundSpeed)
+    except Exception:  # noqa: BLE001
+        current = base
+    lease = ctx.ground_speed
+    # Hold the pin. If the lease adopted the boosted GroundSpeed, the next
+    # multiply would stack and they would run away from the host.
+    lease.pawn_key = ctx.pawn_key
+    lease.base = base
+    lease.written = current
+    try:
+        core._apply_speed(ctx, pawn)
+    except Exception:  # noqa: BLE001
+        try:
+            pawn.GroundSpeed = base * factor
+        except Exception:  # noqa: BLE001
+            pass
+    _scale_run(ctx, pawn, factor)
+
+
+def _scale_run(ctx: PlayerContext, pawn, factor: float) -> None:
+    """Bring an existing run up to the pinned speed times the boost. Never invent a direction."""
+    if pawn is None or ctx.busy in ("slide", "dash", "mantle", "slam"):
+        return
+    try:
+        if int(pawn.Physics) != core.PHYS_WALKING:
+            return
+        vx = float(pawn.Velocity.X)
+        vy = float(pawn.Velocity.Y)
+    except Exception:  # noqa: BLE001
+        return
+    speed = math.hypot(vx, vy)
+    state = _state(ctx)
+    if state.run_pin < 350.0:
+        if speed < 350.0:
+            return
+        state.run_pin = speed
+    target = state.run_pin * _clamp_factor(factor)
+    if speed < 350.0 or speed >= target * 0.92:
+        return
+    core.set_velocity(pawn, vx / speed * target, vy / speed * target)
+
+
 def _apply_speed_boost(ctx: PlayerContext, pawn, active: bool) -> None:
+    state = _state(ctx)
     if pawn is None or not active:
+        state.peer_factor = None
+        state.surge_reference = 0.0
+        state.reference_locked = False
+        state.run_pin = 0.0
         core.set_speed_mult("surge", None, ctx)
+        try:
+            core._apply_speed(ctx, pawn)
+        except Exception:  # noqa: BLE001
+            pass
+        return
+    _write_surge_speed(ctx, pawn, _speed_multiplier(ctx, pawn))
+
+
+def apply_peer_factor(ctx: PlayerContext, value: float) -> None:
+    """Host: store the joiner's boost (1.30–1.70) and set GroundSpeed. Velocity stays theirs."""
+
+    def apply() -> None:
+        state = _state(ctx)
+        pawn = ctx.pawn
+        if value <= 1.001:
+            state.peer_factor = None
+            _apply_speed_boost(ctx, pawn, False)
+            return
+        state.peer_factor = _clamp_factor(value)
+        _write_surge_speed(ctx, pawn, state.peer_factor)
+
+    core.execute(ctx, apply)
+
+
+def _publish_surge_speed(ctx: PlayerContext, active: bool) -> None:
+    """Joiner: tell the host this player's boost, the same 1.30–1.70 the host uses."""
+    from .. import coop_rpc
+
+    if not coop_rpc.is_requester(ctx):
         return
     state = _state(ctx)
-    core.set_speed_mult("surge", 1.0 + surge.boost(core.clock - state.surge_started) / 100.0, ctx)
+    if not active:
+        if state.sent_factor > 1.01 and core.clock >= state.next_speed_send:
+            state.next_speed_send = core.clock + 0.25
+            if coop_rpc.call_host(coop_rpc.server_speed_mult, 1.0):
+                state.sent_factor = 0.0
+        return
+    factor = _clamp_factor(_local_surge_factor(ctx))
+    due = core.clock >= state.next_speed_send
+    changed = abs(factor - state.sent_factor) >= 0.01
+    if not due and not changed:
+        return
+    state.next_speed_send = core.clock + 0.25
+    if coop_rpc.call_host(coop_rpc.server_speed_mult, factor):
+        state.sent_factor = factor
+
+
+def _service_host_surges() -> None:
+    """Keep a joiner's GroundSpeed on their own boost. Do not write their Velocity."""
+    try:
+        from . import slide as slide_mod
+
+        busy = slide_mod._HOST_SLIDES
+        airborne = slide_mod._HOST_JUMPS
+    except Exception:  # noqa: BLE001
+        busy = {}
+        airborne = {}
+    for ctx in REGISTRY.contexts():
+        if ctx.local or ctx.pawn is None or core.unusable(ctx.pawn):
+            continue
+        if ctx.key.player_id in busy or ctx.key.player_id in airborne:
+            continue
+        state = _state(ctx)
+        if state.peer_factor is None or state.peer_factor <= 1.001:
+            continue
+        try:
+            core.execute(ctx, _write_surge_speed, ctx, ctx.pawn, state.peer_factor)
+        except Exception:  # noqa: BLE001
+            pass
 
 
 def _boost_active(ctx: PlayerContext | None = None) -> bool:
@@ -611,6 +846,8 @@ def _tick(pc, pawn, dt) -> None:
     ctx = core.current_context()
     if ctx is None or not ctx.authority:
         return
+    if ctx.role == ExecutionRole.LOCAL_HOST:
+        _service_host_surges()
     state = _state(ctx)
 
     if pawn is None or core.unusable(pawn):
@@ -618,6 +855,7 @@ def _tick(pc, pawn, dt) -> None:
             _clear_state(ctx)
         state.sprinting_now = None
         _apply_speed_boost(ctx, pawn if pawn is not None and not core.unusable(pawn) else None, False)
+        _publish_surge_speed(ctx, False)
         if ctx.presentation:
             _update_tilt(ctx, dt, False)
             hudfx.surge_state(False, 0.0)
@@ -637,7 +875,19 @@ def _tick(pc, pawn, dt) -> None:
     else:
         _tick_holster(ctx, pc, pawn, sprinting)
     boost = _boost_active(ctx)
-    _apply_speed_boost(ctx, pawn, boost)
+    state_now = _state(ctx)
+    # The host's holster flag can drop while the joiner is still surging. Their last
+    # multiplier stays until they send 1.0, so the server pawn does not snap back to a walk.
+    if (
+        not boost
+        and not ctx.local
+        and state_now.peer_factor is not None
+        and state_now.peer_factor > 1.001
+    ):
+        _write_surge_speed(ctx, pawn, state_now.peer_factor)
+    else:
+        _apply_speed_boost(ctx, pawn, boost)
+    _publish_surge_speed(ctx, boost)
     if ctx.presentation:
         _update_tilt(ctx, dt, boost)
         hudfx.surge_state(
@@ -689,13 +939,11 @@ def _force_surge_start(ctx: PlayerContext) -> None:
         return
     if not surge.enabled_option.value:
         return
-    if _boost_active(ctx) and core.clock - state.surge_started > _SURGE_EXIT_GUARD:
-        state.sprint_holstered = False
-        state.sprint_suppressed = True
-        _unholster(ctx, pawn)
-        return
+    # "surge" means start. Ending is a separate message. Treating a second start as
+    # "turn it off" made the next super sprint die on the listen host.
     if state.holstered:
         state.sprint_holstered = True
+        state.sprint_suppressed = False
         state.stow_kind = "surge"
         _mark_surge_start(ctx)
         _apply_speed_boost(ctx, pawn, True)
@@ -707,6 +955,7 @@ def _force_surge_start(ctx: PlayerContext) -> None:
         state.holstered = True
         state.seen_empty = True
     state.sprint_holstered = True
+    state.sprint_suppressed = False
     state.stow_kind = "surge"
     _mark_surge_start(ctx)
     _apply_speed_boost(ctx, pawn, True)
@@ -721,7 +970,7 @@ def _authority_input(ctx, payload):
         from . import slide
 
         if core.execute(ctx, slide.try_consume_sprint, ctx.controller, pawn):
-            return Reason.OK, _snapshot(ctx)
+            pass
         if not surge.enabled_option.value:
             return Reason.DISABLED, _snapshot(ctx)
         # Joiners: force-start. Host/local intents still use the tap logic via keybind path.
@@ -822,6 +1071,25 @@ def _presentation(event: str, payload: dict) -> None:
         hudfx.surge_state(True, surge.ramp(elapsed))
     elif event in ("state", "accept", "end"):
         hudfx.surge_state(False, 0.0)
+
+
+@hook("WillowGame.WillowPlayerController:PlayerWalking.PlayerMove", Type.PRE)
+def _speed_before_move(obj, _args, _ret, _func) -> None:
+    """GroundSpeed has to be the surged value before the engine builds this move."""
+    ctx = REGISTRY.resolve_controller(obj)
+    if ctx is None or not ctx.authority or not ctx.speed_multipliers:
+        return
+    pawn = ctx.pawn
+    if pawn is None or core.unusable(pawn):
+        return
+    factor = ctx.speed_multipliers.get("surge")
+    try:
+        if factor is not None and factor > 1.001:
+            core.execute(ctx, _write_surge_speed, ctx, pawn, factor)
+        else:
+            core.execute(ctx, core._apply_speed, ctx, pawn)
+    except Exception:  # noqa: BLE001
+        pass
 
 
 def on_enable() -> None:

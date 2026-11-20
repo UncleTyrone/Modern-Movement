@@ -1,8 +1,8 @@
-"""Optional wire helpers for Modern Movement.
+"""Wire helpers for Modern Movement on Willow2 Networking 1.2.
 
-Local own-pawn movement does not need Networking. When Networking 1.2 is present the
-HELLO/INTENT endpoints still register; when it is missing, stubs keep imports alive so
-Dash/Slide/Double Jump still load for every player who enabled the mod.
+Local own-pawn movement does not wait on a peer. When Networking is present the
+HELLO/INTENT endpoints and the movement `@host` calls register together. The
+stubs below exist so a test run outside the game can still import the package.
 """
 
 from __future__ import annotations

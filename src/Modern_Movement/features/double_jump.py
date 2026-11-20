@@ -99,7 +99,7 @@ _SHAKE_EYE = 2.0      # bob at 100%, units
 _SHAKE_ROLL = 0.9     # tilt at 100%, degrees
 _SHAKE_RISE = 0.04    # seconds to full strength
 _SHAKE_FALL = 0.35    # seconds to settle
-_SOUND = "Ake_Wep_Assault_Rifles.Rifle_Torgue.Ak_Play_Wep_Rifle_Torgue_Ignite"
+_SOUND = "Ake_Fs_Player.Ak_Play_Fs_Jump"
 
 _PEAK_GRACE = 150.0  # units/s: how far past the peak (how fast you are already falling) the extra jump still works
 
@@ -246,7 +246,7 @@ def _on_air_press(pc, pawn) -> bool:
     state.shake = {"t0": core.clock, "t": 0.0}
     state.push = {"t0": core.clock}
     if sound_option.value and (ctx is None or ctx.presentation):
-        fx.play_sound(pc, pawn, _SOUND)
+        fx.play_all(pc, pawn, fx.jump_paths())
     return True
 
 
@@ -407,7 +407,7 @@ def _presentation(event: str, payload: dict) -> None:
     if event == "accept" and sound_option.value:
         ctx = core.local_context()
         if ctx is not None and ctx.pawn is not None:
-            fx.play_sound(ctx.controller, ctx.pawn, _SOUND)
+            fx.play_all(ctx.controller, ctx.pawn, fx.jump_paths())
 
 
 def on_enable() -> None:

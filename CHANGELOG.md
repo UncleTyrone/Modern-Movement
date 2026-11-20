@@ -54,7 +54,36 @@ The last shipped Pre-Sequel package is **3.61.2**. The next minor is **3.62.0**.
 - Sprint, jump, and hold crouch: you slide when you land or slam, even if you never slid before that jump. The crouch key has to be down when you hit the ground. Letting go does not slide.
 - A landing slide goes the way you are facing when you touch down, and it stays down. Turning around no longer cancels it or slides you backward. You keep the speed you had.
 - Slide cancel works again while crouch is held. The game's pressed-key list was reporting that held button as up, so the landing slide never started. Releasing crouch still cancels it.
+- Pressing crouch while you are already sliding does not start another slide. Leaving the ground no longer starts a slide in the air, and the gun returns upright when the slide ends.
+- Crouch while sprinting starts another slide after the last one. The sprint already held was ending the slide and then blocking the next press.
+- The super sprint key starts another surge after the last one. A later press was only treated as turn-off.
+- Running at a low obstacle and pressing jump vaults onto it. The ledge check was crashing as soon as it found a wall.
+- Dash arrows, the slide bar, the ready pip, and the surge arcs draw on the HUD again. They were being painted on a canvas the game covered.
+- Sliding down a ramp or a run of stairs keeps the slide's speed for that longer run. The extra time was slowing down to a crouch walk.
+- Other players get the super sprint speed, not only the arcs. Their Sprint Surge Speed Ramp Up is the climb the host writes onto them, from +30% to +70%. 10 on that slider is ten seconds to full speed, not ten times speed. The host rewrites that speed on its own tick.
+- Other players slide cancel while they hold crouch. Standing up at the jump was read as letting go, so the landing slide only happened sometimes.
+- The gun comes back up when you are not sliding. A chain of slides was saving the tilted gun as the normal pose, and the settle-back was painting that lean on again.
+- A joiner's slide jump no longer sends a second "stand up" after the launch, which was pulling the landing slide back down.
+- Other players' double sprint is faster than the sprint they already had. The boost was being added to a walk, and a normal sprint is already faster than that, so the host put them back on a normal run. The host now keeps writing their surged run after the game moves them.
+- Sprint surge adds 30% to 70% of walk speed on top of a sprint. Multiplying the sprint, and writing that into GroundSpeed, was launching people. A jump keeps the game's jump. The surge no longer throws you along the crosshair.
+- Other players surge at the same boost you do. The host was also pushing their velocity, so they ran ahead of you, stuttered, and then got pulled back to where the run started.
+- Sprint surge multiplies the run you already have, sprint included, from +30% to +70%. Pinning that to a walk had turned the surge off, including for the host. The bonus is taken once, so it does not stack, and it does not throw you along the crosshair.
+- Borderlands 2: the first sprint press only sprints. Super sprint starts when you press sprint again while that sprint is already going.
+- Borderlands 2: hold crouch to slide and let go to stop. A tap no longer runs the whole slide, and you do not have to sprint until you are faster than the sprint itself. The Pre-Sequel hold is unchanged.
+- Borderlands 2: hold crouch in the air and you slam down as soon as you are off the ground, including a short hop. You do not have to reach the top of a jump first. A crouch held through a slide jump still lands in a slide.
+- Dashing leaves wind, sprinting leaves a light streak, and a slam lands in a circle of dust. Borderlands 2 and The Pre-Sequel each use that game's effects. A missing effect is skipped.
+- Sliding starts with a whoosh and keeps a footstep scrape until you stand up. A dash is a whoosh, a double jump is a jump, a slam dives with a whoosh and lands with an explosion and a footstep. The Pre-Sequel uses its Oz slam and air-boost sounds for those.
+- HUD images load from this package. Borderlands 2 uses its texloader, and The Pre-Sequel uses its own. A separate texloader install is not required.
+- The slide bar follows the slide. It shrinks across the coast and is gone when the slide ends, in both games. The next slide can start as soon as that one ends.
+- Borderlands 2: hold crouch while you are moving and jumping. A high jump slams. A short hop, once it has peaked, pulls you down. The slam plays a hard landing, and that crouch does not turn into a slide.
+- A dash plays a whoosh. The beep is only the ready tone when the cooldown finishes.
+- A slide is only the ground scrape. The high whoosh on slide start is gone. A slam plays the impact only, with no sound on the way down.
+- Borderlands 2: hold crouch to slide and let go to stop. Letting go ends it, including a short hold. A second press is not the cancel. The same hold slams from a high jump and pulls a short hop down after it peaks. A jump with crouch up is left alone.
+- Press sprint again after you let go of sprint and the slide ends then. The time that slide had left is not a wait before the next one. The sprint you were already holding does not end it.
+- Willow2 Mod Manager v3.8 (Slammer) is required: Base 1.12, Networking 1.2, Keybinds 1.2, and UI Utils 1.5. Dash, slide, jump, mantle, surge, and slam travel on the Networking host endpoints. Crouch hold and release use the same InputKey event the keybinds module uses.
+- The live package is `src/Modern_Movement`. The original Borderlands 2 source is `archive/borderlands-2/Modern_Movement`. The frozen packages are `archive/borderlands-2.sdkmod` and `archive/pre-sequel-3.61.2.sdkmod`. Install `dist/Modern_Movement.sdkmod`.
+- The installed copy in each game's `sdk_mods` folder is `Modern_Movement.sdkmod` only. The hash file and the manifest stay in `dist`.
 
 ## [3.61.2] — shipped Pre-Sequel baseline
 
-Controller twins for the mod keys, including Jump / Mantle / Double Jump on A and Sprint Surge on the left stick. Custom Slam stays off in favor of native Oz slam. This is the archive in `Pre Sequel Port/Modern_Movement.sdkmod`.
+Controller twins for the mod keys, including Jump / Mantle / Double Jump on A and Sprint Surge on the left stick. Custom Slam stays off in favor of native Oz slam. This is the archive in `archive/pre-sequel-3.61.2.sdkmod`.

@@ -14,7 +14,7 @@ import pytest
 
 from Modern_Movement.features import dash, double_jump, holster, mantle, slide, surge
 from Modern_Movement.runtime import REGISTRY, ExecutionRole, PlayerContext, PlayerKey, TickFrame
-from Modern_Movement import core, authority
+from Modern_Movement import core, authority, game
 from Modern_Movement.protocol import Reason
 
 
@@ -254,6 +254,27 @@ def test_host_mantle_replays_plan_without_location_stall(monkeypatch):
         assert abs(pawn.Velocity.Z) + abs(pawn.Velocity.X) > 1.0
 
 
+def test_sprint_speed_counts_as_running_into_a_vault():
+    """A sprint leaves acceleration at zero. Speed toward the camera still vaults."""
+    pawn = _Pawn(physics=core.PHYS_WALKING)
+    pawn.Acceleration = _Vec(0.0, 0.0, 0.0)
+    pawn.Velocity = _Vec(800.0, 0.0, 0.0)
+    pc = _PC()
+    assert mantle._moving_into_wall(pc, pawn) is True
+    pawn.Velocity = _Vec(0.0, 0.0, 0.0)
+    assert mantle._moving_into_wall(pc, pawn) is False
+
+
+def test_ledge_hit_keeps_its_place_when_the_trace_names_a_material():
+    """A wall hit is location, normal, and a material name. The climb only needs the first two."""
+    from Modern_Movement import tracing
+
+    hit = ((10.0, 0.0, 80.0), (0.0, 1.0, 0.0), "Concrete")
+    (hx, hy, hz), (nx, ny, nz) = tracing.pair(hit)
+    assert (hx, hy, hz) == (10.0, 0.0, 80.0)
+    assert (nx, ny, nz) == (0.0, 1.0, 0.0)
+
+
 def test_remote_slide_tick_does_not_start_or_block_crouch():
     """The host must not run slide-cancel input on a joiner. That ate their crouch and dash."""
     from Modern_Movement.features import slam
@@ -424,7 +445,34 @@ def test_holstered_shift_starts_surge_like_gun_out():
     assert pawn.GroundSpeed > 440.0
 
 
-def test_holstered_shift_does_nothing_when_not_sprinting():
+def test_bl2_first_shift_does_not_start_a_surge(monkeypatch):
+    """Borderlands 2: the first Shift press is a normal sprint. The next one, while sprinting, surges."""
+    monkeypatch.setattr(game, "is_bl2", lambda: True)
+    pawn = _Pawn(physics=core.PHYS_WALKING, ground=440.0)
+    pawn.Weapon = None
+    ctx = PlayerContext(
+        key=PlayerKey(1, 33),
+        role=ExecutionRole.LOCAL_HOST,
+        controller=_PC(),
+        pawn=pawn,
+        clock=10.0,
+        pawn_generation=1,
+    )
+    state = holster._state(ctx)
+    state.sprinting_now = False
+    state.last_sprint_active = -100.0
+    state.last_tap = -100.0
+    core.execute(ctx, holster._sprint_surge_logic)
+    assert state.stow_kind != "surge"
+    state.sprinting_now = True
+    ctx.clock = 11.0
+    core.execute(ctx, holster._sprint_surge_logic)
+    assert state.stow_kind == "surge"
+    assert holster._boost_active(ctx) is True
+
+
+def test_surge_key_starts_again_after_the_last_one():
+    """The surge key starts a surge. Standing still does not throw the press away."""
     pawn = _Pawn(physics=core.PHYS_WALKING, ground=440.0)
     pawn.Weapon = None
     ctx = PlayerContext(
@@ -442,8 +490,14 @@ def test_holstered_shift_does_nothing_when_not_sprinting():
     state.last_tap = -100.0
 
     core.execute(ctx, holster._sprint_surge_logic)
-    assert state.stow_kind is None
+    assert state.stow_kind == "surge"
+    assert holster._boost_active(ctx) is True
+    ctx.clock = 11.0
+    core.execute(ctx, holster._sprint_surge_logic)
     assert holster._boost_active(ctx) is False
+    ctx.clock = 12.0
+    core.execute(ctx, holster._sprint_surge_logic)
+    assert holster._boost_active(ctx) is True
 
 
 def test_host_surge_force_start_raises_groundspeed():
@@ -460,7 +514,18 @@ def test_host_surge_force_start_raises_groundspeed():
     assert pawn.GroundSpeed > 440.0, f"host surge must raise GroundSpeed (got {pawn.GroundSpeed})"
 
 
-def test_host_surge_end_restores_groundspeed():
+def test_second_surge_stays_on_when_the_host_is_asked_again():
+    """A joiner's next super sprint is a start. The host must not treat that message as turn-off."""
+    pawn = _Pawn(physics=core.PHYS_WALKING, ground=440.0)
+    pawn.Weapon = object()
+    pawn.InvManager = SimpleNamespace(SetCurrentWeapon=lambda *_a: None, SwitchToBestWeapon=lambda: None)
+    ctx = _remote(pawn)
+    holster._authority_input(ctx, {"kind": "surge"})
+    first = pawn.GroundSpeed
+    assert first > 440.0
+    holster._authority_input(ctx, {"kind": "surge"})
+    assert holster._boost_active(ctx) is True
+    assert pawn.GroundSpeed > 440.0
     pawn = _Pawn(physics=core.PHYS_WALKING, ground=440.0)
     ctx = _remote(pawn)
     holster._authority_input(ctx, {"kind": "surge"})
@@ -472,6 +537,233 @@ def test_host_surge_end_restores_groundspeed():
     core.execute(ctx, holster._apply_speed_boost, ctx, pawn, False)
     core._apply_speed(ctx, pawn)
     assert pawn.GroundSpeed == pytest.approx(440.0, abs=0.6)
+
+
+def test_joiner_surge_factor_stays_on_the_host_pawn():
+    """The host writes the joiner's multiplier. The host's own ramp of 3 seconds does not replace it."""
+    pawn = _Pawn(physics=core.PHYS_WALKING, ground=440.0)
+    ctx = _remote(pawn)
+    previous = surge.ramp_slider.value
+    surge.ramp_slider.value = 3.0
+    try:
+        holster.apply_peer_factor(ctx, 1.7)
+        assert pawn.GroundSpeed == pytest.approx(440.0 * 1.7, abs=0.6)
+        pawn.GroundSpeed = 440.0
+        core.execute(ctx, holster._tick, ctx.controller, pawn, 0.05)
+        core._apply_speed(ctx, pawn)
+        assert holster._state(ctx).peer_factor == pytest.approx(1.7)
+        assert pawn.GroundSpeed == pytest.approx(440.0 * 1.7, abs=0.6)
+        assert pawn.Velocity.X == pytest.approx(0.0, abs=0.1)
+    finally:
+        surge.ramp_slider.value = previous
+
+
+def test_surge_scales_the_run_they_already_have():
+    pawn = _Pawn(physics=core.PHYS_WALKING, ground=440.0)
+    pawn.Velocity = _Vec(440.0, 0.0, 0.0)
+    ctx = _remote(pawn)
+    holster.apply_peer_factor(ctx, 1.5)
+    assert pawn.GroundSpeed == pytest.approx(660.0, abs=1.0)
+    assert pawn.Velocity.X == pytest.approx(660.0, abs=1.0)
+    assert pawn.Velocity.Z == pytest.approx(0.0, abs=0.1)
+    holster.apply_peer_factor(ctx, 1.5)
+    assert pawn.Velocity.X == pytest.approx(660.0, abs=1.0)
+
+
+def test_ending_the_surge_puts_the_run_back():
+    pawn = _Pawn(physics=core.PHYS_WALKING, ground=440.0)
+    ctx = _remote(pawn)
+    holster.apply_peer_factor(ctx, 1.5)
+    assert pawn.GroundSpeed > 440.0
+    holster.apply_peer_factor(ctx, 1.0)
+    assert holster._state(ctx).peer_factor is None
+    assert pawn.GroundSpeed == pytest.approx(440.0, abs=0.6)
+
+
+def test_host_tick_keeps_the_joiners_boost_and_their_velocity():
+    """The host refreshes GroundSpeed. It does not push the joiner faster than that boost."""
+    pawn = _Pawn(physics=core.PHYS_WALKING, ground=440.0)
+    pawn.Velocity = _Vec(440.0, 0.0, 0.0)
+    pc = _PC()
+    pc.PlayerReplicationInfo = SimpleNamespace(PlayerID=44)
+    ctx = REGISTRY.observe(pc, ExecutionRole.REMOTE_AUTHORITY, 10.0, pawn)
+    assert ctx is not None
+    try:
+        holster._state(ctx).peer_factor = 1.5
+        holster._service_host_surges()
+        assert pawn.GroundSpeed == pytest.approx(660.0, abs=1.0)
+        assert pawn.Velocity.X == pytest.approx(660.0, abs=1.0)
+    finally:
+        REGISTRY.retire(ctx, "test")
+
+
+def test_surge_multiplies_a_sprint_ground_speed_once():
+    """A sprint GroundSpeed is the base. A later boosted sample must not stack."""
+    pawn = _Pawn(physics=core.PHYS_WALKING, ground=800.0)
+    pawn.Velocity = _Vec(700.0, 0.0, 0.0)
+    ctx = _remote(pawn)
+    holster.apply_peer_factor(ctx, 1.5)
+    assert pawn.GroundSpeed == pytest.approx(1200.0, abs=1.0)
+    assert pawn.Velocity.X == pytest.approx(1050.0, abs=1.0)
+    pawn.GroundSpeed = 2000.0
+    holster.apply_peer_factor(ctx, 1.5)
+    assert pawn.GroundSpeed == pytest.approx(1200.0, abs=1.0)
+    assert pawn.Velocity.X == pytest.approx(1050.0, abs=1.0)
+
+
+def test_a_sprint_keeps_its_velocity_under_surge():
+    """Surge raises GroundSpeed. It does not launch the sprint they already have."""
+    pawn = _Pawn(physics=core.PHYS_WALKING, ground=440.0)
+    pawn.Velocity = _Vec(700.0, 0.0, 0.0)
+    pc = _PC()
+    pc.PlayerReplicationInfo = SimpleNamespace(PlayerID=48)
+    ctx = REGISTRY.observe(pc, ExecutionRole.LOCAL_HOST, 10.0, pawn)
+    assert ctx is not None
+    try:
+        holster._state(ctx).surge_started = 10.0
+        factor = core.execute(ctx, holster._speed_multiplier, ctx, pawn)
+        assert factor == pytest.approx(1.7, abs=0.05)
+        core.execute(ctx, holster._apply_speed_boost, ctx, pawn, True)
+        assert pawn.GroundSpeed == pytest.approx(440.0 * 1.7, abs=1.0)
+        assert pawn.Velocity.X == pytest.approx(700.0 * 1.7, abs=1.0)
+    finally:
+        REGISTRY.retire(ctx, "test")
+
+
+def test_an_absolute_speed_does_not_launch_the_joiner():
+    """An old message that carried uu/s is capped at the same boost. Velocity is not touched."""
+    pawn = _Pawn(physics=core.PHYS_WALKING, ground=440.0)
+    pawn.Velocity = _Vec(700.0, 0.0, 0.0)
+    ctx = _remote(pawn)
+    holster.apply_peer_factor(ctx, 1100.0)
+    assert holster._state(ctx).peer_factor == pytest.approx(1.7)
+    assert pawn.GroundSpeed == pytest.approx(440.0 * 1.7, abs=1.0)
+    assert pawn.Velocity.X == pytest.approx(700.0 * 1.7, abs=1.0)
+    pawn.GroundSpeed = 2000.0
+    holster.apply_peer_factor(ctx, 1100.0)
+    assert pawn.GroundSpeed == pytest.approx(440.0 * 1.7, abs=1.0)
+    assert pawn.Velocity.X == pytest.approx(700.0 * 1.7, abs=1.0)
+
+
+def test_a_look_direction_does_not_launch_a_surge():
+    """No run means no surge launch. Pushing along the crosshair was the jump teleport."""
+    pawn = _Pawn(physics=core.PHYS_WALKING, ground=440.0)
+    pawn.Velocity = _Vec(0.0, 0.0, 0.0)
+    pawn.Acceleration = _Vec(800.0, 0.0, 0.0)
+    ctx = _remote(pawn)
+    holster.apply_peer_factor(ctx, 1.5)
+    assert pawn.Velocity.X == pytest.approx(0.0, abs=1.0)
+
+
+def test_a_jump_does_not_take_the_surge_speed():
+    pawn = _Pawn(physics=core.PHYS_FALLING, ground=440.0)
+    pawn.Velocity = _Vec(80.0, 0.0, 400.0)
+    pawn.Acceleration = _Vec(800.0, 0.0, 0.0)
+    ctx = _remote(pawn)
+    holster.apply_peer_factor(ctx, 900.0)
+    assert pawn.Velocity.X == pytest.approx(80.0, abs=1.0)
+    assert pawn.Velocity.Z == pytest.approx(400.0, abs=1.0)
+
+
+def test_uncrouch_during_slide_jump_keeps_the_landing(monkeypatch):
+    """Standing up at the jump fires a crouch release. A missed key list must not drop the chain."""
+    pawn = _Pawn(physics=core.PHYS_WALKING)
+    pawn.JumpZ = 600.0
+    pc = _PC()
+    pc.PlayerReplicationInfo = SimpleNamespace(PlayerID=45)
+    ctx = REGISTRY.observe(pc, ExecutionRole.LOCAL_REQUESTER, 10.0, pawn)
+    assert ctx is not None
+    monkeypatch.setattr(slide, "_crouch_held", lambda _pc: False)
+    monkeypatch.setattr("Modern_Movement.coop_rpc.call_host", lambda *_a, **_k: False)
+    real_end = slide._end
+
+    def ending(pawn, reason, pc=None):
+        real_end(pawn, reason, pc)
+        slide._pre_duck_released(pc, None, None, None)
+
+    monkeypatch.setattr(slide, "_end", ending)
+    try:
+        def arm():
+            state = slide._state()
+            state.crouch_down = True
+            state.slide = {
+                "dir": (1.0, 0.0),
+                "speed": 800.0,
+                "entry": 800.0,
+                "start": 800.0,
+                "timed": False,
+            }
+            slide._ground_jump(pc, pawn)
+
+        core.execute(ctx, arm)
+        state = slide._state(ctx)
+        assert state.crouch_down is True
+        assert state.chain is not None
+    finally:
+        REGISTRY.retire(ctx, "test")
+        core.busy = None
+
+
+def test_slide_cancel_waits_out_a_short_touch_then_lands(monkeypatch):
+    """Touching ground before the jump has been airborne does not throw away the landing slide."""
+    pawn = _Pawn(physics=core.PHYS_WALKING)
+    pawn.Velocity = _Vec(900.0, 0.0, 0.0)
+    pc = _PC()
+    pc.bDuck = 0
+    pc.PlayerReplicationInfo = SimpleNamespace(PlayerID=46)
+    monkeypatch.setattr(slide, "_crouch_held", lambda _pc: False)
+    ctx = REGISTRY.observe(pc, ExecutionRole.LOCAL_REQUESTER, 10.0, pawn)
+    assert ctx is not None
+    try:
+        state = slide._state(ctx)
+        state.crouch_down = True
+        state.chain_hold = True
+        state.chain_was_air = True
+        state.prev_phys = core.PHYS_WALKING
+        state.chain = {"dir": (1.0, 0.0), "speed": 800.0, "at": 10.0}
+        core.execute(ctx, slide._tick, pc, pawn, 1.0 / 60.0)
+        assert state.slide is None
+        assert state.chain is not None
+        state.chain["at"] = 9.0
+        core.execute(ctx, slide._tick, pc, pawn, 1.0 / 60.0)
+        assert state.slide is not None
+    finally:
+        REGISTRY.retire(ctx, "test")
+        core.busy = None
+
+
+def test_a_chained_slide_does_not_keep_the_tilted_gun():
+    """The level pose stays the rest pose. A gun already leaned over is not saved as normal."""
+    mesh = SimpleNamespace(
+        RotOrigin=SimpleNamespace(Pitch=900, Yaw=-350, Roll=-7800),
+        Origin=SimpleNamespace(X=28.0, Y=-18.0, Z=-188.0),
+    )
+    pawn = _Pawn(physics=core.PHYS_WALKING)
+    pawn.Arms = SimpleNamespace(SkeletalMesh=mesh)
+    pc = _PC()
+    pc.Pawn = pawn
+    pc.PlayerReplicationInfo = SimpleNamespace(PlayerID=47)
+    ctx = REGISTRY.observe(pc, ExecutionRole.LOCAL_STANDALONE, 10.0, pawn)
+    assert ctx is not None
+    try:
+        core.execute(ctx, slide._begin_slide_pose, pc, pawn)
+        arms = slide._state(ctx).arms
+        assert arms is not None
+        assert arms["rest"]["roll"] == 0.0
+        assert arms["rest"]["pitch"] == 0.0
+        core.execute(ctx, slide._end_slide_pose, pc, pawn)
+        assert slide._state(ctx).arms is None
+        core.execute(ctx, slide._tick_slide_pose, pc, 0.1)
+        assert slide._state(ctx).arms is None
+        mesh.RotOrigin.Pitch = 900
+        mesh.RotOrigin.Roll = -7800
+        slide._state(ctx).slide = None
+        core.execute(ctx, slide._settle_arms, pc)
+        assert abs(float(mesh.RotOrigin.Roll)) < 1.0
+        assert abs(float(mesh.RotOrigin.Pitch)) < 1.0
+    finally:
+        REGISTRY.retire(ctx, "test")
+        core.busy = None
 
 
 def test_requester_slide_coasts_when_forward_released(monkeypatch):
@@ -951,6 +1243,43 @@ def test_joining_client_with_authority_role_is_a_requester():
     assert core._role_for(alone, alone) == ExecutionRole.LOCAL_STANDALONE
 
 
+def test_bl2_lets_go_of_crouch_to_stop_sliding(monkeypatch):
+    """Borderlands 2 keeps the crouch pose after a tap. Letting go of the key stops the slide."""
+    monkeypatch.setattr(game, "is_bl2", lambda: True)
+    monkeypatch.setattr(slide, "_crouch_held", lambda _pc: False)
+    pawn = _Pawn(physics=core.PHYS_WALKING)
+    pawn.bWantsToCrouch = True
+    pawn.bIsCrouched = True
+    pc = _PC()
+    pc.bDuck = 1
+    ctx = REGISTRY.observe(pc, ExecutionRole.LOCAL_HOST, 10.0, pawn)
+    assert ctx is not None
+    try:
+        state = slide._state(ctx)
+        state.slide = {
+            "dir": (1.0, 0.0),
+            "speed": 700.0,
+            "entry": 500.0,
+            "fresh_until": -1.0,
+            "stick": False,
+        }
+        state.crouch_down = True
+        state.ignore_release_until = 0.0
+        state.hit_at = -100.0
+        core.execute(ctx, slide._run, pc, pawn, 0.05)
+        assert state.slide is None
+    finally:
+        REGISTRY.retire(ctx, "test")
+
+
+def test_bl2_slide_does_not_wait_for_a_sprint_ground_speed():
+    state = slide.SlideState()
+    pawn = _Pawn(physics=core.PHYS_WALKING, ground=900.0)
+    assert slide._bl2_slide_ready(state, pawn, False, 200.0) is False
+    assert slide._bl2_slide_ready(state, pawn, True, 200.0) is True
+    assert slide._bl2_slide_ready(state, pawn, False, 600.0) is True
+
+
 def test_slide_jump_chains_only_while_crouch_is_held(monkeypatch):
     """A crouch release cancels the landing slide. A missed PressedKeys read does not."""
     state = slide.SlideState()
@@ -998,6 +1327,7 @@ def test_sprint_jump_held_crouch_slides_on_landing(monkeypatch):
     monkeypatch.setattr(slide, "landing_option", SimpleNamespace(value=False))
     ctx = REGISTRY.observe(pc, ExecutionRole.LOCAL_STANDALONE, 10.0, pawn)
     try:
+        slide._state(ctx).air_pressed = True
         core.execute(ctx, slide._tick, pc, pawn, 1.0 / 60.0)
         assert slide._state(ctx).air_slide is not None
         assert slide._state(ctx).slide is None
@@ -1058,6 +1388,7 @@ def test_air_crouch_does_not_slide_when_the_key_is_up(monkeypatch):
     monkeypatch.setattr(slide, "landing_option", SimpleNamespace(value=False))
     ctx = REGISTRY.observe(pc, ExecutionRole.LOCAL_STANDALONE, 10.0, pawn)
     try:
+        slide._state(ctx).air_pressed = True
         core.execute(ctx, slide._tick, pc, pawn, 1.0 / 60.0)
         assert slide._state(ctx).air_slide is not None
         held["down"] = False
@@ -1096,6 +1427,97 @@ def test_slide_cancel_lands_when_pressed_keys_misses_the_hold(monkeypatch):
         state.prev_phys = core.PHYS_FALLING
         core.execute(ctx, slide._tick, pc, pawn, 1.0 / 60.0)
         assert slide._state(ctx).slide is not None
+    finally:
+        REGISTRY.retire(ctx, "test")
+        core.busy = None
+
+
+def test_pressing_crouch_during_a_slide_does_not_start_another():
+    """A second crouch press while sliding is ignored. The gun tilt belongs to one slide."""
+    from unrealsdk.hooks import Block
+
+    pawn = _Pawn(physics=core.PHYS_WALKING)
+    pawn.Velocity = _Vec(900.0, 0.0, 0.0)
+    pc = _PC()
+    ctx = REGISTRY.observe(pc, ExecutionRole.LOCAL_STANDALONE, 10.0, pawn)
+    try:
+        core.execute(ctx, slide._start, pc, pawn, "crouch while sprinting")
+        assert slide._state(ctx).slide is not None
+        assert slide._pre_duck_pressed(pc, None, None, None) is Block
+        assert slide._state(ctx).slide is not None
+        core.execute(ctx, slide._start, pc, pawn, "crouch while sprinting")
+        assert slide._state(ctx).slide["entry"] != 0.0
+    finally:
+        REGISTRY.retire(ctx, "test")
+        core.busy = None
+
+
+def test_a_finished_slide_does_not_block_the_next_press():
+    """Letting go, then pressing crouch again, starts another slide. A later press is never swallowed."""
+
+    pawn = _Pawn(physics=core.PHYS_WALKING)
+    pawn.Velocity = _Vec(900.0, 0.0, 0.0)
+    pc = _PC()
+    ctx = REGISTRY.observe(pc, ExecutionRole.LOCAL_STANDALONE, 10.0, pawn)
+    try:
+        core.execute(ctx, slide._start, pc, pawn, "crouch while sprinting")
+        state = slide._state(ctx)
+        state.crouch_down = False
+        core.execute(ctx, slide._end, pawn, "timed out", pc)
+        assert state.slide is None
+        assert state.suppress_crouch_until_release is False
+        assert slide._pre_duck_pressed(pc, None, None, None) is None
+        assert state.crouch_down is True
+
+        core.execute(ctx, slide._start, pc, pawn, "crouch while sprinting")
+        core.execute(ctx, slide._end, pawn, "timed out", pc)
+        assert state.suppress_crouch_until_release is False
+        assert slide._pre_duck_pressed(pc, None, None, None) is None
+        assert state.suppress_crouch_until_release is False
+    finally:
+        REGISTRY.retire(ctx, "test")
+        core.busy = None
+
+
+def test_downhill_keeps_slide_speed():
+    """A ramp stretches the slide and keeps it fast. Flat ground over the same time bleeds off."""
+
+    def coast(drop: float) -> float:
+        pawn = _Pawn(physics=core.PHYS_WALKING)
+        pawn.Velocity = _Vec(900.0, 0.0, 0.0)
+        pc = _PC()
+        slide.slope_slider.value = 250
+        ctx = REGISTRY.observe(pc, ExecutionRole.LOCAL_STANDALONE, 10.0, pawn)
+        try:
+            core.execute(ctx, slide._start, pc, pawn, "crouch while sprinting")
+            for _ in range(40):
+                pawn.Location.X += 40.0
+                pawn.Location.Z -= drop
+                core.execute(ctx, slide._run, pc, pawn, 1.0 / 60.0)
+            state = slide._state(ctx)
+            assert state.slide is not None
+            return float(state.slide["speed"])
+        finally:
+            REGISTRY.retire(ctx, "test")
+            core.busy = None
+
+    assert coast(8.0) > coast(0.0) + 200.0
+
+
+def test_air_slide_does_not_start_while_still_falling(monkeypatch):
+    """Leaving a slide in the air does not immediately start another one."""
+    pawn = _Pawn(physics=core.PHYS_FALLING)
+    pawn.Velocity = _Vec(900.0, 0.0, -200.0)
+    pc = _PC()
+    monkeypatch.setattr(slide, "_crouch_held", lambda _pc: True)
+    ctx = REGISTRY.observe(pc, ExecutionRole.LOCAL_STANDALONE, 10.0, pawn)
+    try:
+        state = slide._state(ctx)
+        state.crouch_down = True
+        state.air_slide = {"dir": (1.0, 0.0), "speed": 900.0}
+        state.suppress_crouch_until_release = True
+        core.execute(ctx, slide._air_crouch_landing, state, pc, pawn)
+        assert state.slide is None
     finally:
         REGISTRY.retire(ctx, "test")
         core.busy = None

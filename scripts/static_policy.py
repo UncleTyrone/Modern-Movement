@@ -8,7 +8,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE = ROOT / "Pre Sequel Port" / "Source" / "Modern_Movement"
+SOURCE = ROOT / "src" / "Modern_Movement"
 FEATURE_DIR = SOURCE / "features"
 
 # Feature modules must not call mods_base.get_pc directly. core.get_pc_pawn is allowed only as a

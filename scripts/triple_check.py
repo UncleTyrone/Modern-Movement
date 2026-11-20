@@ -10,11 +10,11 @@ ROOT = Path(__file__).resolve().parents[1]
 
 ARCHIVES = [
     (
-        ROOT / "Original" / "Modern Movement.sdkmod",
+        ROOT / "archive" / "borderlands-2.sdkmod",
         "d9431034750f6a8739841220a60a8da391f5a20772eb3affb3fedb4c8774278e",
     ),
     (
-        ROOT / "Pre Sequel Port" / "Modern_Movement.sdkmod",
+        ROOT / "archive" / "pre-sequel-3.61.2.sdkmod",
         "4f7c1fbeda6bc75e1d624123e323f109e716fc0d3b0ca2026939aee1919a2429",
     ),
 ]

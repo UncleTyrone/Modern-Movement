@@ -1,6 +1,6 @@
 {
   "archive": "dist/Modern_Movement.sdkmod",
-  "member_count": 48,
+  "member_count": 56,
   "members": [
     "Modern_Movement/",
     "Modern_Movement/__init__.py",
@@ -24,10 +24,17 @@
     "Modern_Movement/gravity.py",
     "Modern_Movement/hudfx.py",
     "Modern_Movement/input_state.py",
+    "Modern_Movement/native/",
+    "Modern_Movement/native/LICENSE.txt",
+    "Modern_Movement/native/bl2/",
+    "Modern_Movement/native/bl2/_texloader.pyd",
+    "Modern_Movement/native/tps/",
+    "Modern_Movement/native/tps/_texloader.pyd",
     "Modern_Movement/network.py",
     "Modern_Movement/protocol.py",
     "Modern_Movement/rules.py",
     "Modern_Movement/runtime.py",
+    "Modern_Movement/texcompat.py",
     "Modern_Movement/textures/",
     "Modern_Movement/textures/mm_dash_flat.png",
     "Modern_Movement/textures/mm_dash_flat.toml",
@@ -49,8 +56,9 @@
     "Modern_Movement/textures/mm_slide_cap.toml",
     "Modern_Movement/textures/mm_surge_arc.png",
     "Modern_Movement/textures/mm_surge_arc.toml",
+    "Modern_Movement/textures_load.py",
     "Modern_Movement/tracing.py"
   ],
   "schema": 1,
-  "sha256": "cdbcbf3b51ca09de434fae10678fc3f03708c4f40949b3ab48177858757b2e33"
+  "sha256": "2044cb8779a9057a74c90fe1ee12d09913519cd2af1dd75d9fe8bde461c490e5"
 }

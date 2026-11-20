@@ -1,7 +1,7 @@
 [project]
-name = "modern-movement-tps-coop-tooling"
+name = "modern-movement"
 version = "0.1.0"
-description = "Automated verification and deterministic packaging for TPS Modern Movement co-op"
+description = "Verification and packaging for Modern Movement on Borderlands 2 and The Pre-Sequel"
 requires-python = ">=3.10"
 dependencies = []
 
@@ -14,7 +14,7 @@ dev = [
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = ["Pre Sequel Port/Source", "."]
+pythonpath = ["src", "."]
 addopts = "-q"
 
 [tool.ruff]

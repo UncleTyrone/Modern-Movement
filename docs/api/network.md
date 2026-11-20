@@ -1,3 +1,3 @@
 # `network.py`
 
-Attaches Networking endpoints to the mod object, readiness checks, and presentation registration. Movement still works locally if Networking is absent.
+Attaches Networking 1.2 endpoints to the mod object (`add_network_functions`), readiness checks, and presentation registration. Co-op movement uses those endpoints. Local movement still runs if the module failed to import.

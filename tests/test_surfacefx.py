@@ -32,4 +32,25 @@ def test_slide_and_air_effects_never_raise():
     assert surfacefx.slide(pc, pawn, 1.0) == "dirt"
     surfacefx.air(pc, pawn, 1.0, 0.0, 1.0)
     surfacefx.puff(pawn, "metal", 0.4)
+    surfacefx.sprint_wind(pc, pawn)
+    surfacefx.slam_ring(pawn, 0.8)
+    names = " ".join(surfacefx._paths_for("sprint") + surfacefx._paths_for("ring") + surfacefx._paths_for("dirt"))
+    assert "WhispySmoke" in names
+    assert "Nova" in names or "GroundImpact" in names
+    assert "Moon" not in names
+    from Modern_Movement import fx
+
+    assert any("Fs_Run" in path for path in fx.scrape_paths())
+    assert any("Fs_Land" in path for path in fx.slam_hit_paths())
+    assert all("Gib" not in path and "Explosive_MED" not in path for path in fx.slam_hit_paths())
+    assert fx.SLAM_CRACK.endswith("Explosive_SM")
+    assert any("Longbow_Teleport_Out" in path for path in fx.dash_paths())
+    from pathlib import Path
+
+    from Modern_Movement import textures_load
+
+    native = Path(textures_load.__file__).resolve().parent / "native"
+    assert (native / "bl2" / "_texloader.pyd").is_file()
+    assert (native / "tps" / "_texloader.pyd").is_file()
+    textures_load.load_packaged(("mm_dash_side",))
     surfacefx._slots.clear()

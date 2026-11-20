@@ -1,7 +1,7 @@
 # LINE_AUDIT — Port vs Original (Phase 0)
 
-**Port:** `Pre Sequel Port/Source/Modern_Movement`  
-**Original:** `Original/Source/Modern Movement`  
+**Port (now `src/Modern_Movement`):** the findings below were taken against the tree that lived at `Pre Sequel Port/Source/Modern_Movement`.  
+**Original (now `archive/borderlands-2/Modern_Movement`):** the findings below were taken against `Original/Source/Modern Movement`.  
 **Date:** 2026-11-18
 
 Status: this table is the original finding list, not the current defect list. Those findings are folded into unreleased **3.62.0** (the next minor after the shipped Pre-Sequel package 3.61.2): HUD and per-player options, joiner slide coast, crouch cancel, fast-travel recovery, and Slam on Borderlands 2 only. The current gate is `python scripts/dual_game_harness.py`.

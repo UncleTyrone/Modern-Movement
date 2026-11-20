@@ -1,11 +1,11 @@
 {
   "all_zip_stored": true,
-  "allowlist_count": 48,
+  "allowlist_count": 56,
   "archive": "dist/Modern_Movement.sdkmod",
   "bad_crc_member": null,
   "deterministic_rebuild": null,
   "extra_members": [],
-  "member_count": 48,
+  "member_count": 56,
   "members": [
     "Modern_Movement/",
     "Modern_Movement/__init__.py",
@@ -29,10 +29,17 @@
     "Modern_Movement/gravity.py",
     "Modern_Movement/hudfx.py",
     "Modern_Movement/input_state.py",
+    "Modern_Movement/native/",
+    "Modern_Movement/native/LICENSE.txt",
+    "Modern_Movement/native/bl2/",
+    "Modern_Movement/native/bl2/_texloader.pyd",
+    "Modern_Movement/native/tps/",
+    "Modern_Movement/native/tps/_texloader.pyd",
     "Modern_Movement/network.py",
     "Modern_Movement/protocol.py",
     "Modern_Movement/rules.py",
     "Modern_Movement/runtime.py",
+    "Modern_Movement/texcompat.py",
     "Modern_Movement/textures/",
     "Modern_Movement/textures/mm_dash_flat.png",
     "Modern_Movement/textures/mm_dash_flat.toml",
@@ -54,9 +61,10 @@
     "Modern_Movement/textures/mm_slide_cap.toml",
     "Modern_Movement/textures/mm_surge_arc.png",
     "Modern_Movement/textures/mm_surge_arc.toml",
+    "Modern_Movement/textures_load.py",
     "Modern_Movement/tracing.py"
   ],
   "missing_members": [],
-  "sha256": "cdbcbf3b51ca09de434fae10678fc3f03708c4f40949b3ab48177858757b2e33",
+  "sha256": "f602c4e3bee65029090e9d5a62fd9769bc718fba6cb19f098eef33098d35ecd1",
   "unsafe_members": []
 }

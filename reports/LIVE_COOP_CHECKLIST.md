@@ -4,7 +4,7 @@ Automated tests prove the **host mutation contract**. This checklist is the rema
 gate for a listen-host and a joiner on **3.62.0** with **Networking 1.2** and this mod installed on
 **both** machines. The same file is the Borderlands 2 package.
 
-Build under test: `cdbcbf3b51ca09de434fae10678fc3f03708c4f40949b3ab48177858757b2e33`
+Build under test: `2044cb8779a9057a74c90fe1ee12d09913519cd2af1dd75d9fe8bde461c490e5`
 
 The same file is the Borderlands 2 build. On Borderlands 2 it also loads Slam. On The Pre-Sequel it does not.
 

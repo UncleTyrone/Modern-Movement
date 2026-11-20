@@ -5,7 +5,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 ALLOWLIST = ROOT / "build" / "package-allowlist.json"
-SOURCE = ROOT / "Pre Sequel Port" / "Source" / "Modern_Movement"
+SOURCE = ROOT / "src" / "Modern_Movement"
 
 
 def test_allowlist_includes_bl2_slam_and_sources_exist():

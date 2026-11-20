@@ -512,8 +512,6 @@ def _tick(obj, args, _ret, _func) -> None:
     ctx = REGISTRY.observe(obj, role, now, pawn)
     if ctx is None:
         try:
-            from . import diagnostics
-
             diagnostics.event("mm.tick.no_player", interval=2.0, role=role.value)
         except Exception:  # noqa: BLE001
             pass
@@ -904,11 +902,29 @@ def on_disable() -> None:
     except Exception:  # noqa: BLE001
         pass
     unregister_remote_tick(authority.tick)
+    try:
+        from . import input_state
+
+        input_state.reset_willow_keys()
+    except Exception:  # noqa: BLE001
+        pass
     REGISTRY.clear("mod_disable")
     _active_context = None
     _local_context = None
     tracing.destroy()
 
 
+@hook("WillowGame.WillowUIInteraction:InputKey", Type.PRE)
+def _on_willow_input_key(_obj, args, _ret, _func):
+    """Same input event Willow2 keybinds use, so a hold and a release are both visible."""
+    try:
+        from . import input_state
+
+        input_state.note_willow_key(args.Key, args.Event)
+    except Exception:  # noqa: BLE001
+        return None
+    return None
+
+
 KEYBINDS = [_jump_pressed, _jump_pressed_pad]
-HOOKS = [_tick, _on_player_input_jump]
+HOOKS = [_tick, _on_player_input_jump, _on_willow_input_key]

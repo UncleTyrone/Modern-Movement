@@ -251,15 +251,16 @@ def server_speed_mult(mult: float) -> None:
     if ctx is None or ctx.pawn is None:
         return
     value = max(0.05, float(mult))
-
-    def apply() -> None:
-        if value <= 1.001:
-            core.set_speed_mult("surge", None, ctx)
-        else:
-            core.set_speed_mult("surge", value, ctx)
+    from .features import holster
 
     try:
-        core.execute(ctx, apply)
+        holster.apply_peer_factor(ctx, value)
+        diagnostics.event(
+            "mm.rpc.speed",
+            result="ok",
+            player=ctx.key.player_id,
+            mult=round(value, 3),
+        )
     except Exception as exc:  # noqa: BLE001
         diagnostics.event("mm.rpc.speed", result=repr(exc))
 

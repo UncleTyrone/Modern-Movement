@@ -7,7 +7,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SRC = ROOT / "Pre Sequel Port" / "Source" / "Modern_Movement"
+SRC = ROOT / "src" / "Modern_Movement"
 
 
 def check(name: str, cond: bool, detail: str = "") -> None:

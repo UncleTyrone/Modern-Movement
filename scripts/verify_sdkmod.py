@@ -18,8 +18,8 @@ ALLOWLIST = ROOT / "build" / "package-allowlist.json"
 BUILD_SCRIPT = ROOT / "scripts" / "build_sdkmod.py"
 
 PROTECTED_ARCHIVES = (
-    ROOT / "Original" / "Modern Movement.sdkmod",
-    ROOT / "Pre Sequel Port" / "Modern_Movement.sdkmod",
+    ROOT / "archive" / "borderlands-2.sdkmod",
+    ROOT / "archive" / "pre-sequel-3.61.2.sdkmod",
 )
 
 

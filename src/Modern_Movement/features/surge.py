@@ -30,7 +30,11 @@ ramp_slider = SliderOption(
     max_value=10.0,
     step=0.5,
     is_integer=False,
-    description="Adjust the time you have to surge for the full boost.",
+    description=(
+        "Seconds to climb from +30% to +70% of the run you already have. "
+        "0 is instant. 10 is the longest climb. This is not a 10x multiplier. "
+        "Each player keeps their own value."
+    ),
 )
 
 indicator_option = BoolOption(

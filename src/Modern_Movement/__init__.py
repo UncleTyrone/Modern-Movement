@@ -42,9 +42,9 @@ Layout
     cosmetic: the movement itself is unaffected
 
 3.61
-  New HUD feedback around the crosshair, in ECHO colours. texloader is recommended: the mod installs its
-  images into texloader the first time it runs, and they load from the next game start (without
-  texloader the effects are drawn from plain lines). Every indicator has its own On/Off toggle.
+  New HUD feedback around the crosshair, in ECHO colours. The images and both games' texture
+  loaders are in this package, so a separate texloader install is not required. If an image
+  cannot be created, that indicator is drawn from plain lines. Every indicator has its own On/Off toggle.
   * Dash: ECHO arrows around the crosshair show the direction you dash (replaces the game's shield-hit
     hexes, which could flash red like damage)
   * Dash: Dash Ready Indicator, a small hex below-right of the crosshair that fills while the dash cools
@@ -686,6 +686,7 @@ import importlib as _importlib
 import sys as _sys
 
 from mods_base import build_mod
+from unrealsdk import logging
 
 try:
     from mods_base import NestedOption as GroupedOption  # each feature is its own clickable page
@@ -706,7 +707,37 @@ __credits__ = "Original Modern Movement by Jinxxtt; TPS co-op authority port mai
 
 
 def _log(message: str) -> None:
-    print(f"[Modern Movement] {message}")
+    logging.info(f"[Modern Movement] {message}")
+
+
+# Willow2 Mod Manager v3.8 Slammer. These are the helper modules movement and co-op call.
+_WILLOW_REQUIRED = (
+    ("mods_base", (1, 12), "Base"),
+    ("networking", (1, 2), "Networking"),
+    ("keybinds", (1, 2), "Keybinds"),
+    ("ui_utils", (1, 5), "UI Utils"),
+)
+
+
+def _willow_report() -> tuple[str, tuple[str, ...]]:
+    """Versions of the installed Willow2 helpers, and the names that are missing or too old."""
+    lines: list[str] = []
+    missing: list[str] = []
+    for module_name, need, label in _WILLOW_REQUIRED:
+        try:
+            module = _importlib.import_module(module_name)
+            found = getattr(module, "__version_info__", None)
+            text = getattr(module, "__version__", None) or "?"
+        except Exception as exc:  # noqa: BLE001
+            lines.append(f"{label} missing")
+            missing.append(module_name)
+            _log(f"Willow2 {label} did not import: {exc!r}")
+            continue
+        lines.append(f"{label} {text}")
+        if isinstance(found, tuple) and found < need:
+            missing.append(module_name)
+            _log(f"Willow2 {label} {text} is older than {need[0]}.{need[1]}")
+    return ", ".join(lines), tuple(missing)
 
 
 # Feature modules, in the order they appear in the options menu. Slam is Borderlands 2 only:
@@ -718,11 +749,11 @@ _FEATURE_SPECS = [
     ("Sprint Surge", "surge", "Press sprint again while sprinting to holster your weapon and receive a speed boost."),
     ("Mantle/Vault", "mantle", "Allows for mantling ledges and various obstacles by pressing or holding jump while airborne."),
     ("Slide", "slide", "Crouch while sprinting to slide. The more momentum you bring, the further you go."),
-    ("Surface", "surfacefx", "Dust, sparks, splash, and a cool air burst that follow the ground and your dashes."),
+    ("Surface", "surfacefx", "Dust and wind while you slide, sprint, or dash, and a ring when you slam."),
 ]
 if _game.is_bl2():
     _FEATURE_SPECS.append(
-        ("Slam", "slam", "Press crouch while high in the air to slam down into the ground.")
+        ("Slam", "slam", "Hold crouch in the air. A high jump slams. A short hop pulls you down.")
     )
 
 _FEATURES = []
@@ -811,7 +842,23 @@ def _on_enable() -> None:
             _ENABLED_STACK.append("network_rules")
         except Exception as net_exc:  # noqa: BLE001
             _log(f"network rules skipped ({net_exc!r}) — local movement still active")
-        net_note = "with Networking" if _NETWORKING_OK else "local-only (Networking optional)"
+        net_note = "with Networking 1.2" if _NETWORKING_OK else "Networking 1.2 missing"
+        report, missing = _willow_report()
+        _log(f"Willow2 helpers: {report}")
+        if missing:
+            _log(
+                "Willow2 Mod Manager v3.8 (Slammer) is required. "
+                "Install PythonSDK so Base 1.12, Networking 1.2, Keybinds 1.2, and UI Utils 1.5 load."
+            )
+            try:
+                from ui_utils import show_hud_message
+
+                show_hud_message(
+                    "Modern Movement",
+                    "PythonSDK Willow2 v3.8 is required. Networking 1.2 did not load.",
+                )
+            except Exception:  # noqa: BLE001
+                pass
         _log(f"enabled (own-pawn movement for every player who has the mod; {net_note})")
         _diagnostics.note(f"enabled {net_note}")
     except Exception as exc:  # noqa: BLE001

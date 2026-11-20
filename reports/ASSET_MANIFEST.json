@@ -16,133 +16,133 @@
   "loose_textures": [
     {
       "height": 176,
-      "path": "Original/custom textures/mm_dash_flat/mm_dash_flat.png",
+      "path": "archive/borderlands-2/textures/mm_dash_flat/mm_dash_flat.png",
       "sha256": "c712cdacaa9a793375cd8fa124c7b67742ce7f3508b6adb49e3dd28bbb862287",
       "size": 19721,
       "width": 448
     },
     {
-      "path": "Original/custom textures/mm_dash_flat/mm_dash_flat.toml",
+      "path": "archive/borderlands-2/textures/mm_dash_flat/mm_dash_flat.toml",
       "sha256": "b25b39828d8c1a3d7098fe91e3be8e3a5e6451d3a2addf465af80c6101fb0b39",
       "size": 272
     },
     {
       "height": 200,
-      "path": "Original/custom textures/mm_dash_side/mm_dash_side.png",
+      "path": "archive/borderlands-2/textures/mm_dash_side/mm_dash_side.png",
       "sha256": "27be51fcd5266dcd3862a2f3813d13677098360e578f2a805416162ce111c71e",
       "size": 23982,
       "width": 160
     },
     {
-      "path": "Original/custom textures/mm_dash_side/mm_dash_side.toml",
+      "path": "archive/borderlands-2/textures/mm_dash_side/mm_dash_side.toml",
       "sha256": "c5e97c1f5cd9ecaecffbc4018b6782396f4ef0da0c1bf1a0e3b15c6839014db1",
       "size": 272
     },
     {
       "height": 96,
-      "path": "Original/custom textures/mm_jump_chev/mm_jump_chev.png",
+      "path": "archive/borderlands-2/textures/mm_jump_chev/mm_jump_chev.png",
       "sha256": "65e4b3926551bf7b73ac9dae60c221823efa32805a672824684489c1203d1654",
       "size": 22275,
       "width": 160
     },
     {
-      "path": "Original/custom textures/mm_jump_chev/mm_jump_chev.toml",
+      "path": "archive/borderlands-2/textures/mm_jump_chev/mm_jump_chev.toml",
       "sha256": "1ccdfffd3fca30d888014c74e70d72ff5254076e29b2d0c36687cdc8bf56836e",
       "size": 273
     },
     {
       "height": 128,
-      "path": "Original/custom textures/mm_pip_fill/mm_pip_fill.png",
+      "path": "archive/borderlands-2/textures/mm_pip_fill/mm_pip_fill.png",
       "sha256": "c2502bfb884ea57313f048bf37991d7a854a03d94acd53b18ae339a7920cdf84",
       "size": 1425,
       "width": 128
     },
     {
-      "path": "Original/custom textures/mm_pip_fill/mm_pip_fill.toml",
+      "path": "archive/borderlands-2/textures/mm_pip_fill/mm_pip_fill.toml",
       "sha256": "8641b60bb4716e45e64d3fd2684934dab99cceb218bec19cfef48845fa97f670",
       "size": 279
     },
     {
       "height": 128,
-      "path": "Original/custom textures/mm_pip_outline/mm_pip_outline.png",
+      "path": "archive/borderlands-2/textures/mm_pip_outline/mm_pip_outline.png",
       "sha256": "eb235028f25d2a45cc5a8987e172bcfd552d7138271d0cad31448c73952a0262",
       "size": 19688,
       "width": 128
     },
     {
-      "path": "Original/custom textures/mm_pip_outline/mm_pip_outline.toml",
+      "path": "archive/borderlands-2/textures/mm_pip_outline/mm_pip_outline.toml",
       "sha256": "baa72ab5575dfe631d5f641f95c53650f7cbb4d6f7cd0ca920465aad0ba717dd",
       "size": 285
     },
     {
       "height": 128,
-      "path": "Original/custom textures/mm_slam_bracket/mm_slam_bracket.png",
+      "path": "archive/borderlands-2/textures/mm_slam_bracket/mm_slam_bracket.png",
       "sha256": "e656586ffaefa43f216afcf7ec564942f4a73b8ba08e10ddfb5066d102454ace",
       "size": 6265,
       "width": 128
     },
     {
-      "path": "Original/custom textures/mm_slam_bracket/mm_slam_bracket.toml",
+      "path": "archive/borderlands-2/textures/mm_slam_bracket/mm_slam_bracket.toml",
       "sha256": "3a1595f68ff852eb9bb2ecd332939c8ccc9b57199437fe1ab23acb7794042844",
       "size": 286
     },
     {
       "height": 160,
-      "path": "Original/custom textures/mm_slam_ring/mm_slam_ring.png",
+      "path": "archive/borderlands-2/textures/mm_slam_ring/mm_slam_ring.png",
       "sha256": "f562fdeffed6c0debe4a330b4f069b01dd0759913370e705dfc8410d87f0b9ab",
       "size": 61244,
       "width": 512
     },
     {
-      "path": "Original/custom textures/mm_slam_ring/mm_slam_ring.toml",
+      "path": "archive/borderlands-2/textures/mm_slam_ring/mm_slam_ring.toml",
       "sha256": "be8662980c9d554d9c219b0bd44b6db89b06631deb9dacceab3b3bc06fb7b72c",
       "size": 275
     },
     {
       "height": 40,
-      "path": "Original/custom textures/mm_slide_bar/mm_slide_bar.png",
+      "path": "archive/borderlands-2/textures/mm_slide_bar/mm_slide_bar.png",
       "sha256": "b4cd8773cba7bc9392812f531fa4943c474aa6a81e584a41c4f6b92c2a6c7a05",
       "size": 398,
       "width": 256
     },
     {
-      "path": "Original/custom textures/mm_slide_bar/mm_slide_bar.toml",
+      "path": "archive/borderlands-2/textures/mm_slide_bar/mm_slide_bar.toml",
       "sha256": "5bdc33e8e0828c7bfd16d4a8f2899e6db80a072087d5305e346758497ea7cd01",
       "size": 279
     },
     {
       "height": 64,
-      "path": "Original/custom textures/mm_slide_cap/mm_slide_cap.png",
+      "path": "archive/borderlands-2/textures/mm_slide_cap/mm_slide_cap.png",
       "sha256": "03ce3f775c2b13b32a9f478401f25b3b323dbd7c569fa078f407dfbb702d2f4d",
       "size": 1960,
       "width": 40
     },
     {
-      "path": "Original/custom textures/mm_slide_cap/mm_slide_cap.toml",
+      "path": "archive/borderlands-2/textures/mm_slide_cap/mm_slide_cap.toml",
       "sha256": "a0d372c55a4c90f1beaf53d8ef0b1719effc5d0c94ab7716cf31ceef2a078d1a",
       "size": 284
     },
     {
       "height": 32,
-      "path": "Original/custom textures/mm_slide_streak/mm_slide_streak.png",
+      "path": "archive/borderlands-2/textures/mm_slide_streak/mm_slide_streak.png",
       "sha256": "12f0ee6739c2beff64631e66c382862ec8bc515d4dc55297f41ba3e1f2366967",
       "size": 3196,
       "width": 128
     },
     {
-      "path": "Original/custom textures/mm_slide_streak/mm_slide_streak.toml",
+      "path": "archive/borderlands-2/textures/mm_slide_streak/mm_slide_streak.toml",
       "sha256": "9127f15b3f361d57060dc0070849b0f0cc8c02d0f973fbb5832abdf9fd510116",
       "size": 286
     },
     {
       "height": 256,
-      "path": "Original/custom textures/mm_surge_arc/mm_surge_arc.png",
+      "path": "archive/borderlands-2/textures/mm_surge_arc/mm_surge_arc.png",
       "sha256": "e6be7faaa4f638253dc36b1fbbde72c348b85b282656c25d38c4f7330bf51151",
       "size": 18971,
       "width": 96
     },
     {
-      "path": "Original/custom textures/mm_surge_arc/mm_surge_arc.toml",
+      "path": "archive/borderlands-2/textures/mm_surge_arc/mm_surge_arc.toml",
       "sha256": "ec2ccfb73d1a430395c3dffb56c5c645376c28ea67d8fc7c3ce8172400fdec99",
       "size": 278
     }
@@ -601,7 +601,7 @@
         "source_sha256": "b4cd8773cba7bc9392812f531fa4943c474aa6a81e584a41c4f6b92c2a6c7a05"
       }
     ],
-    "path": "Original/Modern Movement.sdkmod",
+    "path": "archive/borderlands-2.sdkmod",
     "sha256": "d9431034750f6a8739841220a60a8da391f5a20772eb3affb3fedb4c8774278e",
     "size": 280959,
     "unsafe_members": []
@@ -994,7 +994,7 @@
         "source_sha256": "ec2ccfb73d1a430395c3dffb56c5c645376c28ea67d8fc7c3ce8172400fdec99"
       }
     ],
-    "path": "Pre Sequel Port/Modern_Movement.sdkmod",
+    "path": "archive/pre-sequel-3.61.2.sdkmod",
     "sha256": "4f7c1fbeda6bc75e1d624123e323f109e716fc0d3b0ca2026939aee1919a2429",
     "size": 283802,
     "unsafe_members": []

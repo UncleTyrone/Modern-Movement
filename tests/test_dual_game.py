@@ -103,8 +103,8 @@ def test_bl2_slam_dives(monkeypatch):
     assert ctx.pawn.Velocity.X == pytest.approx(200.0 * slam._HORIZONTAL_KEEP)
 
 
-def test_held_crouch_slides_out_of_slam(monkeypatch):
-    """A slam from a new crouch press still dives. Holding crouch through it slides away."""
+def test_slam_landing_does_not_become_a_slide(monkeypatch):
+    """The crouch that started the slam plays the landing. It does not turn into a slide."""
     from Modern_Movement.features import slide
     from Modern_Movement.runtime import REGISTRY
 
@@ -118,11 +118,59 @@ def test_held_crouch_slides_out_of_slam(monkeypatch):
             slam._impact(observed.controller, observed.pawn)
 
         core.execute(observed, run)
-        assert slide._state(observed).slide is not None
-        assert observed.pawn.Velocity.X > 50.0
+        assert slam._slam is None
+        assert slide._state(observed).slide is None
+        assert slide._state(observed).slam_hold is False
+        assert observed.pawn.Velocity.X == pytest.approx(0.0)
     finally:
         REGISTRY.retire(observed, "test")
         slam._SLAM_CARRY = None
+
+
+def test_slide_bar_follows_the_slide_clock():
+    from Modern_Movement.features import slide
+
+    assert slide._slide_fill(0.0, 1.0, 900.0, 900.0, 200.0) == pytest.approx(1.0)
+    assert slide._slide_fill(0.5, 1.0, 900.0, 900.0, 200.0) == pytest.approx(0.5)
+    assert slide._slide_fill(1.0, 1.0, 900.0, 900.0, 200.0) == pytest.approx(0.0)
+    assert slide._slide_fill(0.2, 1.0, 200.0, 900.0, 200.0) == pytest.approx(0.0)
+
+
+def test_physical_crouch_hold_counts_when_the_game_omits_the_key():
+    assert slam._vk_for("c") == 0x43
+    assert slam._vk_for("LeftControl") == 0xA2
+    assert slam._combine_key(True, False, False) is True
+    assert slam._combine_key(False, False, False) is False
+    assert slam._combine_key(None, None, True) is True
+    assert slam._combine_key(None, None, None) is None
+
+
+def test_sprint_press_after_release_ends_the_slide():
+    from Modern_Movement.features import slide
+
+    active = {"fresh_until": -1.0}
+    assert slide._sprint_press_is_cancel(active, True, True) is False
+    active["sprint_released"] = True
+    assert slide._sprint_press_is_cancel(active, True, True) is True
+    assert slide._sprint_press_is_cancel(active, True, False) is False
+    assert slide._sprint_press_is_cancel({"fresh_until": slide.core.clock + 5.0, "sprint_released": True}, True, True) is False
+    assert slide._sprint_press_is_cancel(active, False, None) is True
+
+
+def test_slam_hold_is_only_the_crouch_key():
+    slam._hold_latch = True
+    assert slam._slam_hold(None, True, False) is False
+    assert slam._hold_latch is False
+    assert slam._slam_hold(None, True, None) is False
+    assert slam._slam_hold(None, False, True) is True
+
+
+def test_short_hop_pulls_and_full_height_slams():
+    assert slam._slam_kind(30.0, 300.0, -400.0) is None
+    assert slam._slam_kind(80.0, 300.0, 500.0) is None
+    assert slam._slam_kind(80.0, 300.0, -50.0) == "pull"
+    assert slam._slam_kind(300.0, 300.0, 400.0) == "full"
+    assert slam._slam_kind(900.0, 300.0, -800.0) == "full"
 
 
 def test_chain_landing_rejects_a_tap_and_accepts_a_real_jump():

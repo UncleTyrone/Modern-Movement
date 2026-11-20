@@ -18,7 +18,7 @@ from pathlib import Path
 from types import SimpleNamespace
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE = ROOT / "Pre Sequel Port" / "Source"
+SOURCE = ROOT / "src"
 PACKAGE = SOURCE / "Modern_Movement"
 REPORT = ROOT / "reports" / "DUAL_GAME_HARNESS.json"
 TEXT_SUFFIXES = {".py", ".md", ".toml", ".json", ".txt"}
@@ -135,7 +135,7 @@ def _audit_roots() -> list[Path]:
     """Ship code, tests, docs, and the original BL2 tree. Research dumps are not the package."""
     roots = [
         PACKAGE,
-        ROOT / "Original" / "Source",
+        ROOT / "archive" / "borderlands-2",
         ROOT / "tests",
         ROOT / "scripts",
         ROOT / "docs",

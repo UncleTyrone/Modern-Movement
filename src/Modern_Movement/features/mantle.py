@@ -163,8 +163,8 @@ _CAMERA_MOTION = 1.0       # strength of the climb camera dip / rise / tilt
 
 # Player sounds, loaded on every map: the ladder-climb step as you grab the ledge, the landing
 # footstep on reaching the top.
-_GRAB_SOUNDS = ("Ak_Play_Fs_Ladder",)
-_TOP_SOUNDS = ("Ak_Play_Fs_Land",)
+_GRAB_SOUNDS = fx.LADDER
+_TOP_SOUNDS = fx.LAND
 
 # Camera shake burst on reaching the top (applied by camera.py, shared with the other features).
 _SHAKE_EYE = 2.0      # bob at 100%, units
@@ -442,7 +442,7 @@ def _find_ledge_inner(pawn, pc, min_height=None, spread=None, flat=None, flat_ma
         if hit is None:
             reasons.append(f"{label}: nothing in range")
             continue
-        (hx, hy, hz), (nx, ny, nz) = hit
+        (hx, hy, hz), (nx, ny, nz) = tracing.pair(hit)
         if abs(nz) <= _MAX_WALL_NORMAL_Z:
             wall = hit  # looking at the wall face
         elif nz > _MAX_WALL_NORMAL_Z:  # a top, flat or sloped (a rounded top is checked further in)
@@ -466,7 +466,7 @@ def _find_ledge_inner(pawn, pc, min_height=None, spread=None, flat=None, flat_ma
             reasons.append(f"{label}: underside (normal z={nz:.2f})")
             continue
 
-        (wx, wy, _wz), (wnx, wny, _wnz) = wall
+        (wx, wy, _wz), (wnx, wny, _wnz) = tracing.pair(wall)
         wl = math.hypot(wnx, wny)
         if wl < 1e-6:
             reasons.append(f"{label}: bad wall")
@@ -549,7 +549,7 @@ def _top_down_inner(pawn, px, py, top_start, low_z, feet, cap=None):
                 start += _LIP_STEP
                 continue
             return None, "nothing (too thin, or it drops away)"
-        (_hx, _hy, hz), (_nx, _ny, nz) = hit
+        (_hx, _hy, hz), (_nx, _ny, nz) = tracing.pair(hit)
         if hz >= start - 2.0:
             if cap is not None and start + _LIP_STEP <= cap:
                 start += _LIP_STEP  # inside trim / a cornice: look again from higher up
@@ -694,7 +694,7 @@ def _over_ledge(pawn, pos, feet, radius, half, wall_xy, into, lip, min_h, why_no
             _log(f"can't vault over: no ground within {_OVER_FALL_MAX:.0f} below the far side")
             return None
         drop = True
-    (_fx, _fy, fz), (_fnx, _fny, fnz) = floor
+    (_fx, _fy, fz), (_fnx, _fny, fnz) = tracing.pair(floor)
     if fnz < _MIN_FLOOR_NORMAL_Z:
         _log(f"can't vault over: the far side is too steep (normal z={fnz:.2f})")
         return None
@@ -811,7 +811,7 @@ def _ledge_from_wall(pawn, pos, feet, radius, half, wall_xy, into, max_height, m
     if top[0][2] - feet > max_height:
         _log(f"ledge top at +{top[0][2] - feet:.0f} is higher than {max_height:.0f}")
         return None
-    (_tx, _ty, top_z), (_tnx, _tny, tnz) = top
+    (_tx, _ty, top_z), (_tnx, _tny, tnz) = tracing.pair(top)
     if tnz < _MIN_FLOOR_NORMAL_Z:
         _log(f"ledge top at +{top_z - feet:.0f} is too steep to stand on (normal z={tnz:.2f})")
         return None
@@ -1084,7 +1084,7 @@ def _on_top(pawn, pc=None, mantle_ctx=None) -> None:
     if pc is None:
         pc = ctx.controller if ctx is not None else core.get_pc_pawn()[0]
     if audio_option.value and pawn is not None and pc is not None:
-        fx.play_named(pc, pawn, _TOP_SOUNDS)
+        fx.play_all(pc, pawn, _TOP_SOUNDS)
     _state(ctx).shake = {"t0": core.clock, "t": 0.0}
 
 
@@ -1426,7 +1426,7 @@ def _try_start_inner(pawn, pc, source: str, ground: bool = False, ctx=None, **se
     state.mantle = m
     _set_physics(pawn, _CLIMB_PHYS)
     if audio_option.value and (ctx is None or ctx.presentation):
-        fx.play_named(pc, pawn, _GRAB_SOUNDS)
+        fx.play_all(pc, pawn, _GRAB_SOUNDS)
     core.emit("mantle_start", ctx=ctx, lower_weapon=bool(lower_weapon_option.value))
     try:
         from .. import coop_rpc
@@ -1771,27 +1771,53 @@ def _on_ground_press(pc, pawn) -> None:
         return None
     if not _moving_into_wall(pc, pawn):
         _report("jump: not moving forward, ordinary jump")
+        _vault_note("not_moving")
         return None
     if _try_start(pawn, pc, "vault", ground=True, ctx=ctx):
         _report(f"VAULT ({_mantle_look(ctx)})")
+        _vault_note("started")
         return None
     _report(f"jump: no vault ({state.last_reason}); still looking for {int(_VAULT_BUFFER * 1000)} ms into the jump")
+    _vault_note(state.last_reason or "no_ledge")
     state.buffer_until = core.clock + _VAULT_BUFFER
     state.buffer_vault = True
     return None
 
 
+def _vault_note(result: str) -> None:
+    try:
+        from .. import diagnostics
+
+        diagnostics.event("mm.vault", result=result)
+    except Exception:  # noqa: BLE001
+        pass
+
+
 def _moving_into_wall(pc, pawn) -> bool:
-    """True if the movement keys point roughly where the camera faces."""
+    """True when you are running at the obstacle.
+
+    Sprint and super sprint often leave Acceleration at zero while Velocity is
+    still carrying you forward. Speed toward the camera counts as moving in.
+    """
+    try:
+        fx, fy = core.facing(pc)
+    except Exception:  # noqa: BLE001
+        return True
     try:
         ax, ay = float(pawn.Acceleration.X), float(pawn.Acceleration.Y)
     except Exception:  # noqa: BLE001
-        return True  # can't tell: don't block Auto Mantle
-    m = math.hypot(ax, ay)
-    if m < 1.0:
+        ax, ay = 0.0, 0.0
+    accel = math.hypot(ax, ay)
+    if accel >= 1.0 and (ax * fx + ay * fy) / accel > 0.3:
+        return True
+    try:
+        vx, vy = float(pawn.Velocity.X), float(pawn.Velocity.Y)
+    except Exception:  # noqa: BLE001
+        return True
+    speed = math.hypot(vx, vy)
+    if speed < 200.0:
         return False
-    fx, fy = core.facing(pc)
-    return (ax * fx + ay * fy) / m > 0.3
+    return (vx * fx + vy * fy) / speed > 0.3
 
 
 # ---------------------------------------------------------------------------------------------
@@ -1977,7 +2003,7 @@ def _presentation(event: str, payload: dict) -> None:
             features = state_payload.get("features", state_payload)
             mantle_payload = features.get("mantle", state_payload) if isinstance(features, dict) else state_payload
             if mantle_payload.get("active"):
-                fx.play_named(ctx.controller, ctx.pawn, _GRAB_SOUNDS)
+                fx.play_all(ctx.controller, ctx.pawn, _GRAB_SOUNDS)
 
 
 def on_enable() -> None:

@@ -7,6 +7,8 @@ Package **3.62.0** (shipped Pre-Sequel baseline is 3.61.2).
 - Dash: Eternal-style host Velocity hold in `_HOST_DASHES` + local predict.
 - Slide: `server_slide_enter(crouched_pct, distance_percent, dir_x, dir_y, speed_percent)`. CrouchedPct decay is per `player_id`. Joiner and host coast Velocity along that direction after forward is released. Releasing crouch sends `server_slide_exit`. A slide jump sends `server_slide_jump(vx, vy, vz)` so the host holds the launch. Slide cancel (`state.chain`, the `DuckPressed` block) and a sprint-jump crouch landing (`state.air_slide`) run on the owning client. The landing slide is a normal `server_slide_enter`, aimed where that player is facing. The host does not replay that keyboard on the joiner pawn.
 - Slam (Borderlands 2): `server_slam_begin` / `server_slam_end` / `server_slam_impact`. The Pre-Sequel does not arm these.
+- Sprint Surge: the joiner sends `server_speed_mult(factor)` with the same 1.30–1.70 GroundSpeed boost the host uses. The base is the pawn's current GroundSpeed, sprint included, taken once. Velocity is not written. A value above 1.70 is capped, not treated as a run speed. `1.0` clears it. A slide or slide-jump hold is left alone.
+- Slide cancel: the joiner's crouch latch is taken before the jump uncrouch. A walking frame before `_CHAIN_MIN_AIR` does not drop the chain.
 - Double Jump: host applies requester `(vx,vy,vz)` and `max_jumps`; do not re-read host strength.
 - Mantle: host replays climb plan; do not replace host replay tables.
-- Networking optional: without it, each installed peer still runs local movement/HUD.
+- Networking 1.2 is part of Willow2 v3.8. Dash, slide, jump, mantle, surge, and slam go through `@host`. A player without this mod stays vanilla. Local movement still runs if the networking module failed to import.

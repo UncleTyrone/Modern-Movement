@@ -1,4 +1,4 @@
-"""Surface effects: dust, sparks, splash, and a cool air burst.
+"""Surface effects: dust, wind streaks, and a slam ring.
 
 Cosmetic only. Each machine spawns the particles it can see, on its own copy of
 that pawn, so a listen host and every joiner draw the same trail without a new
@@ -18,7 +18,7 @@ enabled_option = BoolOption(
     True,
     "On",
     "Off",
-    description="Dust, sparks, and splash while you slide, and a cool wind burst when you dash in the air. Other players with the mod see them too.",
+    description="Dust and wind while you slide, sprint, or dash, and a ring when you slam. Each game uses its own effects. Other players with the mod see them too.",
 )
 
 # Slide puffs stay on the ground. Air bursts sit a little higher and read as wind.
@@ -56,9 +56,10 @@ _COLOR = {
 # guessed paths were not in the game, so every spawn returned nothing.
 _CANDIDATES = {
     "dirt": (
+        "FX_VEH_Shared.Particles.Part_VEHDirtKickupFX",
+        "FX_ENV_Dust.Particles.Dynamic.Part_GenericGroundImpactFX",
         "FX_CREA_Skag.Particles.Shared.Part_Skag_FeetDustFX",
         "FX_ENV_Smoke.Particles.Part_SkagFootStepFX",
-        "FX_ENV_Dust.Particles.Dynamic.Part_GenericGroundImpactFX",
         "FX_ENV_Dust.Particles.Part_AmbientDustFX",
     ),
     "metal": (
@@ -77,6 +78,7 @@ _CANDIDATES = {
     "wood": ("FX_BulletImpacts_Wood.Particles.Impact_Wood_LargeCal_PartFX",),
     "stone": ("FX_BulletImpacts_Rock.Particles.Part_Impact_Rock_LargeCalFX",),
     "grass": (
+        "FX_VEH_Shared.Particles.Part_VEHGrassKickupFX",
         "FX_BulletImpacts_Vegetation.Particles.Part_Impact_Grass_LargeCalFX",
         "FX_CREA_Skag.Particles.Shared.Part_Skag_FeetDustFX",
     ),
@@ -85,11 +87,39 @@ _CANDIDATES = {
         "FX_ENV_InteractiveObjects.Particles.SnowChest.Part_SnowChest_AirFX",
         "FX_ENV_Dust.Particles.Part_AmbientDustFX",
     ),
+    "sprint": (
+        "FX_ENV_Smoke.Particles.Part_WhispySmokeFX",
+        "FX_ENV_Dust.Particles.Part_AmbientDustFX",
+        "FX_ENV_InteractiveObjects.Particles.SnowChest.Part_SnowChest_AirFX",
+    ),
+    "ring": (
+        "FX_CHAR_Shared_Shield.Particles.Novas.Part_Explosive_Nova_Shield_ExplosionFX",
+        "FX_ENV_Dust.Particles.Dynamic.Part_GenericGroundImpactFX",
+        "FX_ENV_Dust.Particles.Part_AmbientDustFX",
+    ),
 }
+# PhysX copies that ship with The Pre-Sequel. The names are on the always-loaded list.
+_TPS_EXTRA = {
+    "air": (
+        "FX_ENV_Smoke.Particles.Part_WhispySmokeFX",
+    ),
+    "sprint": (
+        "FX_ENV_Smoke.Particles.Part_WhispySmokeFX",
+    ),
+    "ring": (
+        "FX_ENV_Dust_Px.Particles.Dynamic.Part_GenericGroundImpact_PxFX",
+        "FX_CHAR_Shared_Shield.Particles.Novas.Part_Explosive_Nova_Shield_ExplosionFX",
+    ),
+    "dirt": (
+        "FX_ENV_Dust_Px.Particles.Dynamic.Part_GenericGroundImpact_PxFX",
+        "FX_VEH_Shared.Particles.Part_VEHDirtKickupFX",
+    ),
+}
+_loaded_packages: set[str] = set()
 _FALLBACK = (
-    "FX_shared_items.Particles.Part_LootableLocatorFX",
-    "FX_shared_items.Particles.Part_LootableLocator",
-    "fx_shared_items.Particles.Part_LootableLocator",
+    "FX_ENV_Dust.Particles.Dynamic.Part_GenericGroundImpactFX",
+    "FX_ENV_Dust.Particles.Part_AmbientDustFX",
+    "FX_CREA_Skag.Particles.Shared.Part_Skag_FeetDustFX",
 )
 _resolved: dict[str, object] = {}
 _slots: dict[int, dict] = {}
@@ -162,25 +192,47 @@ def kind_for(pc, pawn) -> str:
     return kind
 
 
+def _paths_for(kind: str) -> list[str]:
+    from .. import game
+
+    paths: list[str] = []
+    if game.is_tps():
+        paths.extend(_TPS_EXTRA.get(kind, ()))
+    paths.extend(_CANDIDATES.get(kind, ()))
+    if kind not in ("dirt", "air", "sprint", "ring"):
+        paths.extend(_CANDIDATES["dirt"])
+    paths.extend(_FALLBACK)
+    return paths
+
+
+def _find_system(path: str):
+    """Load that effect's package once, then look it up. A missing path is skipped."""
+    import unrealsdk
+
+    package = path.split(".", 1)[0]
+    if package and package not in _loaded_packages:
+        _loaded_packages.add(package)
+        try:
+            unrealsdk.load_package(package)
+        except Exception:  # noqa: BLE001
+            pass
+    try:
+        return unrealsdk.find_object("ParticleSystem", path)
+    except Exception:  # noqa: BLE001
+        return None
+
+
 def _system(kind: str):
-    """Find one always-loaded particle. Never scans the whole catalog or loads a package."""
+    """One particle for this kind, from this game's list. Never scans the whole catalog."""
     cached = _resolved.get(kind)
     if cached is not None:
         return cached
-    import unrealsdk
-
-    paths = list(_CANDIDATES.get(kind, ()))
-    paths.extend(_CANDIDATES["dirt"])
-    paths.extend(_FALLBACK)
     seen: set[str] = set()
-    for path in paths:
+    for path in _paths_for(kind):
         if not path or path in seen:
             continue
         seen.add(path)
-        try:
-            system = unrealsdk.find_object("ParticleSystem", path)
-        except Exception:  # noqa: BLE001
-            system = None
+        system = _find_system(path)
         if system is not None:
             _resolved[kind] = system
             return system
@@ -202,6 +254,15 @@ def _pool(pawn):
         return None
 
 
+def _rotator():
+    import unrealsdk
+
+    try:
+        return unrealsdk.make_struct("Rotator", Pitch=0, Yaw=0, Roll=0)
+    except Exception:  # noqa: BLE001
+        return unrealsdk.make_struct("Core.Object.Rotator", True, Pitch=0, Yaw=0, Roll=0)
+
+
 def _emit(pawn, kind: str, loc: tuple[float, float, float], scale: float) -> None:
     system = _system(kind)
     if system is None or pawn is None:
@@ -209,19 +270,27 @@ def _emit(pawn, kind: str, loc: tuple[float, float, float], scale: float) -> Non
     pool = _pool(pawn)
     if pool is None:
         return
-    # Spawn with location only. Passing the pawn rotator makes SpawnEmitter
-    # reject the call on this SDK, which is why nothing ever appeared.
+    # SpawnEmitter wants a template, a location, and a rotator. A missing rotator
+    # makes this SDK reject the call, which is why a found particle still showed nothing.
     vec = tracing.make_vec(*loc)
+    rot = _rotator()
     comp = None
     try:
-        comp = pool.SpawnEmitter(system, vec)
+        comp = pool.SpawnEmitter(system, vec, rot)
     except Exception:  # noqa: BLE001
         try:
-            comp = pool.SpawnEmitter(EmitterTemplate=system, SpawnLocation=vec)
+            comp = pool.SpawnEmitter(EmitterTemplate=system, SpawnLocation=vec, SpawnRotation=rot)
         except Exception:  # noqa: BLE001
-            return
+            try:
+                comp = pool.SpawnEmitter(system, vec)
+            except Exception:  # noqa: BLE001
+                return
     if comp is None:
         return
+    try:
+        comp.ActivateSystem()
+    except Exception:  # noqa: BLE001
+        pass
     try:
         comp.SetScale(max(0.85, float(scale)))
     except Exception:  # noqa: BLE001
@@ -271,6 +340,73 @@ def slide(pc, pawn, strength: float) -> str:
     kind = kind_for(pc, pawn) if pc is not None else "dirt"
     puff(pawn, kind, strength)
     return kind
+
+
+def sprint_wind(pc, pawn) -> None:
+    """A light streak behind a sprint. Smaller and slower than a dash burst."""
+    del pc
+    if not enabled_option.value or pawn is None:
+        return
+    slot = _slot(pawn)
+    now = core.clock
+    if now < slot.get("sprint", -100.0):
+        return
+    slot["sprint"] = now + 0.16
+    try:
+        vx, vy = float(pawn.Velocity.X), float(pawn.Velocity.Y)
+    except Exception:  # noqa: BLE001
+        return
+    if math.hypot(vx, vy) < 280.0:
+        return
+    origin = _feet(pawn, 48.0)
+    _emit(pawn, "sprint", (origin[0], origin[1], origin[2] + 18.0), 0.55)
+    _emit(pawn, "sprint", (origin[0], origin[1], origin[2] + 42.0), 0.4)
+
+
+def slam_ring(pawn, strength: float = 1.0) -> None:
+    """A circle of ground dust where a slam lands, plus one impact in the middle."""
+    if not enabled_option.value or pawn is None:
+        return
+    slot = _slot(pawn)
+    now = core.clock
+    if now < slot.get("ring", -100.0):
+        return
+    slot["ring"] = now + 0.35
+    strength = max(0.25, min(1.0, float(strength)))
+    center = _feet(pawn, 0.0)
+    _emit(pawn, "ring", (center[0], center[1], center[2] + 6.0), 1.6 + 0.8 * strength)
+    radius = 70.0 + 110.0 * strength
+    for step in range(8):
+        ang = step * math.tau / 8.0
+        _emit(
+            pawn,
+            "dirt",
+            (center[0] + math.cos(ang) * radius, center[1] + math.sin(ang) * radius, center[2] + 4.0),
+            0.85 + 0.25 * strength,
+        )
+
+
+def _note_landing(pc, pawn) -> None:
+    """The Pre-Sequel's own slam does not call us. A hard landing still gets the ring."""
+    slot = _slot(pawn)
+    try:
+        vz = float(pawn.Velocity.Z)
+    except Exception:  # noqa: BLE001
+        vz = 0.0
+    if core.phys == core.PHYS_FALLING:
+        slot["fall_z"] = min(float(slot.get("fall_z", 0.0)), vz)
+        return
+    fell = float(slot.get("fall_z", 0.0))
+    slot["fall_z"] = 0.0
+    if core.phys == core.PHYS_WALKING and fell < -1200.0:
+        slam_ring(pawn, min(1.0, abs(fell) / 1800.0))
+        try:
+            from .. import fx, game
+
+            if game.is_tps():
+                fx.play_all(pc, pawn, fx.slam_hit_paths())
+        except Exception:  # noqa: BLE001
+            pass
 
 
 def air(pc, pawn, dx: float = 0.0, dy: float = 0.0, scale: float = 1.0) -> None:
@@ -366,6 +502,15 @@ def _tick(pc, pawn, _dt) -> None:
     ctx = core.current_context()
     if ctx is None or not ctx.local:
         return
+    _note_landing(pc, pawn)
+    try:
+        from . import holster
+
+        sprinting = holster.is_sprinting(pc, pawn, ctx)
+    except Exception:  # noqa: BLE001
+        sprinting = None
+    if sprinting and not _crouched(pawn) and core.busy not in ("slide", "slam", "dash", "mantle"):
+        sprint_wind(pc, pawn)
     _observe(pc, pawn)
 
 

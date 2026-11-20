@@ -74,6 +74,65 @@ def pressed_keys(pc: Any) -> set[str] | None:
         return None
 
 
+# Willow2 keybinds watch WillowUIInteraction:InputKey. The same event is the hold and the
+# release. PressedKeys drops a crouch key that is still held, so this set is the SDK read.
+_willow_down: set[str] = set()
+_willow_seen = False
+
+
+def _willow_event_code(event: Any) -> int | None:
+    """UE3 EInputEvent: Pressed 0, Released 1, Repeat 2. Names win when the value is an enum."""
+    try:
+        text = str(getattr(event, "name", None) or getattr(event, "Name", None) or event).lower()
+    except Exception:  # noqa: BLE001
+        text = ""
+    if "released" in text:
+        return 1
+    if "repeat" in text:
+        return 2
+    if "double" in text:
+        return 3
+    if "pressed" in text:
+        return 0
+    try:
+        return int(event)
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def note_willow_key(key: Any, event: Any) -> None:
+    """Record one SDK input event. Pressed and Repeat count as down. Released clears the key."""
+    global _willow_seen
+    _willow_seen = True
+    token = str(key).strip().strip("'\"").lower()
+    if token.startswith("name'") and token.endswith("'"):
+        token = token[5:-1].strip().lower()
+    code = _willow_event_code(event)
+    if code == 1:
+        _willow_down.discard(token)
+    elif code in (0, 2):
+        _willow_down.add(token)
+
+
+def willow_held(names) -> bool | None:
+    """True when one of these keys is down in the SDK input stream, False when it is up.
+
+    None until InputKey has run, so a cold start can still use the game's key list.
+    """
+    if not _willow_seen:
+        return None
+    wanted = {str(name).strip().lower() for name in names}
+    if not wanted:
+        return None
+    return any(name in _willow_down for name in wanted)
+
+
+def reset_willow_keys() -> None:
+    global _willow_seen
+    _willow_down.clear()
+    _willow_seen = False
+
+
 def binding_conflicts(pc: Any, mod_keys: dict[str, str | None]) -> dict[str, list[str]]:
     """Best-effort native binding collision report."""
     native: dict[str, list[str]] = {}

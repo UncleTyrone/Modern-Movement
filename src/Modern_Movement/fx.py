@@ -7,8 +7,43 @@ skipped (and logged once) and the air dash itself is never affected.
 import unrealsdk
 from unrealsdk import logging
 
-# The sound played once as an air dash starts: the Longbow grenade's teleport-out.
+# The dash whoosh. The melee swing's short path never resolved in game, so a dash
+# only played the ready beep. This is the grenade teleport the original dash used,
+# and that full path (package, group, event) is one the game will load.
 SOUND = "Ake_Wep_Grenades.Grenade_Classes.Ak_Play_Wep_Grenade_Longbow_Teleport_Out"
+
+# The Pre-Sequel tries its Oz air-boost first, then the same whoosh.
+WHOOSH = (SOUND,)
+WHOOSH_TPS = (
+    "Ake_Cork_FX_Global.Ak_Play_Cork_FX_AirBoost_Boost",
+    SOUND,
+)
+JUMP = (
+    "Ake_Fs_Player.Ak_Play_Fs_Jump",
+    "Ake_Fol_Player.Ak_Play_Foley_Armor_Jump",
+)
+LAND = (
+    "Ake_Fs_Player.Ak_Play_Fs_Land",
+    "Ake_Fol_Player.Ak_Play_Foley_Armor_Land",
+)
+LADDER = ("Ake_Fs_Player.Ak_Play_Fs_Ladder",)
+# The scrape is a real footstep, repeated for the whole slide. The old stalker
+# step is not in either game's banks.
+SCRAPE = (
+    "Ake_Fs_Player.Ak_Play_Fs_Run",
+    "Ake_Fs_Player.Ak_Play_Fs_Walk",
+    "Ake_Fol_Player.Ak_Play_Foley_Armor",
+    "Ake_Cork_Fs_Player.Ak_Play_Fs_Run",
+)
+SLAM_DIVE = WHOOSH
+# A footstep on concrete. The medium explosion and the gib were the mushy layer.
+SLAM_HIT = ("Ake_Fs_Player.Ak_Play_Fs_Land",)
+SLAM_HIT_TPS = (
+    "Ake_Cork_FX_Global.Ak_Play_Cork_FX_Slam",
+    "Ake_Fs_Player.Ak_Play_Fs_Land",
+)
+# Sharp crack played by short name, the way the original slam found it.
+SLAM_CRACK = "Ak_Play_Exp_Elemental_Explosive_SM"
 
 _SOUND_RETRY_S = 10.0
 _sound_retry: dict = {}    # name -> time.monotonic() before which a missing sound isn't searched again
@@ -21,36 +56,123 @@ def _warn_once(key, message: str) -> None:
         logging.warning(message)
 
 
-def play_sound(pc, pawn, name: str = SOUND) -> None:
-    """Play a sound once (the air dash sound unless another event name is given). Never raises.
+def dash_paths() -> tuple[str, ...]:
+    """Whoosh for a dash. The Pre-Sequel prefers the Oz air-boost. Super sprint stays silent."""
+    from . import game
 
-    The sound is looked up by its path every time (a cheap name lookup) and never kept between
-    plays: sounds that belong to a map are unloaded when you travel, and a kept one would go
-    silent (or worse). If it isn't loaded, its bundle is loaded; if it still can't be found it
-    is tried again after a few seconds rather than given up on."""
+    return WHOOSH_TPS if game.is_tps() else WHOOSH
+
+
+def jump_paths() -> tuple[str, ...]:
+    return JUMP
+
+
+def land_paths() -> tuple[str, ...]:
+    return LAND
+
+
+def scrape_paths() -> tuple[str, ...]:
+    return SCRAPE
+
+
+def slam_hit_paths() -> tuple[str, ...]:
+    from . import game
+
+    return SLAM_HIT_TPS if game.is_tps() else SLAM_HIT
+
+
+def play_first(pc, pawn, paths) -> None:
+    """Play the first event in the list that this game actually has."""
+    for path in paths:
+        if _play_one(pc, pawn, path):
+            return
+
+
+def play_all(pc, pawn, paths) -> None:
+    """Play every event in the list that this game has. Missing ones are skipped."""
+    for path in paths:
+        _play_one(pc, pawn, path)
+
+
+def _resolve_event(name: str):
+    """Look up one event. A full path is loaded if it is not already in memory.
+
+    The object is not kept. A map travel unloads it, and a kept one goes silent.
+    A miss waits a few seconds before it is tried again.
+    """
     import time
+
     now = time.monotonic()
     if now < _sound_retry.get(name, 0.0):
-        return
-    try:
-        event = _find_event(name)
-        if event is None:
-            try:
-                unrealsdk.load_package(name.split(".", 1)[0])
-            except Exception:  # noqa: BLE001
-                pass
-            event = _find_event(name)
-        if event is None:
-            _sound_retry[name] = now + _SOUND_RETRY_S
-            _warn_once(("sound", name), f"[Modern Movement] sound not found, skipped: {name}")
-            return
-        _sound_retry.pop(name, None)
+        return None
+    event = _find_event(name)
+    short = name.rsplit(".", 1)[-1]
+    if event is None and "." in name:
         try:
-            pawn.PlayAkEvent(event)
+            unrealsdk.load_package(name.split(".", 1)[0])
         except Exception:  # noqa: BLE001
-            pc.PlayAkEvent(event)  # the pawn can't play it: ask the controller
+            pass
+        event = _find_event(name)
+    if event is None and short != name:
+        event = _find_event(short)
+    if event is None:
+        event = _find_loaded(short)
+    if event is None:
+        _sound_retry[name] = now + _SOUND_RETRY_S
+        _warn_once(("sound", name), f"[Modern Movement] sound not found, skipped: {name}")
+        return None
+    _sound_retry.pop(name, None)
+    return event
+
+
+def _find_loaded(short: str):
+    """Match a short event name against sounds already in memory. One scan, then a wait."""
+    import time
+
+    cached = _named_paths.get(short)
+    if cached:
+        return _find_event(cached)
+    now = time.monotonic()
+    if now < _sound_retry.get(("catalog",), 0.0):
+        return None
+    _sound_retry[("catalog",)] = now + _SOUND_RETRY_S
+    try:
+        for obj in unrealsdk.find_all("AkEvent", exact=False):
+            try:
+                _named_paths.setdefault(str(obj.Name), obj._path_name())
+            except Exception:  # noqa: BLE001
+                continue
+    except Exception as e:  # noqa: BLE001
+        _warn_once(("named-scan",), f"[Modern Movement] could not search sounds: {e!r}")
+        return None
+    path = _named_paths.get(short)
+    if not path:
+        return None
+    return _find_event(path)
+
+
+def _play_one(pc, pawn, name: str) -> bool:
+    """True when the event was found and handed to the pawn or the controller."""
+    event = _resolve_event(name)
+    if event is None or (pawn is None and pc is None):
+        return False
+    try:
+        try:
+            if pawn is not None:
+                pawn.PlayAkEvent(event)
+            else:
+                pc.PlayAkEvent(event)
+        except Exception:  # noqa: BLE001
+            pc.PlayAkEvent(event)
+        return True
     except Exception as e:  # noqa: BLE001
         _warn_once(("sound-play", name), f"[Modern Movement] could not play {name}: {e!r}")
+        return False
+
+
+def play_sound(pc, pawn, name: str = SOUND) -> None:
+    """Play one event by its full path. Never raises. A missing event is skipped."""
+    _play_one(pc, pawn, name)
 
 
 _named_paths: dict = {}    # sound name -> its full path (a string), found once

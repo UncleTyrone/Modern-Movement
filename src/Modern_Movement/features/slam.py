@@ -1,8 +1,9 @@
-"""Slam: press crouch high in the air to drive straight down into the ground.
+"""Slam: hold crouch in the air to come back down.
 
-  * Press crouch while airborne and above the ground (60% of a normal jump's height): you stop
-    drifting and plunge straight down. A press keeps trying for 1.5 s, so pressing a moment early
-    (still too low, or mid-dash) still slams. Crouching just before you land does not.
+  * At slam height you plunge at full speed, even while you are still moving.
+  * Below that, once the jump has peaked, the same hold pulls you to the ground.
+  * A crouch held through a slide jump still belongs to the landing slide.
+  * Crouching on the ground does not slam.
   * Hitting the ground: an impact sound, a camera crunch, and (with Slam Damage) a blast from the
     game itself (like an explosion): enemies within "Knockback Radius" take a share of your
     equipped grenade's damage and are thrown. Walls block it and friendly NPCs are not hit. You come
@@ -18,6 +19,7 @@ the air. Only numbers are kept between ticks, never game objects.
 from __future__ import annotations
 
 import math
+import os
 
 from mods_base import BoolOption, SliderOption
 from unrealsdk import logging
@@ -26,7 +28,7 @@ from .. import camera, core, fx, game, hudfx, tracing
 
 enabled_option = BoolOption(
     "Slam Enabled", True, "On", "Off",
-    description="Press crouch while high in the air to slam into the ground.",
+    description="Hold crouch in the air. A high jump slams. A short hop pulls you down to the ground.",
 )
 indicator_option = BoolOption(
     "Slam Indicator", True, "On", "Off",
@@ -66,14 +68,15 @@ push_slider = _Fixed(150)          # Slam Camera Push, %
 
 _DEBUG = False            # True: what each slam's blast used, in the console
 _FALLBACK_GRAVITY = 1050.0
-_HORIZONTAL_KEEP = 0.12   # share of your sideways speed kept when the slam starts
+_HORIZONTAL_KEEP = 0.12   # share of your sideways speed kept when a full slam starts
+_PULL_KEEP = 0.55         # a short pull keeps more of the run
+_PULL_SPEED = 1600.0      # downward speed of a pull that is not yet a full slam
+_APEX_Z = 120.0           # still rising faster than this, so wait to see if the jump gets high enough
 _MAX_TIME = 6.0           # safety net, seconds
 _RECHECK = 0.05           # while it waits: one height check per this long
 
 # Sounds: the dive reuses the dash whoosh; the impact is the landing thud plus a heavy layer.
 _DIVE_SOUND = fx.SOUND
-_THUD = ("Ak_Play_Fs_Land",)
-_IMPACT = "Ak_Play_Exp_Elemental_Explosive_SM"   # the heavy layer (was Slam Impact Sound Variant 4)
 
 # Camera
 _PUSH = 4.0               # degrees the view tips down at 100% while plunging
@@ -89,6 +92,8 @@ _HIT_FALL = 0.45
 _prev_crouch = False
 _next_check = -100.0
 _buffer_until = -100.0
+_hold_latch = False
+_hold_up_at = -100.0
 _slam: dict | None = None    # {"t0", "t"} while plunging
 _hit: dict | None = None     # {"t0", "t"} while the impact shake runs
 _push_out: dict | None = None  # {"t0", "from"} while the view eases back after impact
@@ -135,11 +140,18 @@ def host_begin_slam(ctx, vx: float, vy: float, vz: float) -> None:
     if ctx is None or ctx.pawn is None:
         return
     speed = float(speed_slider.value)
+    down = min(0.0, float(vz))
+    # A request that is barely downward is a full slam. A pull sends its own speed.
+    if down > -_PULL_SPEED * 0.75:
+        down = -speed
+    else:
+        down = max(down, -speed)
     _HOST_SLAMS[ctx.key.player_id] = {
         "pawn": ctx.pawn,
         "vx": float(vx),
         "vy": float(vy),
-        "vz": min(float(vz), -speed),
+        "vz": down,
+        "dive": down,
         "elapsed": 0.0,
     }
 
@@ -180,9 +192,11 @@ def _service_host_slams(dt: float) -> None:
     for pid, held in _HOST_SLAMS.items():
         pawn = held["pawn"]
         held["elapsed"] = float(held["elapsed"]) + dt
-        held["vx"] = float(held["vx"]) * 0.9
-        held["vy"] = float(held["vy"]) * 0.9
-        held["vz"] = min(float(held["vz"]), -speed)
+        dive = float(held.get("dive", -speed))
+        drag = 0.9 if dive <= -speed + 1.0 else 0.985
+        held["vx"] = float(held["vx"]) * drag
+        held["vy"] = float(held["vy"]) * drag
+        held["vz"] = dive
         _set_vel(pawn, held["vx"], held["vy"], held["vz"])
         if held["elapsed"] > _MAX_TIME:
             done.append(pid)
@@ -223,6 +237,77 @@ def _key_token(value) -> str:
     return text.strip().lower()
 
 
+# Borderlands 2 takes a held crouch key out of PressedKeys, and toggle crouch never sends a
+# key-up. The physical key is what "hold C" and "let go" have to mean.
+_VK = {
+    "c": 0x43,
+    "leftcontrol": 0xA2,
+    "rightcontrol": 0xA3,
+    "leftshift": 0xA0,
+    "rightshift": 0xA1,
+    "leftalt": 0xA4,
+    "rightalt": 0xA5,
+    "spacebar": 0x20,
+    "capslock": 0x14,
+    "tab": 0x09,
+    "leftmousebutton": 0x01,
+    "rightmousebutton": 0x02,
+    "middlemousebutton": 0x04,
+}
+
+
+def _vk_for(name: str) -> int | None:
+    token = str(name).lower().replace(" ", "")
+    if token in _VK:
+        return _VK[token]
+    if len(token) == 1 and "a" <= token <= "z":
+        return ord(token.upper())
+    if len(token) == 1 and token.isdigit():
+        return ord(token)
+    if token.startswith("f") and token[1:].isdigit():
+        number = int(token[1:])
+        if 1 <= number <= 12:
+            return 0x70 + number - 1
+    return None
+
+
+def _physical_down(names) -> bool | None:
+    """True while one of these keys is physically down, False if all are up, None if unknown."""
+    if os.name != "nt":
+        return None
+    try:
+        import ctypes
+
+        user32 = ctypes.windll.user32
+    except Exception:  # noqa: BLE001
+        return None
+    saw = False
+    for name in names:
+        vk = _vk_for(name)
+        if vk is None:
+            continue
+        saw = True
+        try:
+            if user32.GetAsyncKeyState(int(vk)) & 0x8000:
+                return True
+        except Exception:  # noqa: BLE001
+            continue
+    return False if saw else None
+
+
+def _combine_key(
+    willow: bool | None,
+    physical: bool | None,
+    pressed: bool | None,
+) -> bool | None:
+    """Down from the SDK input hook, the keyboard, or the game's key list. Any up after that is a release."""
+    if willow is True or physical is True or pressed is True:
+        return True
+    if willow is False or physical is False or pressed is False:
+        return False
+    return None
+
+
 def _find_crouch_keys(pc) -> tuple:
     """Keys bound to crouch (names only), following one level of named commands (GBA_...)."""
     try:
@@ -256,6 +341,9 @@ def _crouch_key_down(pc):
 
     An empty lookup is not cached. Caching that miss made every later check look unknown,
     and an unknown key was then treated as still held.
+
+    PressedKeys drops a crouch key that is still held, so a physical read is what hold and
+    release use. When the binding list is empty, Borderlands 2 falls back to C and Left Ctrl.
     """
     global _crouch_keys, _keys_at
     if not _crouch_keys or core.clock - _keys_at >= _KEYS_REFRESH or core.clock < _keys_at:
@@ -263,13 +351,37 @@ def _crouch_key_down(pc):
         _keys_at = core.clock
         if found:
             _crouch_keys = found
-    if not _crouch_keys:
-        return None
+    names = _crouch_keys
+    if not names and game.is_bl2():
+        names = ("c", "leftcontrol")
+    willow = None
     try:
-        held = {_key_token(k) for k in pc.PlayerInput.PressedKeys}
+        from .. import input_state
+
+        willow = input_state.willow_held(names)
     except Exception:  # noqa: BLE001
-        return None
-    return any(k in held for k in _crouch_keys)
+        willow = None
+    physical = _physical_down(names)
+    pressed = None
+    if _crouch_keys:
+        try:
+            held = {_key_token(k) for k in pc.PlayerInput.PressedKeys}
+            pressed = any(k in held for k in _crouch_keys)
+        except Exception:  # noqa: BLE001
+            pressed = None
+    return _combine_key(willow, physical, pressed)
+
+
+def _slam_hold(pc, pressed: bool, key) -> bool:
+    """True only while the crouch key is down. A pose change is not a hold.
+
+    A remembered press was pulling every later jump, and it also left slide locked.
+    """
+    global _hold_latch, _hold_up_at
+    del pc, pressed
+    _hold_latch = False
+    _hold_up_at = -100.0
+    return key is True
 
 
 def _gravity(pc) -> float:
@@ -330,6 +442,25 @@ def _probe(pc, pawn):
     return clearance >= required, clearance, required
 
 
+def _slam_kind(clearance: float, required: float, vz: float) -> str | None:
+    """'full' at slam height, 'pull' once a short hop has peaked, or None while still rising."""
+    if clearance >= max(_EASY_MIN, required):
+        return "full"
+    if clearance >= _EASY_MIN and vz <= _APEX_Z:
+        return "pull"
+    return None
+
+
+def _can_pull(pc, pawn) -> bool:
+    """True when a held crouch should bring you down right now."""
+    _ok, clearance, required = _probe(pc, pawn)
+    try:
+        vz = float(pawn.Velocity.Z)
+    except Exception:  # noqa: BLE001
+        vz = 0.0
+    return _slam_kind(clearance, required, vz) is not None
+
+
 def _high_enough(pc, pawn) -> bool:
     return _probe(pc, pawn)[0]
 
@@ -365,16 +496,18 @@ def _update_indicator(pc, pawn) -> None:
 # ---- slam ---------------------------------------------------------------------------------
 
 
-def _start(pc, pawn) -> None:
+def _start(pc, pawn, *, full: bool = True) -> None:
     global _slam, _push_out, _SLAM_CARRY
     core.begin("slam")
+    speed = float(speed_slider.value if full else _PULL_SPEED)
+    keep = _HORIZONTAL_KEEP if full else _PULL_KEEP
     try:
         _SLAM_CARRY = (float(pawn.Velocity.X), float(pawn.Velocity.Y))
         _set_vel(
             pawn,
-            float(pawn.Velocity.X) * _HORIZONTAL_KEEP,
-            float(pawn.Velocity.Y) * _HORIZONTAL_KEEP,
-            -float(speed_slider.value),
+            float(pawn.Velocity.X) * keep,
+            float(pawn.Velocity.Y) * keep,
+            -speed,
         )
     except Exception:  # noqa: BLE001
         pass
@@ -383,12 +516,10 @@ def _start(pc, pawn) -> None:
         z0 = core.position(pawn)[2]
     except Exception:  # noqa: BLE001
         z0 = None
-    _slam = {"t0": core.clock, "t": 0.0, "z0": z0}
+    _slam = {"t0": core.clock, "t": 0.0, "z0": z0, "full": full, "speed": speed}
     _push_out = None
     if indicator_option.value:
         hudfx.slam_go()
-    if audio_option.value:
-        fx.play_sound(pc, pawn, _DIVE_SOUND)
 
 
 def _stop(push_from: float = 0.0, *, mirror: bool = True) -> None:
@@ -456,9 +587,9 @@ def _power(pawn) -> float:
 
 def _impact(pc, pawn) -> None:
     global _hit, _stand, _SLAM_CARRY
-    carry = _SLAM_CARRY
     _SLAM_CARRY = None
-    power = _power(pawn)
+    full = True if _slam is None else bool(_slam.get("full", True))
+    power = _power(pawn) if full else max(0.25, _power(pawn) * 0.35)
     try:
         z0 = _slam["z0"] if _slam is not None else None
         fell = max(0.0, z0 - core.position(pawn)[2]) if z0 is not None else _POWER_REF
@@ -468,37 +599,16 @@ def _impact(pc, pawn) -> None:
         hudfx.slam_impact(_drop_strength(fell))
     else:
         hudfx.slam_hide()
+    try:
+        from . import surfacefx
+
+        surfacefx.slam_ring(pawn, _drop_strength(fell))
+    except Exception:  # noqa: BLE001
+        pass
     push = _dive_push()
     _stop(push, mirror=False)
     _hit = {"t0": core.clock, "t": 0.0, "p": power}
     core.emit("slam_impact")        # the slide module keeps the crouch icon hidden for a moment
-    held = _crouch_key_down(pc) is True
-    if not held:
-        try:
-            from . import slide
-
-            held = bool(slide._state().crouch_down)
-        except Exception:  # noqa: BLE001
-            held = False
-    chained = False
-    if held:
-        try:
-            from . import slide
-
-            dx, dy, speed = 0.0, 0.0, 0.0
-            if carry is not None:
-                dx, dy = float(carry[0]), float(carry[1])
-                speed = math.hypot(dx, dy)
-            saved = slide.take_air_slide()
-            if saved is not None and float(saved["speed"]) > speed:
-                dx, dy = saved["dir"]
-                speed = float(saved["speed"])
-            if speed > 1.0:
-                chained = slide.offer_landing(pc, pawn, dx, dy, speed, "slam landing")
-        except Exception:  # noqa: BLE001
-            chained = False
-    if chained:
-        return
     _stand = _STAND_TICKS
     _stand_up(pc, pawn)
     try:
@@ -506,10 +616,10 @@ def _impact(pc, pawn) -> None:
     except Exception:  # noqa: BLE001
         pass
     if audio_option.value:
-        _impact_sound(pc, pawn)
-    # The game's own blast does both the damage and the knockback. Slam Damage off = no blast at all:
-    # you just slam down. A joiner asks the host to blast so the hit is not applied twice.
-    if damage_option.value:
+        _impact_sound(pc, pawn, full)
+    # A pull is the landing. The blast is the full slam. A joiner asks the host to blast
+    # so the hit is not applied twice.
+    if full and damage_option.value:
         try:
             from .. import coop_rpc
 
@@ -521,8 +631,15 @@ def _impact(pc, pawn) -> None:
             _blast(pc, pawn, power, knock_strength_slider.value > 0)
 
 
-def _impact_sound(pc, pawn) -> None:
-    fx.play_named(pc, pawn, _THUD + (_IMPACT,))
+def _impact_sound(pc, pawn, full: bool) -> None:
+    """A footstep on the ground. A full slam adds the small explosive crack, not the gib."""
+    if full and game.is_bl2():
+        fx.play_named(pc, pawn, ("Ak_Play_Fs_Land", fx.SLAM_CRACK))
+        return
+    if full:
+        fx.play_all(pc, pawn, fx.slam_hit_paths())
+        return
+    fx.play_named(pc, pawn, ("Ak_Play_Fs_Land",))
 
 
 def _obj_name(obj) -> str:
@@ -889,26 +1006,37 @@ def _tick(pc, pawn, dt) -> None:
         _prev_key = key
 
     if _slam is not None:
+        dive = float(_slam.get("speed", speed_slider.value))
+        full = bool(_slam.get("full", True))
+        # Landing wins even if a slide took busy this frame. That was dropping the impact.
+        if core.phys == core.PHYS_WALKING:
+            _impact(pc, pawn)
+            return
         if core.busy != "slam":
             _stop(_dive_push())          # something else took over without cancelling us
         elif core.phys == core.PHYS_FALLING:
-            if float(pawn.Velocity.Z) > -0.5 * float(speed_slider.value):
-                _stop(_dive_push())          # a double jump (or something else) sent you up: let it
-                return
+            # One frame of the jump's old upward speed is the engine putting it back.
+            # Keep the dive. Three frames of rising is a real double jump, so let that go.
+            if float(pawn.Velocity.Z) > 200.0:
+                _slam["up"] = int(_slam.get("up", 0)) + 1
+                if _slam["up"] >= 3:
+                    _stop(_dive_push())
+                    return
+            else:
+                _slam["up"] = 0
             if core.clock - _slam["t0"] > _MAX_TIME:
                 _stop(_dive_push())
                 return
+            drag = 0.9 if full else 0.985
             try:
                 _set_vel(
                     pawn,
-                    float(pawn.Velocity.X) * 0.9,
-                    float(pawn.Velocity.Y) * 0.9,
-                    min(float(pawn.Velocity.Z), -float(speed_slider.value)),
+                    float(pawn.Velocity.X) * drag,
+                    float(pawn.Velocity.Y) * drag,
+                    min(float(pawn.Velocity.Z), -dive),
                 )
             except Exception:  # noqa: BLE001
                 pass
-        elif core.phys == core.PHYS_WALKING:
-            _impact(pc, pawn)
         else:
             _stop(_dive_push())          # water, ladder, vehicle...
         return
@@ -927,10 +1055,14 @@ def _tick(pc, pawn, dt) -> None:
     except Exception:  # noqa: BLE001
         pass
     _update_indicator(pc, pawn)
-    if pressed and core.phys == core.PHYS_FALLING:
-        _buffer_until = core.clock + window_slider.value / 1000.0  # keeps trying for a moment: no need to time it exactly
+    holding = _slam_hold(pc, pressed, key)
+    # The key has to be down on this tick. A saved press was pulling jumps with C up.
+    if holding and core.phys == core.PHYS_FALLING:
+        _buffer_until = core.clock + 0.2
         _next_check = -100.0
-    if core.clock > _buffer_until:
+    else:
+        _buffer_until = -100.0
+    if not holding:
         return
     if core.phys != core.PHYS_FALLING:
         _buffer_until = -100.0                    # landed (or swimming...) first: forget the press
@@ -939,22 +1071,30 @@ def _tick(pc, pawn, dt) -> None:
         return                                    # a dash is cut short by the slam; a mantle is not
     if core.clock < _next_check:
         return
-    if _high_enough(pc, pawn):
-        _buffer_until = -100.0
-        _start(pc, pawn)
-    else:
+    _ok, clearance, required = _probe(pc, pawn)
+    try:
+        vz = float(pawn.Velocity.Z)
+    except Exception:  # noqa: BLE001
+        vz = 0.0
+    kind = _slam_kind(clearance, required, vz)
+    if kind is None:
         _next_check = core.clock + _RECHECK
+        return
+    _buffer_until = -100.0
+    _start(pc, pawn, full=kind == "full")
 
 
 def on_enable() -> None:
     global _keys_at, _prev_key, _takeoff_feet, _slide_jump_at, _easy
-    global _prev_crouch, _next_check, _buffer_until, _slam, _hit, _push_out, _stand
+    global _prev_crouch, _next_check, _buffer_until, _hold_latch, _hold_up_at, _slam, _hit, _push_out, _stand
     # Pre-Sequel already has Oz slam. This feature is the Borderlands 2 slam.
     if not game.is_bl2():
         return
     _prev_crouch = False
     _next_check = -100.0
     _buffer_until = -100.0
+    _hold_latch = False
+    _hold_up_at = -100.0
     _stand = 0
     _keys_at = -100.0
     _prev_key = False
