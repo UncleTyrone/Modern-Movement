@@ -1,3 +1,5 @@
+[← Home](../../README.md)
+
 # `features/slam.py`
 
 Borderlands 2 only. `game.is_bl2()` gates the tick. The Pre-Sequel does not register this feature, and Oz slam stays the game's own.

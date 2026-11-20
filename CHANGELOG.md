@@ -1,3 +1,5 @@
+[← Home](README.md)
+
 # Changelog
 
 All notable changes to this project are documented in this file.
@@ -83,6 +85,7 @@ The last shipped Pre-Sequel package is **3.61.2**. The next minor is **3.62.0**.
 - Willow2 Mod Manager v3.8 (Slammer) is required: Base 1.12, Networking 1.2, Keybinds 1.2, and UI Utils 1.5. Dash, slide, jump, mantle, surge, and slam travel on the Networking host endpoints. Crouch hold and release use the same InputKey event the keybinds module uses.
 - The live package is `src/Modern_Movement`. The original Borderlands 2 source is `archive/borderlands-2/Modern_Movement`. The frozen packages are `archive/borderlands-2.sdkmod` and `archive/pre-sequel-3.61.2.sdkmod`. Install `dist/Modern_Movement.sdkmod`.
 - The installed copy in each game's `sdk_mods` folder is `Modern_Movement.sdkmod` only. The hash file and the manifest stay in `dist`.
+- The home page is `README.md`. It lists every doc page. Each page links back there. There is no separate index.
 
 ## [3.61.2] — shipped Pre-Sequel baseline
 

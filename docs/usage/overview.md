@@ -1,3 +1,5 @@
+[← Home](../../README.md)
+
 # Usage overview
 
 Enable **Modern Movement** in the mod menu. Each feature is its own page, with an Enabled toggle and a Settings submenu. Key bindings sit at the bottom of the mod options. Check them after install.

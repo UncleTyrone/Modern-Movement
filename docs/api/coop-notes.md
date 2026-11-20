@@ -1,3 +1,5 @@
+[← Home](../../README.md)
+
 # Co-op notes
 
 Package **3.62.0** (shipped Pre-Sequel baseline is 3.61.2).

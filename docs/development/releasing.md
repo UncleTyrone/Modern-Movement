@@ -1,3 +1,5 @@
+[← Home](../../README.md)
+
 # Releasing
 
 Maintainer prepares a local commit; the publisher creates the GitHub Release.

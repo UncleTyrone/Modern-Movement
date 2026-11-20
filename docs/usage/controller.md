@@ -1,3 +1,5 @@
+[← Home](../../README.md)
+
 # Controller
 
 Every keyboard binding has a controller twin. Jump / Mantle / Double Jump share the jump button (A). Sprint Surge defaults to the left stick click on controller layouts that support it.

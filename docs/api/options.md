@@ -1,3 +1,5 @@
+[← Home](../../README.md)
+
 # Options
 
 Each feature exposes `OPTIONS` (GroupedOption children) and optional `KEYBINDS` / `HOOKS`. Nested Settings come from `core.settings(children, description)`.

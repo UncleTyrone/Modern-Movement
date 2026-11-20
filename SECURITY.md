@@ -1,3 +1,5 @@
+[← Home](README.md)
+
 # Security Policy
 
 ## Supported versions

@@ -1,3 +1,5 @@
+[← Home](../../README.md)
+
 # Public surface
 
 Intended entry points for tooling and tests:

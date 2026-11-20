@@ -1,3 +1,5 @@
+[← Home](../../README.md)
+
 # Slide
 
 Crouch while sprinting to slide, then let go. In Borderlands 2, hold crouch to slide and let go to stop. Letting go is the cancel. You do not press crouch a second time. A short hold ends when you release it. The slide can start as soon as you are sprinting. Press sprint again after you have let go of sprint and the slide ends then. The time that slide had left is not a wait. The Pre-Sequel already uses that hold. The slide keeps the direction you entered with and loses speed as it goes. It lasts about three quarters as long as the previous coast. Dust, sparks, or splash follow the ground under you, and other players with the mod see that trail. Momentum carries into slide jumps.

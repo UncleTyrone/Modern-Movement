@@ -1,3 +1,5 @@
+[← Home](../../README.md)
+
 # `features/surfacefx.py`
 
 Cosmetic dust, wind, and impact rings for both games. Each game has its own particle list. A missing effect is skipped, and movement does not wait on it.

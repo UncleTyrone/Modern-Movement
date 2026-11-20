@@ -1,3 +1,5 @@
+[← Home](../../README.md)
+
 # Contracts
 
 Hard locks (do not break in PRs):
