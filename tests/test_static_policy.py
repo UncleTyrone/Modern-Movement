@@ -18,10 +18,10 @@ def test_static_policy_script():
     assert result.returncode == 0, result.stderr + result.stdout
 
 
-def test_allowlist_excludes_slam():
+def test_allowlist_ships_bl2_slam():
     import json
 
     payload = json.loads((ROOT / "build" / "package-allowlist.json").read_text(encoding="utf-8"))
-    members = "\n".join(payload["members"]).lower()
-    assert "slam" not in members
-    assert "features/slam.py" in payload.get("exclude_patterns", [])
+    members = payload["members"]
+    assert "Modern_Movement/features/slam.py" in members
+    assert "features/slam.py" not in payload.get("exclude_patterns", [])

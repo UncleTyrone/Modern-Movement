@@ -1,5 +1,6 @@
 # Python
 __pycache__/
+.mm_texloader/
 *.py[cod]
 *$py.class
 *.egg-info/

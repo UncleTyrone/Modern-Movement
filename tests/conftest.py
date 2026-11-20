@@ -8,7 +8,7 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE_ROOT = ROOT / "Pre Sequel Port" / "Source"
+SOURCE_ROOT = ROOT / "src"
 PACKAGE_DIR = SOURCE_ROOT / "Modern_Movement"
 
 _SUBMODULES = (

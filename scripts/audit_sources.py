@@ -16,14 +16,14 @@ except ModuleNotFoundError:  # Python used for workspace tooling may predate 3.1
 
 
 ROOT = Path(__file__).resolve().parents[1]
-ORIGINAL_ARCHIVE = ROOT / "Original" / "Modern Movement.sdkmod"
-PORT_ARCHIVE = ROOT / "Pre Sequel Port" / "Modern_Movement.sdkmod"
-ORIGINAL_SOURCE = ROOT / "Original" / "Source"
-PORT_SOURCE = ROOT / "Pre Sequel Port" / "Source"
+ORIGINAL_ARCHIVE = ROOT / "archive" / "borderlands-2.sdkmod"
+PORT_ARCHIVE = ROOT / "archive" / "pre-sequel-3.61.2.sdkmod"
+ORIGINAL_SOURCE = ROOT / "archive" / "borderlands-2"
+PORT_SOURCE = ROOT / "src"
 REPORTS = ROOT / "reports"
 BUILD = ROOT / "build"
 ALLOWLIST = BUILD / "package-allowlist.json"
-PORT_PACKAGE = ROOT / "Pre Sequel Port" / "Source" / "Modern_Movement"
+PORT_PACKAGE = ROOT / "src" / "Modern_Movement"
 
 
 @dataclass(frozen=True)
@@ -40,6 +40,17 @@ class Member:
 
 def sha256(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
+
+
+def _source_for_member(source: Path, filename: str) -> Path:
+    """The Borderlands 2 archive stores the package as ``Modern Movement/``.
+
+    On disk that tree is ``archive/borderlands-2/Modern_Movement/``. The bytes are unchanged.
+    """
+    legacy = "Modern Movement"
+    if filename == legacy or filename.startswith(legacy + "/"):
+        filename = "Modern_Movement" + filename[len(legacy) :]
+    return source / PurePosixPath(filename)
 
 
 def normalized(name: str) -> str:
@@ -76,7 +87,7 @@ def archive_manifest(archive: Path, source: Path) -> dict:
             casefold_seen.add(folded)
 
             data = b"" if info.is_dir() else bundle.read(info)
-            source_path = source / PurePosixPath(info.filename)
+            source_path = _source_for_member(source, info.filename)
             source_hash = None
             matches = info.is_dir()
             if not info.is_dir() and source_path.is_file():
@@ -186,9 +197,6 @@ def allowlist_checks() -> dict:
         seen.add(member)
         if not safe_member(member):
             problems.append(f"unsafe allowlist path: {member}")
-        lowered = member.casefold()
-        if "slam" in lowered and any(x in lowered for x in ("slam.py", "mm_slam_")):
-            problems.append(f"slam asset must not be packaged: {member}")
         if member.endswith("/"):
             continue
         rel = member.removeprefix("Modern_Movement/").rstrip("/")
@@ -197,6 +205,16 @@ def allowlist_checks() -> dict:
         source_path = PORT_PACKAGE / PurePosixPath(rel)
         if not source_path.is_file():
             problems.append(f"allowlist member missing source: {member}")
+    required_slam = {
+        "Modern_Movement/features/slam.py",
+        "Modern_Movement/textures/mm_slam_bracket.png",
+        "Modern_Movement/textures/mm_slam_bracket.toml",
+        "Modern_Movement/textures/mm_slam_ring.png",
+        "Modern_Movement/textures/mm_slam_ring.toml",
+    }
+    missing_slam = sorted(required_slam.difference(members))
+    if missing_slam:
+        problems.append("BL2 slam assets missing from allowlist: " + ", ".join(missing_slam))
     py_files = sorted(p.relative_to(PORT_PACKAGE).as_posix() for p in PORT_PACKAGE.rglob("*.py"))
     packaged_py = {
         m.removeprefix("Modern_Movement/").rstrip("/")
@@ -220,7 +238,7 @@ def allowlist_checks() -> dict:
 
 
 def loose_textures() -> list[dict]:
-    root = ROOT / "Original" / "custom textures"
+    root = ROOT / "archive" / "borderlands-2" / "textures"
     results: list[dict] = []
     for path in sorted(root.rglob("*")):
         if path.is_file():

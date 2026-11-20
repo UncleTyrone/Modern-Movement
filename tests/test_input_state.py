@@ -13,6 +13,25 @@ def test_input_edges_and_dedup():
     assert release.released == InputBit.JUMP
 
 
+def test_willow_input_key_holds_and_releases():
+    from Modern_Movement import input_state
+
+    input_state.reset_willow_keys()
+    assert input_state.willow_held(("c",)) is None
+    input_state.note_willow_key("C", 0)
+    assert input_state.willow_held(("c",)) is True
+    input_state.note_willow_key("C", 2)
+    assert input_state.willow_held(("c",)) is True
+    input_state.note_willow_key("C", 1)
+    assert input_state.willow_held(("c",)) is False
+    input_state.note_willow_key("LeftControl", "IE_Pressed")
+    assert input_state.willow_held(("leftcontrol",)) is True
+    input_state.note_willow_key("LeftControl", "IE_Released")
+    assert input_state.willow_held(("leftcontrol",)) is False
+    input_state.reset_willow_keys()
+    assert input_state.willow_held(("c",)) is None
+
+
 def test_crouch_suppression_until_release():
     tracker = InputTracker()
     tracker.edge(InputBit.CROUCH, True, frame=1)

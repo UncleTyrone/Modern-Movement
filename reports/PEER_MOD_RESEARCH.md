@@ -6,8 +6,8 @@ Sources cloned under `reports/peer_sources/` on 2026-11-18. Catalog JSON under `
 
 | Slug / mod | URL / path | Files read | Decision |
 |------------|------------|------------|----------|
-| Original Modern Movement 3.61 | `Original/Source/Modern Movement/` | All `.py` + textures | **COPY** HUD/options |
-| Port Modern Movement 3.62 | `Pre Sequel Port/Source/Modern_Movement/` | All `.py` | Audit baseline |
+| Original Modern Movement 3.61 | `archive/borderlands-2/Modern_Movement/` | All `.py` + textures | **COPY** HUD/options |
+| Port Modern Movement 3.62.0 | `src/Modern_Movement/` | All `.py` | Working tree, next minor after shipped 3.61.2 |
 | juso Sliding | `peer_sources/bl2sdk-mods/sliding/__init__.py` | Full | **COPY** CrouchedPct + FP arms; no Mesh dip |
 | BL2 Eternal dash | `peer_sources/bl2sdk-mods/bl2eternal/mechanics/dashing.py` | Full | **KEEP** host Velocity hold (already) |
 | Eternal glorykill | `.../glorykill.py` | Skim | **REJECT** |

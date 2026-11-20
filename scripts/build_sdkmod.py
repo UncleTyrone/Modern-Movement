@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Deterministic TPS Modern_Movement.sdkmod builder (never overwrites supplied archives)."""
+"""Deterministic Modern_Movement.sdkmod builder. Never overwrites the archives in archive/."""
 
 from __future__ import annotations
 
@@ -10,15 +10,15 @@ import zipfile
 from pathlib import Path, PurePosixPath
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE = ROOT / "Pre Sequel Port" / "Source" / "Modern_Movement"
+SOURCE = ROOT / "src" / "Modern_Movement"
 ALLOWLIST = ROOT / "build" / "package-allowlist.json"
 DIST = ROOT / "dist"
 OUTPUT = DIST / "Modern_Movement.sdkmod"
 SHA_PATH = DIST / "Modern_Movement.sdkmod.sha256"
 
 PROTECTED_ARCHIVES = (
-    ROOT / "Original" / "Modern Movement.sdkmod",
-    ROOT / "Pre Sequel Port" / "Modern_Movement.sdkmod",
+    ROOT / "archive" / "borderlands-2.sdkmod",
+    ROOT / "archive" / "pre-sequel-3.61.2.sdkmod",
 )
 
 FIXED_TIMESTAMP = (2020, 1, 1, 0, 0, 0)

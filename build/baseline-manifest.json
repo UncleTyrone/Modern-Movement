@@ -79,7 +79,7 @@
   "original_archive": {
     "bad_crc_member": null,
     "file_count": 34,
-    "path": "Original/Modern Movement.sdkmod",
+    "path": "archive/borderlands-2.sdkmod",
     "sha256": "d9431034750f6a8739841220a60a8da391f5a20772eb3affb3fedb4c8774278e",
     "size": 280959,
     "unsafe_members": []
@@ -87,7 +87,7 @@
   "port_archive": {
     "bad_crc_member": null,
     "file_count": 35,
-    "path": "Pre Sequel Port/Modern_Movement.sdkmod",
+    "path": "archive/pre-sequel-3.61.2.sdkmod",
     "sha256": "4f7c1fbeda6bc75e1d624123e323f109e716fc0d3b0ca2026939aee1919a2429",
     "size": 283802,
     "unsafe_members": []

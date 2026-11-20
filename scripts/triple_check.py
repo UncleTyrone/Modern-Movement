@@ -10,11 +10,11 @@ ROOT = Path(__file__).resolve().parents[1]
 
 ARCHIVES = [
     (
-        ROOT / "Original" / "Modern Movement.sdkmod",
+        ROOT / "archive" / "borderlands-2.sdkmod",
         "d9431034750f6a8739841220a60a8da391f5a20772eb3affb3fedb4c8774278e",
     ),
     (
-        ROOT / "Pre Sequel Port" / "Modern_Movement.sdkmod",
+        ROOT / "archive" / "pre-sequel-3.61.2.sdkmod",
         "4f7c1fbeda6bc75e1d624123e323f109e716fc0d3b0ca2026939aee1919a2429",
     ),
 ]
@@ -30,7 +30,10 @@ def main() -> None:
     with zipfile.ZipFile(ROOT / "dist" / "Modern_Movement.sdkmod") as bundle:
         names = set(bundle.namelist())
     print(f"zip_eq_allowlist: {allowlist == names}")
-    print(f"slam_in_zip: {any('slam' in name.lower() for name in names)}")
+    slam_in_zip = any("features/slam.py" in name.lower() for name in names)
+    print(f"slam_in_zip: {slam_in_zip}")
+    if not slam_in_zip:
+        raise SystemExit("BL2 slam.py missing from package")
     print(f"member_count: {len(names)}")
     dist_sha = (ROOT / "dist" / "Modern_Movement.sdkmod.sha256").read_text().split()[0]
     notes = (ROOT / "reports" / "RELEASE_NOTES.md").read_text(encoding="utf-8")

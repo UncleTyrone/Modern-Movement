@@ -1,3 +1,7 @@
+[← Home](../../README.md)
+
 # Sprint Surge
 
-Press sprint again while already sprinting for a ramping speed boost. Press the surge key again to end early. The Sprint Surge Indicator draws arcs beside the crosshair; Camera Tilt leans the view forward while active.
+Press sprint again while already sprinting for a ramping speed boost. In Borderlands 2 the first press of sprint only sprints. The super sprint starts on the next press, once that sprint is already going. That second press works with the gun out and with it already holstered. Press the surge key again to end early. Starting another surge after that works for you and for other players. The surge key starts the next one even when the sprint flag has dropped. The Sprint Surge Indicator draws arcs beside the crosshair; Camera Tilt leans the view forward while active.
+
+The boost multiplies the run you already have, from +30% up to +70%. A sprint is included in that run. It does not stack on itself, and a jump stays a normal jump. Other players get that same multiplier. The host does not push them any faster, so the run does not stutter or snap back. Sprint Surge Speed Ramp Up is how many seconds that climb takes. 0 is instant. 3 is the default. 10 is the longest climb, not a 10x speed. Each player keeps their own value.

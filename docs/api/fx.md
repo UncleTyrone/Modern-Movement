@@ -1,3 +1,5 @@
+[← Home](../../README.md)
+
 # `fx.py`
 
-Sound and particle helpers shared by features. Missing TPS assets are skipped quietly after one log.
+Sound and particle helpers shared by features. Missing assets are skipped quietly after one log. A dash plays the Longbow teleport whoosh. On The Pre-Sequel the Oz air boost is tried first. A slide does not play that whoosh. It repeats a ground footstep for the whole slide. Super sprint does not play it either. A slam plays only the impact: the footstep land, and on a full Borderlands 2 slam the small explosive crack. There is no dive whoosh. `features/surfacefx.py` loads each effect's package once, then looks up that ParticleSystem and spawns it with a location and a rotator. Borderlands 2 and The Pre-Sequel use separate path lists. A dash, a sprint, a slide, and a slam each spawn their own burst. Movement does not wait on a missing effect.

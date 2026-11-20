@@ -1,0 +1,20 @@
+{
+  "games": {
+    "BL2": {
+      "returncode": 0,
+      "stdout": "HARNESS_GAME_OK BL2 features=Double Jump,Dash,Misc,Sprint Surge,Mantle/Vault,Slide,Surface,Slam\n",
+      "stderr": ""
+    },
+    "TPS": {
+      "returncode": 0,
+      "stdout": "HARNESS_GAME_OK TPS features=Double Jump,Dash,Misc,Sprint Surge,Mantle/Vault,Slide,Surface\n",
+      "stderr": ""
+    }
+  },
+  "text_files": 155,
+  "lines": 28980,
+  "audited_lines": 28980,
+  "binary_files": 33,
+  "failures": [],
+  "success": true
+}

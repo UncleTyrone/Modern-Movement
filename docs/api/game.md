@@ -1,3 +1,5 @@
+[← Home](../../README.md)
+
 # `game.py`
 
-Thin Willow engine accessors used by features (world/pawn helpers). Prefer going through `core` when a helper already exists.
+Detects the running game. `BL2` and `TPS` are supported. Custom Slam is armed only when `is_bl2()` is true. Anything else fails closed and features stay disabled.

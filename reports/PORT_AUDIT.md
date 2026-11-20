@@ -1,10 +1,10 @@
 # Modern Movement supplied-source audit
 
 ## Immutable inputs
-- Original archive: `Original/Modern Movement.sdkmod`
+- Original archive: `archive/borderlands-2.sdkmod`
   - SHA-256: `d9431034750f6a8739841220a60a8da391f5a20772eb3affb3fedb4c8774278e`
   - 34 files; extraction was hash-verified before implementation edits.
-- TPS port archive: `Pre Sequel Port/Modern_Movement.sdkmod`
+- Pre-Sequel 3.61.2 archive: `archive/pre-sequel-3.61.2.sdkmod`
   - SHA-256: `4f7c1fbeda6bc75e1d624123e323f109e716fc0d3b0ca2026939aee1919a2429`
   - 35 files; extraction was hash-verified before implementation edits.
 

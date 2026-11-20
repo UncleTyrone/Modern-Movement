@@ -1,18 +1,22 @@
-# Modern Movement 3.62.2
+# Modern Movement 3.62.0
 
-Borderlands: The Pre-Sequel movement package for the Willow2 SDK. Double Jump, Dash, Mantle, Slide, Holster, and Sprint Surge ship together in one `Modern_Movement.sdkmod`.
+Next minor after the shipped Pre-Sequel package 3.61.2. The same file runs in Borderlands 2 and Borderlands: The Pre-Sequel. Double Jump, Dash, Mantle, Slide, Holster, and Sprint Surge ship in both games. Borderlands 2 also gets Slam. The Pre-Sequel keeps native Oz slam. Pre-release work stays on 3.62.0.
 
 **Package:** `dist/Modern_Movement.sdkmod`  
-**SHA-256:** `c97876c29b893a226f48948b2cc619562084f7705a2ec01df2bdc123e8b1ed0a`
+**SHA-256:** `2044cb8779a9057a74c90fe1ee12d09913519cd2af1dd75d9fe8bde461c490e5`
 
-Install this exact file on every peer who wants the abilities. Confirm the hash against `dist/Modern_Movement.sdkmod.sha256` before enabling it. A 3.62.1 package will not coast joiner slides.
+Install this exact file on every peer who wants the abilities, in that game's `sdk_mods` folder. Confirm the hash against `dist/Modern_Movement.sdkmod.sha256` before enabling it. Use the same file on Borderlands 2 and on The Pre-Sequel.
 
 ## Highlights
 
+- The same package loads in Borderlands 2 and The Pre-Sequel. Borderlands 2 includes Slam. The Pre-Sequel leaves Oz slam alone.
+- Releasing crouch cancels a joiner slide. The slide ends when crouch is released.
+- Fast travel re-handshakes co-op. Joiners come back with movement instead of a dead session.
+- Slide Speed (%) sits next to Slide Distance. Default is 120, so slides are a little faster. Distance still sets how long they last.
 - Joiner slides keep going after you release forward. Crouch starts the slide; you do not have to hold the movement key.
 - Listen host owns custom movement. Joiners send intents and keep their own option values.
 - Jump Counter HUD (`mm_jump_chev`) defaults off. Dash Ready Indicator defaults on.
-- Native TPS Slam and Oz AirBoost stay in the game. Custom Slam is omitted from this package.
+- On The Pre-Sequel, native Slam and Oz AirBoost stay in the game. Custom Slam stays off there.
 
 ## Features
 
@@ -21,49 +25,96 @@ Install this exact file on every peer who wants the abilities. Confirm the hash 
 | Double Jump | Mid-air boost, coyote time, optional jump-counter chevrons |
 | Dash | Ground or air dash, ready pip, optional damage reduction and perfect-dodge burst |
 | Mantle / Vault | Ledge climbs and low-obstacle vaults |
-| Slide | Sprint-crouch slide. On co-op, releasing forward keeps the entry-direction coast |
+| Slide | Sprint-crouch slide. Speed and distance are separate. Releasing forward keeps the coast |
+| Surface | Dust, sparks, splash, and snow from the ground you slide on, plus a cool wind burst in the air |
 | Holster | Manual holster and sprint holster |
 | Sprint Surge | Second sprint press for a speed boost that ramps up |
+| Slam | Borderlands 2. Hold crouch in the air to dive, even from a short hop, with a landing blast, a dust ring, and an indicator |
 
 Players who do not install the mod can still join. Their movement stays vanilla.
 
-## Changes in 3.62.2
+## Changes since 3.61.2
+
+These notes are the whole 3.62.0 delta from the shipped 3.61.2 package.
+
+### Added
+
+- Host-authoritative co-op. The listen host writes custom movement. Joiners send intents and keep their own option values.
+- Borderlands 2 and The Pre-Sequel both load this package. Slam is included on Borderlands 2, with the indicator and a host dive so a joiner's plunge is written on the server pawn. The Pre-Sequel keeps native Oz slam.
+- Slide Speed (%) beside Slide Distance. Default 120. 100 is the previous coast.
+- Jump Counter HUD, off by default, and a Dash Perfect Dodge Effect toggle.
+- Per-player Slide Distance and Double Jump strength / extra jumps.
+
+### Changed
+
+- Dash Ready Indicator defaults on. Camera and feel sliders are under each feature's Settings.
+- Controller Dash and Toggle Holster start unbound. Gravity samples use a 300 floor on Borderlands 2 and accept moon gravity down to 60 on The Pre-Sequel.
 
 ### Fixed
 
-- Joiner slides stopped as soon as forward was released. CrouchedPct only raises the engine crouch-speed cap, so the game braked with no movement input. The joiner and the host now re-apply the entry-direction speed, including after PlayerMove, the same way a local slide coasts.
-- `server_slide_enter` sends that entry direction with the crouched percent and Slide Distance.
-
-## Included from 3.62.1
-
-- Jump Counter HUD, off by default, and a Dash Perfect Dodge Effect toggle.
-- Per-player Slide Distance and Double Jump strength / extra jumps. The host menu does not override the joiner.
-- Camera and feel sliders are back under each feature's Settings.
-- Dash Ready Indicator defaults on.
-
-## Included from 3.62.0
-
-- Host-authoritative movement through `coop_rpc` (Networking 1.2). Clients send intents; the listen host writes custom movement.
-- TPS-only package. Controller Dash and Toggle Holster start unbound.
-- Custom Slam is excluded. Slide exits clear crouch so native Slam is left unarmed.
+- Joiner slides keep the entry-direction coast after forward is released. `server_slide_enter` sends that direction with the crouched percent, Slide Distance, and Slide Speed. The joiner and the host re-apply the speed, including after PlayerMove.
+- Releasing crouch cancels a joiner slide and tells the host to stand that body back up. The host copy waits for the exit.
+- Fast travel and level changes send a fresh HELLO. An empty loading roster does not drop peers. Slide, dash, mantle, and slam holds from the old pawn are dropped.
+- Joiner slide meters drain steadily and clear when the slide ends. A noisy height no longer freezes, refills, or jitters the bar, and it no longer leaves them sliding afterward.
+- Joiner dashes work from a standstill on the ground. The dash leaves walking instead of requiring them to already be in the air.
+- Sprint Surge starts when you press sprint again while already holstered, the same as with the gun out.
+- Joiner dashes wait out the dash cooldown. The ready hex fills during that wait, and mashing dash does not fire another one early.
+- Slides are about three quarters as long, and they start losing speed earlier instead of holding full speed until the end.
+- Slides kick up the surface you are on, and an air dash leaves a cool wind burst. Other players running the mod see those effects on your body.
+- Slides no longer stutter. The coast uses a small push, and the crouch cap is the slide speed, so walking physics cannot lunge ahead and get snapped back.
+- Joiner dashes keep the fall they already have. The host hold no longer rewrites Z every tick.
+- Surface dust uses particles the game already has loaded. The slide coast does not stop to search the particle list or fire a trace.
+- Holding crouch through a slide jump slides again on landing, once the jump has actually been in the air. A hop that touches down immediately does not start another slide. A new crouch press in the air still slams, and holding crouch through that slam slides away when you land.
+- Other players can move again. The host no longer runs slide-cancel input on a joiner's server pawn, which was blocking their crouch and cancelling their dash. Each player slide-cancels from their own held crouch. The host still coasts the slide it was told about.
+- A joiner dash that lands during the short hold is put back into falling without rewriting vertical speed, so the burst is not clamped to run speed.
+- A joiner slide jump stays up. The host holds that launch for a moment, and a rising jump keeps its own vertical speed.
+- Sliding down a ramp or stairs lasts longer. One height bump does not stretch the slide.
+- `Modern_Movement.log.txt` is written next to the installed sdkmod. It records enable, handshake, and dash or slide starts and refusals for that player.
+- Other players get dash, slide, and jumps. A joining client was treated as the host, so those moves never reached the listen host and only the weapon holster showed up.
+- Slide cancel continues only while you hold crouch. Landing from a slide jump without the crouch key does not start another slide.
+- Other players' dash, slide, and jump are applied on the listen host. Those messages were arriving and then being dropped because the joiner's pawn could not be found, so only holstering showed up.
+- Slide cancel happens only while the crouch key is down at landing. Letting go before you land does not start another slide.
+- Sprint, jump, and hold crouch. You slide when you land or slam, with no slide before that jump. The crouch key has to still be down. Letting go does not slide.
+- A landing slide, including a slide cancel and a slam exit, goes the way you are facing and keeps going. Turning around does not cancel the landing or send you backward. You keep the speed from before the landing.
+- Slide cancel works while you hold crouch. The landing was skipped because a held crouch button was read as up. Releasing crouch still does not slide.
+- Pressing crouch while you are already sliding does not start another slide. Leaving the ground no longer starts a slide in the air, and the gun returns upright when the slide ends.
+- Crouch while sprinting starts another slide after the last one. The sprint already held was ending that slide and then blocking the next press.
+- The super sprint key starts another surge after the last one.
+- Running at a low obstacle and pressing jump vaults onto it. The ledge check was crashing as soon as it found a wall.
+- Dash arrows, the slide bar, the ready pip, and the surge arcs draw on the HUD again. They were being painted on a canvas the game covered.
+- A ramp or a run of stairs keeps the slide fast for the whole longer run. It was stretching the time and then leaving you at a crouch walk.
+- Other players with Sprint Surge get the speed boost, not only the arcs. Their ramp slider is how many seconds they take to climb from +30% to +70%. 10 is the longest climb, not ten times speed. The host rewrites that speed on its own tick.
+- Other players slide cancel while they hold crouch. The jump's uncrouch was being read as letting go.
+- The gun comes back up when you are not sliding. A chain of slides was leaving it tilted, and the settle-back was painting that lean on again.
+- Other players' slide jumps stay in the air. A second stand-up after the launch was pulling the landing slide back down.
+- Sprint surge multiplies the run you already have, from +30% to +70%. Other players get that same multiplier, and the host does not push them faster than that.
+- Borderlands 2: super sprint waits until you press sprint again while already sprinting. Hold crouch to slide and let go to stop. The Pre-Sequel hold is unchanged.
+- Borderlands 2: hold crouch while you run and jump. A high jump slams. A short hop pulls you down once it has peaked. That crouch does not turn the slam into a slide. A slide-cancel hold still slides on landing.
+- The slide bar shrinks across the slide and is empty when the slide ends. The next slide can start as soon as that one ends.
+- Dash wind, a light sprint streak, and a circular slam impact. Each game uses its own effects.
+- A dash plays a whoosh. The beep is only the ready tone. A slide is only the ground scrape. A slam plays the impact when you land, and nothing on the way down. Super sprint does not add a whoosh. The Pre-Sequel slam uses the Oz slam sound.
+- Borderlands 2 pulls you down only while crouch is held. Letting go, or jumping without crouch, leaves the jump alone. A slam does not lock sliding, and the next slide can start as soon as the last one ends.
+- Borderlands 2: hold crouch to slide and let go to end it, including a short hold. A second press is not the cancel. The same hold slams a high jump and pulls a short hop down after it peaks.
+- Press sprint again after you let go of sprint and the slide ends then. The time that slide had left is not a wait. The sprint you were already holding does not end it.
+- PythonSDK Willow2 v3.8 (Slammer) is required. Base 1.12, Networking 1.2, Keybinds 1.2, and UI Utils 1.5 are checked on enable. Dash, slide, jump, mantle, surge, and slam use the Networking host calls. Crouch hold follows the same InputKey event as the keybinds module.
 
 ## Install
 
 1. Remove or disable any older Modern Movement package (Borderlands 2 builds, loose folders, or a second copy).
-2. Copy `Modern_Movement.sdkmod` into the Willow2 `sdk_mods` folder.
+2. Copy `Modern_Movement.sdkmod` into both `sdk_mods` folders: Borderlands 2 and The Pre-Sequel. A build from this tree copies that package only into `D:\SteamLibrary\steamapps\common\Borderlands 2\sdk_mods` and `D:\SteamLibrary\steamapps\common\BorderlandsPreSequel\sdk_mods`. The hash file and the manifest stay in `dist`.
 3. Enable the mod and check key bindings at the bottom of the mod options.
 4. Restart the game after copying the file so hooks and keybinds load.
 
 Full steps: [docs/INSTALL.md](../docs/INSTALL.md).
 
-texloader is optional. Without a TPS-capable texloader fork, indicators draw as lines and gameplay is unchanged. Controller Dash and Toggle Holster start unbound; rebind them in the menu if you want them on a pad.
+HUD images ship in this package. Borderlands 2 and The Pre-Sequel each use their own included texture loader, so a separate texloader install is not required. If an image cannot be created, that indicator draws with lines. Controller Dash and Toggle Holster start unbound; rebind them in the menu if you want them on a pad.
 
 ## Verification
 
-Automated checks in this tree cover protocol, runtime, rules, gravity, input, the package allowlist, and dual-player co-op unit tests (`pytest`, 49 passed), plus a deterministic sdkmod build.
+Automated checks in this tree cover protocol, runtime, rules, gravity, input, the package allowlist, travel recovery, dual-player co-op unit tests, a dual-game boot harness, and the installed Willow2 helper check (`pytest`, 117 passed), plus a deterministic sdkmod build. The harness boots the package as Borderlands 2 (Slam loaded) and as The Pre-Sequel (Slam not loaded) and reads every shipped source line.
 
 Releasing forward on a joiner slide is covered by those unit tests and remains **LIVE_REQUIRED** in a real two-player session. Track that in [LIVE_VALIDATION.md](LIVE_VALIDATION.md) and [CAPABILITY_MATRIX.md](CAPABILITY_MATRIX.md).
 
 ## Rollback
 
-Keep the supplied `Pre Sequel Port/Modern_Movement.sdkmod` archive unchanged as the known-good pre-co-op rollback artifact. Load either that archive or this co-op package in a session, not both.
+Keep `archive/pre-sequel-3.61.2.sdkmod` unchanged as the known-good 3.61.2 rollback artifact. Load either that archive or this package in a session, not both. Do not overwrite `archive/borderlands-2.sdkmod`.
