@@ -459,7 +459,7 @@ def _dash_pressed_impl(direction_code: str | None = None) -> bool:
 
     pc = ctx.controller
     pawn = ctx.pawn
-    if pawn is None or core.unusable(pawn):
+    if pawn is None or core.unusable(pawn) or core.downed(pawn):
         return False
 
     # Air dashes, plus ground dashes with Ground Dash on (not while swimming, climbing, etc.).
@@ -655,6 +655,13 @@ def _tick(pc, pawn, dt) -> None:
     state = _state()
     ctx = core.current_context()
     if ctx is None:
+        return
+    if pawn is not None and core.downed(pawn):
+        if state.dash is not None:
+            _end(pawn, "downed", restore=False, lock=False)
+        if ctx.local:
+            global _CLIENT_DASH
+            _CLIENT_DASH = None
         return
     # Eternal services host dashes from a global tick; we use the local player's tick.
     if ctx.local:
@@ -979,6 +986,9 @@ def _dash_request() -> None:
             return
         if cool > 0.0 and core.clock - state.last_end < cool:
             _dash_refuse("cooldown", role=ctx.role.value)
+            return
+        if core.downed(pawn):
+            _dash_refuse("downed", role=ctx.role.value)
             return
         phys = int(pawn.Physics)
         if phys == core.PHYS_WALKING and air_only_option.value:

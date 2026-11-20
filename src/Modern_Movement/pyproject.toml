@@ -5,8 +5,7 @@ description = "Modern Movement 3.62.0 for Borderlands 2 and The Pre-Sequel. Next
 readme = false
 requires-python = ">=3.10"
 authors = [
-    { name = "Jinxxtt" },
-    { name = "TPS co-op port and packaging maintainers" },
+    { name = "UncleTyrone" },
 ]
 
 [project.entry-points."sdkmods"]

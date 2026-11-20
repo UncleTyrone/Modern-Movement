@@ -301,6 +301,58 @@ def unusable(pawn) -> bool:
     return False
 
 
+def downed(pawn) -> bool:
+    """True while this player is down and waiting to be revived.
+
+    Fight For Your Life still has health, including when the down starts in the
+    air, so a health check does not catch it. Both games use the same injured flag.
+    """
+    if pawn is None:
+        return False
+    try:
+        flag = pawn.bIsInjured
+    except Exception:  # noqa: BLE001
+        flag = None
+    if flag is not None and bool(flag):
+        return True
+    try:
+        injured = pawn.IsInjured
+    except Exception:  # noqa: BLE001
+        injured = None
+    if callable(injured):
+        try:
+            if bool(injured()):
+                return True
+        except Exception:  # noqa: BLE001
+            pass
+    try:
+        controller = pawn.Controller
+    except Exception:  # noqa: BLE001
+        controller = None
+    if controller is None:
+        return False
+    try:
+        in_state = controller.IsInState
+    except Exception:  # noqa: BLE001
+        in_state = None
+    if callable(in_state):
+        try:
+            if bool(in_state("Injured")):
+                return True
+        except Exception:  # noqa: BLE001
+            pass
+    try:
+        state_name = controller.GetStateName
+    except Exception:  # noqa: BLE001
+        state_name = None
+    if callable(state_name):
+        try:
+            return str(state_name()) == "Injured"
+        except Exception:  # noqa: BLE001
+            return False
+    return False
+
+
 def facing(pc) -> tuple[float, float]:
     """Flat (x, y) unit vector for the way the camera / controller is facing."""
     yaw = int(pc.Rotation.Yaw) * (2.0 * math.pi / 65536.0)
@@ -685,6 +737,9 @@ def _jump_logic() -> None:
         if pawn is None or unusable(pawn):
             _jump_note("unusable")
             return
+        if downed(pawn):
+            _jump_note("downed")
+            return
         try:
             p = int(pawn.Physics)
         except Exception:  # noqa: BLE001
@@ -718,6 +773,9 @@ def _jump_logic() -> None:
     pc, pawn = ctx.controller, ctx.pawn
     if pawn is None or unusable(pawn):
         _jump_note("unusable", role=ctx.role.value)
+        return
+    if downed(pawn):
+        _jump_note("downed", role=ctx.role.value)
         return
     try:
         p = int(pawn.Physics)

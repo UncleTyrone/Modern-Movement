@@ -1313,6 +1313,100 @@ def test_slide_jump_chains_only_while_crouch_is_held(monkeypatch):
         core.clock = previous
 
 
+def test_sprint_jump_uses_the_slide_cancel_chain(monkeypatch):
+    """Sprint, jump, then hold crouch: the landing is the same chain as a slide cancel.
+
+    No slide before the jump. The crouch press itself is not what saves the run.
+    A release before landing does not slide. A walk that is too slow does not either.
+    """
+    pawn = _Pawn(physics=core.PHYS_WALKING)
+    pawn.Velocity = _Vec(900.0, 0.0, 0.0)
+    pc = _PC()
+    pc.bDuck = 0
+    held = {"down": False}
+    monkeypatch.setattr(slide, "_crouch_held", lambda _pc: held["down"])
+    monkeypatch.setattr(slide, "landing_option", SimpleNamespace(value=False))
+    ctx = REGISTRY.observe(pc, ExecutionRole.LOCAL_STANDALONE, 10.0, pawn)
+    previous = core.clock
+    try:
+        ctx.clock = 10.0
+        core.execute(ctx, slide._note_sprint_jump, pc, pawn)
+        state = slide._state(ctx)
+        assert state.slide_jump is not None
+        assert state.chain is None
+        jumped_at = state.slide_jump["at"]
+        pawn.Physics = core.PHYS_FALLING
+        pawn.Velocity = _Vec(900.0, 0.0, 400.0)
+        held["down"] = True
+        core.execute(ctx, slide._tick, pc, pawn, 1.0 / 60.0)
+        assert state.chain is not None
+        assert state.chain["at"] == jumped_at
+        assert state.slide is None
+        ctx.clock = jumped_at + 0.45
+        pawn.Physics = core.PHYS_WALKING
+        pawn.bWantsToCrouch = False
+        pawn.bIsCrouched = False
+        core.execute(ctx, slide._tick, pc, pawn, 1.0 / 60.0)
+        assert state.slide is not None
+    finally:
+        core.clock = previous
+        REGISTRY.retire(ctx, "test")
+        core.busy = None
+
+    early = _Pawn(physics=core.PHYS_WALKING)
+    early.Velocity = _Vec(900.0, 0.0, 0.0)
+    early_pc = _PC()
+    early_ctx = REGISTRY.observe(early_pc, ExecutionRole.LOCAL_STANDALONE, 13.0, early)
+    try:
+        early_ctx.clock = 20.0
+        held["down"] = False
+        core.execute(early_ctx, slide._note_sprint_jump, early_pc, early)
+        early.Physics = core.PHYS_FALLING
+        held["down"] = True
+        core.execute(early_ctx, slide._tick, early_pc, early, 1.0 / 60.0)
+        early.Physics = core.PHYS_WALKING
+        core.execute(early_ctx, slide._tick, early_pc, early, 1.0 / 60.0)
+        assert slide._state(early_ctx).slide is None
+    finally:
+        core.clock = previous
+        REGISTRY.retire(early_ctx, "test")
+        core.busy = None
+
+    slow = _Pawn(physics=core.PHYS_WALKING)
+    slow.Velocity = _Vec(100.0, 0.0, 0.0)
+    slow_pc = _PC()
+    slow_ctx = REGISTRY.observe(slow_pc, ExecutionRole.LOCAL_STANDALONE, 11.0, slow)
+    try:
+        core.execute(slow_ctx, slide._note_sprint_jump, slow_pc, slow)
+        assert slide._state(slow_ctx).slide_jump is None
+    finally:
+        REGISTRY.retire(slow_ctx, "test")
+
+    released = _Pawn(physics=core.PHYS_WALKING)
+    released.Velocity = _Vec(900.0, 0.0, 0.0)
+    rel_pc = _PC()
+    rel_ctx = REGISTRY.observe(rel_pc, ExecutionRole.LOCAL_STANDALONE, 12.0, released)
+    try:
+        rel_ctx.clock = 12.0
+        held["down"] = False
+        core.execute(rel_ctx, slide._note_sprint_jump, rel_pc, released)
+        released.Physics = core.PHYS_FALLING
+        held["down"] = True
+        core.execute(rel_ctx, slide._tick, rel_pc, released, 1.0 / 60.0)
+        assert slide._state(rel_ctx).chain is not None
+        held["down"] = False
+        core.execute(rel_ctx, slide._tick, rel_pc, released, 1.0 / 60.0)
+        assert slide._state(rel_ctx).chain is None
+        rel_ctx.clock = 12.5
+        released.Physics = core.PHYS_WALKING
+        core.execute(rel_ctx, slide._tick, rel_pc, released, 1.0 / 60.0)
+        assert slide._state(rel_ctx).slide is None
+    finally:
+        core.clock = previous
+        REGISTRY.retire(rel_ctx, "test")
+        core.busy = None
+
+
 def test_sprint_jump_held_crouch_slides_on_landing(monkeypatch):
     """Sprint, jump, hold crouch, land: slide. No slide before the jump, and the landing option stays off."""
     pawn = _Pawn(physics=core.PHYS_FALLING)

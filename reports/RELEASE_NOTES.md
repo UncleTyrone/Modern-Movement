@@ -3,12 +3,14 @@
 Next minor after the shipped Pre-Sequel package 3.61.2. The same file runs in Borderlands 2 and Borderlands: The Pre-Sequel. Double Jump, Dash, Mantle, Slide, Holster, and Sprint Surge ship in both games. Borderlands 2 also gets Slam. The Pre-Sequel keeps native Oz slam. Pre-release work stays on 3.62.0.
 
 **Package:** `dist/Modern_Movement.sdkmod`  
-**SHA-256:** `ae8ab0eefea7c8f068e6f13c9a682a9fc97c4fc5fa753fd845d94e5be8251d16`
+**SHA-256:** `5117b71aa926c97d7e0ac21a470e6b0c6e12fa0f424318b1f598d2a4565acef2`
 
 Install this exact file on every peer who wants the abilities, in that game's `sdk_mods` folder. Confirm the hash against `dist/Modern_Movement.sdkmod.sha256` before enabling it. Use the same file on Borderlands 2 and on The Pre-Sequel.
 
 ## Highlights
 
+- While you are down and waiting for a revive, dash and double jump do nothing. A down that starts in the air is the same. Both games.
+- Sprint, then jump, then hold crouch, and you land in a slide. You do not have to slide first. It is the same hold and the same moment in the air as a slide cancel, in both games.
 - A slide no longer restarts itself at the beginning. A dash and a double jump use the slide dust. The slam ring is that dust, darker.
 - Dust, wind, and the slam ring use effects that are actually in the game. A crouch on the ground stays a slide. The slam landing no longer drops the camera through the floor.
 - Borderlands 2 slam needs real air. A slide does not become a slam. A high jump slams while you are moving, including after a slide jump. The Pre-Sequel slide lets go the same way Borderlands 2 does.

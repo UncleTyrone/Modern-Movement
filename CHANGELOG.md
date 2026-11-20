@@ -26,6 +26,7 @@ The last shipped Pre-Sequel package is **3.61.2**. The next minor is **3.62.0**.
 - Controller Dash and Toggle Holster start unbound so they do not take the D-pad weapon slots. Rebind them in the menu if you want them.
 - Gravity samples keep the original 300 floor on Borderlands 2 and accept moon gravity down to 60 on The Pre-Sequel.
 - The package allowlist ships the jump-counter textures and the Borderlands 2 slam textures.
+- The mod menu lists UncleTyrone as the author.
 
 ### Fixed
 
@@ -34,6 +35,8 @@ The last shipped Pre-Sequel package is **3.61.2**. The next minor is **3.62.0**.
 - A dash and a double jump kick up the same dust as a slide. The slam ring stays the ground burst, darker and easier to see.
 - Borderlands 2: crouching on the ground slides. A trace that hits a floor under your feet is not a slam, and the crouch that dips the capsule for a frame is still a slide.
 - A slam landing no longer drops the camera through the floor. The impact shake stays inside the body.
+- Sprint, then jump, then hold crouch, and you land in a slide. You do not have to slide before that jump. It is the same hold, the same moment in the air, and the same let-go as a slide cancel, in both games.
+- While you are down and waiting for a revive, dash and double jump do nothing. A down that starts in the air is the same. Both games.
 
 - Joiner slides keep their entry-direction coast after forward is released. The joiner and the host both re-apply that speed, including after PlayerMove.
 - Releasing crouch cancels a joiner slide and tells the host to stand that body back up. The host copy waits for that exit, because it does not see the joiner's crouch key.

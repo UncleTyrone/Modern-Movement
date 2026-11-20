@@ -2312,6 +2312,48 @@ def try_consume_jump(pc, pawn) -> bool:
     return True
 
 
+def _note_sprint_jump(pc, pawn) -> None:
+    """A fast jump with no slide keeps that run. Holding crouch then lands like a slide cancel.
+
+    The crouch press in the air was the only thing that armed this, and that press
+    is gone by the time you land. The slide cancel does not depend on it. This
+    saves the same link at the moment of the jump, in both games. A later hold
+    arms the chain. A release clears it. A walk that is too slow to slide does not.
+    """
+    state = _state()
+    if not enabled_option.value or pawn is None or core.unusable(pawn):
+        return
+    if state.slide is not None or state.slide_jump is not None:
+        return
+    try:
+        if int(pawn.Physics) != core.PHYS_WALKING:
+            return
+    except Exception:  # noqa: BLE001
+        return
+    try:
+        vx = float(pawn.Velocity.X)
+        vy = float(pawn.Velocity.Y)
+    except Exception:  # noqa: BLE001
+        return
+    speed = math.hypot(vx, vy)
+    try:
+        need = _walk_speed(pawn) * float(min_speed_slider.value) / 100.0
+    except Exception:  # noqa: BLE001
+        need = 1.0
+    if speed < max(need, 1.0):
+        return
+    holding = _crouch_held(pc) is True
+    if holding:
+        state.crouch_down = True
+    _remember_slide_jump(
+        state,
+        holding,
+        vx / speed,
+        vy / speed,
+        speed * float(jump_momentum_slider.value) / 100.0,
+    )
+
+
 def try_consume_sprint(pc, pawn) -> bool:
     """Active Slide owns the sprint edge before Surge; exits cleanly with carry."""
     state = _state()
@@ -2450,10 +2492,15 @@ def _pre_do_jump(obj, _args, _ret, _func):
         return None
     if not ctx.authority:
         return None
+    if core.downed(obj):
+        return Block
     if core.execute(ctx, try_consume_jump, ctx.controller, obj):
         # _ground_jump already told the host the slide ended and sent the launch.
         # A second exit here arrives after the launch and stands the body up.
         return Block
+    # No slide under this jump. Keep the run so a crouch held in the air lands
+    # the same way a slide cancel does.
+    core.execute(ctx, _note_sprint_jump, ctx.controller, obj)
     return None
 
 

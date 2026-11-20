@@ -74,6 +74,48 @@ def test_double_jump_allows_near_jump_speed(monkeypatch):
     assert double_jump._on_air_press(ctx.controller, pawn) is True
 
 
+def test_downed_blocks_dash_and_double_jump(monkeypatch):
+    """Fight For Your Life still has health. Dash and the extra jump must refuse it, in the air too."""
+    from Modern_Movement import core
+    from Modern_Movement.features import dash
+
+    pawn = _Pawn()
+    pawn.Physics = core.PHYS_FALLING
+    pawn.bIsInjured = True
+    ctx = PlayerContext(
+        key=PlayerKey(1, 9),
+        role=ExecutionRole.LOCAL_HOST,
+        controller=object(),
+        pawn=pawn,
+    )
+    monkeypatch.setattr(double_jump.core, "current_context", lambda: ctx)
+    monkeypatch.setattr(double_jump.core, "clock", 10.0)
+    monkeypatch.setattr(dash.core, "current_context", lambda: ctx)
+    monkeypatch.setattr(double_jump.enabled_option, "value", True)
+    monkeypatch.setattr(double_jump.extra_jumps_slider, "value", 1)
+    monkeypatch.setattr(double_jump.strength_slider, "value", 100)
+    monkeypatch.setattr(double_jump.only_rising_option, "value", False)
+    state = double_jump._state_for(ctx)
+    state.left_by_jump = True
+    state.jumps_used = 0
+    assert core.downed(pawn) is True
+    assert double_jump._on_air_press(ctx.controller, pawn) is False
+    assert state.jumps_used == 0
+    assert pawn.Velocity.Z == 100.0
+    assert dash._dash_pressed_impl() is False
+
+    healthy = _Pawn()
+    assert core.downed(healthy) is False
+
+    class _Controller:
+        def IsInState(self, name):
+            return name == "Injured"
+
+    air = _Pawn()
+    air.Controller = _Controller()
+    assert core.downed(air) is True
+
+
 def test_double_jump_has_no_oz_reserved_field():
     assert not hasattr(double_jump.DoubleJumpState(), "oz_reserved")
 

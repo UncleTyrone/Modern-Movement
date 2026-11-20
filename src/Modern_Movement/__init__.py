@@ -567,7 +567,7 @@ Layout
   * Air Dash: a teleport sound when the air dash starts (option: Air Dash Audio Effect)
 
 3.9.1
-  * Author is now Jinxxtt
+  * Author is UncleTyrone
 
 3.9.0
   * Sprint Surge: action skills can't be used while a Sprint Surge is active
@@ -702,8 +702,8 @@ from . import hudfx as _hudfx
 from . import rules as _rules
 
 __version__ = "3.62.0"
-__author__ = "Jinxxtt"
-__credits__ = "Original Modern Movement by Jinxxtt; TPS co-op authority port maintained in-tree."
+__author__ = "UncleTyrone"
+__credits__ = "Modern Movement by UncleTyrone."
 
 
 def _log(message: str) -> None:

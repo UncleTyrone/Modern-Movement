@@ -148,6 +148,8 @@ def host_apply_impulse(ctx, vx: float, vy: float, vz: float, max_jumps: int | No
 
     Impulse values come from the requester. Do not re-read the host menu strength slider.
     """
+    if ctx.pawn is not None and core.downed(ctx.pawn):
+        return
     state = _state_for(ctx)
     if max_jumps is not None:
         state.max_jumps = max(1, int(max_jumps))
@@ -180,6 +182,8 @@ def _on_air_press(pc, pawn) -> bool:
     if ctx is not None and not ctx.authority:
         return False
     if not enabled_option.value:
+        return False
+    if core.downed(pawn):
         return False
     try:
         vz = float(pawn.Velocity.Z)
@@ -336,7 +340,7 @@ def _tick(pc, pawn, dt) -> None:
 def _authority_input(ctx, payload):
     kind = payload.get("kind")
     pawn = ctx.pawn
-    if pawn is None or core.unusable(pawn):
+    if pawn is None or core.unusable(pawn) or core.downed(pawn):
         return Reason.NO_PAWN, {}
     try:
         physics = int(pawn.Physics)
@@ -370,6 +374,9 @@ def _authority_tick(ctx, frame) -> None:
     def remote() -> None:
         state = _state_for(ctx)
         pawn = ctx.pawn
+        if pawn is not None and core.downed(pawn):
+            state.hold_vel = None
+            return
         if (
             pawn is not None
             and state.hold_vel is not None
